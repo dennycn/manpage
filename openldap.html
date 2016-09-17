@@ -1,0 +1,354 @@
+<html><head><meta content="text/html; charset=gb2312" http-equiv="Content-Type"><title>在线教程-OpenLDAP学习笔记</title><link rel="stylesheet" href="http://www.kuqin.com/docs/docbook.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.65.1"><meta name="description" content="LDAP(轻量级目录服务访问协议，Lightweight Directory Access Protocol)基于X.500标准，支持TCP/IP，使用简单方便。现在越来越多的网络应用系统都支持LDAP。OpenLDAP是LDAP的一种开源实现，本笔记基于OpenLDAP2.1.29。"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+
+<a href="index.html"><< 返回在线教程 </a><br><br>
+
+<div class="book" lang="en"><div class="titlepage"><div><div><h1 class="title"><a name="id2875167"></a>OpenLDAP学习笔记</h1></div><div><div class="author"><h3 class="author"><span class="firstname">整理：Jims of <a href="http://www.ringkee.com" target="_top">肥肥世家</a></span></h3><div class="affiliation"><div class="address"><p><tt class="email">&lt;<a href="mailto:jims.yang@gmail.com">jims.yang@gmail.com</a>&gt;</tt></p></div></div></div></div><div><p class="copyright">Copyright &copy; 2004，2005， 本文遵从GNU 的自由文档许可证(Free Document License)的条款，欢迎转载、修改、散布。</p></div><div><p class="pubdate">发布时间:2004年04月07日</p></div><div><p class="pubdate">最近更新:2005年08月08日</p></div><div><div class="abstract"><p class="title"><b>Abstract</b></p><p>LDAP(轻量级目录服务访问协议，Lightweight Directory Access Protocol)基于X.500标准，支持TCP/IP，使用简单方便。现在越来越多的网络应用系统都支持LDAP。OpenLDAP是LDAP的一种开源实现，本笔记基于OpenLDAP2.1.29。</p></div></div></div><div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="chapter"><a href="openldap.html#id2809654">1. 目录服务简介</a></span></dt><dd><dl><dt><span class="sect1"><a href="openldap.html#id2809734">1.1. X.500和LDAP</a></span></dt><dt><span class="sect1"><a href="openldap.html#id2810057">1.2. LDAP产品</a></span></dt></dl></dd><dt><span class="chapter"><a href="openldap.html#id2810083">2. OpenLDAP安装笔记</a></span></dt><dd><dl><dt><span class="sect1"><a href="openldap.html#id2810091">2.1. 源码安装</a></span></dt><dt><span class="sect1"><a href="openldap.html#id2810479">2.2. 数据录入</a></span></dt><dd><dl><dt><span class="sect2"><a href="openldap.html#id2810506">2.2.1. 手动录入方法</a></span></dt><dt><span class="sect2"><a href="openldap.html#id2810743">2.2.2. 文件方式</a></span></dt><dt><span class="sect2"><a href="openldap.html#id2810843">2.2.3. 脚本方式</a></span></dt></dl></dd><dt><span class="sect1"><a href="openldap.html#id2810869">2.3. 常用命令介绍</a></span></dt><dt><span class="sect1"><a href="openldap.html#id2808359">2.4. 启用sasl验证</a></span></dt><dt><span class="sect1"><a href="openldap.html#id2808424">2.5. 配置服务器复制</a></span></dt></dl></dd><dt><span class="chapter"><a href="openldap.html#id2808612">3. 管理工具</a></span></dt><dd><dl><dt><span class="sect1"><a href="openldap.html#id2808628">3.1. phpldapadmin</a></span></dt><dt><span class="sect1"><a href="openldap.html#id2808639">3.2. gq</a></span></dt><dt><span class="sect1"><a href="openldap.html#id2808650">3.3. CPU</a></span></dt><dt><span class="sect1"><a href="openldap.html#id2808661">3.4. JXplore</a></span></dt><dt><span class="sect1"><a href="openldap.html#id2808672">3.5. LAM</a></span></dt></dl></dd><dt><span class="chapter"><a href="openldap.html#id2808693">4. HowTo</a></span></dt><dd><dl><dt><span class="sect1"><a href="openldap.html#id2808700">4.1. 禁止整个服务器的匿名访问</a></span></dt></dl></dd></dl></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2809654"></a>Chapter 1. 目录服务简介</h2></div></div><div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="openldap.html#id2809734">1.1. X.500和LDAP</a></span></dt><dt><span class="sect1"><a href="openldap.html#id2810057">1.2. LDAP产品</a></span></dt></dl></div><p>目录是一个为查询、浏览和搜索而优化的专业分布式数据库，它成树状结构组织数据，就好象Linux/Unix系统中的文件目录一样。目录数据库和关系数据库不同，它有优异的读性能，但写性能差，并且没有事务处理、回滚等复杂功能，不适于存储修改频繁的数据。所以目录天生是用来查询的，就好象它的名字一样。目录服务是由目录数据库和一套访问协议组成的系统。类似以下的信息适合储存在目录中：</p><div class="itemizedlist"><ul type="disc"><li><p>企业员工和企业客户之类人员信息；</p></li><li><p>公用证书和安全密钥；</p></li><li><p>邮件地址、网址、IP等电脑信息；</p></li><li><p>电脑配置信息。</p></li><li><p>...</p></li></ul></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2809734"></a>1.1. X.500和LDAP</h2></div></div><div></div></div><p>现在国际上的目录服务标准有两个，一个是较早的X.500标准，一个是较新的LDAP标准。</p><div class="itemizedlist"><ul type="disc"><li><p>X.500是一个协议族，由一系列的概念和协议组成，包括：</p><div class="itemizedlist"><ul type="circle"><li><p>X.501是模型定义，定义目录服务的基本模型和概念；</p></li><li><p>X.509是认证框架，定义如何处理目录服务中客户和服务器认证；</p></li><li><p>X.511是抽象服务定义，定义X.500提供的功能性服务；</p></li><li><p>X.518是分布式操作过程定义，定义如何跨平台处理目录服务；</p></li><li><p>X.519是协议规范，定义了X.500协议，包括DAP(Directory Access Protocol，目录访问协议)、DSP(Directory System Protocol，目录系统协议)、DOP(Directory Operator Protocol，目录操作绑定协议)、DISP(Directory Information Shadowing Protocol，目录信息阴影协议 )；</p></li><li><p>X.520定义属性类型要求；</p></li><li><p>X.521定义对象类型；</p></li><li><p>X.525定义如果在目录服务器间复制内容。</p></li></ul></div><p>X.500标准中定义了很多内容，包括：</p><div class="itemizedlist"><ul type="circle"><li><p>定义了信息模型，确定目录中信息的格式和字符集，如何在项中表示目录信息(定义对象类、属性等模式)；</p></li><li><p>定义命名空间，确定对信息进行的组织和引用，如何组织和命名项-目录信息树DIT和层次命名模型；</p></li><li><p>定义功能模型，确定可以在信息上执行的操作；</p></li><li><p>定义认证框架，保证目录中信息的安全，如何实现目录中信息的授权保护-访问控制模型；</p></li><li><p>定义分布操作模型，确定数据如何分布和如何对分布数据执行操作，如何将全局目录树划分为管理域，以便管理。</p></li><li><p>定义客户端与服务器之间的通信的各种协议。</p></li></ul></div><p>由于X.500较复杂，且需严格遵照OSI七层协议模型。造成应用开发较困难。所以开发了LDAP，以便在INTERNET上使用。</p></li><li><p>LDAP协议于1993年获批准，产生LDAPv1版，1997年发布最新的LDAPv3版，该版本是LDAP协议发展的一个里程碑，它作为X.500的简化版提供了很多自有的特性，使LDAP功能更为完备，具有更强大的生命力。</p><p>LDAP也是一个协议族，包含以下内容：</p><div class="itemizedlist"><ul type="circle"><li><p>RFC 2251--LDAPv3核心协议，定义了LDAPv3协议的基本模型和基本操作；</p></li><li><p>RFC 2252--定义LDAPv3基本数据模式(Schema)(包括语法、匹配规则、属性类型和对象类)以及标准的系统数据模式；</p></li><li><p>RFC 2253--定义LDAPv3中的分辩名(DN)表达式；</p></li><li><p>RFC 2254--定义了LDAPv3中的过滤表达式；</p></li><li><p>RFC 2255--定义LDAPv3统一资源地址的格式；</p></li><li><p>RFC 2256--定义LDAPv3中使用X.500的Schema列表；</p></li><li><p>RFC 2829--定义了LDAPv3中的认证方式；</p></li><li><p>RFC 2830--定义了如何通过扩展使用TLS服务；</p></li><li><p>RFC 1823--定义了C的LDAP客户端API开发接口；</p></li><li><p>RFC 2847--定义了LDAP数据导入、导出文件接口LDIF。</p></li></ul></div><p>这些协议定义了LDAP的内容，包括：</p><div class="itemizedlist"><ul type="circle"><li><p>定义了一个信息模型，确定了LDAP目录中信息的格式和字符集，如何表示目录信息(定义对象类、属性、匹配规则和语法等模式)；</p></li><li><p>定义了命名空间，确定信息的组织方式--目录树DIT，以DN和RDN为基础的命名方式，以及LDAP信息的Internet表示方式；</p></li><li><p>定义了功能模型，确定在可以在信息上执行的操作及API。</p></li><li><p>定义了安全框架，保证目录中信息的安全，定义匿名、用户名/密码、SASL等多种认证方式，以及与TLS结合的通讯保护框架；</p></li><li><p>定义分布式操作模型，基于指引方式的分布式操作框架；</p></li><li><p>定义了LDAP扩展框架。</p></li></ul></div></li></ul></div></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2810057"></a>1.2. LDAP产品</h2></div></div><div></div></div><p>现在市场上有关LDAP的产品已有很多，各大软件公司都在他们的产品中集成了LDAP服务，如Microsoft的ActiveDirectory、Lotus的Domino Directory、IBM的WebSphere中也集成了LDAP服务。LDAP的开源实现是OpenLDAP，它比商业产品一点也不差，而且源码开放。</p></div></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2810083"></a>Chapter 2. OpenLDAP安装笔记</h2></div></div><div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="openldap.html#id2810091">2.1. 源码安装</a></span></dt><dt><span class="sect1"><a href="openldap.html#id2810479">2.2. 数据录入</a></span></dt><dd><dl><dt><span class="sect2"><a href="openldap.html#id2810506">2.2.1. 手动录入方法</a></span></dt><dt><span class="sect2"><a href="openldap.html#id2810743">2.2.2. 文件方式</a></span></dt><dt><span class="sect2"><a href="openldap.html#id2810843">2.2.3. 脚本方式</a></span></dt></dl></dd><dt><span class="sect1"><a href="openldap.html#id2810869">2.3. 常用命令介绍</a></span></dt><dt><span class="sect1"><a href="openldap.html#id2808359">2.4. 启用sasl验证</a></span></dt><dt><span class="sect1"><a href="openldap.html#id2808424">2.5. 配置服务器复制</a></span></dt></dl></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2810091"></a>2.1. 源码安装</h2></div></div><div></div></div><p>我的安装方法是以源码编译的方式进行的，以root用户进行安装。安装所需软件如下：</p><div class="itemizedlist"><ul type="disc"><li><p><a href="http://www.openldap.org" target="_top">openldap-2.1.29</a></p></li><li><p><a href="http://www.sleepycat.com" target="_top">Berkeley DB 4.2.52</a></p></li></ul></div><p>具体的安装步骤如下：</p><div class="orderedlist"><ol type="1"><li><p>由于openldap需要Berkeley DB来存放数据，所以需先安装Berkeley DB 4.2.52，可到它的网站下载，网址见上面。运行下面的命令解压：</p><pre class="screen">
+# tar -zxvf db-4.2.52.tar.gz
+</pre><p>解完压后，会生成一个db-4.2.52目录,进行该目录下的build_unix目录。执行以下命令进行配置安装。</p><pre class="screen">
+# ../dist/configure
+# make
+# make install
+</pre><p>也是按linux源码安装的三步曲完成，没有什么好说的了。该软件默认是安装在/usr/local/BerkeleyDB.4.2目录下。安装完成后，要把/usr/local/BerkeleyDB.4.2/lib的库路径加到/etc/ld.so.conf文件内，添加完成后执行一次ldconfig，使配置文件生效。这样编译openldap时才能找到相应的库文件。这样资料库就安装完成了，接下来可以安装openldap了。ld.so.conf是什么东西？它就是系统动态链接库的配置文件。此文件内,存放着可被LINUX共享的动态链接库所在目录的名字(系统目录/lib,/usr/lib除外)，各个目录名间以空白字符(空格，换行等)或冒号或逗号分隔。一般的LINUX发行版中，此文件均含一个共享目录/usr/X11R6/lib，为X window窗口系统的动态链接库所在的目录。 ldconfig是它的管理命令，具体操作方法可查询man手册，这里就不细讲了。</p></li><li><p>到openldap官方网站下载最新的稳定版源码，并解压。查看INSTALLT 和README文档，这个很重要，因为安装方法和一些注意事项都在里面有介绍。认真弄明白文档内容能节省你不少的安装调试时间。这也是开源软件的一个特点，给用户提供了最大的灵活性和可配置性。但也增加了系统安装配置的难度，需要有相关的文档配置说明和指导。在官方网站上还有详细的帮助文件，在整个系统配置中需要经常查询。</p><pre class="screen">
+# tar -zxvf openldap-stable-20040329.tgz
+</pre><p>解压完成后，会生成一个openldap-2.1.29目录。进行该目录，执行以下命令进行配置安装。</p><pre class="screen">
+# env CPPFLAGS=&quot;-I/usr/local/BerkeleyDB.4.2/include&quot; 
+LDFLAGS=&quot;-L/usr/local/BerkeleyDB.4.2/lib&quot; ./configure --prefix=/usr/local/openldap 
+--enable-ldbm 
+</pre><p>注意以上配置语句，要设置资料库的include和lib路径，否则在配置到资料库相关内容时会提示Berkeley DB版本不兼容，并中断配置。如果没有--enable-ldbm选项，在make test时会提示ldbm找不到。为了减少出错，还是加上为好。</p><pre class="screen">
+#make depens
+#make
+#make test
+</pre><p>在make test阶段要花费较长时间进行测试，好像有16项吧。你可以放松一下，上上网，聊聊天，听听歌，呵呵，开玩笑了，这个时间应该是最紧张的了。成与不成就看这下的了，如果没问题就可安装了。</p><pre class="screen">
+#make install
+</pre><p>通过配置命令可以看出，我们把openldap安装到/usr/local/openldap目录下。建议以源码安装的软件都放到独立的目录下，不要放到软件默认的目录。好处是方便管理和控制，所有文件在统一的目录下，卸载软件只要删除整个目录就可以了。</p></li><li><p>安装完相关软件后就可以着手配置了。Berkeley DB资料库没什么好配置的。主要是配置openldap 服务。配置文件在软件的安装目录的etc/openldap下，有四个文件，主要的是slapd.conf and ldap.conf，其它两个是backup文件。首先，我们先来配置slapd.conf文档。系统默认的slapd.conf文件如下：</p><pre class="screen">
+# $OpenLDAP: pkg/ldap/servers/slapd/slapd.conf,v 1.23.2.8 2003/05/24 23:19:14 kurt Exp $
+# 
+# See slapd.conf(5) for details on configuration options.
+# This file should NOT be world readable. 
+# 
+include      /usr/local/openldap/etc/openldap/schema/core.schema  
+#设置schema配置文档包含
+ 
+# Define global ACLs to disable default read access.
+ 
+# Do not enable referrals until AFTER you have a working directory
+# service AND an understanding of referrals.
+#referral       ldap://root.openldap.org
+ 
+pidfile         /usr/local/openldap/var/slapd.pid 
+#设置pid和args文档位置
+argsfile        /usr/local/openldap/var/slapd.args
+ 
+# Load dynamic backend modules:
+# modulepath    /usr/local/openldap/libexec/openldap
+# moduleload    back_bdb.la 
+# moduleload    back_ldap.la
+# moduleload    back_ldbm.la 
+# moduleload    back_passwd.la
+# moduleload    back_shell.la
+ 
+# Sample security restrictions 
+#       Require integrity protection (prevent hijacking)
+#       Require 112-bit (3DES or better) encryption for updates
+#       Require 63-bit encryption for simple bind
+# security ssf=1 update_ssf=112 simple_bind=64
+ 
+# Sample access control policy: 
+#       Root DSE: allow anyone to read it
+#       Subschema (sub)entry DSE: allow anyone to read it
+#       Other DSEs: 
+#       Subschema (sub)entry DSE: allow anyone to read it
+#       Other DSEs:
+#               Allow self write access
+#               Allow authenticated users read access
+#               Allow anonymous users to authenticate
+#       Directives needed to implement policy:
+# access to dn.base=&quot;&quot; by * read
+# access to dn.base=&quot;cn=Subschema&quot; by * read
+# access to *
+#       by self write
+#       by users read
+#       by anonymous auth
+#
+# if no access controls are present, the default policy is:
+#       Allow read by all
+#
+# rootdn can always write!
+ 
+#######################################################################
+# ldbm database definitions
+#######################################################################
+ 
+database        bdb                                
+#设置使用的资料库，也可用lbdm。
+suffix          &quot;dc=my-domain,dc=com&quot;              
+#设置目录后缀
+rootdn          &quot;cn=Manager,dc=my-domain,dc=com&quot;   
+#设置目录管理员
+# Cleartext passwords, especially for the rootdn, should
+# be avoid.  See slappasswd(8) and slapd.conf(5) for details.
+# Use of strong authentication encouraged.
+rootpw          secret                             
+#设置管理密码，这里用了明文的“secret”密码。这样设置不安全，需使用加密的密码，下面会讲到如何设置加密密码。
+# The database directory MUST exist prior to running slapd AND 
+# should only be accessible by the slapd and slap tools.
+# Mode 700 recommended.
+directory       /usr/local/openldap/var/openldap-data  
+#设置资料库路径
+# Indices to maintain
+index   objectClass     eq                        
+#设置目录项索引
+</pre><p>要服务器正常动作，要修改一些始初参数和设置，修改后的配置文档如下：</p><pre class="screen">
+# $OpenLDAP: pkg/ldap/servers/slapd/slapd.conf,v 1.23.2.8 2003/05/24 23:19:14 kurt Exp $
+#
+# See slapd.conf(5) for details on configuration options.
+# This file should NOT be world readable.
+#
+#为了有效使用目录服务，包含相关的文件。注意，在包含文件时是要按一定顺序的，因为
+#文件里的属性存在依赖关系。如果顺序不对，服务器启动不了，文档间的依赖关系在文档
+#中都有说明，请仔细查看一下。如果懒得看也可以按我的顺序。
+include         /usr/local/openldap/etc/openldap/schema/core.schema
+include         /usr/local/openldap/etc/openldap/schema/corba.schema
+include         /usr/local/openldap/etc/openldap/schema/cosine.schema
+include         /usr/local/openldap/etc/openldap/schema/inetorgperson.schema    
+include         /usr/local/openldap/etc/openldap/schema/misc.schema             
+include         /usr/local/openldap/etc/openldap/schema/openldap.schema
+include         /usr/local/openldap/etc/openldap/schema/nis.schema
+include         /usr/local/openldap/etc/openldap/schema/samba.schema
+# Define global ACLs to disable default read access.
+ 
+# Do not enable referrals until AFTER you have a working directory
+# service AND an understanding of referrals.
+#referral       ldap://root.openldap.org
+ 
+pidfile         /usr/local/openldap/var/slapd.pid
+argsfile        /usr/local/openldap/var/slapd.args
+ 
+loglevel 1                       
+#增加了日志功能，需修改syslog配置文件，在文件中增加一项：local4.* /var/log/ldap.log日志级别定义可查相官方网站的文档。
+#1级记录的信息很多，可用于调试。
+# Load dynamic backend modules:
+# modulepath    /usr/local/openldap/libexec/openldap
+# moduleload    back_bdb.la
+# moduleload    back_ldap.la
+# moduleload    back_ldbm.la
+# moduleload    back_passwd.la
+# moduleload    back_shell.la
+ 
+# Sample security restrictions
+#       Require integrity protection (prevent hijacking)
+#       Require 112-bit (3DES or better) encryption for updates
+#       Require 63-bit encryption for simple bind
+# security ssf=1 update_ssf=112 simple_bind=64
+ 
+# Sample access control policy:
+#       Root DSE: allow anyone to read it
+#       Subschema (sub)entry DSE: allow anyone to read it
+#       Other DSEs:
+#               Allow self write access
+#               Allow authenticated users read access
+#               Allow anonymous users to authenticate
+#       Directives needed to implement policy:
+# access to dn.base=&quot;&quot; by * read
+# access to dn.base=&quot;cn=Subschema&quot; by * read
+# access to *
+#       by self write
+#       by users read
+#       by anonymous auth
+#
+# if no access controls are present, the default policy is:
+#       Allow read by all
+#
+# rootdn can always write!
+ 
+#######################################################################
+# ldbm database definitions
+#######################################################################
+ 
+database        bdb
+suffix          &quot;dc=it,dc=com&quot;
+#改成你自已的目录后缀，
+rootdn          &quot;cn=root,dc=it,dc=com&quot;
+#设置root为管理员，与linux的root没有什么关系。
+# Cleartext passwords, especially for the rootdn, should
+# be avoid.  See slappasswd(8) and slapd.conf(5) for details.
+# Use of strong authentication encouraged.
+rootpw          {MD5}mjkiuPt0wXhpxxkdiOOO+0000000AKq0by
+#设置root密码，用MD5加密。密码串用slappasswd -h {MD5}指令生成
+# The database directory MUST exist prior to running slapd AND 
+# should only be accessible by the slapd and slap tools.
+# Mode 700 recommended.
+directory       /usr/local/openldap/var/openldap-data    
+# Indices to maintain
+index   objectClass     eq
+#这里可根据你的需要设置相关索引，以加快查询速度。具体内容可查询官方网站管理手册。
+ 
+#ACL configure以下内容定义访问控制
+access to  attr=userPassworduserPassword
+#只能由自已修改，有效验证用户查询。
+        by self write
+        by anonymous auth
+access to attr=mail
+        by dn=&quot;cn=root,dc=it,dc=tigerhead&quot; writemail
+#只能由自已修改，有效验证用户查询。
+        by self write
+        by anonymous auth
+access to dn=&quot;.*,dc=it,dc=tigerhead&quot;
+#允许所有人查询没受控制访问限制的信息。
+        by self write
+        by * read
+</pre><p>到现在为止，服务器基本就配置完成了，可以启动了，服务器程序是位于安装目录的libexec下的slapd程序。注意，不是sldap哦。ok，到现在为止，服务器基本就配置完成了，可以启动了，服务器程序是位于安装目录的libexec下的slapd程序。注意，不是sldap哦。启动服务器执行以下命令：</p><pre class="screen">
+# ./slapd
+</pre><p>如果没有提示什么出错信息，直接返回shell状态，就说明服务器正常启动了，你可以查询日志或用ps -aux查看。或用以下命令查询服务器:</p><pre class="screen">
+ldapsearch -x -b '' -s base '(objectclass=*)' namingContexts
+</pre><p>如果命令执行成功，返回一些信息，则说明服务器正常运行了。如果启动不成功，它会提示一些出错信息，多数是slapd.conf配置出错。回头仔细核查一下配置文档。</p></li><li><p>客户端配置文档是ldap.conf。该文档相当简单，其实不用配置也能正常操作。</p><pre class="screen">
+# $OpenLDAP: pkg/ldap/libraries/libldap/ldap.conf,v 1.9 2000/09/04 19:57:01 kurt Exp $
+#
+# LDAP Defaults
+#
+ 
+# See ldap.conf(5) for details
+# This file should be world readable but not world writable.
+ 
+BASE    dc=it, dc=com设置目录起点
+#URI    ldap://ldap.example.com ldap://ldap-master.example.com:666
+ 
+#SIZELIMIT      12
+#TIMELIMIT      15
+#DEREF          never
+</pre></li></ol></div></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2810479"></a>2.2. 数据录入</h2></div></div><div></div></div><p>服务器正常运作后，就可以录入信息了。信息的录入有三种方法，一种是手工录入，一种是.ldif文件格式录入，一种是脚本自动录入。我们先从最基础的手工录入方式开始介绍，了解录入信息的格式。明白了手工录入的格式，其它两种方式都很容易明白。信息录入用到ldapadd这个程序。可在安装目录的bin目录下找到。</p><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="id2810506"></a>2.2.1. 手动录入方法</h3></div></div><div></div></div><div class="itemizedlist"><ul type="disc"><li><p>第一步是要建立DN：</p><pre class="screen">
+# ldapadd -x -D 'cn=root,dc=it,dc=com' -W
+dn: dc=it,dc=com
+objectClass: dcObject
+objectClass: organization
+dc: it
+o: Corporation
+description: d Corporation
+注意：如果你用复制/粘贴功能把以上内容拷贝过去，一定要注意每行后面不要有空格，建议还是手工输入，按Ctrl+d存盘。
+</pre></li><li><p>第二步是建立RDN:</p><pre class="screen">
+# ldapadd -x -D 'cn=root,dc=it,dc=com' -W        
+#-x表示用简单验证，-D表示指定目录，-W表示弹出密码输入提示
+</pre><p>输入密码，这里的密码是在配置文件中rootpw项设置的密码，不是操作系统中root用户的密码。验证通过后就可输入以下内容：</p><pre class="screen">
+dn: uid=qq,dc=it,dc=com
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: qq
+cn: qq
+sn: qq
+telephoneNumber: 138888888
+description: openldap test
+telexNumber: tex-8888888
+street: my street
+postOfficeBox: postofficebox
+displayName: qqdisplay
+homePhone: home1111111
+mobile: mobile99999
+mail:qq@qq.com
+</pre><p>输入完所有信息后，按Ctrl+d结束存盘。如果出现出错信息，请查一下对象类和属性的对应关系有没有错或输入失误。初学者就容易出错的地方是对象类和属性的对应关系没有处理好。对象类和属性是在schema文档中定义的。它们之间的关系是这样的，对象类中有些属性是必选的，有些属性是可选的。录入信息的属性必须在对象类中有定义才能用。</p></li></ul></div><p>输入以下命令可查询到刚才输入的信息。</p><pre class="screen">
+# ldapsearch -x -b 'dc=it,dc=com'            
+-b选项是设置目录起点，如果设置了客户端的BASE配置参数，该项可不用。
+</pre><p>如果按以上配置文件设置了acl，用上面的查询命令是查询不到受保护的内容的。如上面的userPassword and mail。要查询到这些受限内容，需要通过验证才可以：</p><pre class="screen">
+# ldapsearch -x -LLL -h it.com -b 'dc=it,dc=com' -D 'uid=qq,dc=it,dc=com' -W 'uid=qq'
+接着提示输入密码。输入userPassword的密码回车，所有信息就都出来了。
+</pre></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="id2810743"></a>2.2.2. 文件方式</h3></div></div><div></div></div><p>.ldif文件方式也就是把以上手工输入的内容先写入一个.ldif文件中，然后，用ldapadd命令的-f参数导入。</p><pre class="screen">
+# ldapadd -x -D &quot;cn=root,dc=it,dc=com&quot; -W -f test.ldif
+</pre><p>一个完整的global.ldif文件例子：</p><pre class="screen">
+dn: dc=info, dc=net
+objectClass: top
+objectClass: organization
+o: info.net
+
+dn: ou=People, dc=info, dc=net
+objectClass: top
+objectClass: organizationalUnit
+ou: People
+description: User Info
+
+dn: cn=Admin, dc=info, dc=net
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+cn: Admin
+sn: Admin
+userPassword: Admin
+description: Administrator for info.net
+
+dn: id=1, ou=People, dc=info, dc=net
+objectclass: top
+objectclass: InfoPerson
+id: 1
+username: 张三
+tel:021-63138990
+card_id:ABC001
+</pre><p>我们也可用slapadd命令来导入数据。该命令可以导入包含一些系统信息的ldif文件，如：</p><pre class="screen">
+dn: dc=it,dc=com
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+dc: it
+structuralObjectClass: organization
+entryUUID: d97b06da-d77e-1028-9866-d4ec7ac00d12
+creatorsName: cn=anonymous            #系统信息
+createTimestamp: 20041201005115Z      #系统信息
+o:: 5bm/5bee5biC6JmO5aS055S15rGg6ZuG5Zui5pyJ6ZmQ5YWs5Y+4
+userPassword:: e01ENX14TXBDT0tDNUk0SU56RkNhYjNXRW13PT0=
+entryCSN: 2004120603:50:08Z#0x0001#0#0000     #系统信息
+modifiersName: cn=admin,dc=it,dc=com          #系统信息
+modifyTimestamp: 20041206035008Z              #系统信息
+</pre><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="http://www.kuqin.com/docs/images/note.png"></td><th align="left"></th></tr><tr><td colspan="2" align="left" valign="top">再次提醒，注意每行后面不要留有空格。</td></tr></table></div></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="id2810843"></a>2.2.3. 脚本方式</h3></div></div><div></div></div><p>脚本录入方式需要自已编写脚本，或到网上下载。有一个用PHP写的LDAP管理工具不错，叫phpLDAPadmin。可以到以下网址下载：<a href="http://phpldapadmin.sourceforge.net" target="_top">http://phpldapadmin.sourceforge.net</a>。安装方法也很简单，只要解压出来，拷贝到apache的web目录下，按说明配置一下设定文档,就ok了。</p></div></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2810869"></a>2.3. 常用命令介绍</h2></div></div><div></div></div><p>接着为大家介绍一下几个常用的ldap命令，如果你用了phpLDAPadmin程序，其实它已经有一个很好的图形介面帮你完成这些命令了。但了解一下还是对你还是很有益的，因为命令方法才是最根本的。</p><div class="itemizedlist"><ul type="disc"><li><p>删除命令ldapdelete</p><pre class="screen">
+# ldapdelete -x -D 'cn=root,dc=it,dc=com' -W 'uid=qq1,dc=it,dc=com'
+</pre></li><li><p>重新索引ldap数据库命令slapindex</p><pre class="screen">
+# slapindex -f slapd.conf
+</pre></li><li><p>设置使用者密码，当然了，你的用户需要有userPassword项了。</p><pre class="screen">
+#ldappasswd -x -D &quot;cn=root,dc=it,dc=com&quot; -W &quot;uid=qq1,dc=it,dc=com&quot; -S 
+New password: 
+Re-enter new password: 
+Enter bind password: 
+Result: Success (0)
+</pre><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="http://www.kuqin.com/docs/images/note.png"></td><th align="left"></th></tr><tr><td colspan="2" align="left" valign="top">&quot;Enter bind password&quot; 是 &quot;cn=root,dc=it,dc=com&quot;管理员的密码。</td></tr></table></div></li><li><p>管理员密码更改 </p><pre class="screen">
+#slappasswd 
+New password 
+Re-enter new password 
+{SSHA}83DJ4KVwqlk1uh9k2uDb8+NT1U4RgkEs 
+</pre><p>接下再拷贝到 path/to/sldap.conf 的 rootpw 即可,重启使用配置文件生效</p></li><li><p>通过ldapmodify修改目录内容</p><pre class="screen">
+# ldapmodify -x -D &quot;cn=root,dc=it,dc=com&quot; -W -f modify.ldif
+</pre><p>通过ldif文件修改ldap数据，ldif文件格式如下：</p><pre class="screen">
+dn: cn=qq,dc=it,dc=com
+changetype: modify
+replace: mail
+mail: modme@example.com
+-
+add: title
+title: Grand Poobah
+-
+add: jpegPhoto
+jpegPhoto:&lt; file:///tmp/modme.jpeg
+-
+delete: description
+-
+</pre></li></ul></div></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2808359"></a>2.4. 启用sasl验证</h2></div></div><div></div></div><p>前提是你在系统中安装了sasl认证库，并在编译openldap时支持它，默认就支持了。到<a href="http://asg.web.cmu.edu/cyrus" target="_top">http://asg.web.cmu.edu/cyrus</a>下载。安装方法见我写的sendmail安装笔记。安装好之后，需要在sasl中建立相应的帐号，用以下命令可完成。</p><pre class="screen">
+# saslpasswd2 -c test
+</pre><p>接着配置slapd.conf文件，加入以下内容。</p><pre class="screen">
+sasl-regexp
+        uid=(.*),cn=.*,cn=auth
+        uid=$1,dc=it,dc=com
+</pre><p>重启服务器使配置文件生效。这个配置是最大权限的配置，如果要细化请查阅相关文档。用以下命令测试。</p><pre class="screen">
+# ldapsearch -U qq  -b 'uid=qq,dc=it,dc=com' -D 'dc=it,dc=com' -Y DIGEST-MD5
+</pre><p>采用digest-md5验证,提示密码，输入saslpasswd2的密码。</p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2808424"></a>2.5. 配置服务器复制</h2></div></div><div></div></div><p>在一些关键的应用场合，我们需设置多个ldap服务器实例，且数据要保持同步。当一台服务器出现故障或被黑客攻击时，我们就能继续保持应用的正常运行。通过DNS的轮流查询功能，还能实现服务器的负载均衡，提高响应速度。在openldap中有一个slurpd进程，利用slurpd进程可帮助我们实现多台ldap服务器数据的同步功能。下面简单介绍一下主、从ldap服务器的配置。</p><p>slurpd运行在主服务器上，它能把主服务器上的变化通过LDAP协议传送到从服务器上。从服务器上的变化不能传送到主服务器上，也就是说是单向同步的。主从服务器的版本最好一样，以减少兼容性问题。主从服务器的安装方法是一样的，关键是配置文件有所不同。我的操作系统是debian sarge，在确保主从服务器能正常运行的前提下进行以下配置：</p><div class="itemizedlist"><ul type="disc"><li><p>首先，把主从服务器关闭。通过以下三步操作静态同步主从服务器上的数据：</p><div class="orderedlist"><ol type="1"><li><p>把主服务器上/var/lib/ldap目录下的所有数据库文件全部拷贝到从服务器的同目录中，覆盖原有文件。</p></li><li><p>把主服务器上的/etc/ldap/schema目录下的所有schema文件拷贝到从服务器的同目录中，覆盖原有文件。</p></li><li><p>把主服务器上/etc/ldap/slapd.conf文件拷贝到从服务器的同目录中，覆盖原有文件。</p></li></ol></div></li><li><p>配置主服务器上的slapd.conf文件，取消replogfile指令前的注释符号，取消后的结果如下：</p><pre class="screen">
+# Where to store the replica logs for database #1
+replogfile      /var/lib/ldap/replog
+</pre><p>增加replica指令，如：</p><pre class="screen">
+#replace config
+replica uri=ldap://192.168.6.195:389     #指定从服务器主机名和端口号
+        binddn=&quot;cn=admin,dc=com&quot;         #指定需同步的DN的管理员
+        bindmethod=simple credentials=1  #指定验证方式和需同步的DN的管理员密码
+</pre></li><li><p>配置从服务器上的slapd.conf文件，增加updatedn指令，如：</p><pre class="screen">
+updatedn &quot;cn=admin,dc=com&quot;          #与主服务器的binddn对应
+</pre><p>在从服务器的配置文件中，不要包含replica和replogfile指令。</p></li><li><p>先启动主服务器的slapd和slurpd，再启动从服务器的slapd。</p></li></ul></div><p>配置完成后，我们可测试一下，在主服务器上修改一个目录项，在从服务器上可查看目录项的数据已同步。</p></div></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2808612"></a>Chapter 3. 管理工具</h2></div></div><div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="openldap.html#id2808628">3.1. phpldapadmin</a></span></dt><dt><span class="sect1"><a href="openldap.html#id2808639">3.2. gq</a></span></dt><dt><span class="sect1"><a href="openldap.html#id2808650">3.3. CPU</a></span></dt><dt><span class="sect1"><a href="openldap.html#id2808661">3.4. JXplore</a></span></dt><dt><span class="sect1"><a href="openldap.html#id2808672">3.5. LAM</a></span></dt></dl></div><p>开源的目录服务管理工具有很多，包括phpldapadmin，gq，CPU，JXplore等。这些工具可帮助我们方便维护目录服务器上的数据。这些工具各有优缺点，下面简要介绍一下，详细的内容可参考相关的官方网站。</p><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2808628"></a>3.1. phpldapadmin</h2></div></div><div></div></div><p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2808639"></a>3.2. gq</h2></div></div><div></div></div><p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2808650"></a>3.3. CPU</h2></div></div><div></div></div><p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2808661"></a>3.4. JXplore</h2></div></div><div></div></div><p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2808672"></a>3.5. LAM</h2></div></div><div></div></div><p>官方网站：<a href="http://lam.sourceforge.net/index.htm" target="_top">http://lam.sourceforge.net/index.htm</a></p></div></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2808693"></a>Chapter 4. HowTo</h2></div></div><div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="openldap.html#id2808700">4.1. 禁止整个服务器的匿名访问</a></span></dt></dl></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2808700"></a>4.1. 禁止整个服务器的匿名访问</h2></div></div><div></div></div><p>在slapd.conf配置文件中加入disallow bind_anon即可。</p></div></div></div>
+
+<DIV style="DISPLAY: none">
+ <script src='http://s42.cnzz.com/stat.php?id=423754&web_id=423754&show=pic' language='JavaScript' charset='gb2312'>
+</script>
+</DIV>
+</body></html>

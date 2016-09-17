@@ -1,0 +1,520 @@
+<html><head><meta content="text/html; charset=gb2312" http-equiv="Content-Type"><title>在线教程-DocBook学习笔记</title><link rel="stylesheet" href="http://www.kuqin.com/docs/docbook.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.65.1"><meta name="description" content="介绍DocBook在linux系统和windows系统下的安装和使用。本文档还在不断整理完善中，如有错漏请网友多多指正，谢谢。"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<a href="index.html"><< 返回在线教程 </a><br><br>
+
+<div class="book" lang="en"><div class="titlepage"><div><div><h1 class="title"><a name="id2875167"></a>DocBook学习笔记</h1></div><div><div class="author"><h3 class="author"><span class="firstname">整理：Jims of <a href="http://www.ringkee.com" target="_top">肥肥世家</a>
+      </span></h3><div class="affiliation"><div class="address"><p><tt class="email">&lt;<a href="mailto:jims.yang@gmail.com">jims.yang@gmail.com</a>&gt;</tt></p></div></div></div></div><div><p class="copyright">Copyright &copy; 2004 本文遵从GNU 的自由文档许可证(Free Document License)的条款，欢迎转载、修改、散布。</p></div><div><p class="pubdate">发布时间：2004年7月7日</p></div><div><p class="pubdate">更新时间：2006年06月13日，更新How-To。</p></div><div><div class="abstract"><p class="title"><b>Abstract</b></p><p>介绍DocBook在linux系统和windows系统下的安装和使用。本文档还在不断整理完善中，如有错漏请网友多多指正，谢谢。</p></div></div></div><div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="chapter"><a href="docbook.html#id2861402">1. DocBook简介</a></span></dt><dt><span class="chapter"><a href="docbook.html#id2861445">2. DocBook编译环境安装</a></span></dt><dd><dl><dt><span class="sect1"><a href="docbook.html#id2861453">2.1. windows下编译环境安装</a></span></dt><dd><dl><dt><span class="sect2"><a href="docbook.html#id2861462">2.1.1. 目录结构</a></span></dt><dt><span class="sect2"><a href="docbook.html#id2811796">2.1.2. 环境变量设置</a></span></dt><dt><span class="sect2"><a href="docbook.html#id2811879">2.1.3. 建立SGML解释环境</a></span></dt><dt><span class="sect2"><a href="docbook.html#id2810537">2.1.4. 建立XML的编译环境</a></span></dt></dl></dd><dt><span class="sect1"><a href="docbook.html#id2810891">2.2. linux下编译环境安装</a></span></dt></dl></dd><dt><span class="chapter"><a href="docbook.html#id2810939">3. xsltproc</a></span></dt><dt><span class="chapter"><a href="docbook.html#id2808435">4. 用DocBook写作</a></span></dt><dd><dl><dt><span class="sect1"><a href="docbook.html#id2808442">4.1. How-To</a></span></dt><dd><dl><dt><span class="sect2"><a href="docbook.html#id2808450">4.1.1. 以不同字符集输出HTML文档</a></span></dt><dt><span class="sect2"><a href="docbook.html#id2808497">4.1.2. 指定多页输出时html文档名</a></span></dt><dt><span class="sect2"><a href="docbook.html#id2808532">4.1.3. 指定输出路径</a></span></dt><dt><span class="sect2"><a href="docbook.html#id2808558">4.1.4. 实现HTML格式输出文件中章内小节自动编号</a></span></dt><dt><span class="sect2"><a href="docbook.html#id2808675">4.1.5. 用calloutlist标签实现自动编号的小图标标注</a></span></dt><dt><span class="sect2"><a href="docbook.html#id2809022">4.1.6. 特殊字符表示方法</a></span></dt><dt><span class="sect2"><a href="docbook.html#id2809156">4.1.7. 使以图标方式标注note元素</a></span></dt><dt><span class="sect2"><a href="docbook.html#id2809240">4.1.8. 用样式表格式化DocBook的HTML输出</a></span></dt><dt><span class="sect2"><a href="docbook.html#id2809316">4.1.9. 链接表示法</a></span></dt><dt><span class="sect2"><a href="docbook.html#id2809411">4.1.10. 几种列表表示法</a></span></dt><dt><span class="sect2"><a href="docbook.html#id2809480">4.1.11. 表格</a></span></dt></dl></dd></dl></dd></dl></div><div class="list-of-tables"><p><b>List of Tables</b></p><dl><dt>4.1. <a href="docbook.html#id2809046">特殊字符</a></dt></dl></div><div class="list-of-examples"><p><b>List of Examples</b></p><dl><dt>2.1. <a href="docbook.html#id2810135">check.gsm</a></dt><dt>2.2. <a href="docbook.html#id2810194">check.dsl</a></dt><dt>2.3. <a href="docbook.html#id2810334">ISO 特殊字符catalog文档</a></dt><dt>2.4. <a href="docbook.html#id2810371">catalog</a></dt><dt>2.5. <a href="docbook.html#id2810478">mybook.sgm</a></dt><dt>2.6. <a href="docbook.html#id2810658">xml测试文件check.xml</a></dt><dt>2.7. <a href="docbook.html#id2810703">xsl格式转换文件check.xsl</a></dt><dt>2.8. <a href="docbook.html#id2810857">mybook.xml</a></dt></dl></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2861402"></a>Chapter 1. DocBook简介</h2></div></div><div></div></div><p>DocBook是一种文档工具，广义上来说和写字板，Word，vi之类的工具是一样的。但DocBook是一种所想即所得的文档编写工具，DocBook用标签来标识你所要的文档排版效果，用样式表来输出你所要的文档格式，可实现一次输入，多种输出。基于sgml和xml标签的灵活性，可多人协同工作。而Word之类的是所见即所得的工具，基于可视化的操作，你在电脑显示器上看到的排版效果就是你打印出来的效果。这类文档在编写时可能很方便，但修改和维护起来就很麻烦，而且不能实现多种输出。DocBook的应用范围很泛，特别在开源领域，开源技术很多文档都是用DocBook写的，如Linux HOW-TO，http://www.tldp.org等。</p></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2861445"></a>Chapter 2. DocBook编译环境安装</h2></div></div><div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="docbook.html#id2861453">2.1. windows下编译环境安装</a></span></dt><dd><dl><dt><span class="sect2"><a href="docbook.html#id2861462">2.1.1. 目录结构</a></span></dt><dt><span class="sect2"><a href="docbook.html#id2811796">2.1.2. 环境变量设置</a></span></dt><dt><span class="sect2"><a href="docbook.html#id2811879">2.1.3. 建立SGML解释环境</a></span></dt><dt><span class="sect2"><a href="docbook.html#id2810537">2.1.4. 建立XML的编译环境</a></span></dt></dl></dd><dt><span class="sect1"><a href="docbook.html#id2810891">2.2. linux下编译环境安装</a></span></dt></dl></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2861453"></a>2.1. windows下编译环境安装</h2></div></div><div></div></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="id2861462"></a>2.1.1. 目录结构</h3></div></div><div></div></div><div class="variablelist"><dl><dt><span class="term">c:\unix</span></dt><dd><p>为DocBook在windows系统中起一个根目录，盘符可自定。但为了减少配置文件的修改，尽量保持这个配置。</p></dd><dt><span class="term">c:\unix\etc\sgml</span></dt><dd><p>放置sgml全局配置文件的地方。</p></dd><dt><span class="term">c:\unix\usr\bin</span></dt><dd><p>放置DocBook执行程序。</p></dd><dt><span class="term">c:\unix\usr\lib</span></dt><dd><p>放置DocBook的相关库文件。</p></dd><dt><span class="term">c:\unix\usr\include</span></dt><dd><p>放置一些程序的头文件。</p></dd><dt><span class="term">c:\unix\usr\share\sgml</span></dt><dd><p>放置有关sgml的模块。</p></dd><dt><span class="term">c:\unix\usr\share\sgml\docbook</span></dt><dd><p>放置有关docbook的格式文件。</p></dd><dt><span class="term">c:\unix\usr\share\sgml\jade-dsssl</span></dt><dd><p>openjade提供的DSSSL样式表基本模块放置目录。</p></dd><dt><span class="term">c:\unix\usr\share\sgml\isoent</span></dt><dd><p>支持sgml跨平台所需的iso字符模块目录。</p></dd></dl></div></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="id2811796"></a>2.1.2. 环境变量设置</h3></div></div><div></div></div><p>为了正常运行DocBook的编译程序，需配置两个环境变量，一个是可执行程序和动态支持库的目录变量，另一个是SGML_CATALOG_FILES变量，这个变量用于指出模块的catalog文件目录，可设为.catalog和c:\unix\etc\sgml\catalog。</p><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id2811812"></a>2.1.2.1. windows 95/98下的设置</h4></div></div><div></div></div><p>在windows 98，95中可把以下设置加到autoexec.bat批处理文档中即可，如下示：</p><div class="itemizedlist"><ul type="disc"><li><p>SET PATH=C:\unix\usr\bin;C:\unix\usr\lib;%PATH%</p></li><li><p>SET SGML_CATALOG_FILES=.\catalog;C:\unix\etc\sgml\catalog</p></li></ul></div></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id2811850"></a>2.1.2.2. windows xp/2000下的设置</h4></div></div><div></div></div><p>按照“我的电脑”--“属性”--“高级”--“环境变量”进入环境变量设置框，在下面的“系统变量”的path中加入执行程序与运行库路径，并新建一个变量，变量名为SGML_CATALOG_FILES，值为.\catalog;C:\unix\etc\sgml\catalog，按确认完成。设置完成后可在命令行窗口用path和set命令确认设置是否生效。</p></div></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="id2811879"></a>2.1.3. 建立SGML解释环境</h3></div></div><div></div></div><p>要正确解释DocBook文档，需安装配置以下内容：</p><div class="itemizedlist"><ul type="disc"><li><p>安装openjade for windows，以执行自动转换。</p></li><li><p>DocBook的DTD模块。</p></li><li><p>DocBook的Dsssl样式表。</p></li><li><p>ISO发布的特殊字符模块。</p></li><li><p>本机SGML的catalog配置文档。</p></li></ul></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id2810073"></a>2.1.3.1. 安装openjade for windows</h4></div></div><div></div></div><p>openjade是SGML解释器，在unix like系统中，它是分OpenSP和Openjade两部份的。OpenSP负责检查我们写的SGML是否合法，并把一些宏展开，其实就是C语言的预编译器。openjade负责把通过OpenSP整理的sgml文件按样式表转换成不同的格式文件。windows版的openjade中已包含了OpenSP和Openjade两部份内容。到<a href="http://prdownloads.sourceforge.net/openjade/openjade-1.3-1.exe download" target="_top">http://prdownloads.sourceforge.net/openjade/openjade-1.3-1.exe download</a>下载openjade软件，for windows的最新版就只有这个了。下载完后就可安装，安装路径可随便选，安装完成后，把bin目录下的所有可执行文件拷到c:\unix\usr\bin目录下；把bin目录下所有.dll动态链接文件拷到c:\unix\usr\lib目录下；把dsssl目录下所有文件拷到c:\unix\usr\share\sgml\jade-dsssl目录下。好了，到现在为止，已安装好openjade软件了。我们可以地在命令窗口测试一下。</p><div class="sect4" lang="en"><div class="titlepage"><div><div><h5 class="title"><a name="id2810122"></a>2.1.3.1.1. 文件格式解释测试</h5></div></div><div></div></div><p>为了测试openjade命令，我们要制作一个SGML文件。内容如下：</p><div class="example"><a name="id2810135"></a><p class="title"><b>Example 2.1. check.gsm</b></p><div class="literallayout"><p><br>
+&lt;!DOCTYPE HTMLLite [<br>
+  &lt;!ELEMENT HTMLLite O O (H1|P)* &gt;<br>
+  &lt;!ELEMENT (H1|P) - - (#PCDATA|EM|STRONG)* &gt;<br>
+  &lt;!ELEMENT (EM|STRONG) - - (#PCDATA) &gt;<br>
+]&gt;<br>
+&lt;HTMLLite&gt;<br>
+	&lt;H1&gt;SGML 解释器测试文件&lt;/H1&gt;<br>
+	&lt;P&gt;这是一个简短的，合乎 SGML 语言规格定义的文件，用于测试你的解释环境是否配置正确。&lt;/P&gt;<br>
+	&lt;P&gt;本文件采用 GPL 版权发布，欢迎转载、改写、散播。&lt;/P&gt;<br>
+&lt;/HTMLLite&gt;</p></div></div><p>切换到命令行界面，输入以下命令：</p><p>onsgmls -s check.sgm</p><p>如果没有什么提示信息返回，就说明测试通过了。-s选项表示显示出错信息。</p></div><div class="sect4" lang="en"><div class="titlepage"><div><div><h5 class="title"><a name="id2810178"></a>2.1.3.1.2. 文件转换功能测试</h5></div></div><div></div></div><p>这是openjade命令的最终工作了。我们要把上面的sgml文件通过openjade这个程序转换成rtf文件。怎么做呢？我们需要一个格式转换的样式表，现在我们就来制作一个check.dsl的样式表，以转换check.gsm文件。内容如下：</p><div class="example"><a name="id2810194"></a><p class="title"><b>Example 2.2. check.dsl</b></p><div class="literallayout"><p><br>
+&lt;!DOCTYPE style-sheet PUBLIC &quot;-//James Clark//DTD DSSSL Style Sheet//EN&quot;&gt;<br>
+&lt;style-sheet&gt;<br>
+  &lt;style-specification&gt;<br>
+    &lt;style-specification-body&gt;<br>
+      (element HTMLlite (make simple-page-sequence))<br>
+      (element H1<br>
+      (make paragraph<br>
+      font-family-name: &quot;Times New Roman&quot;<br>
+      font-weight: 'bold<br>
+      font-size: 20pt<br>
+      line-spacing: 22pt<br>
+      space-before: 15pt<br>
+      space-after: 10pt<br>
+      start-indent: 6pt<br>
+      first-line-start-indent: -6pt<br>
+      quadding: 'center<br>
+      keep-with-next : #t))<br>
+      (element P<br>
+      (make paragraph<br>
+      font-family-name: &quot;Times New Roman&quot;<br>
+      font-size: 12pt<br>
+      line-spacing: 13.2pt<br>
+      space-before: 6pt<br>
+      start-indent: 6pt<br>
+      quadding: 'start))<br>
+      (element EM<br>
+      (make sequence<br>
+      font-posture: 'italic))<br>
+      (element STRONG<br>
+      (make sequence<br>
+      font-weight: 'bold))<br>
+    &lt;/style-specification-body&gt;<br>
+  &lt;/style-specification&gt;<br>
+&lt;/style-sheet&gt;<br>
+</p></div></div><p>打开dos窗口，在同一目录下输入以下命令行。</p><p>openjade -t rtf -d check.dsl -c C:\unix\usr\share\sgml\jade-dsssl\catalog -o output.rtf check.sgm</p></div></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id2810224"></a>2.1.3.2. 安装DocBook的DTD模块</h4></div></div><div></div></div><p>DTD模块是为DocBook建立文档组织框架而设计的。DocBook最新的DTD可以到<a href="http://www.oasis-open.org/docbook/sgml" target="_top">http://www.oasis-open.org/docbook/sgml</a>下载。现在最新版的是4.2版的。文件名应该是docbook-4.2.zip 。下载完成后，在c:\unix\usr\share\docbook目录下建一个sgml-dtd-42的文件夹，把解压内容拷贝进来。最后把C:\unix\usr\share\sgml\docbook\sgml-dtd-42\docbook.cat 文档打开，删除里面“DTDDECL”行的内容，新版的DTD好象已经不含该项了。并另存为catalog。这样DTD模块就安装好了。</p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id2810282"></a>2.1.3.3. 安装DocBook的DSSSL样式表</h4></div></div><div></div></div><p>样式表是控制DocBook文件转换成什么格式输出的文件。在DocBook中作得比较多的是由Norman Walsh 写的DSSSL样式表。我们可以到<a href="http://sourceforge.net/project/showfiles.php group_id=21935" target="_top">http://sourceforge.net/project/showfiles.php group_id=21935</a>下载docbook-dsssl-1.78.zip。解压到C:\unix\usr\share\sgml\docbook 目录下，产生docbook-dsssl-1.78 子目录。DSSSL的catalog文件已有不用另外建立。好了，现在DSSSL也安装好了。 </p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id2810309"></a>2.1.3.4. 安装ISO特殊字符模块</h4></div></div><div></div></div><p>由于计算平台和操作系统会使用一些非ASCII的字符，所以为了实现跨平台应用，DocBook也要安装这些特殊字符，所以要下载由ISO组织发布的ISO entities module。可到<a href="http://www.tldp.org/authors/tools/entities.tar.gz" target="_top">http://www.tldp.org/authors/tools/entities.tar.gz</a>下载。文件名是entities.tar.gz ，下载完成后，解压到C:\unix\usr\share\sgml\isoent 下即可。为了使sgml解释程序可以找到它，我们还要在该目录下建一个catalog文件。内容如下： </p><div class="example"><a name="id2810334"></a><p class="title"><b>Example 2.3. ISO 特殊字符catalog文档</b></p><div class="literallayout"><p><br>
+ -- ...................................................................... --<br>
+  -- ISO entity sets ...................................................... --<br>
+<br>
+PUBLIC &quot;ISO 8879:1986//ENTITIES Diacritical Marks//EN&quot; &quot;ISOdia&quot;<br>
+PUBLIC &quot;ISO 8879:1986//ENTITIES Numeric and Special Graphic//EN&quot; &quot;ISOnum&quot;<br>
+PUBLIC &quot;ISO 8879:1986//ENTITIES Publishing//EN&quot; &quot;ISOpub&quot;<br>
+PUBLIC &quot;ISO 8879:1986//ENTITIES General Technical//EN&quot; &quot;ISOtech&quot;<br>
+PUBLIC &quot;ISO 8879:1986//ENTITIES Added Latin 1//EN&quot; &quot;ISOlat1&quot;<br>
+PUBLIC &quot;ISO 8879:1986//ENTITIES Added Latin 2//EN&quot; &quot;ISOlat2&quot;<br>
+PUBLIC &quot;ISO 8879:1986//ENTITIES Greek Letters//EN&quot; &quot;ISOgrk1&quot;<br>
+PUBLIC &quot;ISO 8879:1986//ENTITIES Monotoniko Greek//EN&quot; &quot;ISOgrk2&quot;<br>
+PUBLIC &quot;ISO 8879:1986//ENTITIES Greek Symbols//EN&quot; &quot;ISOgrk3&quot;<br>
+PUBLIC &quot;ISO 8879:1986//ENTITIES Alternative Greek Symbols//EN&quot; &quot;ISOgrk4&quot;<br>
+PUBLIC &quot;ISO 8879:1986//ENTITIES Added Math Symbols: Arrow Relations//EN&quot; &quot;ISOamsa&quot;<br>
+PUBLIC &quot;ISO 8879:1986//ENTITIES Added Math Symbols: Binary Operators//EN&quot; &quot;ISOamsb&quot;<br>
+PUBLIC &quot;ISO 8879:1986//ENTITIES Added Math Symbols: Delimiters//EN&quot; &quot;ISOamsc&quot;<br>
+PUBLIC &quot;ISO 8879:1986//ENTITIES Added Math Symbols: Negated Relations//EN&quot; &quot;ISOamsn&quot;<br>
+PUBLIC &quot;ISO 8879:1986//ENTITIES Added Math Symbols: Ordinary//EN&quot; &quot;ISOamso&quot;<br>
+PUBLIC &quot;ISO 8879:1986//ENTITIES Added Math Symbols: Relations//EN&quot; &quot;ISOamsr&quot;<br>
+PUBLIC &quot;ISO 8879:1986//ENTITIES Box and Line Drawing//EN&quot; &quot;ISObox&quot;<br>
+PUBLIC &quot;ISO 8879:1986//ENTITIES Russian Cyrillic//EN&quot; &quot;ISOcyr1&quot;<br>
+PUBLIC &quot;ISO 8879:1986//ENTITIES Non-Russian Cyrillic//EN&quot; &quot;ISOcyr2&quot;<br>
+<br>
+  -- ...................................................................... --<br>
+  </p></div></div><p>这样，iso特殊字符模块也安装好了。</p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id2810356"></a>2.1.3.5. 建立全局索引档</h4></div></div><div></div></div><p>到现在为止，所有程序和文档已安装好了，现在需建立一个全局索引档，把所有的文档串起来。该文档就是c:\unix\etc\sgml\catalog。需自已建立，内容如下：</p><div class="example"><a name="id2810371"></a><p class="title"><b>Example 2.4. catalog</b></p><div class="literallayout"><p><br>
+OVERRIDE YES<br>
+-- filename: catalog --<br>
+-- file function : Under this system,all DTD version catalog file --<br>
+<br>
+CATALOG &quot;c:/unix/usr/share/sgml/isoent/catalog&quot; -- ISO external ENTITY declare file --<br>
+CATALOG &quot;c:/unix/usr/share/sgml/jade-dsssl/catalog&quot; -- openjade dsssl module --<br>
+CATALOG &quot;c:/unix/usr/share/sgml/docbook/docbook-dsssl-1.78/catalog&quot; -- DocBook out put stylesheet --<br>
+CATALOG &quot;c:/unix/usr/share/sgml/docbook/sgml-dtd-42/catalog&quot; -- DocBook SGML version DTD module --<br>
+CATALOG &quot;c:/unix/usr/share/sgml/docbook/sgml-dtd-41/catalog&quot; -- DocBook SGML version DTD module --<br>
+CATALOG &quot;c:/unix/usr/share/sgml/docbook/sgml-dtd-40/catalog&quot; -- DocBook SGML version DTD module --<br>
+CATALOG &quot;c:/unix/usr/share/sgml/docbook/sgml-dtd-31/catalog&quot; -- DocBook SGML version DTD module --<br>
+CATALOG &quot;c:/unix/usr/share/sgml/docbook/xml-dtd-41/catalog&quot; -- DocBook XML version DTD module --<br>
+CATALOG &quot;c:/unix/usr/share/sgml/docbook/xml-dtd-412/catalog&quot; -- DocBook XML version DTD module --<br>
+CATALOG &quot;c:/unix/usr/share/sgml/docbook/xml-dtd-42/catalog&quot; -- DocBook XML version DTD module --<br>
+</p></div></div><p>SGML的catalog文档可以以层次关系进行互相引用，从而使我们不用把所有catalog文档的路径包含在SGML_CATALOG_FILES 环境变量中，只把最顶层的catalog文档包含进来就可以了。</p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="http://www.kuqin.com/docs/images/note.png"></td><th align="left"></th></tr><tr><td colspan="2" align="left" valign="top"><p>上面的catalog文档中还包含有41,31等版本的配置，如按本文的配置是可以不要的，所以实际应用时可根据自已的需要进行调整。</p></td></tr></table></div><p>
+					</p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id2810444"></a>2.1.3.6. 实战DocBook SGML</h4></div></div><div></div></div><p>现在我们来编写一个简单的DocBook sgml文档，并用openjade进行编译。</p><div class="example"><a name="id2810478"></a><p class="title"><b>Example 2.5. mybook.sgm</b></p><div class="literallayout"><p><br>
+&lt;!DOCTYPE book PUBLIC &quot;-//OASIS//DTD DocBook V4.2//EN&quot;&gt;<br>
+&lt;book&gt;<br>
+  &lt;bookinfo&gt;<br>
+    &lt;title&gt;An Example Book&lt;/title&gt;<br>
+    <br>
+    &lt;author&gt;<br>
+      &lt;firstname&gt;Your first name&lt;/firstname&gt;<br>
+      &lt;surname&gt;Your surname&lt;/surname&gt;<br>
+      &lt;affiliation&gt;<br>
+        &lt;address&gt;&lt;email&gt;foo@example.com&lt;/email&gt;&lt;/address&gt;<br>
+      &lt;/affiliation&gt;<br>
+    &lt;/author&gt;<br>
+<br>
+    &lt;copyright&gt;<br>
+      &lt;year&gt;2000&lt;/year&gt;<br>
+      &lt;holder&gt;Copyright string here&lt;/holder&gt;<br>
+    &lt;/copyright&gt;<br>
+<br>
+    &lt;abstract&gt;<br>
+      &lt;para&gt;If your book has an abstract then it should go here.&lt;/para&gt;<br>
+    &lt;/abstract&gt;<br>
+						</p></div></div><p>接着用以下命令进行编译就可以生成html文件了，如果想生成rtf格式文件，只要把-t sgml换成-t rtf就可以了。</p><p>openjade -t sgml -d C:\unix\usr\share\sgml\docbook\docbook-dsssl-1.78\html\docbook.dsl mybook.sgm
+</p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="http://www.kuqin.com/docs/images/note.png"></td><th align="left"></th></tr><tr><td colspan="2" align="left" valign="top"><p>用本机的DT&lt;!DOCTYPE book SYSTEM &quot;C:\unix\usr\share\sgml\docbook\xml-dtd-42\docbookx.dtd&quot;&gt;可以加快编译的速度和不用依赖网络。</p></td></tr></table></div></div></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="id2810537"></a>2.1.4. 建立XML的编译环境</h3></div></div><div></div></div><p>SGML虽然功能强大，但较复杂，包罗万象，所以W3C设计了XML，一个SGML的精简集，语法大为简化，适合于网络传输。自DocBook4.0开始，DocBook每次新版发布，都会用SGML和XML各定义一次。那是不是要学两种语法呢？不用啦，它们的标签都大同小异。以下介绍一下XML编译环境的配置。</p><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id2810561"></a>2.1.4.1. 安装xml解释程序</h4></div></div><div></div></div><p>在windows平台上的xml解释器有很多，以java开发的工具为最多。现在我们介绍是以C语言编写的程序叫xsltproc。我们可到以下网址<a href="http://www.zlatkovic.com/pub/libxml/" target="_top">http://www.zlatkovic.com/pub/libxml/</a>下载相关软件。一共要下载4个文件，分别是：</p><div class="itemizedlist"><ul type="disc"><li><p>libxml2-2.6.7.win32.zip-----用于进行xml语法合法性检验和资料整理。</p></li><li><p>libxslt-1.1.4.win32.zip-----负责格式转换。</p></li><li><p>iconv-1.9.1.win32.zip-----语言转换工具。</p></li><li><p>zlib-1.1.4.win32.zip-----资料压缩处理工具。</p></li></ul></div><p>安装方法和安装openjade的差不多，先解压，再把util目录中的内容拷到c:\unix\usr\bin文件夹中；把lib目录中的内容拷到c:\unix\usr\lib中，把include目录中的内空拷到c:\unix\usr\include目录中。4个文件的目录结构一类似，所以用同样的方法操作即可。</p><div class="sect4" lang="en"><div class="titlepage"><div><div><h5 class="title"><a name="id2810646"></a>2.1.4.1.1. 制作xml测试文件</h5></div></div><div></div></div><p>和sgml的测试文件大同小异，内容如下：</p><div class="example"><a name="id2810658"></a><p class="title"><b>Example 2.6. xml测试文件check.xml</b></p><div class="literallayout"><p><br>
+&lt; xml version=&quot;1.0&quot; encoding=&quot;gb2312&quot; &gt;<br>
+&lt;!DOCTYPE HTMLLite [<br>
+  &lt;!ELEMENT HTMLLite O O (H1|P)* &gt;<br>
+  &lt;!ELEMENT (H1|P) - - (#PCDATA|EM|STRONG)* &gt;<br>
+  &lt;!ELEMENT (EM|STRONG) - - (#PCDATA) &gt;<br>
+]&gt;<br>
+&lt;HTMLLite&gt;<br>
+	&lt;H1&gt;SGML 解释器测试文件&lt;/H1&gt;<br>
+	&lt;P&gt;这是一个简短的，合乎 xml 语言规格定义的文件，用于测试你的解释环境是否配置正确。&lt;/P&gt;<br>
+	&lt;P&gt;本文件采用 GPL 版权发布，欢迎转载、改写、散播。&lt;/P&gt;<br>
+&lt;/HTMLLite&gt;</p></div></div></div><div class="sect4" lang="en"><div class="titlepage"><div><div><h5 class="title"><a name="id2810675"></a>2.1.4.1.2. 制用xml样式表</h5></div></div><div></div></div><p>SGML用DSSSL来制作样式表，XML就用xsl或xslt来制作样式表。下面的是一个针对上例的样式表。</p><div class="example"><a name="id2810703"></a><p class="title"><b>Example 2.7. xsl格式转换文件check.xsl</b></p><div class="literallayout"><p><br>
+&lt; xml version=&quot;1.0&quot; encoding=&quot;gb2312&quot; &gt;<br>
+&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot;<br>
+                version=&quot;1.0&quot;&gt;<br>
+  &lt;xsl:output method=&quot;html&quot;/&gt;<br>
+  &lt;xsl:template match=&quot;/&quot;&gt;<br>
+    &lt;html&gt;<br>
+      &lt;head&gt;<br>
+        &lt;title&gt;HTMLlite document&lt;/title&gt;<br>
+      &lt;/head&gt;<br>
+      &lt;body bgcolor=&quot;#FFFFFF&quot;&gt;<br>
+        &lt;xsl:apply-templates/&gt;<br>
+      &lt;/body&gt;<br>
+    &lt;/html&gt;<br>
+  &lt;/xsl:template&gt;<br>
+  &lt;xsl:template match=&quot;H1&quot;&gt;<br>
+    &lt;h1&gt;<br>
+      &lt;xsl:apply-templates/&gt;<br>
+    &lt;/h1&gt;<br>
+  &lt;/xsl:template&gt;<br>
+  &lt;xsl:template match=&quot;P&quot;&gt;<br>
+    &lt;p&gt;<br>
+      &lt;xsl:apply-templates/&gt;<br>
+    &lt;/p&gt;<br>
+  &lt;/xsl:template&gt;<br>
+  &lt;xsl:template match=&quot;EM&quot;&gt;<br>
+    &lt;i&gt;<br>
+      &lt;xsl:apply-templates/&gt;<br>
+    &lt;/i&gt;<br>
+  &lt;/xsl:template&gt;<br>
+  &lt;xsl:template match=&quot;STRONG&quot;&gt;<br>
+    &lt;b&gt;<br>
+      &lt;xsl:apply-templates/&gt;<br>
+    &lt;/b&gt;<br>
+  &lt;/xsl:template&gt;<br>
+&lt;/xsl:stylesheet&gt;</p></div></div></div><div class="sect4" lang="en"><div class="titlepage"><div><div><h5 class="title"><a name="id2810721"></a>2.1.4.1.3. 执行转换</h5></div></div><div></div></div><p>xsltproc check.xsl check.xml &gt; check.htm</p><p>现在就生成一个check.htm文件，你可以用浏览器打开看一下。</p></div></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id2810756"></a>2.1.4.2. 安装XML格式的DocBook DTD模块</h4></div></div><div></div></div><p>其实xml的dtd可安装也可不安装，因为可直接连接到网络上去使用，但速度可能就慢一点，要安装也很简单，和安装SGML的DTD一样，到<a href="http://www.oasis-open.org/docbook/xml" target="_top">http://www.oasis-open.org/docbook/xml</a>下载docbook-xml-4.2.zip 文件，并解压到C:\unix\usr\share\sgml\docbook\xml-dtd-42目录下即可。注意目录下的文件，catalog文件已存在。</p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id2810782"></a>2.1.4.3. 安装DocBook的XSL样式表</h4></div></div><div></div></div><p>同理，可到<a href="http://sourceforge.net/project/showfiles.php group_id=21935" target="_top">http://sourceforge.net/project/showfiles.php group_id=21935</a>下载最新版本的xsl样式表。下载完成后解压到C:\unix\usr\share\sgml\docbook目录下即可。</p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id2810804"></a>2.1.4.4. 安装ISO特殊字符模块</h4></div></div><div></div></div><p>xml的iso特殊字符模块在XML的DTD里已经有了，不用另外安装。你可以看一下C:\unix\usr\share\sgml\docbook\xml-dtd-42目录是不是有一个ent的子目录。</p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id2810823"></a>2.1.4.5. 本机catalog文件配置</h4></div></div><div></div></div><p>可以和sgml的共用，所以不用配置了，可参见上面的内容</p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id2810837"></a>2.1.4.6. 实战DocBook XML</h4></div></div><div></div></div><div class="sect4" lang="en"><div class="titlepage"><div><div><h5 class="title"><a name="id2810844"></a>2.1.4.6.1. 制作测试文件</h5></div></div><div></div></div><p>和SGML格式的文件差不多，只是开头文件宣告有一些差别。</p><div class="example"><a name="id2810857"></a><p class="title"><b>Example 2.8. mybook.xml</b></p><div class="literallayout"><p><br>
+&lt; xml version=&quot;1.0&quot; encoding=&quot;gb2312&quot; &gt;<br>
+&lt;!DOCTYPE book PUBLIC &quot;-//OASIS//DTD DocBook XML V4.2//EN&quot;<br>
+                    &quot;http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd&quot;<br>
+		    &gt;<br>
+&lt;book&gt;<br>
+  &lt;bookinfo&gt;<br>
+    &lt;title&gt;An Example Book&lt;/title&gt;<br>
+    &lt;author&gt;<br>
+      &lt;firstname&gt;Your first name&lt;/firstname&gt;<br>
+      &lt;surname&gt;Your surname&lt;/surname&gt;<br>
+      &lt;affiliation&gt;<br>
+        &lt;address&gt;&lt;email&gt;foo@example.com&lt;/email&gt;&lt;/address&gt;<br>
+      &lt;/affiliation&gt;<br>
+    &lt;/author&gt;<br>
+<br>
+    &lt;copyright&gt;<br>
+      &lt;year&gt;2000&lt;/year&gt;<br>
+      &lt;holder&gt;Copyright string here&lt;/holder&gt;<br>
+    &lt;/copyright&gt;<br>
+<br>
+    &lt;abstract&gt;<br>
+      &lt;para&gt;If your book has an abstract then it should go here.&lt;/para&gt;<br>
+    &lt;/abstract&gt;<br>
+  &lt;/bookinfo&gt;<br>
+<br>
+  &lt;preface&gt;<br>
+    &lt;title&gt;Preface&lt;/title&gt;<br>
+<br>
+    &lt;para&gt;Your book may have a preface, in which case it should be placed<br>
+      here.&lt;/para&gt;<br>
+  &lt;/preface&gt;<br>
+      <br>
+  &lt;chapter&gt;<br>
+    &lt;title&gt;My first chapter&lt;/title&gt;<br>
+<br>
+    &lt;para&gt;This is the first chapter in my book.&lt;/para&gt;<br>
+<br>
+    &lt;sect1 id=&quot;1.1&quot;&gt;<br>
+      &lt;title&gt;My first section&lt;/title&gt;<br>
+<br>
+      &lt;para&gt;This is the first section in my book.&lt;/para&gt;<br>
+    &lt;/sect1&gt;<br>
+    &lt;sect1 id=&quot;1.2&quot;&gt;<br>
+	    &lt;title&gt;my second section&lt;/title&gt;<br>
+	    &lt;para&gt; this is the second section in my book.&lt;/para&gt;<br>
+    &lt;/sect1&gt;<br>
+  &lt;/chapter&gt;<br>
+&lt;/book&gt;<br>
+			</p></div></div></div><div class="sect4" lang="en"><div class="titlepage"><div><div><h5 class="title"><a name="id2810874"></a>2.1.4.6.2. 执行转换</h5></div></div><div></div></div><p>xsltproc C:\unix\usr\share\sgml\docbook\docbook-xsl-1.65.1\html\docbook.xsl mybook.xml &gt;mybook.htm</p></div></div></div></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2810891"></a>2.2. linux下编译环境安装</h2></div></div><div></div></div><p>在各种Linux的发行版中，docbook的编译环境多数都预先设置好了。如需了解如何安装请参考<a href="http://www.ringkee.com/jims/document/download/docbook_under_linux" target="_top">&lt;&lt;DocBook XML/SGML Processing Using OpenJade&gt;&gt;</a>这篇文章。</p></div></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2810939"></a>Chapter 3. xsltproc</h2></div></div><div></div></div><p>xsltproc是libxslt库的命令行处理程序，用于处理xml文档。我们利用xsltproc来处理docbook文档，输出各种格式的文档。官方网站：<a href="http://xmlsoft.org/" target="_top">http://xmlsoft.org/</a></p><div class="itemizedlist"><ul type="disc"><li><p>利用样式表生成单页的html文档，生成文档名为debian.html，生成的文档位于当前目录。</p><pre class="screen">
+$ xsltproc --stringparam html.stylesheet docbook.css /usr/share/sgml/docbook/docbook-xsl-1.65.1/html/docbook.xsl debian.xml&gt;debian.html
+</pre></li><li><p>利用样式表生成多页的html文档，每章和每小节都会生成独立的一个html文档，生成文档位于当前目录。</p><pre class="screen">
+$ xsltproc --stringparam html.stylesheet docbook.css /usr/share/sgml/docbook/docbook-xsl-1.65.1/html/chunk.xsl debian.xml
+</pre><p>用-o选项可指定生成文档的路径</p></li></ul></div></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2808435"></a>Chapter 4. 用DocBook写作</h2></div></div><div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="docbook.html#id2808442">4.1. How-To</a></span></dt><dd><dl><dt><span class="sect2"><a href="docbook.html#id2808450">4.1.1. 以不同字符集输出HTML文档</a></span></dt><dt><span class="sect2"><a href="docbook.html#id2808497">4.1.2. 指定多页输出时html文档名</a></span></dt><dt><span class="sect2"><a href="docbook.html#id2808532">4.1.3. 指定输出路径</a></span></dt><dt><span class="sect2"><a href="docbook.html#id2808558">4.1.4. 实现HTML格式输出文件中章内小节自动编号</a></span></dt><dt><span class="sect2"><a href="docbook.html#id2808675">4.1.5. 用calloutlist标签实现自动编号的小图标标注</a></span></dt><dt><span class="sect2"><a href="docbook.html#id2809022">4.1.6. 特殊字符表示方法</a></span></dt><dt><span class="sect2"><a href="docbook.html#id2809156">4.1.7. 使以图标方式标注note元素</a></span></dt><dt><span class="sect2"><a href="docbook.html#id2809240">4.1.8. 用样式表格式化DocBook的HTML输出</a></span></dt><dt><span class="sect2"><a href="docbook.html#id2809316">4.1.9. 链接表示法</a></span></dt><dt><span class="sect2"><a href="docbook.html#id2809411">4.1.10. 几种列表表示法</a></span></dt><dt><span class="sect2"><a href="docbook.html#id2809480">4.1.11. 表格</a></span></dt></dl></dd></dl></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2808442"></a>4.1. How-To</h2></div></div><div></div></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="id2808450"></a>4.1.1. 以不同字符集输出HTML文档</h3></div></div><div></div></div><p>使用docbook.xsl样式表时，可生成单一文件。修改docbook.xsl样式表实现输出不同字符集的html文档，方法是修改以下的encoding项就可以了。
+</p><pre class="screen">
+&lt;xsl:output method=&quot;html&quot;
+            encoding=&quot;utf-8&quot;
+            indent=&quot;no&quot;/&gt;
+</pre><p>使用chunk.xsl样式表时，可生成多页文件。可修改chuner.xsl。</p><pre class="screen">
+&lt;xsl:param name=&quot;chunker.output.encoding&quot; select=&quot;'utf-8'&quot;/&gt;
+</pre><p>或者在命令行中用参数指定。</p><pre class="screen">
+$ xsltproc --stringparam html.stylesheet docbook.css --stringparam chunker.output.encoding UTF-8 /usr/share/sgml/docbook/docbook-xsl-1.65.1/html/chunk.xsl debian.xml       
+</pre></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="id2808497"></a>4.1.2. 指定多页输出时html文档名</h3></div></div><div></div></div><p>我们把docbook文档转换成html文档时，可以转换成一个大的html文档，也可以转换成多页的html文档。当转换成多页是，默认的文件是以ch01.html、ch02.html方式命名的，较不直观。我们可在docbook文档中添加一个属性，使它输出时按我们指定的文件名输出。</p><pre class="screen">
+方法一：
+&lt;chapter&gt;&lt; dbhtml filename=&quot;first.html&quot;  &gt;
+&lt;title&gt;Introduction&lt;/title&gt;
+...
+
+方法二：
+&lt;chapter id=&quot;first&quot;&gt;
+&lt;title&gt;Introduction&lt;/title&gt;
+...
+</pre></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="id2808532"></a>4.1.3. 指定输出路径</h3></div></div><div></div></div><p>默认转换后的文档是保存在当前目录的，我们可在xsltproc命令行用-o选项指定转换后文档的输出路径，另外一种是在docbook中指定。</p><pre class="screen">
+&lt;book&gt;&lt; dbhtml dir=&quot;jims&quot;  &gt;
+&lt;title&gt;Docbook Guide&lt;/title&gt;
+...
+&lt;chapter id=&quot;first&quot;&gt;&lt; dbhtml dir=&quot;technic&quot;  &gt;
+...
+&lt;chapter id=&quot;second&quot;&gt;
+...
+&lt;appendix id=&quot;three&quot;&gt;&lt; dbhtml dir=&quot;read&quot;  &gt;
+...
+
+输出后的路径：
+jims/index.html
+jims/technic/first.html
+jims/second.html
+jims/read/three.html
+</pre></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="id2808558"></a>4.1.4. 实现HTML格式输出文件中章内小节自动编号</h3></div></div><div></div></div><p>默认HTML格式输出文件中的章内小节是没有自动编号功能的，如果要实现小节自动编号需要设置HTML格式的两个转换参数。</p><div class="itemizedlist"><ul type="disc"><li><p>section.autolabel参数为1代表章内小节可自动编号，为0表示不会自动编号；</p></li><li><p>section.label.includes.component.label参数为1表示章内小节编号包含章节编号,为0表示不包含章节编号。</p></li></ul></div><p>设置这两个参数可通过命令行方式，也可通过修改XSL转换文件方法。下面分别介绍这两种方法：</p><div class="itemizedlist"><ul type="disc"><li><p>通过命令行方式：</p><pre class="screen">$ xsltproc --stringparam  section.autolabel 1 \
+           --stringparam  section.label.includes.component.label 1 \
+           docbook.xsl  myfile.xml&gt;myfile.htm
+</pre></li><li><p>修改XSL转换文件方式：</p><p>DocBook文档的HTML格式转换样式文件一般位于/usr/share/sgml/docbook/docbook-xsl-1.65.1/html/目录下。通过查看docbook.xsl文件可知，在docbook.xsl中引用param.xsl作为参数设置文件，所有的参数都在这里设置。我们打开param.xsl文件，找到以下两行，再把参数置成1就可以了。</p><pre class="screen">
+&lt;xsl:param name=&quot;section.autolabel&quot; select=&quot;1&quot;/&gt;
+&lt;xsl:param name=&quot;section.label.includes.component.label&quot; select=&quot;1&quot;/&gt;
+</pre></li></ul></div></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="id2808675"></a>4.1.5. 用calloutlist标签实现自动编号的小图标标注</h3></div></div><div></div></div><p>效果如下：
+</p><pre class="screen">
+&lt;html&gt;
+
+<a name="co.1.1"></a><img src="http://www.kuqin.com/docs/images/callouts/1.png" alt="1" border="0">&lt;img tal:replace=&quot;structure container/logo&quot;&gt;		
+
+&lt;h1&gt;
+<a name="co.1.2"></a><img src="http://www.kuqin.com/docs/images/callouts/2.png" alt="2" border="0">Welcome to &lt;i tal:content=&quot;template/title&quot;&gt;title&lt;/i&gt;,	
+    this my zope tutorial,I like zope,I like python too.&lt;/h1&gt;
+    &lt;h2&gt;another test page in my zope site is zoo&lt;/h2&gt;
+  <a name="co.1.3"></a><img src="http://www.kuqin.com/docs/images/callouts/3.png" alt="3" border="0">&lt;a href = index_html&gt;zoo&lt;/a&gt;				
+
+&lt;/html&gt;
+</pre><p>
+	  </p><div class="calloutlist"><table border="0" summary="Callout list"><tr><td width="5%" valign="top" align="left"><a href="docbook.html#co.1.1"><img src="http://www.kuqin.com/docs/images/callouts/1.png" alt="1" border="0"></a> </td><td valign="top" align="left"><p>显示logo图片</p></td></tr><tr><td width="5%" valign="top" align="left"><a href="docbook.html#co.1.2"><img src="http://www.kuqin.com/docs/images/callouts/2.png" alt="2" border="0"></a> </td><td valign="top" align="left"><p>用&quot;template/title&quot;值(zope home page)替换title。</p></td></tr><tr><td width="5%" valign="top" align="left"><a href="docbook.html#co.1.3"><img src="http://www.kuqin.com/docs/images/callouts/3.png" alt="3" border="0"></a> </td><td valign="top" align="left"><p>建立一个到zoo目录的链接。</p></td></tr></table></div><p>源码如下：
+</p><pre class="screen">
+&lt;para&gt;
+&lt;screen&gt;
+&amp;lt;html&amp;gt;
+
+&lt;co id = &quot;co.1.1&quot; /&gt;&amp;lt;img tal:replace=&quot;structure container/logo&quot;&gt;		
+
+&amp;lt;h1&gt;
+&lt;co id = &quot;co.1.2&quot; /&gt;Welcome to &amp;lt;i tal:content=&quot;template/title&quot;&gt;title&amp;lt;/i&gt;,	
+this my zope tutorial,I like zope,I like python too.&amp;lt;/h1&gt;
+&amp;lt;h2&gt;another test page in my zope site is zoo&amp;lt;/h2&gt;
+&lt;co id = &quot;co.1.3&quot; /&gt;&amp;lt;a href = index_html&gt;zoo&amp;lt;/a&gt;				
+
+&amp;lt;/html&gt;
+&lt;/screen&gt;
+	  &lt;/para&gt;
+	  &lt;calloutlist&gt;
+		  &lt;callout arearefs = &quot;co.1.1&quot;&gt;
+			  &lt;para&gt;显示logo图片&lt;/para&gt;
+		  &lt;/callout&gt;
+		  &lt;callout arearefs = &quot;co.1.2&quot;&gt;
+			  &lt;para&gt;用&quot;template/title&quot;值(zope home page)替换title。&lt;/para&gt;
+		  &lt;/callout&gt;
+		  &lt;callout arearefs = &quot;co.1.3&quot;&gt;
+			  &lt;para&gt;建立一个到zoo目录的链接。&lt;/para&gt;
+		  &lt;/callout&gt;
+	  &lt;/calloutlist&gt;
+	  </pre><p>
+				</p><p>上图中的每个小图标是放在images/callouts目录下的1.png、2.png、3.png文件，所以图标也可以自已设计。</p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="id2809022"></a>4.1.6. 特殊字符表示方法</h3></div></div><div></div></div><div class="table"><a name="id2809046"></a><p class="title"><b>Table 4.1. 特殊字符</b></p><table summary="特殊字符" border="1"><colgroup><col><col></colgroup><thead><tr><th>特殊字符</th><th>实体表示法</th></tr></thead><tbody><tr><td>&lt;</td><td>&amp;lt;</td></tr><tr><td>&gt;</td><td>&amp;gt;</td></tr><tr><td>&amp;</td><td>&amp;amp;</td></tr><tr><td>&quot;</td><td>&amp;quot;</td></tr><tr><td>'</td><td>&amp;apos;</td></tr></tbody></table></div></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="id2809156"></a>4.1.7. 使以图标方式标注note元素</h3></div></div><div></div></div><p>一般来说，note标注只会以“Note”文字的形式来标注，如：</p><pre class="screen">
+Note
+    为方便起见，sys模块包含一个maxint成员，该成员保留了整形变量的最大正数值。
+</pre><p>我们也可用图标来标注。如：</p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="http://www.kuqin.com/docs/images/note.png"></td><th align="left"></th></tr><tr><td colspan="2" align="left" valign="top">为方便起见，sys模块包含一个maxint成员，该成员保留了整形变量的最大正数值。</td></tr></table></div><p>这样是不是美观很多，具体实现方法如下(以XML格式的DocBook文档为例)：</p><div class="itemizedlist"><ul type="disc"><li><p>首先，我们需修改docbook的编译参数，位于param.xsl文件内，把以下几项修改成：</p><pre class="screen">
+&lt;xsl:param name=&quot;admon.graphics.extension&quot; select=&quot;'.png'&quot;/&gt;  #设置图标格式
+&lt;xsl:param name=&quot;admon.graphics&quot; select=&quot;1&quot;/&gt;                 #开启图标显示
+&lt;xsl:param name=&quot;admon.graphics.path&quot;&gt;images/&lt;/xsl:param&gt;     #图标的路径
+</pre></li><li><p>接着，选择一个合适的图标，以note.png为文件名，保存到images/目录下。</p></li><li><p>最后，重新编译文档，完成。</p></li></ul></div></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="id2809240"></a>4.1.8. 用样式表格式化DocBook的HTML输出</h3></div></div><div></div></div><p>有时我们想改变生成的HTML文件的表现形式，最好的办法是使用CSS(级联式样式表)。我们打开由DocBook生成的HTML文件可以看到，每个DocBook元素都会以&lt;div class=&quot;element&quot;&gt;标记，如：</p><pre class="screen">
+&lt;div class=&quot;chapter&quot; lang=&quot;en&quot;&gt;
+  &lt;div class=&quot;titlepage&quot;&gt;
+    &lt;div&gt;
+      &lt;div&gt;
+        &lt;h2 class=&quot;title&quot;&gt;
+           &lt;a name=&quot;Catalogs&quot;&gt;&lt;/a&gt;Chapter 3. XML catalogs
+        &lt;/h2&gt;
+      &lt;/div&gt;
+   ...
+</pre><p>这样，我们就可编写一个样式表，与生成的HTML文件中的class关联起来，从而格式化HTML文件的输出样式。下面是一个样式表的例子(可直接拷贝使用)。</p><pre class="screen">
+/* CSS2 Stylesheet for _DocBook: The Definitive Guide_
+ * Copyright (C) 1999, 2000, 2001, 2002 O'Reilly &amp; Associates, Inc.
+ *
+ * $Id: defguide.css,v 1.1 2002/06/17 12:20:45 nwalsh Exp $
+ */
+
+DIV.example-output {
+  padding-left: 15px;
+  border-style: solid;
+  border-width: 0px;
+  border-left-width: 2px;
+  border-color: black;
+}
+
+pre.screen {
+  background: #E8E8E8;
+}
+
+pre.programlisting {
+  background: #E8E8E8;
+}
+
+div.example-source {
+  background: #E8E8E8;
+}
+
+p.publisher {
+  text-align: center;
+}
+ 
+body.book {
+/*  background-image: url(figures/htmltitlepage.gif); */
+/*  background-repeat: no-repeat; */
+/*  background-position: top center; */
+}
+
+div.component-title {
+  text-align: right;
+}
+h1.label {
+  font-size: 150pt;
+  font-weight: normal;
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+  margin-top: 0px;
+  padding-top: 0px;
+}
+
+div.component-title h1.title {
+  margin-top: 0px;
+  padding-top: 0px;
+  margin-right: 20px;
+  font-size: 36pt;
+}
+
+p.alpha-version {
+  margin-top: 0px;
+  padding-top: 0px;
+}
+
+hr.component-separator {
+  height: 1px;
+}
+
+div.refentry div.titlepage {
+  margin-left: 20px;
+}
+
+div.refentry div.titlepage h1.title {
+  margin-left: -20px;
+  margin-bottom: 0px;
+  font-size: 36pt;
+}
+
+body {
+  margin-top: 0px;
+  padding-top: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+div.navheader {
+}
+
+div.navfooter {
+}
+
+div.copyrightfooter {
+  background-color: #c6bec6;
+  margin-top: 0px;
+  padding-top: 0px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 2px;
+}
+
+div.copyrightfooter p {
+  margin-top: 0px;
+  padding-top: 10px;
+}
+
+div.refentry,
+div.preface,
+div.chapter,
+div.appendix,
+div.reference,
+div.part,
+div.bibliography,
+div.glossary,
+div.index,
+div.colophon,
+div.legalnotice,
+div.sect1 {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+div.book {
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 5px;
+}
+
+thead {
+  background-color: black;
+  color: white;
+}
+
+table,
+tbody,thead,tfoot,
+tr,td {
+  border-color: #8F8F8F;
+}
+
+div.docbookng-synopsis { border-left: 0.5pt solid black;
+                         margin-left: 0.25in;
+                         padding-left: 0.25in;
+                         border-top: 0.5pt solid black;
+                         margin-top: 0.25in;
+                         border-bottom: 0.5pt solid black;
+                         margin-bottom: 0.25in;
+                       }
+
+div.docbookng-synopsis
+div.define-next        { border-top: 0.5pt solid black;
+                         margin-top: 0.25in;
+                         padding-top: 0.25in;
+                       }
+</pre><p>为了在输出的HTML文件中使用我们自定义的样式表，可使用xsltproc命令的--stringparam参数，如：</p><pre class="screen">
+xsltproc --stringparam html.stylesheet  mystylesheet.css  docbook.xsl  myfile.xml
+注：mystylesheet.css为我们定义的样式表，docbook.xsl为转换样式表，myfile.xml为我们的DocBook源文档
+</pre><p>这样，输出的HTML文件中就会有以下的定义：</p><pre class="screen">
+&lt;link rel=&quot;stylesheet&quot; href=&quot;mystylesheet.css&quot; 
+      type=&quot;text/css&quot;&gt; 
+</pre><p>通过这种方法，我们就可用一个CSS样式表控制整个输出文件的表现形式，而不用修改DocBook的XSL样式表。</p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="id2809316"></a>4.1.9. 链接表示法</h3></div></div><div></div></div><div class="itemizedlist"><ul type="disc"><li><p>在DocBook中标识超链接，使用&lt;ulink url=&quot;www.ringkee.com&quot;&gt;www.ringkee.com&lt;/ulink&gt;形式。效果：<a href="http://www.kuqin.com/docs/www.ringkee.com" target="_top">www.ringkee.com</a></p></li><li><p>电子邮件表示法，很简单，使用&lt;email&gt;yjnet@21cn.com&lt;/email&gt;即可。效果：<tt class="email">&lt;<a href="mailto:yjnet@21cn.com">yjnet@21cn.com</a>&gt;</tt></p></li></ul></div></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="id2809411"></a>4.1.10. 几种列表表示法</h3></div></div><div></div></div><p>在撰写技术文章时，列表表示法能使文章的结构化和条理化大大增加，使文章重点突出。在docbook中的列表表示法，有如下几种：</p><div class="itemizedlist"><ul type="disc"><li><p>没有序号的列表表示法：</p><pre class="screen">
+&lt;itemizedlist&gt;
+      &lt;listitem&gt;
+            &lt;para&gt;列表内容&lt;/para&gt;
+      &lt;/listitem&gt;
+&lt;/itemizedlist&gt;
+...
+</pre></li><li><p>带序号的列表表示法：</p><pre class="screen">
+&lt;orderedlist&gt;
+      &lt;listitem&gt;
+            &lt;para&gt;列表内容&lt;/para&gt;
+      &lt;/listitem&gt;
+&lt;/orderedlist&gt;
+...
+</pre></li><li><p>上下层次结构的列表表示法：</p><pre class="screen">
+&lt;variablelist&gt;
+      &lt;varlistentry&gt;
+          &lt;term&gt;列表段标题&lt;/term&gt;
+          &lt;listitem&gt;
+              &lt;para&gt;列表内容&lt;/para&gt;
+          &lt;listitem&gt;
+      &lt;/varlistentry&gt;
+...
+&lt;/variablelist&gt;
+</pre></li></ul></div></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="id2809480"></a>4.1.11. 表格</h3></div></div><div></div></div><p>下面是一个有两列的表格，cols属性可控制表格的列数：</p><pre class="screen">
+&lt;table&gt;
+   &lt;title&gt;表格标题&lt;/title&gt;
+   &lt;tgroup cols=&quot;2&quot;&gt;
+     &lt;thead&gt;
+       &lt;row&gt;
+          &lt;entry&gt;列标题1&lt;/entry&gt;
+          &lt;entry&gt;列标题2&lt;/entry&gt;
+       &lt;/row&gt;
+     &lt;/thead&gt;
+    &lt;tbody&gt;
+       &lt;row&gt;
+          &lt;entry&gt;列内容1&lt;/entry&gt;
+          &lt;entry&gt;列内容2&lt;/entry&gt;
+       &lt;/row&gt;
+       ...
+    &lt;/tbody&gt;
+   &lt;/tgroup&gt;
+&lt;/table&gt;
+</pre></div></div></div></div>
+
+<DIV style="DISPLAY: none">
+ <script src='http://s42.cnzz.com/stat.php?id=423754&web_id=423754&show=pic' language='JavaScript' charset='gb2312'>
+</script>
+</DIV>
+</body></html>

@@ -1,0 +1,1647 @@
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312"><title>Postfix + Cyrus-IMAP + Cyrus-SASL + MySQL + IMP完全指南</title>
+
+<style type="text/css">
+<!--
+p,li {  font-size: 12px; margin-top: 4px; margin-bottom: 4px}
+td {  font-family: "Courier New", "Courier", "mono"; font-size: 12px; font-weight: bold}
+.type {color: #FF0000;}
+.style2 {color: #E63A00}
+-->
+</style></head>
+<body leftmargin="20" bgcolor="#ffffff">
+
+
+<h2 align="left"><font face="Arial, Helvetica, sans-serif">CNGNU Postfix</font>邮件系统系列指南之一</h2>
+<h1 align="center"><font face="Arial, Helvetica, sans-serif"><font color="#ff0000">P</font>ostfix 
+  + <font color="#ff0000">C</font>yrus-IMAP + <font color="#ff0000">C</font>yrus-SASL 
+  + <font color="#ff0000">M</font>ySQL + <font color="#ff0000">I</font>MP</font><br>
+  完全指南</h1>
+<hr noshade="noshade" size="1">
+<p>&nbsp;</p>
+<blockquote> 
+  <p>作者：王兴宇 <a href="mailto:wxy@cngnu.org">&lt;wxy@cngnu.org&gt;</a> </p>
+  <p>版本：0.71</p>
+  <p>版权：GPL</p>
+  <p>发布日期：2003-02-04</p>
+  <p>&nbsp;</p>
+  <h3>目录</h3>
+  <p><a href="#a.1">1.&nbsp; 概述</a></p>
+  <p><a href="#a.1.1">1.1.&nbsp; 目的</a></p>
+  <p><a href="#a.1.2">1.2.&nbsp; 更新历史</a></p>
+  <p><a href="#a.1.3">1.3.&nbsp; TODO</a></p>
+  <p><a href="#a.1.4">1.4.&nbsp; 鸣谢</a></p>
+  <p><a href="#a.2">2.&nbsp; 系统功能</a></p>
+  <p><a href="#a.3">3.&nbsp; 系统基本前提</a></p>
+  <p><a href="#a.4">4.&nbsp; 安装MySQL</a></p>
+  <p><a href="#a.4.1">4.1. 下载</a></p>
+  <p><a href="#a.4.2">4.2. 编译与安装</a></p>
+  <p><a href="#a.4.3">4.3. 运行</a></p>
+  <p><a href="#a.4.4">4.4. 测试</a></p>
+  <p><a href="#a.4.5">4.5.&nbsp; 建立数据库</a></p>
+  <p><a href="#a.5">5.&nbsp; 安装pam_mysql</a></p>
+  <p><a href="#a.5.1">5.1.&nbsp; 下载</a></p>
+  <p><a href="#a.5.2">5.2.&nbsp; 编译与安装</a></p>
+  <p><a href="#a.5.3">5.3.&nbsp; 配置</a></p>
+  <p><a href="#a.6">6.&nbsp; 配置Cyrus-SASL</a></p>
+  <p><a href="#a.6.1">6.1.&nbsp; </a><a href="#a.6.3">配置</a></p>
+  <p><a href="#a.6.2">6.2.&nbsp;运行</a></p>
+  <p><a href="#a.7">7.&nbsp; 安装Postfix</a></p>
+  <p><a href="#a.7.1">7.1.&nbsp; 下载</a></p>
+  <p><a href="#a.7.2">7.2.&nbsp; 编译与安装</a></p>
+  <p><a href="#a.7.3">7.3.&nbsp; 配置</a></p>
+  <p><a href="#a.7.4">7.4.&nbsp; 运行</a></p>
+  <p><a href="#a.7.5">7.5.&nbsp; 测试</a></p>
+  <p><a href="#a.8">8.&nbsp; 安装Cyrus-IMAP</a></p>
+  <p><a href="#a.8.1">8.1.&nbsp; 下载</a></p>
+  <p><a href="#a.8.2">8.2.&nbsp; 编译与安装</a></p>
+  <p><a href="#a.8.3">8.3.&nbsp; 配置</a></p>
+  <p><a href="#a.8.4">8.4.&nbsp; 运行</a></p>
+  <p><a href="#a.8.5">8.5.&nbsp; 测试</a></p>
+  <p><a href="#a.9">9.&nbsp; 安装IMP</a></p>
+  <p><a href="#a.9.1">9.1.&nbsp; 下载</a></p>
+  <p><a href="#a.9.2">9.2.&nbsp; 配置Apache/PHP</a></p>
+  <p><a href="#a.9.3">9.3.&nbsp; 配置Horde</a></p>
+  <p><a href="#a.9.4">9.4.&nbsp; 配置Imp</a></p>
+  <p><a href="#a.9.5">9.5.&nbsp; 配置Turba</a></p>
+  <p><a href="#a.9.6">9.6.&nbsp; 测试IMP</a></p>
+  <p><a href="#a.10">10.&nbsp; 其它</a></p>
+  <p><a href="#a.10.1">10.1.&nbsp; 启动脚本</a></p>
+  <p><a href="#a.10.2">10.2.&nbsp; </a><a href="#a.10.3">整体测试</a></p>
+  <hr size="1">
+  <p>&nbsp;</p>
+</blockquote>
+<h1><a name="a.1" id="a.1"></a>1.&nbsp; 概述</h1>
+<h2><a name="a.1.1"></a>1.1.&nbsp; 目的</h2>
+<p>　　本文试图介绍如何在一个Linux平台上安装一套功能完整的邮件系统。这里我们以Postfix做SMTP服务器、Cyrus-IMAP做
+POP3/IMAP4服务器、通过Cyrus-SASL对存储在MySQL数据库中的用户进行验证和授权，并且使用IMP来提供一个完善的WEBMAIL
+界面。</p>
+<p>　　这个邮件系统的设计目标是提供一个可扩充的、具备大多数功能的邮件系统。</p>
+<p> 　　本文的最新版本可以在这里找到:<a href="http://www.cngnu.org/technology/Postfix_I.html">http://www.cngnu.org/technology/Postfix_I.html</a>。如果希望使用Courier-IMAP替代了Cyrus-IMAP做IMAP/POP3服务器，可以参阅本文的姊妹篇<a href="http://www.cngnu.org/technology/Postfix_II.html">http://www.cngnu.org/technology/Postfix_II.html</a>。</p>
+<p>　　有关本文所涉及的技术问题，请到<a href="http://anti-spam.org.cn/forums/index.php?showforum=6">http://www.anti-spam.org.cn/forums/</a>的邮件技术版讨论，我会尽快回复的，请勿就技术问题给我发邮件。</p>
+<p>　　本文的版权遵循GPL，可以在不删除版权信息和注明修改的情况下任意传播。</p>
+<h2><a name="a.1.2"></a>1.2.&nbsp; 更新历史</h2>
+<ul>
+  <li>2002-05-21 第一次发布，版本0.20。</li>
+  <li>2002-08-13 修正一些错误，版本0.21。</li>
+  <li>2002-08-23 修正一些错误，版本0.22。</li>
+  <li>2002-09-12 在RedHat Linux Advance Server V2.1上进行了测试，修正了一些错误，版本0.30。</li>
+  <li>2002-12-12 修正了一些错误，添加了IMP部分的内容，版本0.31。</li>
+  <li>2003-01-30 修正了一些错误，添加了非明文密码部分的内容，版本0.32。</li>
+  <li>2003-02-05 修正了一些错误，版本0.33</li>
+  <li>2003-03-26 使用了SASL V2和Cyrus-IMAP 2，支持使用db4的新的Linux发行版，如RedHat 8.0和Mandrake 
+    9.0，并以RedHat 8.0为示范平台。修正了一些错误，版本0.40。</li>
+  <li>2003-03-28 修正了一些错误，特别感谢bjchenxu，版本0.41。</li>
+  <li>2003-09-24 添加了虚拟域功能，修正了一些笔误，版本0.50。</li>
+  <li>2003-10-13 修正了虚拟域的错误，版本0.51。</li>
+  <li>2003-12-02 修正了部分错误，版本0.52。如果没有其它的输入错误问题，本文将不再更新。</li>
+  <li>2004-01-29
+做了较大的改动，版本0.70。以AS3为示范平台。令人疯狂的是当我即将完成这次的修改时，居然因为DreamWeaver的一个脚本错误导致我一天一
+夜的辛苦工作消失的干干净净。我哭～。本次的修改涉及SASL、MySQL和Cyrus-IMAP等各个部分，遵照最小修改的原则，凡是AS3中提供的部
+件可用，我将不再重新编译，这可能对移植到其它平台或版本有较大的困难。</li>
+  <li>2004-02-04 修正了一些笔误。</li>
+</ul>
+<h2><a name="a.1.3"></a>1.3.&nbsp; TODO </h2>
+<ul>
+  <li>增加邮件列表功能</li>
+  <li>增加SSL部分的内容</li>
+  <li>翻译：希望有能力的朋友可以翻译这篇文章为英文，这样国外的朋友也可以看到</li>
+</ul>
+<h2><a name="a.1.4"></a>1.4.&nbsp; 鸣谢</h2>
+<p> 　　谢谢lesson.ward、Yunping Zhu、Temp、bjchenxu的指正。也感谢<a href="http://chinaunix.net/">Chinaunix.net</a>和<a href="http://anti-spam.org.cn/">anti-spam.org.cn</a>的各位朋友的关注和建议。</p>
+<p>&nbsp;</p>
+<p>　　参考文档：<a href="http://www.delouw.ch/linux/Postfix-Cyrus-Web-cyradm-HOWTO/html/index.html">http://www.delouw.ch/linux/Postfix-Cyrus-Web-cyradm-HOWTO/html/index.html</a>。在这篇文章撰写之初，参考过该文章，目前该文章也在不断更新，大家也可以看看。</p>
+<h1><a name="a.2"></a>2.&nbsp; 系统功能</h1>
+<p>　　系统逻辑结构：</p>
+<pre><font face="Courier New, Courier, mono" size="2">
++---------------------------------------------------+
+|                                                   |
+|  25/25    25/25     110/993  143/995    80/443    |
+| Incoming Outgoing     POP3     IMAP    WEB-MAIL   |
+|    /\       /\         /\       /\        /\      |
+|    ||       ||         ||       ||        ||      |
+|    \/       \/         \/       \/        \/      |
++-------------------+---------------+---------------+
+|    Postfix        |               |      IMP      |
+|                   |               +---------------+
+|                   |      Cyrus-IMAP               |
+|       +-----------+-------------------------------+
+|       |                  Cyrus-SASL               |
+|       +-------------------------------------------+
+|       |                  saslauthd                |
+|       +-------------------------------------------+
+|       |                     PAM                   |
+|       +-------------------------------------------+
+|       |                  pam_mysql                |
++-------+-------------------------------------------+
+|                      MySQL                        |
++---------------------------------------------------+
+</font></pre>
+<p> 　　整个系统对外的界面包括几个部分，用来发信的SMTP、用来收信的POP3和IMAP、以及一个WEB界面的邮件使用系统。这里没有提供WEB界面的管理工具，需要大家自行依据实际需要开发。如果需要商业应用，可以购买CEM产品（<a href="http://cngnu.net/products/cem/">http://cngnu.net/products/cem/</a>），其中包括了完善的管理界面和优化的邮件服务器环境。</p>
+<p>　　MySQL作为系统中存储数据的核心，它存储了用户的信息。这个信息不但用于POP3/IMAP和SMTP AUTH的认证需要，而且也为Postfix提供了本地接收者的列表和转发功能。</p>
+<p>　　认证流程比较繁琐。整个认证是通过Cyrus-SASL来做的，通过运行一个守护进程saslauthd来监听认证需求。saslauthd这里使用了pam认证方式通过pam_mysql插件对MySQL数据库进行查找。</p>
+<p>　　系统支持虚拟域用户和非虚拟域邮箱。</p>
+<p>　　为什么选择这些部件组成这套邮件系统呢？</p>
+<p>　　选择Postfix作为MTA，是因为它是一个非常优秀的MTA服务器，它不但性能卓越，对sendmail的兼容性好，支持和多种其它软件的隅合，而且本身就带有很强的反垃圾邮件功能。</p>
+<p>　　选择MySQL作为存储用户信息的部分，是因为一方面MySQL本身是一个轻量级的数据库，在处理少量数据时非常快速，而且通过关系型数据库可以更方便地管理用户信息和提供更多用户特性（如基本每用户的过滤控制），此外还消除了因为使用系统用户所带来的安全隐患。</p>
+<p>　　选择Cyrus-SASL作为认证机制，是因为它是一个标准的认证层，多数软件都支持它的认证。</p>
+<p>　　选择Cyrus-IMAP作为IMAP/POP3服务器，是因为它的IMAP/POP实现效率很高，要比Courier-IMAP的实现要高一些，虽然它因此而使用的Maildir/格式与标准的QMAIL定义的格式有所不同。</p>
+<p>　　这个系统将来可能的改进有几个方面：一是使用更高版本的Cyrus-SASL，直接支持对MySQL的查询认证，避免了使用saslauthd
+=&gt;pam=&gt;pam_mysql这样罗嗦的环节；二是使用更高版本的Cyrus-IMAP，对虚拟域有更加直接的支持，不用像现在这样需要
+做别名转发才能实现。</p>
+<h1><a name="a.3"></a>3.&nbsp; 系统基本前提</h1>
+<p>　　本文以Linux系统为目标平台，支持多数的Linux平台如RedHat 7.x/8.x/9.x/AS2.1/AS3、Mandrake 8.x/9.x等，理论上也会支持其他的Linux发行版，甚至其他的UNIX系统。</p>
+<p>　　这里以RedHat Linux Advance Server Enterprise V 3.0 （以下简称AS3）为说明平台。我采用了最基本的AS3安装，只选择了“Web
+  Server”、“Dns Name Server”、“MySQL Database Server”、“Development Tools”和“Kernel
+  Development”等软件包组（“Core”和“Base”组是默认必选的软件包）。</p>
+<p>　　除此外，还需要额外安装以下RPM：</p>
+<p>　　1、php-mysql-4.3.2-8.ent.i386.rpm（在CD3）</p>
+<h1><a name="a.4"></a>4.&nbsp; 安装MySQL</h1>
+<h2><a name="a.4.1" id="a.4.1"></a>4.1.&nbsp; 下载</h2>
+<p>　　AS3默认是只包含MySQL除了服务器程序外的部分的，所以需要从RPMFIND下载MySQL的源RPM重建（最好使用源码包，采用MySQL.com提供的RPM和BIN包都可能在其它使用mysql的部分编译时候出现错误）。</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr>
+    <td>
+      <p>[root@mail root]# <span class="type">cd /usr/src</span></p>
+      <p>[root@mail src]# <span class="type">wget <a href="ftp://rpmfind.net/linux/redhat/enterprise/3/en/os/i386/SRPMS/mysql-3.23.58-1.src.rpm">ftp://rpmfind.net/linux/redhat/enterprise/3/en/os/i386/SRPMS/mysql-3.23.58-1.src.rpm</a></span></p></td>
+  </tr>
+</tbody></table>
+<h2><a name="a.4.2" id="a.4.2"></a>4.2.&nbsp; 编译与安装</h2>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr>
+    <td>
+      <p>[root@mail src]# <span class="type">rpmbuild --rebuild mysql-3.23.58-1.src.rpm </span></p>
+      <p>[root@mail src]# <span class="type">cd redhat/RPMS/i386</span></p>
+      <p>[root@mail i386]# <span class="type">rpm -ivh mysql-server-3.23.58-1.i386.rpm</span></p></td>
+  </tr>
+</tbody></table>
+<p>　　为提高MySQL的安全性，使之只监听在本地打环端口，修改/etc/my.cnf：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr>
+    <td>
+    <p>[root@mail i386]# <span class="type">cd</span></p>
+    <p>[root@mail root]# <span class="type">vi /etc/my.cnf </span></p></td>
+  </tr>
+</tbody></table>
+<p>　　在[mysqld]小节里面添加：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr>
+    <td bgcolor="#ffffcc">bind-address=127.0.0.1</td>
+  </tr>
+</tbody></table>
+<p>　　并设置其开机时候自动运行：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr>
+    <td>
+      <p>[root@mail root]# <span class="type">chkconfig --level 0123456 mysqld
+          on </span></p></td>
+  </tr>
+</tbody></table>
+<p></p>
+<h2><a name="a.4.3" id="a.4.3"></a>4.3.&nbsp; 运行</h2>
+<p>　　启动命令如下：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail i386]# <span class="type">/etc/init.d/mysqld start</span></p></td>
+  </tr>
+</tbody></table>
+<h2><a name="a.4.4" id="a.4.4"></a>4.4.&nbsp; 测试</h2>
+<p>　　启动MySQL后，首先检查日志/var/log/messages有无错误信息，然后检查进程，应该有如下进程存在：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail root]# <span class="type">pstree | grep mysqld</span></p>
+      <p>&nbsp;</p>
+      <p>|-safe_mysqld---mysqld</p>
+    <p>&nbsp;</p></td>
+  </tr>
+</tbody></table>
+<p>　　接着检查端口，应该有如下端口打开：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail root]#<font color="#ff0000"> </font><span class="type">netstat
+           -an | grep LISTEN</span></p>
+      <p>&nbsp;</p>
+      <p>tcp　　0　　0 127.0.0.1:3306　　0.0.0.0:*　　LISTEN<br>
+    </p></td>
+  </tr>
+</tbody></table>
+<p>&nbsp;</p>
+<h2><a name="a.4.1"></a>4.5.&nbsp; 建立数据库</h2>
+<p>　　MySQL安装配置好以后，创建如下SQL脚本mail.sql：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr>
+    <td bgcolor="#ffffcc">
+      <p>CREATE DATABASE mail;</p>
+      <p>GRANT ALL ON mail.* TO mail@localhost</p>
+      <p>IDENTIFIED BY "secret";</p>
+      <p>FLUSH PRIVILEGES;</p>
+      <p>&nbsp;</p>
+      <p>USE mail;</p>
+      <p>CREATE TABLE USER (<br>
+  ID int(10) unsigned NOT NULL auto_increment,<br>
+  USERNAME varchar(128) NOT NULL default '',<br>
+  PASSWORD varchar(40) NOT NULL default '',<br>
+  FORWARD varchar(128) NOT NULL default '',<br>
+  DOMAIN varchar(64) NOT NULL default '',<br>
+  MAIL varchar(64) NOT NULL default '', <br>
+        FILTER varchar(64) NOT NULL default 'OK',<br>
+        PARTITION varchar(32) NOT NULL default 'default',<br>
+        QUOTA int(11) NOT NULL default '10485760',<br>
+        STATUS tinyint(4) NOT NULL default '1',<br>
+        PRIMARY KEY (ID),<br>
+      UNIQUE KEY USERNAME (USERNAME),<br>
+      UNIQUE KEY MAIL (MAIL)<br>
+) TYPE=MyISAM;</p>
+      <p>&nbsp;</p>
+      <p>INSERT INTO USER (USERNAME,PASSWORD,FORWARD,DOMAIN,MAIL)</p>
+      <p>VALUES ('trueuser','$1$pi.WVgBx$a3dUCzBnbY76jnZlqWQCQ/',</p>
+      <p>'trueuser','cngnu.org','trueuser@cngnu.org'),<br>
+        ('virtualuser@cngnu.org','$1$pi.WVgBx$a3dUCzBnbY76jnZlqWQCQ/',</p>
+      <p>'virtualuser~cngnu.org','cngnu.org','virtualuser@cngnu.org');</p>
+      <p></p></td>
+  </tr>
+</tbody></table>
+<p>&nbsp;</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr>
+    <td>
+      <p>[root@mail root]# <span class="type">mysql &lt; mail.sql</span></p></td>
+  </tr>
+</tbody></table>
+<p>　　在MySQL中创建邮件用户数据库，并添加两个测试邮箱：</p>
+<ul>
+  <li>非虚拟域邮箱“trueuser”，密码是“testpw”</li>
+  <li>虚拟域邮箱“virtualuser@cngnu.org”，密码是“testpw”</li>
+</ul>
+<p>　　上面的mail数据库的USER表用来保存用户信息：</p>
+<ul>
+  <li>USERNAME和PASSWORD字段就是用户名和MD5-Crypt密码。USERNAME不但作为认证的字段，而且是本地邮箱查找条件（见下面的Postfix的virtual.mysql）。这里采用了加密密码是为了更好的安全性。对于
+    <ul>
+      <li>非虚拟域邮箱：USERNAME字段是邮件的本地部分（“@”前面的部分）</li>
+      <li>虚拟域邮箱：USERNAME字段是邮件地址全称</li>
+    </ul>
+邮箱的密码是“testpw”，加密后的（MD5-CRYPT）密文是“$1$pi.WVgBx$a3dUCzBnbY76jnZlqWQCQ/”（可以通过系统的passwd命令来添加一个用户，生成密码，然后从/etc/shadow中复制。）
+  </li>
+  <li>FORWARD字段默认是指向用户的“存储邮箱”名的（Cyrus-IMAP所管理的邮箱名称），即进行本地投递；如果FORWARD字段是另外一个用户名或者邮件地址，则该邮件被转发到别的用户或其它邮件地址。对于
+    <ul>
+    <li>非虚拟域邮箱：其存储邮箱与用户名相同</li>
+    <li>虚
+拟域邮箱：为了支持多个域，考虑到不同的域可能拥有相同的用户名（本地部分），所以使用邮件全称作为用户的登录名（POP/IMAP的登录名和SMTP认
+证的登录名），但是由于Cyrus-IMAP不直接支持虚拟域（虽然可以创建带“@”的邮箱，在Cyrus-IMAP的2.2.x版本支持虚拟域，但是目
+前该版本还是测试版），不能在邮件的本地部分包含“@”，所以实际的存储邮箱名把“@”替换为“~”。（参见下面Cyrus-IMAP部分描述）</li>
+  </ul>
+此外，由于Postfix令人吃惊的区分邮箱的大小写，所以通过这样的一个转发，正好可以消除大小写的区别。
+</li>
+
+  <li>DOMAIN字段用来快速找出某个域下存在的邮箱，仅为管理方便使用。</li>
+  <li>MAIL字段是邮件地址
+全称。对于非虚拟域邮箱，它包含了本地部分外的域部分；对于虚拟域邮箱，它和USERNAME字段一样。一方面是为了管理方便使用，同时该字段还用来做全
+局过滤控制FILTER的查找条件（见FILTER字段及下面Postfix的filter.mysql）。</li>
+  <li>FILTER字段用于控制该邮箱是否接受服务器的全局邮件过滤。该值设置为“OK”或为空表示对该邮箱不进行过滤；设置为“DUNNO”表示对该邮箱进行Postfix中定于的全局过滤。该值可以是任何合法的Postfix的access过滤规则。</li>
+  <li>PARTITION字段用于指明邮箱存储的Cyrus-IMAP邮件分区。可以建立多个不同的邮件分区。仅为了管理方便使用。</li>
+  <li>QUOTA字段指定邮箱的磁盘限额。仅为了管理方便使用。</li>
+  <li>STATUS字段用来指示该用户是否有效，可以通过修改该值为0来临时禁止某个用户。</li>
+</ul>
+<h1><a name="a.5"></a>5.&nbsp; 安装pam_mysql</h1>
+<h2><a name="a.5.1"></a>5.1.&nbsp; 下载</h2>
+<p>　　<a href="http://sourceforge.net/projects/pam-mysql/">http://sourceforge.net/projects/pam-mysql/</a></p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail root]# <span class="type">cd /usr/src</span></p>
+      <p>[root@mail src]# <span class="type">wget <a href="http://prdownloads.sourceforge.net/pam-mysql/pam_mysql-0.4.7.tar.gz">http://telia.dl.sourceforge.net/sourceforge/pam-mysql/pam_mysql-0.5.tar.gz</a></span></p>
+    </td>
+  </tr>
+</tbody></table>
+<p>　　注：如果不能访问该网站取得pam_mysql，请自行使用代理服务器访问。</p>
+<h2><a name="a.5.2"></a>5.2.&nbsp; 编译与安装</h2>
+<p>　　编译pam_mysql：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail src]# <span class="type">tar -zxf pam_mysql-0.5.tar.gz</span></p>
+      <p>[root@mail src]# <span class="type">cd pam_mysql</span></p>
+    </td>
+  </tr>
+</tbody></table>
+<p>　　修改pam_mysql.c的源代码，去掉调试消息：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail pam_mysql]# <span class="type">vi +54 pam_mysql.c</span></p>
+    </td>
+  </tr>
+</tbody></table>
+<p>　　将如下一行：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td bgcolor="#ffffcc">#define DEBUG</td>
+  </tr>
+</tbody></table>
+<p>　　修改为：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td bgcolor="#ffffcc">/* #define DEBUG */</td>
+  </tr>
+</tbody></table>
+<p>　　然后编译：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail pam_mysql]# <span class="type">make</span></p>
+      <p>[root@mail pam_mysql]# <span class="type">cp pam_mysql.so /lib/security</span></p></td>
+  </tr>
+</tbody></table>
+<p>&nbsp;</p>
+<p>　　有些情况下，这个编译会报错，但是如果编译能生成pam_mysql.so模块，还是可以用的。</p>
+<h2><a name="a.5.3"></a>5.3.&nbsp; 配置</h2>
+<p>　　创建/etc/pam.d/mail，它用来支持Cyrus-IMAP的imap认证、pop认证和Postfix的smtp认证：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail pam_mysql]# <span class="type">cd /etc/pam.d</span></p>
+      <p>[root@mail pam.d]# <span class="type">echo auth sufficient pam_mysql.so 
+        user=mail passwd=secret \</span></p>
+      <p>&gt; <span class="type">host=localhost db=mail table=USER usercolumn=USERNAME 
+        passwdcolumn=PASSWORD \</span></p>
+      <p>&gt; <span class="type">crypt=1 sqllog=0 &gt; /etc/pam.d/mail</span></p>
+      <p>[root@mail pam.d]# <span class="type">echo account required pam_mysql.so 
+        user=mail passwd=secret \</span></p>
+      <p>&gt; <span class="type">host=localhost db=mail table=USER usercolumn=USERNAME 
+        passwdcolumn=PASSWORD \</span></p>
+      <p>&gt;<span class="type"> crypt=1 sqllog=0 &gt;&gt; /etc/pam.d/mail</span></p>
+      <p>[root@mail pam.d]# <span class="type">echo auth sufficient pam_unix_auth.so 
+        &gt;&gt; /etc/pam.d/mail</span></p>
+      <p>[root@mail pam.d]# <span class="type">echo account sufficient pam_unix_acct.so 
+        &gt;&gt; /etc/pam.d/mail</span></p>
+    </td>
+  </tr>
+</tbody></table>
+<p>　　这里前面两行是指通过mysql数据库来认证用户，后面两行指是通过UNIX的基本方式认证用户（即系统用户）。这里我们之所以保留UNIX系
+统认证模式，是因为我们下面要通过系统用户cyrus来管理cyrus-imap邮箱。不过你也可以选择将这个管理帐号cyrus放入mysql认证数据
+库里面，只需要你在上面的数据库里面添加一个cyrus用户。</p>
+<p>　　通过给上面的crypt赋予不同的值可以使用多种密码存储方式：</p>
+<ul>
+  <li>crypt=0：表示使用明文来存储密码。这样存储的好处是简单，但是不够安全。</li>
+  <li>crypt=1：表
+示使用UNIX系统的DES加密密码方式来存储。即通常的UNIX的/etc/passwd（老式系统加密口令存储在这里）或/etc/shadow（较
+为新的系统加密口令存放在这里）中存储的加密口令。加密口令有两种，一种是普通的des加密的，也叫crypt()，这种密码是13位长，前面两个字符是
+加密种子；还有一种是使用了MD5算法增强了的，也叫MD5 crypt()，这种密码的加密种子是以$1$开头的12个字符，密码长度不定。</li>
+  <li>crypt=2：表示使用mysql的SQL函数password()加密方式来存储。</li>
+  <li>crypt=3：表示使用md5的散列方式来存储。这种方式和MD5 crypt()是不一样的。</li>
+</ul>
+<p>　　一般如果从系统用户迁移到使用数据库的虚拟用户时，可以使用crypt=1方式，系统会自动辨别两种加密口令。如果需要开发用户修改口令的功能时，C和Perl里面的crypt函数不能支持MD5 
+  crypt()口令，需要使用额外的编程或模块来支持。</p>
+<p>　　做个符号链接/etc/pam.d/imap，它用来支持Cyrus-IMAP的imap认证：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail pam.d]# <span class="type">[ -f imap ] &amp;&amp; mv imap 
+        imap.orig </span></p>
+      <p></p>
+      <p>[root@mail pam.d]# <span class="type">ln -s mail imap</span></p></td>
+  </tr>
+</tbody></table>
+<p></p>
+<p>　　同样创建/etc/pam.d/pop&nbsp;，它用来支持Cyrus-IMAP的pop3认证：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail pam.d]# <span class="type">[ -f pop ] &amp;&amp; mv pop 
+        pop.orig</span></p>
+      <p></p>
+      <p>[root@mail pam.d]# <span class="type">ln -s mail pop</span></p>
+    </td>
+  </tr>
+</tbody></table>
+<p>　　同样创建/etc/pam.d/smtp&nbsp;，它用来支持Postfix的smtp auth认证：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail pam.d]# <span class="type">[ -f smtp ] &amp;&amp; mv smtp 
+        smtp.orig</span></p>
+      <p>[root@mail pam.d]# <span class="type">ln -s mail smtp</span></p>
+    </td>
+  </tr>
+</tbody></table>
+<p>　　系统上可能已经存在了这些文件，将原来的改名备份或删除即可。</p>
+<h1><a name="a.6"></a>6.&nbsp; 配置Cyrus-SASL</h1>
+<h2><a name="a.6.1"></a>6.1.&nbsp; 配置</h2>
+<p>　　AS3默认安装的Cyrus-SASL可以满足这套邮件系统的需要，一般不必重新编译。</p>
+<p>　　设置Postfix使用SASL的saslauthd认证守护进程来支持smtp
+    auth认证，并只打开了plain和login认证模块：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail pam.d]#<span class="type"> cd </span></p>
+      <p>[root@mail root]# <span class="type">echo pwcheck_method: 
+    saslauthd &gt; /usr/lib/sasl2/smtpd.conf</span></p>      <p>[root@mail root]# <span class="type">echo mech_list: plain login &gt;&gt; /usr/lib/sasl2/smtpd.conf</span></p></td>
+  </tr>
+</tbody></table>
+<p>&nbsp; 　Cyrus-IMAP的SASL配置不使用标准的sasl语法，它的配置文件放在/etc/imapd.conf中，详细配置在Cyrus-IMAP部分说明。</p>
+<p>　　配置saslauthd使用PAM认证方案：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr>
+    <td>
+      <p>[root@mail root]# <span class="type">vi /etc/sysconfig/saslauthd</span></p>    </td>
+  </tr>
+</tbody></table>
+<p>&nbsp; 　内容如下：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr>
+    <td bgcolor="#ffffcc">MECH=pam</td>
+  </tr>
+</tbody></table>
+<p>　　修改/etc/sysconfig/saslauthd并将saslauthd设置为自动运行</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr>
+    <td>
+      <p>[root@mail root]# <span class="type">chkconfig --level 0123456 saslauthd
+    on </span></p></td>
+  </tr>
+</tbody></table>
+<h2><a name="a.6.2" id="a.6.2"></a>6.2.&nbsp; 运行</h2>
+<p>　　运行saslauthd守护进程，并使其使用pam认证模式来提供认证信息：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail root]# <span class="type">/etc/rc.d/init.d/saslauthd
+    start</span></p></td>
+  </tr>
+</tbody></table>
+<p>　　整个系统使用的认证机制比较复杂。所有的应用（SMTP、IMAP、POP3等）都采用SASL2的saslauthd来认证；而
+saslauthd是通过它所支持的PAM模式来借助pam_mysql接口对存储在MySQL数据库中用户信息进行认证的。请参阅上面的系统结构以了解
+认证流程。</p>
+<p>&nbsp;</p>
+<h1><a name="a.7"></a>7.&nbsp; 安装Postfix</h1>
+<h2><a name="a.7.1"></a>7.1.&nbsp; 下载</h2>
+<p>　　<a href="http://www.postfix.org/ftp-sites.html" target="_top">http://www.postfix.org/ftp-sites.html</a></p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail root]# <span class="type">cd /usr/src</span></p>
+      <p>[root@mail src]# <span class="type">wget <a href="http://postfix.energybeam.com/source/official/postfix-2.0.16.tar.gz">http://postfix.energybeam.com/source/official/postfix-2.0.16.tar.gz</a> 
+    </span> </p></td>
+  </tr>
+</tbody></table>
+<h2><a name="a.7.2"></a>7.2.&nbsp; 编译与安装</h2>
+<p>　　如果你的系统上原来有sendmail，先将其停止并将其文件改名：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail src]# <span class="type">/etc/init.d/sendmail stop</span></p>
+      <p>[root@mail src]# <span class="type">chkconfig --level 0123456 sendmail
+          off          <br>
+      </span>[root@mail src]# <span class="type">mv /usr/bin/newaliases /usr/bin/newaliases.orig</span></p>
+      <p>[root@mail src]# <span class="type">mv /usr/bin/mailq /usr/bin/mailq.orig</span></p>
+      <p>[root@mail src]# <span class="type">mv /usr/sbin/sendmail /usr/sbin/sendmail.orig</span></p>
+    </td>
+  </tr>
+</tbody></table>
+<p>&nbsp;</p>
+<p>　　然后添加两个组：postfix和maildrop和一个用户：postfix</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail src]# <span class="type">groupadd -g 400 postfix</span></p>
+      <p>[root@mail src]# <span class="type">groupadd -g 401 postdrop</span></p>
+      <p>[root@mail src]# <span class="type">useradd -u 400 -g 400 -c postfix
+           -M -d/no/where -s/no/shell postfix</span></p>
+    </td>
+  </tr>
+</tbody></table>
+<p>　　这里的组和用户的ID是系统中未使用的ID。</p>
+<p>&nbsp;</p>
+<p>　　编译Postfix，并支持mysql和sasl：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail src]# <span class="type">tar -xvzf postfix-2.0.16.tar.gz</span></p>
+      <p>[root@mail src]# <span class="type">cd postfix-2.0.16</span></p>
+      <p>&nbsp;</p>
+      <p>[root@mail postfix-2.0.16]# <span class="type">make -f Makefile.init 
+        makefiles \</span></p>
+      <p>&gt; <span class="type">'CCARGS=-DUSE_SASL_AUTH -DHAS_MYSQL -I/usr/include/mysql
+           -I/usr/include/sasl' \</span></p>
+      <p>&gt; <span class="type">'AUXLIBS=-L/usr/lib/mysql -L/usr/lib/sasl2
+           -lmysqlclient -lsasl2 -lz -lm'</span></p>
+      <p>[root@mail postfix-2.0.16]# <span class="type">make install</span></p>
+    </td>
+  </tr>
+</tbody></table>
+<p>　　安装时，安装程序会提问一些问题，可以直接按回车采用默认值。</p>
+<p>　　这里切记要指定正确的SASL2的INCLUDE和LIB位置。由于现在很多linux发行版上都已经带有了sasl，如果不指定的话，很可能会使用了不同版本的头文件和库，在这种情况下，每次连接SMTP时，smtpd就会发生致命错误“Fatal:
+  SASL per-connection server init...”而崩溃。</p>
+<p>&nbsp;</p>
+<p>　　给postfix用户做一个系统别名，并将超级用户的邮箱转发到一个普通用户。使用/etc/postfix/aliases别名数据库：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td><p>[root@mail postfix-2.0.16]# <font color="#ff0000">cd /etc/postfix</font></p>
+      <p>[root@mail postfix]# <span class="type">echo 'root: virtualuser@cngnu.org' 
+        &gt;&gt; /etc/postfix/aliases</span></p>
+    </td>
+  </tr>
+</tbody></table>
+<p>　　生成/etc/postfix/aliases别名数据库：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td>[root@mail postfix]# <span class="type">postalias /etc/postfix/aliases</span></td>
+  </tr>
+</tbody></table>
+<p>　　生成/etc/postfix/virtual的DB库：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr>
+    <td>
+      <p>[root@mail postfix]# <span class="type">postmap virtual</span></p></td>
+  </tr>
+</tbody></table>
+<p>　　保留db格式的virtual库是为了系统临时增加转发方便起见。</p>
+<h2><a name="a.7.3"></a>7.3.&nbsp; 配置</h2>
+<p>　　修改/etc/postfix/master.cf中的关于cyrus的配置，（cyrus的命令行和以前有不兼容的地方，确保你的cyrus的参数如下使用了-r 
+  ${sender}参数）：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td><p>[root@mail postfix]# <span class="type">vi master.cf</span></p>
+    </td>
+  </tr>
+</tbody></table>
+<p>　　将如下两行：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td bgcolor="#ffffcc"> cyrus unix - n n - - pipe<br>
+      　user=cyrus argv=/cyrus/bin/deliver -e -r ${sender} -m ${extension} ${user}</td>
+  </tr>
+</tbody></table>
+<p>　　修改为：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td bgcolor="#ffffcc"> cyrus unix - n n - - pipe<br>
+      　user=cyrus argv=/usr/cyrus/bin/deliver -e -r ${sender} -m ${extension} 
+      ${user}</td>
+  </tr>
+</tbody></table>
+<p>　　这里要把cyrus的路径修改为你的cyrus实际安装路径（我们下面会将cyrus-imap安装到/usr/cyrus）。 记着user=...这行前面是以空格缩进的（是上一行的续行）。</p>
+<p>&nbsp;</p><table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td><p>[root@mail postfix]# <span class="type">vi main.cf</span></p>
+    </td>
+  </tr>
+</tbody></table>
+<p>&nbsp;</p>
+<p>　　修改/etc/postfix/main.cf的配置：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td bgcolor="#ffffcc"> 
+      <p>myhostname = mail.cngnu.org</p>
+      <p>mydomain = cngnu.org</p>
+      <p>myorigin = $mydomain</p>
+      <p>mydestination = $mydomain,$myhostname</p>
+      <p>mynetworks_style = host</p>
+      <p>&nbsp; </p>
+      <p>alias_maps = hash:/etc/postfix/aliases</p>
+      <p>alias_database = hash:/etc/postfix/aliases</p>
+      <p>&nbsp;</p>
+      <p>home_mailbox = Maildir/</p>
+      <p></p>
+      <p>&nbsp;</p>
+      <p>mailbox_transport = cyrus</p>
+      <p>fallback_transport = cyrus</p>
+      <p>&nbsp;</p>
+      <p>virtual_maps = hash:/etc/postfix/virtual,mysql:/etc/postfix/virtual.mysql</p>
+      <p>&nbsp;</p>
+      <p>smtpd_sasl_auth_enable = yes</p>
+      <p>broken_sasl_auth_clients = yes</p>
+      <p>smtpd_sasl_security_options = noanonymous</p>
+      <p>&nbsp;</p>
+      <p>smtpd_recipient_restrictions = <br>
+&nbsp;&nbsp;&nbsp;&nbsp;permit_mynetworks,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;permit_sasl_authenticated,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;check_recipient_access mysql:/etc/postfix/filter.mysql,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reject_invalid_hostname,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reject_non_fqdn_hostname,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reject_unknown_sender_domain,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reject_non_fqdn_sender,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reject_non_fqdn_recipient,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reject_unknown_recipient_domain,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reject_unauth_pipelining,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reject_unauth_destination,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;permit</p>
+      <p></p>
+      <p></p></td>
+  </tr>
+</tbody></table>
+<p>　　如果希望支持更多的虚拟域，可以在mydestination参数后面加上你所要支持的域即可。</p>
+<p>　　通过virtual和virtual.mysql为系统提供了邮箱本地查询表。</p>
+<p>　　使用了SASL来进行SMTP发信认证。</p>
+<p>　　通过smtpd_recipient_restrictions提供了基本的反垃圾邮件功能。首先允许本地网络（这里是本机）和通过SASL认
+证的用户可以使用本服务器发信；然后检查每个用户的全局邮件过滤功能是否打开，如果关闭则不进行后面的反垃圾邮件检查；其后是一些Postfix支持的基
+本反垃圾邮件功能。</p>
+<p>　　创建/etc/postfix/virtual.mysql，它提供了本地用户和邮件转发功能。FORWARD字段默认是指向用户的存储邮箱名
+的（Cyrus-IMAP所管理的邮箱名称），即进行本地投递；如果FORWARD字段是另外一个用户名或者邮件地址，则该邮件被转发到别的用户或其它邮
+件地址。对于</p>
+<ul>
+  <li>非虚拟域邮箱：其存储邮箱与用户名相同</li>
+  <li>虚拟域邮箱：为了支持多个域，考虑到不同的域可能拥有相同的用
+户名（本地部分），所以使用邮件全称作为用户的登录名（POP/IMAP的登录名和SMTP认证的登录名），但是由于Cyrus-IMAP不直接支持虚拟
+域，不能在邮件的本地部分包含“@”，所以实际的存储邮箱名把“@”替换为“~”。</li>
+</ul>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td><p>[root@mail postfix]# <span class="type">vi virtual.mysql</span></p></td>
+  </tr>
+</tbody></table>
+<p>&nbsp;</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td bgcolor="#ffffcc"> 
+      <p>#</p>
+      <p># mysql config file for alias lookups on postfix</p>
+      <p>#</p>
+      <p>&nbsp;</p>
+      <p># the user name and password to log into the mysql server</p>
+      <p>hosts = localhost</p>
+      <p>user = mail</p>
+      <p>password = secret</p>
+      <p>&nbsp;</p>
+      <p># the database name on the servers</p>
+      <p>dbname = mail</p>
+      <p>&nbsp;</p>
+      <p># the table name</p>
+      <p>table = USER</p>
+      <p>&nbsp;</p>
+      <p>select_field = FORWARD</p>
+      <p>where_field = USERNAME</p>
+      <p>additional_conditions = and STATUS = 1 limit 1</p>
+    </td>
+  </tr>
+</tbody></table>
+
+<p>&nbsp;</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr>
+    <td><p>[root@mail postfix]# <span class="type">vi filter.mysql</span></p></td>
+  </tr>
+</tbody></table>
+<p>&nbsp;</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr>
+    <td bgcolor="#ffffcc">
+      <p>#</p>
+      <p># mysql config file for filter flag on postfix</p>
+      <p>#</p>
+      <p>&nbsp;</p>
+      <p># the user name and password to log into the mysql server</p>
+      <p>hosts = localhost</p>
+      <p>user = mail</p>
+      <p>password = secret</p>
+      <p>&nbsp;</p>
+      <p># the database name on the servers</p>
+      <p>dbname = mail</p>
+      <p>&nbsp;</p>
+      <p># the table name</p>
+      <p>table = USER</p>
+      <p>&nbsp;</p>
+      <p>select_field = FILTER</p>
+      <p># OK : ignore filter</p>
+      <p># DUNNO : filter </p>
+      <p>where_field = MAIL </p>
+      <p>additional_conditions = and STATUS = 1 limit 1</p></td>
+  </tr>
+</tbody></table>
+<p>&nbsp;</p>
+<h2><a name="a.7.4"></a>7.4.&nbsp; 运行</h2>
+<p>　　启动命令如下：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail postfix]# <span class="type">/usr/sbin/postfix start</span></p></td>
+  </tr>
+</tbody></table>
+<h2><a name="a.7.5"></a>7.5.&nbsp; 测试Postfix</h2>
+<p>　　启动Postfix后，首先检查日志/var/log/messages有无错误信息，然后检查进程，应该有如下进程存在：检查端口及进程：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail postfix]#<font color="#ff0000"> </font><span class="type">pstree 
+        |grep master</span></p>
+      <p>&nbsp;</p>
+      <p>|-master-+-pickup</p>
+      <p>&nbsp;</p></td>
+  </tr>
+</tbody></table>
+<p>　　接着检查端口，应该有如下端口打开：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail postfix]# <span class="type">netstat -an |grep LISTEN</span></p>
+      <p>&nbsp;</p>
+      <p>tcp　　0　　0 0.0.0.0:25　　0.0.0.0:*　　LISTEN</p>
+      <p>&nbsp;</p></td>
+  </tr>
+</tbody></table>
+<p>　　再检测SMTP服务是否正常：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail postfix]# <span class="type">telnet localhost 25</span></p>
+      <p>Trying 127.0.0.1...<br>
+        Connected to localhost.<br>
+        Escape character is '^]'.<br>
+        220 mail.cngnu.org ESMTP Postfix<br>
+        <span class="type">QUIT</span><br>
+        221 Bye<br>
+        Connection closed by foreign host.</p></td>
+  </tr>
+</tbody></table>
+<p>　　使用如下命令测试postfix的SMTP的认证（这里仅测试了“virtualuser@cngnu.org”，“trueuser”请自行测试）：</p>
+<p>　　PLAIN认证方式：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail postfix]# <font color="#ff0000">perl -MMIME::Base64 -e 
+        \</font></p>
+      <p><font color="#ff0000">&gt; 'print encode_base64("virtualuser\@cngnu.org\000virtualuser\@cngnu.org\000testpw");'</font><br>
+        dmlydHVhbHVzZXJAY25nbnUub3JnAHZpcnR1YWx1c2VyQGNuZ251Lm9yZwB0ZXN0cHc=</p>
+      <p>&nbsp;</p>
+      <p>[root@mail postfix]# <span class="type">telnet localhost 25</span></p>
+      <p>Trying 127.0.0.1...<br>
+        Connected to localhost.<br>
+        Escape character is '^]'.<br>
+        220 mail.cngnu.org ESMTP Postfix</p>
+      <p class="type">EHLO cngnu</p>
+      <p>250-mail.cngnu.org</p>
+      <p>250-PIPELINING</p>
+      <p>250-SIZE 10240000</p>
+      <p>250-VRFY</p>
+      <p>250-ETRN</p>
+      <p>250-AUTH LOGIN PLAIN</p>
+      <p>250-AUTH=LOGIN PLAIN</p>
+      <p></p>
+      <p>250-XVERP</p>
+      <p>250 8BITMIME</p>
+      <p class="type">AUTH PLAIN dmlydHVhbHVzZXJAY25nbnUub3JnAHZpcnR1YWx1c2VyQGNuZ251Lm9yZwB0ZXN0cHc==</p>
+      <p>235 Authentication successful</p>
+      <p class="type">QUIT</p>
+      <p>221 Bye</p>
+      <p>Connection closed by foreign host.</p>
+      <p>&nbsp;</p>
+      <p>[root@mail postfix]# <font color="#ff0000">perl -MMIME::Base64 -e \</font></p>
+      <p><font color="#ff0000">&gt; 'print encode_base64("trueuser\000trueuser\000testpw");'</font><br>
+  dHJ1ZXVzZXIAdHJ1ZXVzZXIAdGVzdHB3</p>
+      <p>&nbsp;</p></td>
+  </tr>
+</tbody></table>
+<p>　　LOGIN认证方式：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail postfix]# <font color="#ff0000">perl -MMIME::Base64 -e 
+        \</font></p>
+      <p><font color="#ff0000">&gt; 'print encode_base64("virtualuser\@cngnu.org");'</font></p>
+      <p>dmlydHVhbHVzZXJAY25nbnUub3Jn</p>
+      <p>[root@mail postfix]# <font color="#ff0000">perl -MMIME::Base64 -e \</font></p>
+      <p><font color="#ff0000">&gt; 'print encode_base64("testpw");'</font></p>
+      <p>dGVzdHB3</p>
+      <p>&nbsp;</p>
+      <p>[root@mail postfix]# <span class="type">telnet localhost 25</span></p>
+      <p>Trying 127.0.0.1...<br>
+        Connected to localhost.<br>
+        Escape character is '^]'.<br>
+        220 mail.cngnu.org ESMTP Postfix</p>
+      <p class="type">EHLO cngnu</p>
+      <p>250-mail.cngnu.org</p>
+      <p>250-PIPELINING</p>
+      <p>250-SIZE 10240000</p>
+      <p>250-VRFY</p>
+      <p>250-ETRN</p>
+      <p>250-AUTH LOGIN PLAIN</p>
+      <p>250-AUTH=LOGIN PLAIN</p>
+      <p></p>
+      <p>250-XVERP</p>
+      <p>250 8BITMIME</p>
+      <p class="type">AUTH LOGIN</p>
+      <p><i>3</i>34 VXNlcm5hbWU6</p>
+      <p class="type">dmlydHVhbHVzZXJAY25nbnUub3Jn</p>
+      <p>334 UGFzc3dvcmQ6</p>
+      <p class="type">dGVzdHB3</p>
+      <p>235 Authentication successful</p>
+      <p class="type">QUIT</p>
+      <p>221 Bye</p>
+      <p>Connection closed by foreign host.</p>
+      <p>&nbsp;</p>
+      <p>[root@mail postfix]# <font color="#ff0000">perl -MMIME::Base64 -e \</font></p>
+      <p><font color="#ff0000">&gt; 'print encode_base64("trueuser");'</font></p>
+      <p>dHJ1ZXVzZXI=</p>
+      <p>[root@mail postfix]# <font color="#ff0000">perl -MMIME::Base64 -e \</font></p>
+      <p><font color="#ff0000">&gt; 'print encode_base64("testpw");'</font></p>
+      <p>dGVzdHB3</p>
+      <p>&nbsp;</p></td>
+  </tr>
+</tbody></table>
+<p>　　此时，由于还没有安装Cyrus-IMAP以及创建邮箱，所以还不能提交邮件，请继续下一步。</p>
+<p>　　这里使用Perl里面的MIME::Base64模块（如果需要安装：perl -MCPAN -e 'install
+MIME::Base64;'）来取得这个验证串：perl -MMIME::Base64 -e 'print
+base64_encode("用户名\000用户名\000密码");'来得到MIME-Base64编码的验证串（“\000”是八进制的ASCII
+(0)字符）。此外，你也可以使用mmencode来生成，mmencode可以在metamail这个包里面找到。</p>
+<h1><a name="a.8"></a>8.&nbsp; 安装Cyrus-IMAP</h1>
+<h2><a name="a.8.1"></a>8.1.&nbsp; 下载</h2>
+<p>　　<a href="http://asg.web.cmu.edu/cyrus/download/">http://asg.web.cmu.edu/cyrus/download/</a></p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail postfix]# <span class="type">cd /usr/src</span></p>
+      <p>[root@mail src]# <span class="type">wget <a href="ftp://ftp.andrew.cmu.edu/pub/cyrus-mail/cyrus-imapd-2.1.16.tar.gz">ftp://ftp.andrew.cmu.edu/pub/cyrus-mail/cyrus-imapd-2.1.16.tar.gz</a> 
+        </span></p></td>
+  </tr>
+</tbody></table>
+<h2><a name="a.8.2"></a>8.2.&nbsp; 编译与安装</h2>
+<p>　　在RedHat系列的Linux中，其Kerberos的头文件不在标准的地方，所以需要在编译配置前用env命令指定。此外取消对ucdsnmp的支持：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail src]# <span class="type">tar -zxf cyrus-imapd-2.1.16.tar.gz</span></p>
+      <p>[root@mail src]# <span class="type">cd cyrus-imapd-2.1.16</span></p>
+      <p>&nbsp;</p>
+      <p>[root@mail cyrus-imapd-2.1.16]# <span class="type">env CPPFLAGS=-I/usr/kerberos/include
+        \ </span></p>
+      <p>&gt;<span class="type"> ./configure --with-cyrus-prefix=/usr/cyrus 
+          \</span></p>
+      <p>&gt; <span class="type">--with-sasl=/usr/lib/sasl2 --with-auth=unix
+           \ </span></p>
+      <p>&gt; <font color="#ff0000">--without-ucdsnmp --with-krb=/usr/kerberos</font></p>
+      <p>&nbsp;</p>
+      <p>[root@mail cyrus-imapd-2.1.16]# <span class="type">make depend</span></p>
+      <p>[root@mail cyrus-imapd-2.1.16]# <span class="type">make all CFLAGS=-O</span></p>
+      <p>[root@mail cyrus-imapd-2.1.16]# <span class="type">make install</span> 
+      </p>
+    </td>
+  </tr>
+</tbody></table>
+<p>　　如果编译时提示没有找到com_err.h，请复制当前目录的et目录下面的com_err.h到/usr/include：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail cyrus-imapd-2.1.16]# <span class="type">cp et/com_err.h 
+        /usr/include </span></p>
+    </td>
+  </tr>
+</tbody></table>
+<p>&nbsp;</p>
+<p>　　Cyrus-IMAP的安装脚本有问题，cyradm（现在使用的是Perl版本，原来的TCL版本不再支持）所需要的perl模块被安装到一些不在Perl的标准@INC的目录里，需要手工安装。</p>
+<p>&nbsp;</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail cyrus-imapd-2.1.16]# <span class="type">cd perl/imap</span></p>
+      <p>[root@mail imap]# <span class="type">perl Makefile.PL</span></p>
+      <p>[root@mail imap]# <span class="type">make install</span></p>
+    </td>
+  </tr>
+</tbody></table>
+<p>&nbsp;</p>
+<h2><a name="a.8.3"></a>8.3.&nbsp; 配置</h2>
+<p>　　创建主配置文件/etc/cyrus.conf：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail imap]# <span class="type">cd ../..</span></p>
+        
+      <p>[root@mail cyrus-imapd-2.1.16]# <span class="type">cp master/conf/small.conf 
+        /etc/cyrus.conf</span></p>
+    </td>
+  </tr>
+</tbody></table>
+<p>　　添加cyrus-imap的管理账号cyrus，并设置密码为“cyrus”（实际应用中可以使用更加复杂的密码），但是没有指定有效的SHELL，以防止使用它来登录：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail cyrus-imapd-2.1.16]# <span class="type">useradd -g mail
+           -M -s/no/shell -d/var/imap cyrus</span></p>
+      <p>[root@mail cyrus-imapd-2.1.16]# <span class="type">passwd cyrus</span></p>
+      <p>Changing password for user cyrus</p>
+      <p>New password: <span class="type">cyrus</span></p>
+      <p>BAD PASSWORD: it it too short</p>
+      <p>Retype new password: <span class="style2">cyrus</span></p>
+      <p>passwd: all authentocation tokens updated successfully</p></td>
+  </tr>
+</tbody></table>
+<p>&nbsp;</p>
+<p>　　创建IMAP配置文件/etc/imapd.conf，管理员是cyrus：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail cyrus-imapd-2.1.16]# <span class="type">vi /etc/imapd.conf</span></p></td>
+  </tr>
+</tbody></table>
+<p>&nbsp;</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td bgcolor="#ffffcc"> 
+      <p>configdirectory: /var/imap</p>
+      <p>partition-default: /var/spool/imap</p>
+      <p>admins: cyrus</p>
+      <p>sasl_pwcheck_method: saslauthd</p>
+      <p>sasl_mech_list: plain</p>
+      <p>unixhierarchysep: yes</p>
+      <p>altnamespace: yes</p>
+    </td>
+  </tr>
+</tbody></table>
+<p>　　在/etc/imapd.conf中使用了unixhierarchysep:
+yes的配置可以创建带“.”的邮箱。邮件存储分区在/var/spool/imap，可以针对需求设定多个分区或其它位置。关于imapd.conf可
+以参阅Cyrus-IMAP的文档来配置其他可用的参数。</p>
+<p>&nbsp;</p>
+<p>　　建立Cyrus-IMAP服务器的目录结构：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail cyrus-imapd-2.1.16]# <span class="type">mkdir -p /var/imap/sieve</span></p>
+      <p>[root@mail cyrus-imapd-2.1.16]# <span class="type">mkdir /var/spool/imap</span></p>
+      <p>&nbsp;</p>
+      <p>[root@mail cyrus-imapd-2.1.16]# <span class="type">chown -R cyrus:mail 
+        /var/imap</span></p>
+      <p>[root@mail cyrus-imapd-2.1.16]# <span class="type">chown -R cyrus:mail 
+        /var/spool/imap</span></p>
+      <p>&nbsp;</p>
+      <p>[root@mail cyrus-imapd-2.1.16]# <span class="type">su -s/bin/bash cyrus</span></p>
+      <p>bash-2.05$ <span class="type">tools/mkimap</span></p>
+      <p>bash-2.05$ <span class="type">exit</span></p>
+    </td>
+  </tr>
+</tbody></table>
+<p>　　这里tools/mkimap这个实用程序在cyrus-imap的源程序目录里面。</p>
+<p>&nbsp;</p>
+<p>　　创建日志：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail cyrus-imapd-2.1.16]# <span class="type">echo local6.debug 
+        /var/log/imapd.log &gt;&gt; /etc/syslog.conf</span></p>
+      <p>[root@mail cyrus-imapd-2.1.16]# <span class="type">echo auth.debug /var/log/auth.log 
+        &gt;&gt; /etc/syslog.conf</span></p>
+      <p>&nbsp;</p>
+      <p>[root@mail cyrus-imapd-2.1.16]# <span class="type">/etc/rc.d/init.d/syslog 
+        restart</span></p>
+    </td>
+  </tr>
+</tbody></table>
+<p>　　设置邮件限额：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail cyrus-imapd-2.1.16]# <span class="type">chattr -R +S /var/imap/user</span></p>
+      <p>[root@mail cyrus-imapd-2.1.16]# <span class="type">chattr -R +S /var/imap/quota</span></p>
+      <p>[root@mail cyrus-imapd-2.1.16]# <span class="type">chattr -R +S /var/spool/imap</span></p>
+    </td>
+  </tr>
+</tbody></table>
+<p>&nbsp;</p>
+<p>　　由于Cyrus-IMAP的主控进程和Postfix的主控进程名字一样，容易混淆而且不方便控制，所以将Cyrus-IMAP服务器的主控进程做个别名连接：cyrusd。</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail cyrus-imapd-2.1.16]# <span class="type">cd /usr/cyrus/bin</span></p>
+      <p>[root@mail bin]# <span class="type">ln -s master cyrusd</span></p>
+    </td>
+  </tr>
+</tbody></table>
+<h2><a name="a.8.4"></a>8.4.&nbsp; 运行</h2>
+<p>　　启动命令如下：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail bin]# <span class="type">/usr/cyrus/bin/cyrusd&amp;</span></p></td>
+  </tr>
+</tbody></table>
+<h2><a name="a.8.5" id="a.8.5"></a>8.5.&nbsp; 测试Cyrus-IMAP</h2>
+<p>　　启动Cyrus-IMAP后，首先检查日志/var/log/messages、/var/log/imapd.log和/var/log/auth.log有无错误信息，然后检查进程，应该有如下进程存在：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail bin]# <span class="type">pstree |grep cyrusd</span></p>
+      <p>&nbsp;</p>
+      <p>|-cyrusd</p>
+    </td>
+  </tr>
+</tbody></table>
+<p>　　接着检查端口，应该有如下端口打开：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail bin]# <span class="type">netstat -an |grep LISTEN</span></p>
+      <p>&nbsp;</p>
+      <p>tcp　　0　　0 0.0.0.0:110　　0.0.0.0:*　　LISTEN</p>
+      <p>tcp　　0　　0 0.0.0.0:143　　0.0.0.0:*　　LISTEN</p>
+    </td>
+  </tr>
+</tbody></table>
+<p>&nbsp;</p>
+<p>　　现在创建邮箱。</p>
+<p>　　使用cyradm来创建和删除邮箱，它是Cyrus-IMAP自己带的交互式管理界面，现在的版本是用Perl写的。你也可以直接调用
+Cyrus::IMAP::Admin模块创建自己的CGI或脚本来做邮箱管理，可以参考Cyrus::IMAP::Shell模块的程序。</p>
+<p>&nbsp;</p>
+<p>　　对于非虚拟域邮箱，只需要创建同用户名相同的邮箱（邮件的本地部分）。</p>
+<p>
+　　对于虚拟域邮箱，为了将虚拟域用户区别开来，我们希望使用用户的邮件全称来做它的邮箱名（其POP3/IMAP的登录名和邮箱名是一样的），但是虽然
+Cyrus-IMAP允许你创建带有“@”的邮箱，但是Cyrus-IMAP的deliver不支持邮件的本地部分带有“@”的邮箱，以至于不能正常递
+交。我们采用了以下步骤来解决这个问题：</p>
+<ol>
+  <li>首先，在cyradm中创建两个邮箱，一个是邮件地址全称做邮箱名，我们称之为“地址邮箱”；一个通过将邮件地址其中的“@”换成了“~”做邮箱名，我们称之为“存储邮箱”。</li>
+  <li>然后，退出cyradm，在邮件分区的user目录下（这里是/var/spool/imap/user），找到刚才创建的邮箱。在文件系统中删除“地址邮箱”，并将“存储邮箱”做个符号链接，名字就是刚刚删除的“地址邮箱”。</li>
+  <li>最后，设置数据库中的FORWARD字段，使之将邮件投递到“存储邮箱”。</li>
+</ol>
+<p>　　之所以这样做的原因是，通过在cyradm中创建两个邮箱，通知了Cyrus-IMAP系统中存在“地址邮箱”，删除地址邮箱，并将其作为“存
+储邮箱”的别名是希望通过它能访问到实际存储邮件的“存储邮箱”。（另外请注意，邮箱名称中的点实际在文件系统中是用“^”代表的）</p>
+<p>&nbsp;</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail bin]# <span class="type">cyradm --user cyrus localhost</span></p>
+      <p>IMAP Password: </p>
+      <p>mail.cngnu.org&gt; <span class="type">cm user/cyrus</span></p>
+      <p>mail.cngnu.org&gt; <font color="#ff0000">sq user/cyrus STORAGE 10485760 </font></p>
+      <p>mail.cngnu.org&gt; <span class="type">cm user/trueuser</span></p>
+      <p>mail.cngnu.org&gt; <font color="#ff0000">sq user/trueuser STORAGE 10485760</font></p>
+      <p></p>
+      <p>mail.cngnu.org&gt; <span class="type">cm user/virtualuser~cngnu.org</span></p>
+      <p>mail.cngnu.org&gt; <span class="type">cm user/virtualuser@cngnu.org</span></p>
+      <p></p>
+      <p>mail.cngnu.org&gt; <font color="#ff0000">sq user/virtualuser~cngnu.org
+          STORAGE 10485760</font></p>
+      <p></p>
+      <p>mail.cngnu.org&gt; <span class="type">lm</span></p>
+      <p>user/INBOX (\HasNoChildren)<br>
+        user/trueuser (\HasNoChildren)<br>
+        user/virtualuser~cngnu.org (\HasNoChildren)<br>
+        user/virtualuser@cngnu.org (\HasNoChildren)</p>
+      <p>mail.cngnu.org&gt; <span class="type">quit</span></p>
+      <p>[root@mail bin]# cd /var/spool/imap/user</p>
+      <p>[root@mail user]# <span class="type">ls</span></p>
+      <p>cyrus 　　　　trueuser 　　　　virtualuser~cngnu^org　　　　virtualuser@cngnu^org</p>
+      <p>[root@mail user]# <span class="type">rm -rf tester\@cngnu\^org</span> </p>
+      <p>[root@mail user]# <span class="type">ln -s tester~cngnu^org tester@cngnu^org</span></p>
+    </td>
+  </tr>
+</tbody></table>
+<p>　　如果要删除一个IMAP邮箱，需要先给管理员cyrus授予C（Create）和D（Delete）的权限才可以删除。</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail user]# <span class="type">cyradm --user cyrus localhost</span></p>
+      <p>IMAP Password: </p>
+      <p>mail.cngnu.org&gt; <span class="type">cm user/testdel</span></p>
+      <p>mail.cngnu.org&gt; <span class="type">lm</span></p>
+      <p>user/INBOX (\HasNoChildren)<br>
+user/testdel (\HasNoChildren)<br>
+user/trueuser (\HasNoChildren)<br>
+user/virtualuser~cngnu.org (\HasNoChildren)<br>
+user/virtualuser@cngnu.org (\HasNoChildren)</p>
+      <p>mail.cngnu.org&gt; <span class="type">sam user/testdel cyrus cd</span></p>
+      <p>mail.cngnu.org&gt; <span class="type">dm user/testdel</span></p>
+      <p>mail.cngnu.org&gt; <span class="type">lm</span></p>
+      <p>user/INBOX (\HasNoChildren)<br>
+user/testdel (\HasNoChildren)<br>
+user/trueuser (\HasNoChildren)<br>
+user/virtualuser~cngnu.org (\HasNoChildren)<br>
+user/virtualuser@cngnu.org (\HasNoChildren)</p>
+      <p>mail.cngnu.org&gt; <span class="type">quit</span></p>
+    <p>[root@mail user]# rm -rf testdel</p></td>
+  </tr>
+</tbody></table>
+<p>&nbsp;</p>
+<p>　　再检测POP3和IMAP服务：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail user]# <span class="type">telnet localhost 110</span></p>
+      <p>+OK mail.cngnu.org Cyrus POP3 v2.1.16 server ready</p>
+      <p class="type">USER virtualuser@cngnu.org</p>
+      <p>+OK Name is a valid mailbox</p>
+      <p class="type">PASS testpw</p>
+      <p>+OK Maildrop locked and ready</p>
+      <p class="type">QUIT</p>
+      <p>+OK</p>
+      <p>[root@mail bin]# <span class="type">imtest -m login -a virtualuser@cngnu.org
+           localhost</span> <br>
+        C: C01 CAPABILITY<br>
+        S: * OK mail.cngnu.org Cyrus IMAP4 v2.1.16 server ready<br>
+        S: * CAPABILITY IMAP4 IMAP4rev1 ACL QUOTA LITERAL+ NAMESPACE UIDPLUS ID 
+        NO_ATOMIC_RENAME UNSELECT MULTIAPPEND SORT THREAD=ORDEREDSUBJECT THREAD=REFERENCES 
+        IDLE<br>
+        S: C01 OK Completed<br>
+        Password: <span class="type">testpw</span> <br>
+        C: L01 LOGIN virtualuser@cngnu.org {6}<br>
+        + go ahead<br>
+        C: &lt;omitted&gt;<br>
+        L01 OK User logged in<br>
+        Authenticated.<br>
+        Security strength factor: 0<br>
+        <span class="type">. logout</span><br>
+        * BYE LOGOUT received<br>
+        . OK Completed</p>
+    <p>&nbsp;</p></td>
+  </tr>
+</tbody></table>
+<h1><a name="a.9" id="a.9"></a>9.&nbsp; 安装IMP</h1>
+<h2><a name="a.9.1" id="a.9.1"></a>9.1.&nbsp; 下载</h2>
+<p>　　http://www.horde.org/horde/</p>
+<p>　　http://www.horde.org/imp/3.2.2/</p>
+<p>　　http://www.horde.org/turba/</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail user]# <span class="type">cd /usr/src</span></p>
+      <p>[root@mail src]# <span class="type">wget <a href="ftp://ftp.horde.org/pub/horde/horde-2.2.4.tar.gz">ftp://ftp.horde.org/pub/horde/horde-2.2.4.tar.gz</a></span></p>
+      <p>[root@mail src]# <span class="type">wget <a href="ftp://ftp.horde.org/pub/pear/pear-1.1.tar.gz">ftp://ftp.horde.org/pub/pear/pear-1.1.tar.gz</a></span></p>
+      <p>[root@mail src]# <span class="type">wget <a href="ftp://ftp.horde.org/pub/imp/imp-3.2.2.tar.gz">ftp://ftp.horde.org/pub/imp/imp-3.2.2.tar.gz</a></span></p>
+    <p>[root@mail src]# <span class="type">wget <a href="ftp://ftp.horde.org/pub/turba/turba-1.2.1.tar.gz">ftp://ftp.horde.org/pub/turba/turba-1.2.1.tar.gz</a></span></p>    </td>
+  </tr>
+</tbody></table>
+<p>&nbsp;</p>
+<h2><a name="a.9.2" id="a.9.2"></a>9.2.&nbsp; 配置Apache与PHP</h2>
+<p>　　IMP对PHP的环境要求较高。所以通常需要升级PHP包，并安装由Horde定制后的PEAR包。</p>
+<p>　　修改/etc/php.ini，将register_globals功能打开。</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td bgcolor="#ffffcc"> <p>register_globals = On</p>
+    </td>
+  </tr>
+</tbody></table>
+<p>　　安装PEAR包，在AS3中，它位于/usr/share/pear下：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail src]# <span class="type">tar zxf /usr/src/pear-1.1.tar.gz</span><span class="type"></span></p>
+      <p>[root@mail lib]# <span class="type">cd /usr/share</span></p>
+    <p>[root@mail lib]# <span class="type">/bin/cp -Rf  /usr/src/pear/* pear</span></p></td>
+  </tr>
+</tbody></table>
+<p>　　最后重新启动Apache：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail lib]# <span class="type">/etc/rc.d/init.d/httpd restart</span></p>
+    </td>
+  </tr>
+</tbody></table>
+<h2><a name="a.9.3" id="a.9.3"></a>9.3.&nbsp; 配置Horde</h2>
+<p>　　安装Horde：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail lib]# <font color="#ff0000">cd /var/www/html</font></p>
+      <p>[root@mail html]# <span class="type">tar zxf /usr/src/horde-2.2.4.tar.gz</span></p>
+      <p>[root@mail html]# <span class="type">mv horde-2.2.4 horde</span></p>
+      <p>[root@mail html]# <span class="type">cd horde/scripts/db</span></p>
+      <p>&nbsp;</p>
+      <p>[root@mail db]# <span class="type">mysql &lt; mysql_create.sql</span></p>
+      <p>&nbsp;</p>
+      <p>[root@mail db]# <span class="type">cd ../../config</span></p>
+      <p>[root@mail config]# <span class="type">for foo in *.dist; do cp $foo 
+        `basename $foo .dist`;done</span></p>
+    </td>
+  </tr>
+</tbody></table>
+<p>　　然后修改config目录下面的horde.php。</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail config]# <span class="type">vi horde.php</span></p>
+    </td>
+  </tr>
+</tbody></table>
+<p>　　修改162行：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td bgcolor="#ffffcc"> <p>$conf['prefs']['driver'] = 'none';</p>
+    </td>
+  </tr>
+</tbody></table>
+<p>　　为：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td bgcolor="#ffffcc"> <p>$conf['prefs']['driver'] = 'sql';</p></td>
+  </tr>
+</tbody></table>
+<p>　　修改171行至176行，将其注释去掉并写入horde数据库的口令：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td bgcolor="#ffffcc"> <p>// $conf['prefs']['params']['phptype'] = 'mysql';<br>
+        // $conf['prefs']['params']['hostspec'] = 'localhost';<br>
+        // $conf['prefs']['params']['username'] = 'horde';<br>
+        // $conf['prefs']['params']['password'] = '*****';<br>
+        // $conf['prefs']['params']['database'] = 'horde';<br>
+        // $conf['prefs']['params']['table'] = 'horde_prefs';<br>
+      </p></td>
+  </tr>
+</tbody></table>
+<p>　　为：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td bgcolor="#ffffcc"> <p>$conf['prefs']['params']['phptype'] = 'mysql';<br>
+        $conf['prefs']['params']['hostspec'] = 'localhost';<br>
+        $conf['prefs']['params']['username'] = 'horde';<br>
+        $conf['prefs']['params']['password'] = 'horde';<br>
+        $conf['prefs']['params']['database'] = 'horde';<br>
+        $conf['prefs']['params']['table'] = 'horde_prefs';<br>
+      </p></td>
+  </tr>
+</tbody></table>
+<p>　　这里我们没有修改horde数据库的默认的数据库设置，如果在实际使用中，至少应该取一个比较复杂的密码。</p>
+<p>&nbsp;</p>
+<p> 　　再来修改config目录下面的registry.php。</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail config]# <span class="type">vi registry.php</span></p></td>
+  </tr>
+</tbody></table>
+<p>　　修改23行至24行，将其注释去掉：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td bgcolor="#ffffcc"> <p>// $this-&gt;registry['auth']['login'] = 'imp';<br>
+        // $this-&gt;registry['auth']['logout'] = 'imp';<br>
+      </p></td>
+  </tr>
+</tbody></table>
+<p>　　为：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td bgcolor="#ffffcc"> <p>$this-&gt;registry['auth']['login'] = 'imp';<br>
+        $this-&gt;registry['auth']['logout'] = 'imp';<br>
+      </p></td>
+  </tr>
+</tbody></table>
+<p>　　然后修改119、138行激活IMP和Turba：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td bgcolor="#ffffcc"> <p> 'status' =&gt; 'inactive'<br>
+      </p></td>
+  </tr>
+</tbody></table>
+<p>　　为：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td bgcolor="#ffffcc"> <p> 'status' =&gt; 'active'<br>
+      </p></td>
+  </tr>
+</tbody></table>
+<p>　　最后在浏览器中访问如下URL测试Horde需要的环境是否满足：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td bgcolor="#ffffcc"> <p>http://你的邮件服务器的IP/horde/test.php</p></td>
+  </tr>
+</tbody></table>
+<p>　　如果发现有红色的提示，可能需要修改你的PHP的安装和配置（参见上一节），然后再重新测试。</p>
+<h2><a name="a.9.4" id="a.9.4"></a>9.4.&nbsp; 配置IMP</h2>
+<p>　　安装IMP：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail config]# <span class="type">cd ..</span></p>
+      <p>[root@mail horde]# <span class="type">tar zxf /usr/src/imp-3.2.2.tar.gz</span></p>
+      <p>[root@mail horde]# <span class="type">mv imp-3.2.2 imp</span></p>
+      <p>[root@mail horde]# <span class="type">cd imp/config</span></p>
+      <p>[root@mail config]# <span class="type">for foo in *.dist; do cp $foo 
+        `basename $foo .dist`;done</span></p>
+    </td>
+  </tr>
+</tbody></table>
+<p>　　然后修改config目录里面的conf.php：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail config]# <span class="type">vi conf.php</span></p></td>
+  </tr>
+</tbody></table>
+<p>　　修改37行：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td bgcolor="#ffffcc"> <p>$conf['menu']['apps'] = array();</p></td>
+  </tr>
+</tbody></table>
+<p>　　为：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td bgcolor="#ffffcc"> <p>$conf['menu']['apps'] = array('turba');</p></td>
+  </tr>
+</tbody></table>
+<p>　　修改57行：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td bgcolor="#ffffcc"> <p>$conf['user']['allow_resume_all'] = false;</p></td>
+  </tr>
+</tbody></table>
+<p>　　为：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td bgcolor="#ffffcc"> <p>$conf['user']['allow_resume_all'] = true;</p></td>
+  </tr>
+</tbody></table>
+<p>　　修改63行：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td bgcolor="#ffffcc"> <p>$conf['user']['allow_resume_all_in_drafts'] = false;</p></td>
+  </tr>
+</tbody></table>
+<p>　　为：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td bgcolor="#ffffcc"> <p>$conf['user']['allow_resume_all_in_drafts'] = true;</p></td>
+  </tr>
+</tbody></table>
+<p>&nbsp;</p>
+<p>　　然后修改prefs.php：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail config]# <span class="type">vi prefs.php</span></p></td>
+  </tr>
+</tbody></table>
+<p>　　将自动维护功能关闭，修改426、427行：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td bgcolor="#ffffcc"> <p> 'value' =&gt; 1,<br>
+        'locked' =&gt; false,<br>
+      </p></td>
+  </tr>
+</tbody></table>
+<p>　　为：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td bgcolor="#ffffcc"> <p> 'value' =&gt; 0,<br>
+        'locked' =&gt; true,<br>
+      </p></td>
+  </tr>
+</tbody></table>
+<p>　　再注释773行：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td bgcolor="#ffffcc"> <p>'value' =&gt; '',</p></td>
+  </tr>
+</tbody></table>
+<p>　　为：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td bgcolor="#ffffcc"> <p>//'value' =&gt; '',</p></td>
+  </tr>
+</tbody></table>
+<p>　　取消注释774行：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td bgcolor="#ffffcc"> <p>// 'value' =&gt; 'localsql',</p></td>
+  </tr>
+</tbody></table>
+<p>　　为：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td bgcolor="#ffffcc"> <p>'value' =&gt; 'localsql',</p></td>
+  </tr>
+</tbody></table>
+<p>&nbsp;</p>
+<p>　　最后修改servers.php：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail config]# <span class="type">vi servers.php</span></p></td>
+  </tr>
+</tbody></table>
+<p>　　注释除“cyrus”服务器外的所有服务器配置，然后修改“cyrus”服务器的配置为：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td bgcolor="#ffffcc"> <p> $servers['cyrus'] = array(<br>
+        'name' =&gt; 'Cyrus IMAP Server',<br>
+        'server' =&gt; 'localhost',<br>
+        'protocol' =&gt; 'imap/notls',<br>
+        'port' =&gt; 143,<br>
+        'folders' =&gt; '',<br>
+        'namespace' =&gt; 'INBOX.',<br>
+        'maildomain' =&gt; 'cngnu.org',<br>
+        'realm' =&gt; 'cngnu.org',<br>
+        'preferred' =&gt; ''<br>
+        );<br>
+      </p>
+    </td>
+  </tr>
+</tbody></table>
+<p>&nbsp;</p>
+<h2><a name="a.9.5" id="a.9.5"></a>9.5.&nbsp; 配置Turba</h2>
+<p>　　安装Turba：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail config]# <span class="type">cd ../..</span></p>
+      <p>[root@mail horde]# <span class="type">tar zxf /usr/src/turba-1.2.1.tar.gz</span></p>
+      <p>[root@mail horde]# <span class="type">mv turba-1.2.1 turba</span></p>
+      <p>[root@mail horde]# <span class="type">cd turba/config</span></p>
+      <p>[root@mail config]# <span class="type">for foo in *.dist; do cp $foo 
+        `basename $foo .dist`;done</span></p></td>
+  </tr>
+</tbody></table>
+<p>　　然后修改config目录里面的conf.php：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail config]# <span class="type">vi conf.php</span></p></td>
+  </tr>
+</tbody></table>
+<p>　　修改32行：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td bgcolor="#ffffcc"> <p>$conf['menu']['apps'] = array();</p></td>
+  </tr>
+</tbody></table>
+<p>　　为：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td bgcolor="#ffffcc"> <p>$conf['menu']['apps'] = array('imp');</p></td>
+  </tr>
+</tbody></table>
+<p>　　然后修改config目录里面的sources.php：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail config]# <span class="type">vi sources.php</span></p></td>
+  </tr>
+</tbody></table>
+<p>　　修改146行：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td bgcolor="#ffffcc"> <p>'password' =&gt; '*****';</p></td>
+  </tr>
+</tbody></table>
+<p>　　为：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td bgcolor="#ffffcc"> <p>'password' =&gt; 'horde';</p></td>
+  </tr>
+</tbody></table>
+<p> 　　最后，添加turba数据库表：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail config]# <font color="#ff0000">cd ../scripts/drivers</font></p>
+      <p>[root@mail config]# <font color="#ff0000">mysql  horde &lt;turba.sql</font></p></td>
+  </tr>
+</tbody></table>
+<p>&nbsp;</p>
+<h2><a name="a.9.6" id="a.9.6"></a>9.6.&nbsp; 测试IMP</h2>
+<p>　　最后在浏览器中访问如下URL：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td bgcolor="#ffffcc"> <p>http://你的邮件服务器的IP/horde/</p></td>
+  </tr>
+</tbody></table>
+<p>　　输入用户名virtualuser@cngnu.org和密码testpw登录（或trueuser）。</p>
+<h1><a name="a.10" id="a.10"></a>10.&nbsp; 其他</h1>
+<h2><a name="a.10.1" id="a.10.1"></a>10.1.&nbsp; 启动脚本</h2>
+<p>　　可以编写一个启动脚本/etc/rc.d/init.d/mailsys来启动这些进程，这样就不需要单独启动postfix和cyrusd了：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td bgcolor="#ffffcc"><pre>#!/bin/bash
+#
+# mailsys This shell script takes care of starting and stopping
+# Postfix and Cyrus-IMAP.
+# author : xingyu.wang &lt;wxy@cngnu.org&gt; 2004/1/18
+#
+# chkconfig: 2345 80 30
+# description: Postfix is a Mail Transport Agent, which is the program<br>
+# that moves mail from one machine to another.Cyrus-IMAP is a Mail 
+# Deliver Agent, which provide POP3 and IMAP4 services for user and 
+# deliver mail to local mailbox.
+#
+# processname: mailsys
+# pidfile: /var/run/mailsys.pid
+# Source function library.
+. /etc/rc.d/init.d/functions
+# Source networking configuration.
+. /etc/sysconfig/network
+
+# Check that networking is up.
+[ ${NETWORKING} = "no" ] &amp;&amp; exit 0
+[ -f /usr/sbin/postfix ] || exit 0
+[ -f /usr/cyrus/bin/cyrusd ] || exit 0
+RETVAL=0
+prog="Mail System"
+
+start() {
+    # Start daemons.
+    echo -n $"Starting $prog: "
+    echo -n $"SMTP "
+    /usr/sbin/postfix start &gt; /dev/null 2&gt;&amp;1 &amp;
+
+    echo -n $"POP3 IMAP4 "
+    /usr/cyrus/bin/cyrusd &gt; /dev/null 2&gt;&amp;1 &amp;
+
+    RETVAL=$?
+
+    if [ $RETVAL -eq 0 ]; then
+        touch /var/lock/subsys/mailsys
+        success $"$prog start" 
+    else
+        failure $"$prog start failure"
+    fi
+
+    echo
+    return $RETVAL
+}
+
+stop() {
+    # Stop daemons.
+    echo -n $"Shutting down $prog: "
+
+    echo -n $"SMTP "
+    /usr/sbin/postfix stop &gt; /dev/null 2&gt;&amp;1 &amp; 
+ 
+    echo -n $"POP3 IMAP4 " 
+    killproc cyrusd
+
+    RETVAL=$?
+
+    if [ $RETVAL -eq 0 ]; then
+        rm -f /var/lock/subsys/mailsys
+        success $"$prog stop"
+    else
+        failure $"$prog stop failure"
+    fi
+
+    echo
+    return $RETVAL
+}
+
+# See how we were called.
+case "$1" in
+    start)
+        start
+    ;;
+    stop)
+        stop
+    ;;
+    restart|reload)
+        stop
+        start
+        RETVAL=$?
+    ;;
+    *)
+        echo $"Usage: $0 {start|stop|restart}"
+        exit 1
+esac
+exit $RETVAL
+</pre></td>
+  </tr>
+</tbody></table>
+<p>&nbsp;</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail root]# <span class="type">chmod 755 /etc/rc.d/init.d/mailsys</span></p>
+      <p>[root@mail root]# <span class="type">chkconfig --level 0123456 mailsys on </span></p>
+      <p>[root@mail root]# <span class="type">chkconfig --level 0123456 sendmail
+      off</span></p>
+    </td>
+  </tr>
+</tbody></table>
+<h2><a name="a.10.2" id="a.10.2"></a>10.2.&nbsp; 整体测试</h2>
+<p>　　创建邮箱后，测试发信功能：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail root]# <span class="type">mail virtualuser@cngnu.org</span></p>
+      <p>Subject: <span class="type">test by me</span></p>
+      <p class="type">this is a test.</p>
+      <p class="type">.</p>
+      <p>CC:</p>
+      <p>[root@mail root]# <span class="type">mailq</span></p>
+      <p>Mail queue is empty</p>
+      <p>[root@mail root]# <span class="type">tail /var/log/maillog</span></p>
+      <p>&nbsp;</p></td>
+  </tr>
+</tbody></table>
+<p>　　使用mailq来查看邮件队列是否有错误，并查看/var/log/mail/*是否有错误信息。如果一切正常，说明信件已经发送到tester了。</p>
+<p>　　测试收信，先测试POP3：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail root]# <span class="type">telnet localhost 110</span></p>
+      <p>+OK mail.cngnu.org Cyrus POP3 v2.1.16 server ready</p>
+      <p class="type">USER virtualuser@cngnu.org</p>
+      <p>+OK Name is a valid mailbox</p>
+      <p class="type">PASS testpw</p>
+      <p>+OK Maildrop locked and ready</p>
+      <p class="type">LIST</p>
+      <p>1 400</p>
+      <p class="type">TOP 1 10</p>
+      <p>Return-Path: &lt;root@cngnu.org&gt;<br>
+        X-Sieve: CMU sieve 2.2<br>
+        Return-Path: &lt;root@cngnu.org&gt;<br>
+        Received: by mail. (Postfix, from userid 0)<br>
+        id 5F1EF90005; Sat, 18 Jan 2004 02:16:43 +0800 (CST)<br>
+        To: tester@cngnu.org<br>
+        Subject: test by me<br>
+        Message-Id: &lt;20040118021643.5F1EF90005@mail.cngnu.org&gt;<br>
+        Date: Sat, 18 Jan 2004 02:16:43 +0800 (CST)<br>
+        From: root@cngnu.org (root)</p>
+      <p>this is a test.</p>
+      <p>.</p>
+      <p class="type">QUIT</p>
+      <p>+OK</p></td>
+  </tr>
+</tbody></table>
+<p>　　再测试IMAP：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td> <p>[root@mail root]# <span class="type">imtest -m login -a virtualuser@cngnu.org
+           localhost </span><br>
+        C: C01 CAPABILITY<br>
+        S: * OK mail.cngnu.org Cyrus IMAP4 v2.1.16 server ready<br>
+        S: * CAPABILITY IMAP4 IMAP4rev1 ACL QUOTA LITERAL+ NAMESPACE UIDPLUS ID 
+        NO_ATOMIC_RENAME UNSELECT MULTIAPPEND SORT THREAD=ORDEREDSUBJECT THREAD=REFERENCES 
+        IDLE<br>
+        S: C01 OK Completed<br>
+        Password: <br>
+        C: L01 LOGIN virtualuser {6}<br>
+        + go ahead<br>
+        C: &lt;omitted&gt;<br>
+        L01 OK User logged in<br>
+        Authenticated.<br>
+        Security strength factor: 0</p>
+      <p><span class="type">. select inbox</span><br>
+        * FLAGS (\Answered \Flagged \Draft \Deleted \Seen)<br>
+        * OK [PERMANENTFLAGS (\Answered \Flagged \Draft \Deleted \Seen \*)] <br>
+        * 1 EXISTS<br>
+        * 1 RECENT<br>
+        * OK [UIDVALIDITY 1021736432] <br>
+        * OK [UIDNEXT 3] <br>
+        . OK [READ-WRITE] Completed</p>
+      <p><span class="type">. fetch 1:1 (FLAGS BODY[HEADER.FIELDS (DATE FROM)])</span><br>
+        * 1 FETCH (FLAGS (\Seen) BODY[HEADER.FIELDS (DATE FROM)] {68}<br>
+        Date: Mon, 20 May 2002 09:26:09 +0800 (CST)<br>
+        From: wxy@cngnu.org</p>
+      <p>)<br>
+        . OK Completed<br>
+        <span class="type">. logout</span><br>
+        * BYE LOGOUT received<br>
+        . OK Completed</p></td>
+  </tr>
+</tbody></table>
+<p>&nbsp;</p>
+<p>　　最后测试IMP，在浏览器中访问如下URL：</p>
+<table bgcolor="#ccffcc" border="0" width="100%">
+  <tbody><tr> 
+    <td bgcolor="#ffffcc"> <p>http://你的邮件服务器的IP/horde/</p></td>
+  </tr>
+</tbody></table>
+<p>　　输入用户名virtualuser@cngnu.org和密码testpw登录。</p>
+<p>&nbsp;</p>
+<p>　　你也可以使用任何其它的邮件客户端程序来测试，如kmail、Outlook Express等等。</p>
+<p>&nbsp;</p>
+<p>　　OK，到此为止，我们的邮件系统就架设完毕了。如果有任何问题，请到<a href="http://anti-spam.org.cn/forums/index.php?showforum=6">http://www.anti-spam.org.cn/forums/</a>的mail版讨论。</p>
+<hr size="1">
+<p>&nbsp;</p>
+</body></html>

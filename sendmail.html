@@ -1,0 +1,236 @@
+<html><head><meta content="text/html; charset=gb2312" http-equiv="Content-Type"><title>在线教程-Sendmail学习笔记</title><link rel="stylesheet" href="http://www.kuqin.com/docs/docbook.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.65.1"><meta name="description" content=""></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<a href="index.html"><< 返回在线教程 </a><br><br>
+
+<div class="book" lang="en"><div class="titlepage"><div><div><h1 class="title"><a name="id2875167"></a>Sendmail学习笔记</h1></div><div><div class="author"><h3 class="author"><span class="firstname">整理：Jims of <a href="http://www.ringkee.com" target="_top">肥肥世家</a></span></h3><div class="affiliation"><div class="address"><p><tt class="email">&lt;<a href="mailto:jims.yang@gmail.com">jims.yang@gmail.com</a>&gt;</tt></p></div></div></div></div><div><p class="copyright">Copyright &copy; 2005 本文遵从GNU 的自由文档许可证(Free Document License)的条款，欢迎转载、修改、散布。</p></div><div><p class="pubdate">发布时间:2004年3月30日</p></div><div><div class="abstract"><p class="title"><b>Abstract</b></p><p></div></div></div><div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="chapter"><a href="sendmail.html#id2809638">1. 安装</a></span></dt><dt><span class="chapter"><a href="sendmail.html#id2811764">2. 配置</a></span></dt><dt><span class="chapter"><a href="sendmail.html#id2807991">3. sendmail功能介绍</a></span></dt></dl></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2809638"></a>Chapter 1. 安装</h2></div></div><div></div></div><p>安装所需软件</p><div class="itemizedlist"><ul type="disc"><li><p>sendmail.8.12.10.tar.gz：<a href="http://www.sendmail.org/" target="_top">http://www.sendmail.org/</a></p></li><li><p>cyrus-sasl-2.1.18.tar.gz：<a href="http://asg.web.cmu.edu/cyrus/" target="_top">http://asg.web.cmu.edu/cyrus/</a></p></li></ul></div><p>安装步骤</p><div class="orderedlist"><ol type="1"><li><p>先安装cyrus-sasl-2.1.18.tar.gz，sendmail安装时要用到sasl（简单认证和安全层协议）的库文件的头文件。解压缩：</p><pre class="screen">
+debian:~/inst# tar -zxvf cyrus-sasl-2.1.18.tar.gz
+</pre><p>编译，进入刚解压的源码目录，运行以下命令完成安装。</p><pre class="screen">
+debian:~/inst/sasl2# ./configure --prefix=/usr/local/sasl2 --enable-login
+一定要加--enable-login，因为SASL2默认不支持login这种验证方式，而OUTLOOK是通过login来进行SMTP验证的。
+debian:~/inst/sasl2# make           
+debian:~/inst/sasl2# make install
+</pre><p>完成以上linux程序安装三步曲之后，就可以开始配置和测试了。</p></li><li><p>配置SASL，为了把SASL应用于sendmail认证，还需进行一些配置工作。sendmail会到/usr/lib目录下去找SASL2库，而我们是把程序安装在/usr/local/sasl2中，为什么不把软件安装在/usr/lib目录呢？这主要是为了好管理自已安装的软件啦。所以我们要在/usr/lib目录下做一个链接:</p><pre class="screen">
+debian:~# cd /usr/lib
+debian:/usr/lib# ln -s /usr/local/sasl2/lib/* .
+</pre><p>接着要在/var/目录下建一个目录给saslauthd进程存在临时数据。</p><pre class="screen">
+debian:~# cd /var
+debian:var# mkdir state
+debian:var/state# cd state
+debian:var/state# mkdir saslauthd
+</pre><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="http://www.kuqin.com/docs/images/note.png"></td><th align="left"></th></tr><tr><td colspan="2" align="left" valign="top">注：如果没有这些目录，运行saslauthd时，会提示出错。</td></tr></table></div><p>接着为确保CYRUS-SASL2函数库知道怎样验证所收来的SASL认证请求，必须创建一个SASL的配置文件来把MTA程序定义成一个SASL应用。配置文件名为Sendmail.conf（注意是大写的S）,位于/usr/lib/sasl2目录中，也就是/usr/local/sasl2/lib/sasl2这个目录，记得上面新建的链接了吗？在该文件中你定义你希望使用的认证数据库方法，以下这个例子使用saslauthd来验证认证请求。</p><pre class="screen">
+debian:~# cd /usr/lib/sasl2
+debian:/usr/lib/sasl2# echo 'pwcheck_method: saslauthd' &gt; Sendmail.conf
+</pre></li><li><p>现在可以运行saslauthd了，并进行测试。</p><pre class="screen">
+debian:~# cd /usr/local/sasl2/sbin
+debian:/usr/local/sasl2/sbin# ./saslauthd -a shadow
+</pre><p>用shadow的用户和密码进行验证</p><pre class="screen">
+debian:/usr/local/sasl2/sbin# ./testsaslauthd -u userid -p password
+0: OK &quot;Success.&quot;
+</pre><p>如果出现以上信息，就说明saslauthd正常运行了。testsaslauthd程序默认是没有编译的，你需要在源码目录树的saslauthd子目录中运行     # make testsaslauthd命令生成。</p></li><li><p>sasl2安装完成后，就要开始安装sendmail了。先解压sendmail源码:</p><pre class="screen">
+debian:~/inst# tar -zxvf sendmail.8.12.10.tar.gz
+</pre><p>如果要sendmail支持SASL，需要修改源码的位置配置文件site.config.m4。site.config.m4位于源码目录树的devtools/Site。文件中应包含以下行：</p><pre class="screen">
+PREPENDDEF(`confMAPDEF', `-DMAP_REGEX')
+APPENDDEF(`confENVDEF', `-DTCPWRAPPERS -DSASL=2')
+APPENDDEF(`conf_sendmail_LIBS', `-lwrap -lsasl2')
+APPENDDEF(`confLIBDIRS', `-L/usr/local/sasl2/lib')
+APPENDDEF(`confINCDIRS', `-I/usr/local/sasl2/include')
+第一行配置正则表达式相关内容
+第二、三行配置表示在sendmail程序中支持sasl2和tcp_wrapper（可通过hosts.allow和
+hosts.deny控制访问）
+第四、五行配置指出sasl2的库文件和头文件的位置。
+</pre><p>接着在编译前要建立一些用户和目录，并确保有正确的权限。sendmail必须有一个set-group-id（默认是smmsp组）的程序来在一个组可写的目录中查询排队邮件。所以我们要建立一个smmsp用户和组。并建立如下目录并设置相应的权限，具体设置要求可查询源码目录树下sendmail/SECURITY文档。</p><pre class="screen">
+debian:~# groupadd smmsp 
+debian:~# useradd smmsp -d /var/spool/clientmqueue -s /dev/null
+debian:~# mkdir /var/spool/clientmqueue
+debian:~# chown -R smmsp:smmsp /var/spool/clientmqueue  
+debian:~# chmod -R 770 /var/spool/clientmqueue  
+debian:~# mkdir /etc/mail
+debian:~# mkdir /var/spool/mqueue
+debian:~# chmod go-w / /etc /etc/mail /usr /var /var/spool /var/spool/mqueue
+debian:~# chown root / /etc /etc/mail /usr /var /var/spool /var/spool/mqueue
+</pre><p>接下来就可以进入源码目录树开始编译了。</p><pre class="screen">
+debian:~/inst/sendmail-8.12.11# ./Build -c              #-c选项能删除上次编译产生的文件。
+debian:~/inst/sendmail-8.12.11# ./Build install         #安装
+</pre></li></ol></div></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2811764"></a>Chapter 2. 配置</h2></div></div><div></div></div><p>要sendmail正常运行，还需配置几个文件，其中最重要的就是sendmail.cf 文件了。它在源码目录树下的cf/cf目录下有很多例子可参考。你可以拷贝使用。由于sendmail.cf中的语法很复杂，所以不建议手工修改。我们可以以sendmail.mc文档配合sendmail-cf目录下的宏通过m4预处理器自动生成。m4预处理器用来从一组宏文件中创建sendmail配置文件。宏文件作为输入被读进来。宏被展开，然后写到一个输出文件。sendmail-cf目录一般放在/usr/share目录下。其实sendmail-cf目录的内容和源码目录树下的cf目录的内容是一样的，所以，为了保证sendmail-cf目录的内容与安装版本同步，要把源码目录树下的cf目录的内容拷贝到/usr/share/sendmail-cf目录。</p><p>sendmail.mc配置文档内容如下：</p><pre class="screen">
+divert(-1)
+include(`/usr/share/sendmail-cf/m4/cf.m4')
+VERSIONID(`linux setup for Red Hat Linux')dnl
+OSTYPE(`linux')
+dnl Uncomment and edit the following line if your mail needs to be sent out
+dnl through an external mail server:
+dnl define(`SMART_HOST',`smtp.your.provider')
+define(`confDEF_USER_ID',``8:12'')dnl
+undefine(`UUCP_RELAY')dnl
+undefine(`BITNET_RELAY')dnl
+dnl define(`confAUTO_REBUILD')dnl
+define(`confTO_CONNECT', `1m')dnl
+define(`confTRY_NULL_MX_LIST',true)dnl
+define(`confDONT_PROBE_INTERFACES',true)dnl
+define(`PROCMAIL_MAILER_PATH',`/usr/bin/procmail')dnl
+define(`ALIAS_FILE', `/etc/mail/aliases')dnl
+define(`STATUS_FILE', `/etc/mail/statistics')dnl
+define(`UUCP_MAILER_MAX', `2000000')dnl
+define(`confUSERDB_SPEC', `/etc/mail/userdb.db')dnl
+define(`confPRIVACY_FLAGS', `authwarnings,novrfy,noexpn,restrictqrun')dnl
+define(`confAUTH_OPTIONS', `A')dnl
+TRUST_AUTH_MECH(`EXTERNAL DIGEST-MD5 CRAM-MD5 LOGIN PLAIN')dnl               
+define(`confAUTH_MECHANISMS', `EXTERNAL GSSAPI DIGEST-MD5 CRAM-MD5 
+LOGIN PLAIN')dnl
+dnl define(`confCACERT_PATH',`/usr/share/ssl/certs')
+dnl define(`confCACERT',`/usr/share/ssl/certs/ca-bundle.crt')
+dnl define(`confSERVER_CERT',`/usr/share/ssl/certs/sendmail.pem')
+dnl define(`confSERVER_KEY',`/usr/share/ssl/certs/sendmail.pem')
+dnl define(`confTO_QUEUEWARN', `4h')dnl
+dnl define(`confTO_QUEUERETURN', `5d')dnl
+dnl define(`confQUEUE_LA', `12')dnl
+dnl define(`confREFUSE_LA', `18')dnl
+define(`confTO_IDENT', `0')dnl
+dnl FEATURE(delay_checks)dnl
+FEATURE(`no_default_msa',`dnl')dnl
+FEATURE(`smrsh',`/usr/sbin/smrsh')dnl
+FEATURE(`mailertable',`hash -o /etc/mail/mailertable.db')dnl
+FEATURE(`virtusertable',`hash -o /etc/mail/virtusertable.db')dnl
+FEATURE(redirect)dnl
+FEATURE(always_add_domain)dnl
+FEATURE(use_cw_file)dnl
+FEATURE(use_ct_file)dnl
+dnl The '-t' option will retry delivery if e.g. the user runs over his quota.
+FEATURE(local_procmail,`',`procmail -t -Y -a $h -d $u')dnl
+FEATURE(`access_db',`hash -T&lt;TMPF&gt; -o /etc/mail/access.db')dnl
+FEATURE(`blacklist_recipients')dnl
+EXPOSED_USER(`root')dnl
+dnl This changes sendmail to only listen on the loopback device 127.0.0.1
+dnl and not on any other network devices. Comment this out if you want
+dnl to accept email over the network.
+DAEMON_OPTIONS(`Port=smtp,Addr=0.0.0.0, Name=MTA')
+dnl NOTE: binding both IPv4 and IPv6 daemon to the same port requires
+dnl       a kernel patch
+dnl DAEMON_OPTIONS(`port=smtp,Addr=::1, Name=MTA-v6, Family=inet6')
+dnl We strongly recommend to comment this one out if you want to protect
+dnl yourself from spam. However, the laptop and users on computers that do
+dnl not have 24x7 DNS do need this.
+FEATURE(`accept_unresolvable_domains')dnl
+dnl FEATURE(`relay_based_on_MX')dnl
+MAILER(smtp)dnl
+MAILER(procmail)dnl
+</pre><p>记得要使以下两个条语句有效，它的意思是如果access.db访问控制没有设置，则启用以下验证方式进行smtp验证。</p><pre class="screen">
+TRUST_AUTH_MECH(`EXTERNAL DIGEST-MD5 CRAM-MD5 LOGIN PLAIN')dnl               
+define(`confAUTH_MECHANISMS', `EXTERNAL GSSAPI DIGEST-MD5 CRAM-MD5 
+LOGIN PLAIN')dnl
+</pre><p>sendmail宏定义说明</p><div class="itemizedlist"><ul type="disc"><li><p>divert(n)为m4定义一个缓冲动作，当n=-1时缓冲被删除，n=0时开始一个新缓冲</p></li><li><p>OSTYPE定义宏所使用的操作系统，该宏允许m4程序增加同相关操作系统相关的文件</p></li><li><p>Domain定义MTA将使用哪些域来传输邮件</p></li><li><p>Feature定义配置文件中使用的一个特定的功能集</p></li><li><p>Define定义配置文件中的一个特定的选项值</p></li><li><p>MASQUERADE_AS定义sendmail来应答邮件的其它主机名</p></li><li><p>MAILER定义sendmail使用的邮件传输方法</p></li><li><p>dnl注释</p></li></ul></div><p>完成sendmail.mc文档的编写后就可以用m4程序生成正式的sendmail.cf配置文档。语法如下：</p><pre class="screen">
+# m4 sendmail.mc &gt; sendmail.cf
+</pre><p>也可以用源码目录树下的cf/cf/Build命令生成。前提是你要在该目录下有一个sendmail.mc文档。语法如下：</p><pre class="screen">
+# ./Build sendmail.cf 
+</pre><p>接着就可以把sendmail.cf and submit.cf文档安装到/etc/mail目录中的，语法如下：</p><pre class="screen">
+# ./Build install-cf
+</pre><p>其实也可以自已用cp命令拷贝的啦。记得把sendmail.mc文档也拷贝一份到/etc/mail目录，以便以后修改配置时可重新生成sendmail.cf文档。ok,接着到/etc/mail目录下配置一些文档。</p><pre class="screen">
+debian:~# cd /etc/mail 
+debian:/etc/mail# echo 'examply.com' &gt;&gt; local-host-names 接收邮件的主机名
+debian:/etc/mail# echo 'localhost    RELAY'  &gt;&gt; access 用来拒绝或允许来自某个域的邮件，本例允许本地转发。
+debian:/etc/mail# makemap hash access &lt; access 生成access.db数据库
+debian:/etc/mail# touch domaintable 用来把旧域名映射互新域名
+debian:/etc/mail# makemap hash domaintable &lt; domaintable 
+debian:/etc/mail# touch mailertable 来覆盖向指定域的路由
+debian:/etc/mail# makemap hash mailertable &lt; mailertable 
+debian:/etc/mail# touch trusted-users 
+debian:/etc/mail# touch virtusertable 用来把用户和域名映射到其它地址
+debian:/etc/mail# makemap hash virtusertable &lt; virtusertable 
+debian:/etc/mail# chown root:wheel /var/spool/mqueue/ 
+debian:/etc/mail# chmod 700 /var/spool/mqueue 
+debian:/etc/mail# touch aliases 别名数据库，文本形式。可参照源码目录树下sendmail/aliases文件。
+debian:/etc/mail# newaliases                  从文本文件中创建一个新的别名数据库文件。
+debian:/etc/mail# sendmail -v -bi调试启动。
+/etc/mail/aliases: 42 aliases, longest 10 bytes, 432 bytes total
+如果出现以上提示信息，则启动成功。可用以下命令正式启动:
+debian:/etc/mail# sendmail -bd -q30m
+该命令以后台进程方式（-bd）运行，并使其每隔30分钟（-q30m）轮询一次未发送邮件队列，检查是否有新邮件。
+</pre><p>服务器启动后，可以用telnet连接服务器。</p><pre class="screen">
+debian:~# telnet localhost 25
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+220 test.tigerhead ESMTP Sendmail 8.12.10/8.12.10; Tue, 30 Mar 2004 14:50:14 +0800
+ehlo test你输入的命令，按回车结束。
+250-test.tigerhead Hello LOCALHOST.localdomain [127.0.0.1], pleased to meet you
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-8BITMIME
+250-SIZE
+250-DSN
+250-ETRN
+250-AUTH DIGEST-MD5 CRAM-MD5 LOGIN PLAIN
+250-DELIVERBY
+250 HELP
+以250-开头的为服务器的响应信息。注意倒数第三行，这就是成功配置smtp验证的显示。
+输入quit离开。
+</pre><p>安装完成后为确保系统安全,还需调整一些目录的权限。可参考sendmail源码目录下sendmail/SECURITY文档。</p><pre class="screen">
+# chmod 0640 /etc/mail/aliases /etc/mail/aliases.{db,pag,dir}
+# chmod 0640 /etc/mail/*.{db,pag,dir}
+# chmod 0640 /etc/mail/statistics /var/log/sendmail.st
+# chmod 0600 /var/run/sendmail.pid /etc/mail/sendmail.pid
+-r-xr-sr-xroot   smmsp... /PATH/TO/sendmail
+drwxrwx---smmsp  smmsp... /var/spool/clientmqueue
+drwx------root   wheel... /var/spool/mqueue
+-r--r--r--root   wheel... /etc/mail/sendmail.cf
+-r--r--r--root   wheel... /etc/mail/submit.cf
+</pre></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2807991"></a>Chapter 3. sendmail功能介绍</h2></div></div><div></div></div><div class="itemizedlist"><ul type="disc"><li><p>aliases 别名数据库设置</p><pre class="screen">
+test:test1,test2,test3设置test群组别名，test不是一个实际的用户，只是一个别名。发给
+test的信，test1,2,3都可收到。
+test:test,testbak在testbak邮箱中备份test的邮件。
+test:test,test@163.com远程邮件备份，原理同上。
+test:   :include: /etc/mail/userlist使用用户列表设置群组。
+userlist格式如下：
+test1, \
+test2, \
+test3, \
+test4
+关于系统预设aliases,由于sendmail预设用mailer-daemon and postmaster作为资料传送者，
+或邮件退回的帐号，但系统实际没有这两个帐号，所以要如下设置别名。
+mailer-daemon:  postmaster 
+postmaster:     root 
+设置完成后不要忘了用newaliases命令生成数据库。
+</pre></li><li><p>~/.forward文件配置，其实该文档的作用和aliases数据库的作差不多啦，都是配置别名，做邮件转发的。因为alises只能由管理员控制，个人用户不能修改，所以就可以在个人的目录下建立一个转寄文档。以设置个人的邮件转寄列表。文档格式如下：</p><pre class="screen">
+test
+test1
+test2
+test3
+and os on
+</pre><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="http://www.kuqin.com/docs/images/note.png"></td><th align="left"></th></tr><tr><td colspan="2" align="left" valign="top">但由于个人用户安全意识差，如果设置不当会有安全漏洞，不建议使用。</td></tr></table></div></li><li><p>access访问控制列表设置</p><pre class="screen">
+92.168 RELAY
+test.NETOK
+test.COM REJECT
+test.COM550 SORRY,WE DON'T ALLOW SPAMMERS HERE
+test.ORGDISCARD
+Ok--远程主机可以向你的邮件服务器发送邮件；
+RELAY--允许中转；
+REJECT--不能向你的邮件服务器发邮件和不能中转；
+DISCARD--发来的邮件将被丢弃，同时并不向发送者返回错误信息。
+nnn text-- 发来的邮件将被丢弃，但sendmail将会向发送者返回nnn确定的smtp代码和text变量确定的文本描述。</pre><p>设置完成后要用makemap hash access.db &lt; access命令生成数据库。</p></li><li><p>mailq邮件队列查询命令。输出各列的意义如下：</p><pre class="screen">
+Q-ID               邮件id号。
+Size               邮件容量。
+Q-Time             邮件进入队列（也就是/var/spool/mqueue目录）的时间和不能邮寄的原因。
+Sender/Recipient   发信和收信人的邮箱地址。
+</pre></li><li><p>mailstats邮寄状态查询命令，可查询sendmail运行作至今邮件收发总计资料。输出各列的意义如下：</p><pre class="screen">
+M     ：
+msgsfr：发送的邮件数量。
+bytes_from：邮件容量 
+megsto：收到邮件的数量。 
+bytes_to：同上
+msgsrej：邮件deny的次数。 
+msgsdis：邮件discard的次数。 
+Mailer ：esmtp对外邮件 ，local本地邮件 。
+</pre></li><li><p>mail邮件命令。</p><pre class="screen">
+debian:~# mail                   查看/var/spool/mail/目录下自已邮箱内容。以q退出把看过的邮件保存在~/mbox中。
+debian:~# mail test@example.com  直接发邮件给人。
+debian:~# mail -s 'title text' test@example.com &lt; mail.txt      把文档中内容邮寄出去。
+debian:~# mail -f ~/mbox         查看home目录下邮箱内容。
+</pre><p>用mail发附件也是可行，要用到uuencode and uudecode命令进行编码。</p><pre class="screen">
+编码：uuencode [file] name          example:uuencode hello hello&gt;hello.uue   default input is stdin;default output is stdout.
+解码：uudecode [-o outfile] name    example:uudecode hello.uue 可以用-o选项输出另外一个文件名。
+debian:~# uuencode ~/.bashrc bashrc | mail -s 'test uuencode' test@example.com  
+</pre></li></ul></div></div></div>
+
+<DIV style="DISPLAY: none">
+ <script src='http://s42.cnzz.com/stat.php?id=423754&web_id=423754&show=pic' language='JavaScript' charset='gb2312'>
+</script>
+</DIV>
+</body></html>

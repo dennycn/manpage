@@ -1,0 +1,248 @@
+<html><head><meta content="text/html; charset=gb2312" http-equiv="Content-Type"><title>在线教程-Samba学习笔记</title><link rel="stylesheet" href="http://www.kuqin.com/docbook.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.65.1"><meta name="description" content="Samba是Linux与Windows信息沟通的桥梁。它可使Linux系统变成Windows文件和打印服务器，供Linux用户和Windows用户共同使用。在现在Windows和Linux多操作平台共存的环境下，这种技术就更显得重要，它能帮我们实现信息的跨平台交流和平台的平稳迁移。Samba成功突破了Windows的技术封锁，是自由软件的一面旗枳和典范。"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<a href="index.html"><< 返回在线教程 </a><br><br>
+
+<div class="book" lang="en"><div class="titlepage"><div><div><h1 class="title"><a name="id2875166"></a>Samba学习笔记</h1></div><div><div class="author"><h3 class="author"><span class="firstname">整理：Jims of <a href="http://www.ringkee.com" target="_top">肥肥世家</a></span></h3><div class="affiliation"><div class="address"><p><tt class="email">&lt;<a href="mailto:jims.yang@gmail.com">jims.yang@gmail.com</a>&gt;</tt></p></div></div></div></div><div><p class="copyright">Copyright &copy; 2005 本文遵从GNU的自由文档许可证(Free Document License)的条款，欢迎转载、修改、散布。</p></div><div><p class="pubdate">发布时间:2005年07月08日</p></div><div><p class="pubdate">最新更新:2006年09月07日，增加smbfs介绍。</p></div><div><div class="abstract"><p class="title"><b>Abstract</b></p><p>Samba是Linux与Windows信息沟通的桥梁。它可使Linux系统变成Windows文件和打印服务器，供Linux用户和Windows用户共同使用。在现在Windows和Linux多操作平台共存的环境下，这种技术就更显得重要，它能帮我们实现信息的跨平台交流和平台的平稳迁移。Samba成功突破了Windows的技术封锁，是自由软件的一面旗枳和典范。</p></div></div></div><div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="chapter"><a href="samba.html#id2811692">1. Samba基础</a></span></dt><dt><span class="chapter"><a href="samba.html#id2810406">2. 安装配置</a></span></dt><dd><dl><dt><span class="sect1"><a href="samba.html#id2810473">2.1. 服务器角色</a></span></dt><dt><span class="sect1"><a href="samba.html#id2861438">2.2. 使用openldap目录服务进行samba用户验证</a></span></dt><dt><span class="sect1"><a href="samba.html#id2861887">2.3. 回收站功能</a></span></dt></dl></dd><dt><span class="chapter"><a href="samba.html#id2861961">3. 小技巧</a></span></dt></dl></div><div class="list-of-tables"><p><b>List of Tables</b></p><dl><dt>1.1. <a href="samba.html#id2811802">NetBIOS节点类型</a></dt><dt>1.2. <a href="samba.html#id2810109">NetBIOS资源类型</a></dt><dt>1.3. <a href="samba.html#id2810287">NetBIOS组资源类型</a></dt></dl></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2811692"></a>Chapter 1. Samba基础</h2></div></div><div></div></div><p>Samba是一套使用SMB/CIFS协议的Unix应用程序，通过该套程序我们可以和Windows服务器共享资源。更进一步，我们还可用Samba服务器替代Windows服务器的一些功能，如Wins，PDC等。</p><p>Samba功能介绍</p><div class="itemizedlist"><ul type="disc"><li><p>在Linux下使用Windows的共享资源。</p></li><li><p>作为Windows文件服务器/打印服务器的开源替代</p></li><li><p>实现Wins服务器功能。</p></li><li><p>作为Windows环境下的PDC、BDC。</p></li></ul></div><p>一些基本概念</p><div class="itemizedlist"><ul type="disc"><li><p>节点类型----NBT网络中每台机器根据处理名称注册和解析的方式的不同，被指定为以下几种节点类型。</p><div class="table"><a name="id2811802"></a><p class="title"><b>Table 1.1. NetBIOS节点类型</b></p><table summary="NetBIOS节点类型" border="1"><colgroup><col><col></colgroup><thead><tr><th>类型</th><th>描述</th></tr></thead><tbody><tr><td>b-node</td><td>只使用广播方式的注册和解析。</td></tr><tr><td>p-node</td><td>只使用点到点的注册和解析。</td></tr><tr><td>m-node</td><td>先用广播方式注册，一旦成功，则将结果通知NBNS服务器。使用广播方式解析，如果不成功，则使用NBNS服务器。</td></tr><tr><td>h-node</td><td>使用NBNS服务器进行注册和解析，如果NBNS服务器没有响应或不能操作，则使用广播方式。</td></tr></tbody></table></div><p>Windows系统多数使用b-node或h-node节点类型，h-node提供了更强大的容错能力。用ipconfig/all查询Node Type属性就可知道当前系统的节点类型。</p></li><li><p>NetBIOS不仅能通告自已的存在，还能告诉其它机器自已能提供的资源类型。下面是一个资源类型的列表。</p><div class="table"><a name="id2810109"></a><p class="title"><b>Table 1.2. NetBIOS资源类型</b></p><table summary="NetBIOS资源类型" border="1"><colgroup><col><col></colgroup><thead><tr><th>资源类型</th><th>值</th></tr></thead><tbody><tr><td>标准工作站服务</td><td>00</td></tr><tr><td>消息服务（WinPopup）</td><td>03</td></tr><tr><td>RAS服务器服务</td><td>06</td></tr><tr><td>域主浏览器服务</td><td>1B</td></tr><tr><td>主浏览器名称</td><td>1D</td></tr><tr><td>NetDDE服务</td><td>1F</td></tr><tr><td>文件服务器/打印服务器</td><td>20</td></tr><tr><td>RAS客户机服务</td><td>21</td></tr><tr><td>网络监视代理</td><td>BE</td></tr><tr><td>网络监视工具</td><td>BF</td></tr></tbody></table></div></li><li><p>网上的机器还可以划分成不同的工作组，下面是NetBIOS的组资源类型。</p><div class="table"><a name="id2810287"></a><p class="title"><b>Table 1.3. NetBIOS组资源类型</b></p><table summary="NetBIOS组资源类型" border="1"><colgroup><col><col></colgroup><thead><tr><th>类型</th><th>描述</th></tr></thead><tbody><tr><td>标准工作站组</td><td>00</td></tr><tr><td>登录工作站</td><td>1C</td></tr><tr><td>主浏览器名称</td><td>1D</td></tr><tr><td>通用组名称</td><td>1E</td></tr><tr><td>Internet名称</td><td>20</td></tr><tr><td>&lt;01&gt;&lt;02&gt;__MSBROUSE__&lt;02&gt;</td><td>01</td></tr></tbody></table></div></li></ul></div></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2810406"></a>Chapter 2. 安装配置</h2></div></div><div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="samba.html#id2810473">2.1. 服务器角色</a></span></dt><dt><span class="sect1"><a href="samba.html#id2861438">2.2. 使用openldap目录服务进行samba用户验证</a></span></dt><dt><span class="sect1"><a href="samba.html#id2861887">2.3. 回收站功能</a></span></dt></dl></div><p>在Debian中有现成的Samba包，用以命令即可安装，smbclient是客户端软件，用以在Linux下测试和连接samba服务器：</p><pre class="screen">
+debian:#~ apt-get install samba smbclient
+</pre><p>Samba的配置文件是smb.conf，如果是debian系统，则位于/etc/samba目录下，如果从源码编译安装，则位于安装目录的lib目录下。下面是一个示例：</p><pre class="screen">
+[global]
+workgroup = Samba server
+server string = Samba server
+netbios name = t02
+
+;browser setup
+domain master = yes
+local master = yes
+preferred master = yes
+os level = 255
+
+;share charset
+unix charset = GB2312
+display charset = GB2312
+dos charset = GB2312
+
+;security setup
+security = user
+encrypt passwords = yes
+;smb passwd file = /usr/local/samba/private/smbpasswd
+ldap admin dn = &quot;cn=admin,dc=com&quot;
+passdb backend = ldapsam:ldap://t03
+;ldap admin dn = &quot;cn=admin,dc=com&quot;
+ldap delete dn = yes
+ldap user suffix = dc=samba,dc=tiger
+ldap suffix = dc=com
+
+;log setup
+log file = /usr/local/samba/var/log.%m
+max log size = 50
+
+socket options = TCP_NODELAY SO_RCVBUF=8192 SO_SNDBUF=8192
+
+dns proxy =no
+
+;start wins server
+wins support = yes
+
+[homes]
+comment = Home Directories
+veto files = /.*/
+browseable = no
+writable = yes
+
+[linux-app]
+comment = share the Linux application software
+path = /data/linapp
+case sensitive = no
+follow symlinks = no
+writable = yes
+valid users = root +wj
+create mask = 0660
+directory mask = 0770
+</pre><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2810473"></a>2.1. 服务器角色</h2></div></div><div></div></div><p>Samba 3服务器可担任主域控制器、独立域服务器和域成员服务器等角色。设置方法如下：</p><div class="itemizedlist"><ul type="disc"><li><p>主域控制器：</p><pre class="screen">
+[global]
+     ...
+     ......
+     domain master = yes
+     preferred master = yes
+     domain logons = yes
+     security = user
+     ......
+     ...
+</pre><p>使用testparm命令测试一下：</p><pre class="screen">
+debian:~# testparm   
+  Load smb config files from /etc/samba/smb.conf
+  Processing section \&quot;[homes]\&quot;
+  Processing section \&quot;[printers]\&quot;
+  Loaded services file OK.
+  Server role: ROLE_DOMAIN_PDC       #服务器角色为主域控制器
+  Press enter to see a dump of your service definitions
+  ......
+</pre></li><li><p>备份域控制器：</p><pre class="screen">
+[global]
+     ...
+     ......
+     domain master = no
+     preferred master = yes
+     domain logons = yes
+     security = user
+     ......
+     ...
+
+</pre><p>运行testparm测试一下：</p><pre class="screen">
+testparm 
+  Load smb config files from /etc/samba/smb.conf
+  Processing section \&quot;[homes]\&quot;
+  Processing section \&quot;[printers]\&quot;
+  Loaded services file OK.
+  Server role: ROLE_DOMAIN_BDC        #服务器角色为备份域控制器
+  Press enter to see a dump of your service definitions
+</pre></li><li><p>独立服务器：</p><pre class="screen">
+[global]
+     ...
+     ......
+     domain master = yes
+     preferred master = yes
+     domain logon = no
+     security = user
+     ......
+     ...
+</pre><p>再使用testparm命令测试一下。</p><pre class="screen">
+debian:~# testparm   
+  Load smb config files from /etc/samba/smb.conf
+  Processing section \&quot;[homes]\&quot;
+  Processing section \&quot;[printers]\&quot;
+  Loaded services file OK.
+  Server role: ROLE_STANDALONE        #服务器的角色为独立服务器
+  Press enter to see a dump of your service definitions
+  ......
+</pre></li><li><p>域的成员服务器：</p><pre class="screen">
+[global]
+     ...
+     ......
+     domain master = yes
+     preferred master = yes
+     domain logon = no
+     security = domain
+     ......
+     ...
+</pre><p>运行testparm测试一下：</p><pre class="screen">
+Load smb config files from /etc/samba/smb.conf
+  Processing section \&quot;[homes]\&quot;
+  Processing section \&quot;[printers]\&quot;
+  Loaded services file OK.
+  Server role: ROLE_DOMAIN_MEMBER       #服务器的角色为域成员服务器
+  Press enter to see a dump of your service definitions
+  ......
+</pre></li></ul></div></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2861438"></a>2.2. 使用openldap目录服务进行samba用户验证</h2></div></div><div></div></div><p>samba可把用户信息存放到ldap目录服务器上，使用目录服务器上的用户数据进行用户验证。这样做的好处是：</p><div class="orderedlist"><ol type="1"><li><p>集中存放用户信息，多台Samba服务器可共用一套用户数据。</p></li><li><p>当用户数量多时，采用ldap目录服务器可加快用户验证的速度。因为ldap目录服务是专门为读操作而优化的，搜索数据的速度是非常快的。</p></li><li><p>维护方便，可利用ldap客户端进行可视化维护，如phpldapadmin。</p></li><li><p>用户可自由更改自已的密码，而不用经过系统管理员，可大大减轻系统管理员的工作量。</p></li></ol></div><p>要使samba能够使用ldap目录服务器作为用户验证的后台数据库，需在编译samba时选择了“--with-ldapsam”选项。在确保samba服务器和openldap服务器正常运行的前提下，进行以下配置。</p><div class="itemizedlist"><ul type="disc"><li><p>要openldap能认识samba的用户信息，我们需在openldap服务器中导入samba.schema。该文件是不包含在openldap源码中的，我们可在samba源码目录中的/examples/LDAP路径中找到该文件。把它拷贝到openldap的schema目录。接着编辑slapd.conf文件，用include指令把samba.schema导入openldap。如：</p><pre class="screen">
+# Allow LDAPv2 binds
+allow bind_v2
+
+# This is the main slapd configuration file. See slapd.conf(5) for more
+# info on the configuration options.
+
+#######################################################################
+# Global Directives:
+
+# Features to permit
+#allow bind_v2
+
+# Schema and objectClass definitions
+include         /etc/ldap/schema/core.schema
+include         /etc/ldap/schema/cosine.schema
+include         /etc/ldap/schema/nis.schema
+include         /etc/ldap/schema/inetorgperson.schema
+include         /etc/ldap/schema/samba.schema              #导入samba.schema文件
+</pre><p>重启服务器，使配置生效。</p></li><li><p>下来我们要配置samba服务器了。打开smb.conf文件，添加以下内容：</p><pre class="screen">
+# You may wish to use password encryption. Please read ENCRYPTION.txt,
+# Win95.txt and WinNT.txt in the Samba documentation. Do not enable this
+# option unless you have read those documents
+   encrypt passwords = true
+;   passdb backend = smbpasswd guest              #取消smbpasswd验证
+
+ldap admin dn = &quot;cn=admin,dc=com&quot;                 #指定管理员
+passdb backend = ldapsam:ldap://ldapserver        #指定用户验证的ldap目录服务器
+ldap user suffix = dc=samba,dc=it                 #用户信息存放的目录路径
+ldap delete dn = no                               #不允许删除dn
+ldap suffix = dc=com                              #指定搜索后缀
+</pre></li><li><p>存盘退出，重启samba服务器。运行以下命令，把cn=admin,dc=com管理员的密码“secret”保存到secrets.tdb文件中，以便samba服务器与openldap服务器进行通信。</p><pre class="screen">
+debian:~# smbpasswd -w secret
+Setting stored password for &quot;cn=admin,dc=com&quot; in secrets.tdb        #成功保存的提示信息
+</pre></li><li><p>把Samba用户的验证信息存放到ldap目录服务器的方式有两种。一种是利用ldap里已有的目录项，不用另外增加一个目录项来专门存放samba用户验证信息，而是把samba用户的验证信息存放到目录服务器中同名的目录项。采用这种方式，sambaSamAccount对象类型需手工维护，当用户数量大的时候就很难保证sambaSID号码的唯一。另外一种是直接运行smbpasswd -a test命令，重新创建一个uid=test,dc=samba,dc=it,dc=com的目录项。sambaSamAccount对象类型会自动创建，sambaSID号会由程序自动维护。但如果要以uid=test,dc=samba,dc=it,dc=com登录目录服务器维护samba用户信息，则要手工添加一个simpleSecurityObject对象类型，增加userPassword属性才行。这两种方式各有优缺点，可满足不同场合的需求。第二种方式相对简单，这里就不具体介绍。下面详细介绍一下第一种方式的配置步骤。</p><p>首先，我们在ldap目录服务器上要有一个叫“cn=test,dc=samba,dc=it,dc=com”的目录项，且使用该dn能正常登录ldap目录服务器。在cn=test,dc=samba,dc=it,dc=com目录项中还要添加一个sambaSamAccount对象类型，以便smbpasswd程序写入samba帐号信息。添加该对象类型时需要填两个属性，一个是sambaSID，一个是uid，sambaSID类似Windows NT中的SID，它是以S开头一串数字，由Samba服务器的SID + UID组成。当你的samba服务器成功连接到ldap目录服务器时，它已在ldap目录服务器中自动创建一个sambaDomainName=hostname的目录项。该目录项的sambaSID就是Samba服务器的SID了，类似于S-1-5-21-3129426798-1813742091-3551573396。UID手动填一个即可，如3001。每个用户的UID都是不同的。最后的sambaSID是S-1-5-21-3129426798-1813742091-3551573396-3001。</p></li><li><p>配置完成，使用smbpasswd命令就可把用户信息保存到ldap目录服务器上了。</p><pre class="screen">
+debian:~# smbpasswd -a test
+New SMB password:
+Retype new SMB password:
+Added user test.             #成功添加用户
+</pre><p>用phpldapadmin以cn=test,dc=samba,dc=it,dc=com登录进ldapserver服务器，你会发现该用户添加了samba用户的验证信息。其中，uid属性记录的是samba的用户名，sambaLMPassword和sambaNTPassword两个属性分别记录了用户的加密密码资料，分别对应windows98和NT两种加密方式。</p></li><li><p>到此为止，使用ldap目录服务器进行Samba用户验证已配置完成。但现在还是要管理员在samba服务器上使用smbpasswd命令为用户维护密码。从维护工作量和保密的角度出发，由用户自已维护自已的密码是一种最好的方法。我们借助phpldapadmin这个工具可帮我们实现该功能。具体设置方法是这样的：</p><div class="orderedlist"><ol type="1"><li><p>首先，在设置前，需先把phpldapadmin安装好，具体的安装步骤请参考我网站上的<a href="http://www.ringkee.com/jims/technic_folder/linux/open page=openldap.htm" target="_top">openldap学习笔记</a>。安装好phpldapadmin后，我们已可正常使用该工具维护目录项了。同时，通过目录服务器的权限管理，我们也可把test用户密码属性设置成只有dn是cn=test,dc=samba,dc=it,dc=com的用户和目录服务器管理员才能修改。要达到该项果，请把以下ACL加入到slapd.conf中。</p><pre class="screen">
+access to attrs=sambaLMPassword
+        by dn=&quot;cn=admin,dc=com&quot; write
+        by anonymous auth
+        by self write
+        by * none
+
+access to attrs=sambaNTPassword
+        by dn=&quot;cn=admin,dc=com&quot; write
+        by anonymous auth
+        by self write
+        by * none
+</pre><p>重启openldap服务器使配置生效。</p></li><li><p>要修改samba用户的密码，我们只要修改smbaLMPassword和sambaNTPassword两个属性值即可，但会出错，提示修改失败，要我们去修改phpldapadmin的template_config.php文件。这是因为phpldapadmin使用了一个叫mkntpwd的程序来生成samba的加密密码。在template_config.php文件中设置了mkntpwd程序的执行路径。mkntpwd程序默认是没有安装在系统中的，我们需安装它，并把它放到在template_config.php文件里指定的执行位置（/usr/bin/）。mkntpwd的源码包含在samba的源码中，我们可进入samba的源码目下的examples/LDAP/smbldap-tools/mkntpwd目录，mkntpwd的源码全部在这里了，运行make命令，就可生成mkntpwd程序。最后把mkntpwd拷贝到/usr/bin目录下即可。</p><p>如果是debian系统，template_config.php文件就位于/etc/phpldapadmin/templates目录下。节选有关定义mkntpwd程序路径的内容如下:</p><pre class="screen">
+...
+##  SAMBA TEMPLATE CONFIGURATION       ##
+##  ----------------------------       ##
+##       ##
+##  In order to use the samba templates, you might edit the following properties:     ##
+##  1 - $mkntpwdCommand : the path to the mkntpwd utility provided with/by Samba.     ##
+##  2 - $samba3_domains : the domain name and the domain sid.                 ##
+##       ##
+######################################################################################*/
+
+// path 2 the mkntpwd utility (Customize)
+$mkntpwdCommand = &quot;/usr/bin/mkntpwd&quot;;
+...
+</pre></li><li><p>以cn=test,dc=samba,dc=it,dc=com登录进入ldap服务器，我们就可修改smbaLMPassword和sambaNTP\assword两个属性值了。其它用户的这两个属性test用户是看不到的。</p></li></ol></div><p>其实，不使用phpldapadmin来维护samba用户密码也可以，我们完全可以用python-ldap配合mkntpwd程序自已DIY一个用户密码管理程序。</p></li></ul></div></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2861887"></a>2.3. 回收站功能</h2></div></div><div></div></div><p>samba也有回收站功能，它能把你在samba服务器中删除的文件移到回收站中，而不是真正的从磁盘删除掉。这大大提高了数据的安全性，更人性化一些。下面介绍如何设置。</p><pre class="screen">
+[homes]
+   comment = Home Directories
+   browseable = no
+
+# By default, the home directories are exported read-only. Change next
+# parameter to 'yes' if you want to be able to write to them.
+   writable = yes
+
+# File creation mask is set to 0700 for security reasons. If you want to
+# create files with group=rw permissions, set next parameter to 0775.
+   create mask = 0700
+
+# Directory creation mask is set to 0700 for security reasons. If you want to
+# create dirs. with group=rw permissions, set next parameter to 0775.
+   directory mask = 0700
+
+vfs object = recycle                     #启用回收站功能
+recycle:keeptree = yes                   #保持目录的树状结构
+recycle:versions = yes                   #相同文档名时，有不同版本
+recycle:repository = ../recycle/%u       #回收站的位置，每个用户都有一个目录
+</pre><p>recycle目录的访问权限是所有用户可写，自动生成的recycle/%u目录的访问权限是只能由用户可写。</p></div></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2861961"></a>Chapter 3. 小技巧</h2></div></div><div></div></div><div class="itemizedlist"><ul type="disc"><li><p>使用tdbdump程序可以查看samba的tbd格式文件。</p></li><li><p>使用smbclient -L winserver -d 3可显示连接winserver时的Debug信息，这些信息对于跟踪连接过程和故障处理都很有用。-d是开启debug功能的选项，3代表debug的级别，可选值为0到10，数字越大显示的信息越详细。</p></li><li><p>连接中文机器名时要注意两边系统的字符集要相同，如果不同，要用unix charset和doc charset指定两边的字符集。如果两边系统的字符集不对称，则在连接时会出现以下的出错信息。</p><pre class="screen">
+session request to failed (Called name not present)
+session request to *SMBSERVER failed (Called name not present)
+</pre></li><li><p>samba通过Windows的139和445端口进行通信，samba会先通过445端口进行连接，如果连接失败，则再尝试139端口。在NT中，SMB运行于NBT（NetBIOS over TCP/IP）上，使用137，139（UDP），139（TCP）端口。在2000/XP/2003中，SMB可以直接运行在tcp/ip上，而没有额外的NBT层，使用TCP 445端口。</p></li><li><p>手动加载smbfs文件系统的方法：</p><pre class="screen">
+debian:#~ mount -t smbfs -o username=your_username,password=your_password,iocharset=utf8,codepage=cp936 //servername/sharename /mnt/share
+</pre><p>我的Debian采用UTF8编码，Samba服务器的操作系统采用GB2312编码，使用iocharset=utf8和codepage=cp936选项是为了使加载的共享能正常显示中文，iocharset指定客户端的字符集，codepage指定服务器的代码页。</p><p>注意，由于该命令包含访问文件服务器的用户名和密码，为保密起见，该命令尽量不要在命令行中输入，因为bash有一个命令缓存功能，能记录你所输入的所有shell命令。我们应该采用credentials选项代替username和password选项，如下所示：</p><pre class="screen">
+debian:#~ mount -t smbfs -o credentials=/root/smbpassword,iocharset=utf8,codepage=cp936 //servername/sharename /mnt/share
+</pre><p>credentials=/root/smbpassword选项指定登录samba服务器的密码文件，smbpassword文件的格式如下：</p><pre class="screen">
+username=xxxxxx
+password=xxxxxx
+</pre><p>由于在smbpassword密码文件中的密码是明文的，所以我们要设置好访问权限，只能由合法用户来读取。</p><p>我们也可把加载smbfs文件系统的方法写在fstab文件中，使它能够在系统启动时自动加载，下面是我的fstab文件，自动加载了/root/data和/root/books目录。</p><pre class="screen">
+# /etc/fstab: static file system information.
+#
+# &lt;file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;               &lt;dump&gt;  &lt;pass&gt;
+/dev/hda3       /               ext3    errors=remount-ro       0       1
+/dev/hda2       none            swap    sw                      0       0
+proc            /proc           proc    defaults                0       0
+/dev/fd0        /floppy         auto    user,noauto             0       0
+/dev/cdrom      /cdrom          iso9660 ro,user,noauto          0       0
+//samba/data    /root/data      smbfs   credentials=/root/smbpassword,iocharset=utf8,codepage=cp936     0    0
+//samba/books   /root/books     smbfs   credentials=/root/smbpassword,iocharset=utf8,codepage=cp936     0    0
+</pre></li></ul></div></div></div>
+
+<DIV style="DISPLAY: none">
+ <script src='http://s42.cnzz.com/stat.php?id=423754&web_id=423754&show=pic' language='JavaScript' charset='gb2312'>
+</script>
+</DIV>
+</body></html>

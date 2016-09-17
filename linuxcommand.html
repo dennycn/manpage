@@ -1,0 +1,104 @@
+<html><head><meta content="text/html; charset=gb2312" http-equiv="Content-Type"><title>在线教程-Linux命令集</title><link rel="stylesheet" href="http://www.kuqin.com/docs/docbook.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.65.1"><meta name="description" content="在安装、使用和维护Linux系统中，我们都会用到大量的命令，而且命令参数繁多，这也可说是linux系统的一大特色，所以经常会忘记。这里记录我使用Linux当中用到过的命令，用于备查。"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<a href="index.html"><< 返回在线教程 </a><br><br>
+
+<div class="article" lang="en"><div class="titlepage"><div><div><h1 class="title"><a name="id2875166"></a>Linux命令集</h1></div><div><div class="author"><h3 class="author"><span class="firstname">整理：Jims of <a href="http://www.ringkee.com" target="_top">肥肥世家</a></span></h3><div class="affiliation"><div class="address"><p><tt class="email">&lt;<a href="mailto:jims.yang@gmail.com">jims.yang@gmail.com</a>&gt;</tt></p></div></div></div></div><div><p class="copyright">Copyright &copy; 2004 本文遵从GNU 的自由文档许可证(Free Document License)的条款，欢迎转载、修改、散布。</p></div><div><p class="pubdate">发布时间:2004年7月20日</p></div><div><p class="pubdate">更新时间:2005年03月16日</p></div><div><div class="abstract"><p class="title"><b>Abstract</b></p><p>在安装、使用和维护Linux系统中，我们都会用到大量的命令，而且命令参数繁多，这也可说是linux系统的一大特色，所以经常会忘记。这里记录我使用Linux当中用到过的命令，用于备查。</p></div></div></div><div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="linuxcommand.html#id2875121">1. 最常用的命令列表</a></span></dt><dt><span class="sect1"><a href="linuxcommand.html#id2811845">2. chmod----改变一个或多个文件的存取模式(mode)</a></span></dt><dt><span class="sect1"><a href="linuxcommand.html#id2810443">3. chgrp----修改文件或目录的所属组</a></span></dt><dt><span class="sect1"><a href="linuxcommand.html#id2861424">4. chown----设置一个或多个文件或目录的属主身份</a></span></dt><dt><span class="sect1"><a href="linuxcommand.html#id2861661">5. date----显示、修改系统时间</a></span></dt><dt><span class="sect1"><a href="linuxcommand.html#id2861686">6. df-----显示已安装文件系统的磁盘容量状态</a></span></dt><dt><span class="sect1"><a href="linuxcommand.html#id2861714">7. fdisk----分区表查询工具</a></span></dt><dt><span class="sect1"><a href="linuxcommand.html#id2861750">8. hdparm----硬盘管理</a></span></dt><dt><span class="sect1"><a href="linuxcommand.html#id2861772">9. ln-----为文件建立别名</a></span></dt><dt><span class="sect1"><a href="linuxcommand.html#id2861819">10. shutdown-----终止所有进程序，关闭计算机。</a></span></dt><dt><span class="sect1"><a href="linuxcommand.html#id2861848">11. sleep-----执行另一个命令之前等待的时间</a></span></dt><dt><span class="sect1"><a href="linuxcommand.html#id2861880">12. swapon/swapoff-----启动和关闭交换分区</a></span></dt><dt><span class="sect1"><a href="linuxcommand.html#id2861900">13. tune2fs-----调整Linux第二扩展文件系统的参数</a></span></dt><dt><span class="sect1"><a href="linuxcommand.html#id2861925">14. uniq----过滤、统计、删除重复行</a></span></dt><dt><span class="sect1"><a href="linuxcommand.html#id2861954">15. wc-----输出每个文件中的字符数、单词数及行数。</a></span></dt></dl></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2875121"></a>1. 最常用的命令列表</h2></div></div><div></div></div><p>下面列出十个在使用linux过程中使用频率最高的命令。这里只作简单介绍，具体用法请参考后面内容。</p><div class="itemizedlist"><ul type="disc"><li><p>cat，显示文件内容。</p></li><li><p>cd，改变目录路径。</p></li><li><p>cp，复制文件。</p></li><li><p>find，查找文件。</p></li><li><p>grep，搜索、过滤信息。</p></li><li><p>ls，列出目录信息。</p></li><li><p>more，分页显示。</p></li><li><p>rm，删除文件或目录。</p></li><li><p>vi，调用vi文本编辑器。</p></li><li><p>who，显示登录用户信息。</p></li></ul></div></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2811845"></a>2. chmod----改变一个或多个文件的存取模式(mode)</h2></div></div><div></div></div><p>chmod [options] mode files</p><p>只能文件属主或特权用户才能使用该功能来改变文件存取模式。mode可以是数字形式或以who opcode permission形式表示。who是可选的，默认是a(所有用户)。只能选择一个opcode(操作码)。可指定多个mode，以逗号分开。</p><div class="itemizedlist"><ul type="disc"><li><p>options：</p><div class="variablelist"><dl><dt><span class="term">-c，--changes</span></dt><dd><p>只输出被改变文件的信息</p></dd><dt><span class="term">-f，--silent，--quiet</span></dt><dd><p>当chmod不能改变文件模式时，不通知文件的用户</p></dd><dt><span class="term">--help</span></dt><dd><p>输出帮助信息。</p></dd><dt><span class="term">-R，--recursive</span></dt><dd><p>可递归遍历子目录，把修改应到目录下所有文件和子目录</p></dd><dt><span class="term">--reference=filename</span></dt><dd><p>参照filename的权限来设置权限</p></dd><dt><span class="term">-v，--verbose</span></dt><dd><p>无论修改是否成功，输出每个文件的信息</p></dd><dt><span class="term">--version</span></dt><dd><p>输出版本信息。</p></dd></dl></div></li><li><p>who</p><div class="variablelist"><dl><dt><span class="term">u</span></dt><dd><p>用户</p></dd><dt><span class="term">g</span></dt><dd><p>组</p></dd><dt><span class="term">o</span></dt><dd><p>其它</p></dd><dt><span class="term">a</span></dt><dd><p>所有用户(默认)</p></dd></dl></div></li><li><p>opcode</p><div class="variablelist"><dl><dt><span class="term">+</span></dt><dd><p>增加权限</p></dd><dt><span class="term">-</span></dt><dd><p>删除权限</p></dd><dt><span class="term">=</span></dt><dd><p>重新分配权限</p></dd></dl></div><p>permission</p><div class="variablelist"><dl><dt><span class="term">r</span></dt><dd><p>读</p></dd><dt><span class="term">w</span></dt><dd><p>写</p></dd><dt><span class="term">x</span></dt><dd><p>执行</p></dd><dt><span class="term">s</span></dt><dd><p>设置用户(或组)的ID号</p></dd><dt><span class="term">t</span></dt><dd><p>设置粘着位(sticky bit)，防止文件或目录被非属主删除</p></dd><dt><span class="term">u</span></dt><dd><p>用户的当前权限</p></dd><dt><span class="term">g</span></dt><dd><p>组的当前权限</p></dd><dt><span class="term">o</span></dt><dd><p>其他用户的当前权限</p></dd></dl></div></li><li><p>作为选择，我们多数用三位八进制数字的形式来表示权限，第一位指定属主的权限，第二位指定组权限，第三位指定其他用户的权限，每位通过4(读)、2(写)、1(执行)三种数值的和来确定权限。如6(4+2)代表有读写权，7(4+2+1)有读、写和执行的权限。</p></li><li><p>还可设置第四位，它位于三位权限序列的前面，第四位数字取值是4，2，1，代表意思如下：</p><div class="itemizedlist"><ul type="circle"><li><p>4，执行时设置用户ID，用于授权给基于文件属主的进程，而不是给创建此进程的用户。</p></li><li><p>2，执行时设置用户组ID，用于授权给基于文件所在组的进程，而不是基于创建此进程的用户。</p></li><li><p>1，设置粘着位。</p></li></ul></div></li><li><p>实例：</p><pre class="screen">
+$ chmod u+x file                给file的属主增加执行权限
+$ chmod 751 file                给file的属主分配读、写、执行(7)的权限，给file的所在组分配读、执行(5)的权限，给其他用户分配执行(1)的权限
+$ chmod u=rwx,g=rx,o=x file    上例的另一种形式
+$ chmod =r file                为所有用户分配读权限
+$ chmod 444 file               同上例
+$ chmod a-wx,a+r               同上例
+$ chmod -R u+r directory       递归地给directory目录下所有文件和子目录的属主分配读的权限
+$ chmod 4755                   设置用ID，给属主分配读、写和执行权限，给组和其他用户分配读、执行的权限。
+</pre></li></ul></div></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2810443"></a>3. chgrp----修改文件或目录的所属组</h2></div></div><div></div></div><p>chgrp [options] newgroup files/directorys</p><p>组名可以用组的ID号，也可用/etc/group中的组名。只有文件的属主或特权用户(root)才可改变它的组。</p><div class="itemizedlist"><ul type="disc"><li><p>options：</p><div class="variablelist"><dl><dt><span class="term">-c，--changes</span></dt><dd><p>只输出被改变文件的信息</p></dd><dt><span class="term">-f，--silent，--quiet</span></dt><dd><p>当不能改变文件组属性时，不通知文件的用户</p></dd><dt><span class="term">--help</span></dt><dd><p>输出帮助信息。</p></dd><dt><span class="term">-R，--recursive</span></dt><dd><p>可递归遍历子目录，把修改应到目录下所有文件和子目录</p></dd><dt><span class="term">--reference=filename</span></dt><dd><p>参照filename的组信息来设置当前文件的组</p></dd><dt><span class="term">-v，--verbose</span></dt><dd><p>输出详细信息</p></dd><dt><span class="term">--version</span></dt><dd><p>输出版本信息。</p></dd></dl></div></li><li><p>实例：</p><pre class="screen">
+$ chgrp root test           把test的所属组更改root组
+$ chgrp -R mysql test       递归地把test目录及该目录下所有文件和子目录的组属性设置成mysql
+$ chgrp root *              把当前目录中所有文件的组属性设置成root
+</pre></li></ul></div></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2861424"></a>4. chown----设置一个或多个文件或目录的属主身份</h2></div></div><div></div></div><p>chown [options] newowner files/directorys</p><p>新的属主可以是用户的ID号，也可以是/etc/passwd里的登录名。chown也可接受这样的形式：newowner:newgroup或newowner.newgroup。同时改变所属组的属性。如果句点和冒号后没有组名，则组改变为新属主的组。只有文件或目录的当前属主才有权改变它的属性。</p><div class="itemizedlist"><ul type="disc"><li><p>options：</p><div class="variablelist"><dl><dt><span class="term">-c，--changes</span></dt><dd><p>只输出被改变文件的信息</p></dd><dt><span class="term">--dereference</span></dt><dd><p>跟踪符号链接</p></dd><dt><span class="term">-h，--no-dereference</span></dt><dd><p>改变每一个符号链的属主身份，而不是被引用文件的属主身份</p></dd><dt><span class="term">-f，--silent，--quiet</span></dt><dd><p>当不能改变文件属主属性时，不通知文件的用户</p></dd><dt><span class="term">--help</span></dt><dd><p>输出帮助信息。</p></dd><dt><span class="term">-R，--recursive</span></dt><dd><p>可递归遍历子目录，把修改应到目录下所有文件和子目录</p></dd><dt><span class="term">--reference=filename</span></dt><dd><p>把属主改变成filename文件的属主</p></dd><dt><span class="term">-v，--verbose</span></dt><dd><p>输出详细信息</p></dd><dt><span class="term">--version</span></dt><dd><p>输出版本信息。</p></dd></dl></div></li><li><p>实例：</p><pre class="screen">
+$ chown  root test                       把test文件的属主改进root
+$ chown -R root test_directory           递归地把test_directory目录下的所有文件属主改成root
+$ chown --dereference root test_link     把test_link链接的原文件属主改成root，链接文件属主不变
+$ chown --no-dereference root test_link  把test_link的链接文件属主改成root，原文件属主不变
+</pre></li></ul></div></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2861661"></a>5. date----显示、修改系统时间</h2></div></div><div></div></div><p>date [options][+format][date]</p><p>
+		  </p><pre class="screen">
+$ date -s 06/09/2004	修改日期（按月日年格式）
+$ date -s 13:56:00	修改时间（按时分秒格式）
+$ date -r test		显示test文件最后一次的修改时间
+$ date +'%Y-%m-%d'	以yyyy-mm-dd格式显示日期,其它格式请参考帮助
+$ clock -r		查询BIOS时间
+$ clock -w		把修改后的时间写回BIOS
+			  
+		  </pre><p>
+	  </p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2861686"></a>6. df-----显示已安装文件系统的磁盘容量状态</h2></div></div><div></div></div><p>df [options][name]</p><p>
+		  </p><pre class="screen">
+$ df -h		以友好的格式输出所有已安装文件系统的磁盘容量状态
+$ df -m /home	以M为单位输出home目录的磁盘容量状态
+$ df -k		以K为单位输出所有已安装文件系统的磁盘容量状态
+$ df -i		报告空闲的、用过的或部份用过的（百份比）索引节点
+$ df -t ext3	仅显示文件类型为ext3的文件系统的磁盘状态
+$ df -x ext3	仅显示文件类型不为ext3的文件系统的磁盘状态
+$ df -T		除显示文件系统磁盘容量大小外还显示文件系统类型
+$ df -l		仅显示本地文件系统。
+			  
+		  </pre><p>
+	  </p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2861714"></a>7. fdisk----分区表查询工具</h2></div></div><div></div></div><p>fdisk [options][driver]</p><pre class="screen">
+$ fdisk -l          列出所有分区信息
+</pre></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2861750"></a>8. hdparm----硬盘管理</h2></div></div><div></div></div><p>hdparm [options][driver]</p><p>
+		  </p><pre class="screen">
+$ hdparm -d  /dev/hda           显示硬盘的DMA模式是不打开，1代表on
+$ hdparm -tT /dev/hda           测试硬盘的写性能
+$ hdparm -d1 /dev/hda		开启dma功能
+$ hdparm -d1 -X68 -c3 -m16 /dev/hda  
+选项说明：
+-c3：把硬盘的IO模式从16位转成32位。
+-m16：改变硬盘的多路扇区的读功能，-m16使硬盘在一次I/O中断中读入16个扇区的数据。
+-d1：打开DMA模式。
+-X68：支持ATA66的数据传输模式。下面是其它模式的设置对照
+ATA33.......参数是-X66 
+ATA66.......参数是-X68 
+ATA100......参数是-X69
+$ hdparm -k1 /dev/hda            保存设置
+			  
+		  </pre><p>
+	  </p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2861772"></a>9. ln-----为文件建立别名</h2></div></div><div></div></div><p>ln [options] sourcename [destname]</p><p>ln [options] sourcenames destdirectory</p><p>
+      </p><pre class="screen">
+$ ln -s file1 file2       建立一个到file1的符号链接file2，删除file2不会影响file1
+$ ln -s -f file1 file2    建立一个到file1的符号链接file2，并不提示是否重写
+</pre><p>
+    </p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2861819"></a>10. shutdown-----终止所有进程序，关闭计算机。</h2></div></div><div></div></div><p>shutdown [options] when [message]</p><p>用when可以是指定的关机时间(以hh:mm格式)、关机前要等待的时间(以+m格式)、或者now。message指定一条广播消息通知所有用户退出系统。showdown给所有进程发送SIGTERM信号，并调用init 1执行实际的关机动作。</p><pre class="screen">
+$ shutdown -c          取消正在进行的关闭操作
+$ shutdown -f          快速重新启动，在重新启动时禁止对fsck的常规调用
+$ shutdown -h          当关闭完成时停止系统
+$ shutdown -k          输出警告信息，但禁止实际的关闭
+$ shutdown -n          不调用init就执行关闭
+$ shutdown -r          当关闭完成时重新启动系统
+$ shutdown -t 5        在杀死进程和改变运行级别之间确保延时5秒
+</pre></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2861848"></a>11. sleep-----执行另一个命令之前等待的时间</h2></div></div><div></div></div><p>sleep amount [units]</p><p>units默认为秒(s)，m表示分钟，h表示小时，d表示天。</p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2861880"></a>12. swapon/swapoff-----启动和关闭交换分区</h2></div></div><div></div></div><p>swapon/swapoff [options] device</p><pre class="screen">
+$ swapon -s            显示交换分区信息
+$ swapon -a            激活所有在/etc/fstab中有sw标记的分区
+$ swapon -p 1          设置交换分区优先级为1
+</pre></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2861900"></a>13. tune2fs-----调整Linux第二扩展文件系统的参数</h2></div></div><div></div></div><p>tune2fs [options] device</p><pre class="screen">
+$ tune2fs -l /dev/hda1       显示hda1分区的超级块内容
+$ tune2fs -c 100 /dev/hda1   设置hda1分区每mount100次就进行磁盘检查
+</pre></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2861925"></a>14. uniq----过滤、统计、删除重复行</h2></div></div><div></div></div><p>uniq [options][file1 [files]]</p><p>
+		  </p><pre class="screen">
+$ uniq -c file		file中的重复行输出一次，并在每行前显示重复次数
+$ uniq -d file		file中的重复行输出一次，但不输出唯一的行
+$ uniq -u file          只输出file中的唯一行
+$ uniq file1 file2	把file1中的重复的相邻行删除，并把每行的一个拷贝送到file2
+			  
+		  </pre><p>
+	  </p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2861954"></a>15. wc-----输出每个文件中的字符数、单词数及行数。</h2></div></div><div></div></div><p>wc [options][files]</p><p>
+		  </p><pre class="screen">
+$ wc -l file		输出file中的行数
+$ wc -w file		输出file中的单词数
+$ wc -c file		输出file中的字符数
+			  
+		  </pre><p>
+	  </p></div></div>
+
+	  <DIV style="DISPLAY: none">
+ <script src='http://s42.cnzz.com/stat.php?id=423754&web_id=423754&show=pic' language='JavaScript' charset='gb2312'>
+</script>
+</DIV>
+</body></html>

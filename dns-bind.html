@@ -1,0 +1,273 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn">
+
+<head>
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+
+  
+  <title>DNS&mdash;bind安装与配置的关键技术揭秘</title>
+
+</head>
+
+<body>
+一.、Bind 简介。<br />
+Bind是一款开放源码的DNS服务器软件，Bind由美国加州大学Berkeley分校开发和维护的，全名为Berkeley Internet
+Name Domain它是目前世界上使用最为广泛的DNS服务器软件，支持各种unix平台和windows平台。本文将介绍它在Red hat
+Linux 9中最基本的安装和配置。<br />
+二.、软件的相关资源。<br />
+官方网站：http://www.bind.com/<br />
+源码软件包：Bind 是开源的软件，可以去其官方网站下载。http://www.isc.org/index.pl/sw/bind/ ，目前最新版本为bind-9.3.1。<br />
+帮助文档：http://www.isc.org/index.pl/sw/bind/ 有该软件比较全面的帮助文档。<br />
+FAQ：http://www.isc.org/index.pl/sw/bind/ 回答了该软件的常见问题。<br />
+配置文件样例：http://www.bind.com/bind.html 一些比较标准的配置文件样例。<br />
+三.、软件的安装。<br />
+1.安装<br />
+由其官方网站中下载其源码软件包bind-9.3.1. tar.gz。接下来我将对安装过程的一些重要步骤，给出其解释：<br />
+[root@localhost root]#tar xzvf bind-9.3.1. tar.gz<br />
+[root@localhost root]#cd bind-9.3.1<br />
+[root@localhost bind-9.3.1]#./configure <br />
+[root@localhost bind-9.3.1]#make<br />
+[root@localhost bind-9.3.1]#make install<br />
+tar xzvf bind-9.3.1.tar.gz 解压缩软件包。<br />
+./configure 针对机器作安装的检查和设置，大部分的工作是由机器自动完成的，但是用户可以通过一些参数来完成一定的设置，其常用选项有：<br />
+./configure --help 察看参数设置帮助。<br />
+--prefix= 指定软件安装目录（默认/usr/local/）。<br />
+--enable-ipv6 支持ipv6。<br />
+可以设置的参数很多，可以通过 -help察看需要的，一般情况下，默认设置就可以了。<br />
+默认情况下，安装过程是不会建立配置文件和一些默认的域名解析的，不过并不妨碍，可以从下载一些标准的配置文件（http://www.bind.com/bind.html），也可以使用本文所提供的样例文件。<br />
+默认情况下，安装的deamon为/usr/local/sbin/named<br />
+默认的主配置文件，/etc/named.conf（须手动建立）。<br />
+2.启动：<br />
+[root@localhost root]# /usr/local/sbin/named -g<br />
+/usr/local/sbin/named默认情况是一个后台deamon ,-g选项表示前台运行，并将调试信息打印到标准输出，这在我们安装调试阶段是非常有帮助的。<br />
+如果建立了配置文件和域名解析文件（关于怎样建立将在下面的部分讲到），ps aux 应该可以查到named 的进程，或netstat -an 也可以看到53端口的服务已经起来了。（DNS默认端口为53）<br />
+如果要设置开机自启动DNS server，只需在/etc/rc.d/rc.local中加入一行<br />
+/usr/local/sbin/named<br />
+#!/bin/sh<br />
+#<br />
+# This script will be executed *after* all the other init scripts.<br />
+# You can put your own initialization stuff in here if you don't<br />
+# want to do the full Sys V style init stuff.<br />
+touch /var/lock/subsys/local<br />
+/usr/local/sbin/named<br />
+四.软件的配置。<br />
+1.主配置文件<br />
+默认安装主配置文件的位置为<br />
+/etc/named.conf<br />
+下面逐步分析一个比较基础的配置文件：（注：named配置文件采用和c语言相同的注释符号）。<br />
+(1) log options<br />
+/*<br />
+&nbsp;* log option<br />
+&nbsp;*/<br />
+logging { <br />
+&nbsp;&nbsp; &nbsp;channel default_syslog { syslog local2; severity error; };<br />
+&nbsp;&nbsp; &nbsp;channel audit_log { file "/var/log/named.log"; severity error; print-time yes; };<br />
+&nbsp;&nbsp; &nbsp;category default { default_syslog; }; <br />
+&nbsp;&nbsp; &nbsp;category general { default_syslog; }; <br />
+&nbsp;&nbsp; &nbsp;category security { audit_log; default_syslog; }; <br />
+&nbsp;&nbsp; &nbsp;category config { default_syslog; }; <br />
+&nbsp;&nbsp; &nbsp;category resolver { audit_log; }; <br />
+&nbsp;&nbsp; &nbsp;category xfer-in { audit_log; }; <br />
+&nbsp;&nbsp; &nbsp;category xfer-out { audit_log; }; <br />
+&nbsp;&nbsp; &nbsp;category notify { audit_log; }; <br />
+&nbsp;&nbsp; &nbsp;category client { audit_log; }; <br />
+&nbsp;&nbsp; &nbsp;category network { audit_log; }; <br />
+&nbsp;&nbsp; &nbsp;category update { audit_log; }; <br />
+&nbsp;&nbsp; &nbsp;category queries { audit_log; }; <br />
+&nbsp;&nbsp; &nbsp;category lame-servers { audit_log; };<br />
+};<br />
+这一部分是日志的设置，其中最主要的是<br />
+file "/var/log/named.log" 这一句指定了日志文件的位置，要正常启动named，必须要保证这一文件是存在的，并且named 进程对它有读写权限。<br />
+(2) options<br />
+options {<br />
+&nbsp;&nbsp; &nbsp;directory "/etc/namedb";<br />
+&nbsp;&nbsp;&nbsp; listen-on-v6 { any; };<br />
+// If you've got a DNS server around at your upstream provider, enter<br />
+// its IP address here, and enable the line below.&nbsp; This will make you<br />
+// benefit from its cache, thus reduce overall DNS traffic in the Internet.<br />
+&nbsp;&nbsp; &nbsp;forwarders {<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;your.upper.DNS.address;<br />
+&nbsp;&nbsp; &nbsp;};<br />
+&nbsp;&nbsp; &nbsp;/*<br />
+&nbsp;&nbsp; &nbsp; * If there is a firewall between you and nameservers you want<br />
+&nbsp;&nbsp; &nbsp; * to talk to, you might need to uncomment the query-source<br />
+&nbsp;&nbsp; &nbsp; * directive below.&nbsp; Previous versions of BIND always asked<br />
+&nbsp;&nbsp; &nbsp; * questions using port 53, but BIND 8.1 uses an unprivileged<br />
+&nbsp;&nbsp; &nbsp; * port by default.<br />
+&nbsp;&nbsp; &nbsp; */<br />
+&nbsp;&nbsp; &nbsp;// query-source address * port 53;<br />
+&nbsp;&nbsp; &nbsp;/*<br />
+&nbsp;&nbsp; &nbsp; * If running in a sandbox, you may have to specify a different<br />
+&nbsp;&nbsp; &nbsp; * location for the dumpfile.<br />
+&nbsp;&nbsp; &nbsp; */<br />
+&nbsp;&nbsp; &nbsp;dump-file "/etc/named_dump.db";<br />
+};<br />
+这一部分是一些基本的配置项：<br />
+directory "/etc/namedb"; 指定域名解析等文件的存放目录（须手动建立）；<br />
+listen-on-v6 { any; }; 支持ipv6的请求；<br />
+forwarders {<br />
+your.upper.DNS.address;<br />
+}; 指定前向DNS，当本机无法解析的域名，就会被转发至前向DNS进行解析。<br />
+dump-file "/etc/named_dump.db"; 指定named_dump.db文件的位置。<br />
+(3) 线索域和回环域<br />
+// Setting up secondaries is way easier and the rough picture for this<br />
+// is explained below.<br />
+//<br />
+// If you enable a local name server, don't forget to enter 127.0.0.1<br />
+// into your /etc/resolv.conf so this server will be queried first.<br />
+// Also, make sure to enable it in /etc/rc.conf.<br />
+zone "." {<br />
+&nbsp;&nbsp; &nbsp;type hint;<br />
+&nbsp;&nbsp; &nbsp;file "named.root";<br />
+};<br />
+zone "0.0.127.IN-ADDR.ARPA" {<br />
+&nbsp;&nbsp; &nbsp;type master;<br />
+&nbsp;&nbsp; &nbsp;file "localhost.rev";<br />
+};<br />
+指定线索域和本地回环域，这一部分使用一些标准的例子就可以。<br />
+file "named.root"; 指定该域的解析文件，其目录为options中directory "/etc/namedb";指定的。在本例中为/etc/namdb。<br />
+(4)自定义域<br />
+zone "test.com" {<br />
+&nbsp;&nbsp; &nbsp;type&nbsp;&nbsp; &nbsp;master;<br />
+&nbsp;&nbsp; &nbsp;file&nbsp;&nbsp; &nbsp;"zone.test ";<br />
+};<br />
+zone "0.168.192.in-addr.arpa" {<br />
+&nbsp;&nbsp; &nbsp;type&nbsp;&nbsp; &nbsp;master;<br />
+&nbsp;&nbsp; &nbsp;file&nbsp;&nbsp; &nbsp;"zone. test.rev";<br />
+};<br />
+zone "4.0.0.f.0.5.2.0.1.0.0.2.IP6.ARPA" {&nbsp;&nbsp; &nbsp;<br />
+&nbsp;&nbsp; &nbsp;type master;<br />
+&nbsp;&nbsp; &nbsp;allow-transfer { any;};<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; allow-query { any; };&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+&nbsp;&nbsp; &nbsp;file "ipv6.rev";<br />
+};<br />
+zone "lowerlevelzone.test.com" {<br />
+&nbsp;&nbsp; &nbsp;type&nbsp;&nbsp; &nbsp;slave;<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;masters {<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;192.168.1.1;<br />
+&nbsp;&nbsp; &nbsp;};<br />
+};<br />
+这一部分是配置文件中我们需要重点关心的部分：<br />
+zone "test.com" {<br />
+type master;<br />
+file "zone.test ";<br />
+}; 设定test.com域;<br />
+type master 指明该域主要由本机解析;<br />
+file "zone.test "指定其解析文件为zong.test，目录为options中设定的目录本例中为/etc/named。<br />
+zone "0.168.192.in-addr.arpa" {<br />
+type master;<br />
+file "zone. test.rev";<br />
+}; 指定ipv4地址逆向解析<br />
+type master 指明该域主要由本机解析;<br />
+file "zone.test.rev "指定其解析文件为zong.test.rev，目录为options中设定的目录本例中为/etc/named。<br />
+zone "4.0.0.f.0.5.2.0.1.0.0.2.IP6.ARPA" {<br />
+type master;<br />
+allow-transfer { any;};<br />
+allow-query { any; };<br />
+file "ipv6.rev";<br />
+};指定ipv4地址逆向解析<br />
+type master 指明该域主要由本机解析;<br />
+file " ipv6.rev "指定其解析文件为ipv6.rev，目录为options中设定的目录本例中为/etc/named。<br />
+zone "lowerlevelzone.test.com" {<br />
+type slave;<br />
+masters {<br />
+192.168.1.1;<br />
+};<br />
+}; 设定lowerlevelzone.test.com域;<br />
+type slave 指明该域主要由低一级的域名服务器解析;<br />
+masters {<br />
+192.168.1.1;<br />
+}; 指定低一级的域名服务器ip地址。<br />
+到此我们就初步建立了一个标准的named 的主配置文件，接下来建立对应的域名解析或逆向解析文件。 <br />
+2.域名解析和IP地址逆向解析文件：<br />
+(1) 域名解析：<br />
+/etc/namedb/zone.test<br />
+<br />
+;&nbsp;&nbsp; &nbsp;From: @(#)localhost.rev&nbsp;&nbsp; &nbsp;5.1 (Berkeley) 6/30/90<br />
+; $FreeBSD: src/etc/namedb/PROTO.localhost.rev,v 1.6 2000/01/10 15:31:40 peter Exp $<br />
+;<br />
+; This file is automatically edited by the `make-localhost' script in<br />
+; the /etc/namedb directory.<br />
+;<br />
+@&nbsp;&nbsp; &nbsp;IN&nbsp;&nbsp; &nbsp;SOA&nbsp;&nbsp; &nbsp;ns.test.com. root.test.com.(<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;2005030116; Serial<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;3600&nbsp;&nbsp; &nbsp;; Refresh<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;900&nbsp;&nbsp; &nbsp;; Retry<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;3600000&nbsp;&nbsp; &nbsp;; Expire<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;3600 )&nbsp;&nbsp; &nbsp;; Minimum<br />
+&nbsp;&nbsp; &nbsp;IN&nbsp;&nbsp; &nbsp;NS&nbsp;&nbsp; &nbsp;ns.test.com<br />
+;<br />
+ns&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;IN&nbsp;&nbsp; &nbsp;A&nbsp;&nbsp; &nbsp;192.168.0.1<br />
+www6&nbsp;&nbsp; &nbsp;IN&nbsp;&nbsp; &nbsp;AAAA&nbsp;&nbsp; &nbsp;2001:250:f004::10<br />
+www&nbsp;&nbsp; &nbsp;IN&nbsp;&nbsp; &nbsp;A&nbsp;&nbsp; &nbsp;192.168.0.2<br />
+本文件前半部分是一些默认的参数设置，只需把域名改成对应得你要设置的域就行，其余的不用过分深究，如果读者有兴趣可以查阅相关的手册文档。<br />
+（注意，<br />
+IN NS ns.test.com;<br />
+这一条必须有，来指定本域的域名服务器 ；<br />
+域名必须以"."结尾。）<br />
+本文件的第二部分（倒数三行），指定了该域上的主机：<br />
+ns IN A 192.168.0.1<br />
+ns 为主机名，A 代表地址类型为IPV4地址，192.168.0.1 是实际ip地址，这一条记录的含义是ns.test.com 的ip地址为 192.168.0.1<br />
+www6 IN AAAA 2001:250:f004::10<br />
+www6 为主机名，AAAA代表地址类型为IPV6地址，2001:250:f004::10 是其IPV6地址，这条记录的含义是www6.test.com 的ip地址是2001:250:f004::10 。<br />
+(2)IP地址逆向解析：<br />
+ipv4 逆向解析：<br />
+/etc/namedb/zone.test.rev<br />
+;&nbsp;&nbsp; &nbsp;From: @(#)localhost.rev&nbsp;&nbsp; &nbsp;5.1 (Berkeley) 6/30/90<br />
+; $FreeBSD: src/etc/namedb/PROTO.localhost.rev,v 1.6 2000/01/10 15:31:40 peter Exp $<br />
+;<br />
+; This file is automatically edited by the `make-localhost' script in<br />
+; the /etc/namedb directory.<br />
+;<br />
+@&nbsp;&nbsp; &nbsp;IN&nbsp;&nbsp; &nbsp;SOA&nbsp;&nbsp; &nbsp;ns.test.com. root.test.com.(<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;2005030116; Serial<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;3600&nbsp;&nbsp; &nbsp;; Refresh<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;900&nbsp;&nbsp; &nbsp;; Retry<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;3600000&nbsp;&nbsp; &nbsp;; Expire<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;3600 )&nbsp;&nbsp; &nbsp;; Minimum<br />
+&nbsp;&nbsp; &nbsp;IN&nbsp;&nbsp; &nbsp;NS&nbsp;&nbsp; &nbsp;ns.test.com<br />
+;<br />
+1&nbsp;&nbsp; &nbsp;IN&nbsp;&nbsp; &nbsp;PTR&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;ns.test.com.<br />
+2&nbsp;&nbsp; &nbsp;IN&nbsp;&nbsp; &nbsp;PTR&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;www.test.com.<br />
+ipv6 逆向解析：<br />
+/etc/namedb/zone.test.rev<br />
+;&nbsp;&nbsp; &nbsp;From: @(#)localhost.rev&nbsp;&nbsp; &nbsp;5.1 (Berkeley) 6/30/90<br />
+; $FreeBSD: src/etc/namedb/PROTO.localhost.rev,v 1.6 2000/01/10 15:31:40 peter Exp $<br />
+;<br />
+; This file is automatically edited by the `make-localhost' script in<br />
+; the /etc/namedb directory.<br />
+;<br />
+@&nbsp;&nbsp; &nbsp;IN&nbsp;&nbsp; &nbsp;SOA&nbsp;&nbsp; &nbsp;ns.test.com. root.test.com.(<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;2005030116; Serial<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;3600&nbsp;&nbsp; &nbsp;; Refresh<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;900&nbsp;&nbsp; &nbsp;; Retry<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;3600000&nbsp;&nbsp; &nbsp;; Expire<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;3600 )&nbsp;&nbsp; &nbsp;; Minimum<br />
+&nbsp;&nbsp; &nbsp;IN&nbsp;&nbsp; &nbsp;NS&nbsp;&nbsp; &nbsp;ns.test.com<br />
+;<br />
+10.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;IN&nbsp;&nbsp; &nbsp;www6.test.com.<br />
+这里<br />
+10.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0 IN www6.test.com.<br />
+与主配置文件/etc/named.conf中的<br />
+zone "4.0.0.f.0.5.2.0.1.0.0.2.IP6.ARPA"<br />
+"10.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0" + "4.0.0.f.0.5.2.0.1.0.0.2" 刚好组成点分的32位16进制逆序ipv6地址。<br />
+实际上，ip地址逆向解析由于缺乏统一的管理和相关的标准，这项服务的使用比较混乱，可以考虑不启动该服务。所以在这里只给出两个例子，就不过多解释了。<br />
+五.安装使用的一些经验：<br />
+1.带调试信息的启动<br />
+named -g<br />
+/usr/local/sbin/named默认情况是一个后台deamon ,-g选项表示前台运行，并将调试信息打印到标准输出，这在我们安装调试阶段是非常有帮助的。<br />
+2.客户端命令nslookup简介<br />
+windows ，linux 平台均支持此调试命令。<br />
+键入nslookup即进入与服务器交互状态，这时键入域名或ip地址就可以向服务器正向或逆向查询。<br />
+&gt;www.test.com 正向域名解析<br />
+&gt;192.168.0.1 逆向IP解析<br />
+&gt;set type=AAAA 设置查询地址类型为IPv6地址类型。<br />
+&gt;set type=A 设置查询地址类型为IPv4地址类型。<br />
+&gt;exit 退出。<br />
+参考资料：<br />
+[1]：http://www.bind.com/<br />
+[2]：http://www.isc.org/index.pl?/sw/bind/<br />
+[3]：ipv6.bupt.edu.cn&nbsp;
+</body>
+
+</html>

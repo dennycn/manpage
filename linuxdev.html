@@ -1,0 +1,500 @@
+<html><head><meta content="text/html; charset=gb2312" http-equiv="Content-Type"><title>在线教程-Linux应用程序开发</title><link rel="stylesheet" href="http://www.kuqin.com/../docbook.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.65.1"><meta name="description" content="我的Linux应用程序开发笔记，从这里开始我的Linux开发之旅。"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<a href="index.html"><< 返回在线教程 </a><br><br>
+
+
+<div class="book" lang="en"><div class="titlepage"><div><div><h1 class="title"><a name="id2875166"></a>Linux应用程序开发</h1></div><div><div class="author"><h3 class="author"><span class="firstname">整理：Jims of <a href="http://www.ringkee.com" target="_top">肥肥世家</a></span></h3><div class="affiliation"><div class="address"><p><tt class="email">&lt;<a href="mailto:jims.yang@gmail.com">jims.yang@gmail.com</a>&gt;</tt></p></div></div></div></div><div><p class="copyright">Copyright &copy; 2006 本文遵从GNU 的自由文档许可证(Free Documentation License)的条款，欢迎转载、修改、散布。</p></div><div><p class="pubdate">发布时间:2006年11月01日</p></div><div><div class="abstract"><p class="title"><b>Abstract</b></p><p>我的Linux应用程序开发笔记，从这里开始我的Linux开发之旅。</p></div></div></div><div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="chapter"><a href="linuxdev.html#id2875155">1. C语言基础</a></span></dt><dd><dl><dt><span class="sect1"><a href="linuxdev.html#id2875107">1.1. 指针与数组</a></span></dt></dl></dd><dt><span class="chapter"><a href="linuxdev.html#id2811772">2. Linux程序开发基础概念</a></span></dt><dt><span class="chapter"><a href="linuxdev.html#id2810479">3. 文件处理</a></span></dt><dt><span class="chapter"><a href="linuxdev.html#id2861408">4. Linux环境</a></span></dt></dl></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2875155"></a>Chapter 1. C语言基础</h2></div></div><div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="linuxdev.html#id2875107">1.1. 指针与数组</a></span></dt></dl></div><p>Linux是使用C语言开发的，基于Linux平台的应用程序开发，C语言是首选的开发语言。本章记录C语言的基本概念\
+和基础知识。</p><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2875107"></a>1.1. 指针与数组</h2></div></div><div></div></div><div class="itemizedlist"><ul type="disc"><li><p>C语言中专门用来存放内存地址的变量叫指针（pointer）变量，简称指针。</p></li><li><p>&amp;运算符用来取得变量地址，</p></li><li><p>&quot;*&quot;运算符用来取得指针变量的值。</p></li><li><p>数组名是地址</p></li></ul></div></div></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2811772"></a>Chapter 2. Linux程序开发基础概念</h2></div></div><div></div></div><p>在设置Linux的系统路径时，使用冒号分隔每个路径名。如:</p><pre class="screen">
+PATH=&quot;/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/bin/X11&quot;
+</pre><p>在Linux中的程序有两种，一种是可执行程序，与Windows下的.exe文件类似，一种是脚本，与Windows下的.bat文件类似。</p><p>Linux中常用的程序存放路径有以下几个：</p><div class="itemizedlist"><ul type="disc"><li><p>/bin，该路径存放系统启动时需要使用的程序。</p></li><li><p>/usr/bin，该路径存放用户需使用的标准程序。</p></li><li><p>/usr/local/bin，该路径存放本地安装的程序。</p></li><li><p>Linux使用斜杠&quot;/&quot;分隔路径名，而不是Windows的反斜杠&quot;\&quot;。</p></li><li><p>Linux下的C编译器使用GCC，由于历史的原因，在POSIX兼容的操作系统中，C编译器都叫cc，所以Linux下也
+有一个cc命令，它是一个到gcc的软链接。</p></li></ul></div><p>开发工具，多数位于/usr/bin或/usr/local/bin目录下。</p><p>头文件，位于/usr/include目录。头文件包含有常量定义、系统调用和库函数调用的声明。这是系统默认的头文
+件存放路径，在编译程序时，编译器会自动查找该目录。gcc编译器在编译程序时也可用-I参数指定另外的头文件路径。如：</p><pre class="screen">
+gcc -I/usr/local/myinclude test.c。
+</pre><p>库文件，库是一组已编译的函数集合，可方便我们重用代码。默认存放在/lib和/usr/lib目录。库文件可分为静
+态和共享两类。</p><div class="itemizedlist"><ul type="disc"><li><p>.a，静态库文件。使用静态库将会把所有的库代码引入程序，占用更多的磁盘空间和内存空间，所以一般建议使用共享库。</p></li><li><p>.so，共享库文件。使用共享库的程序不包含库代码，只在程序运行才调用共享库中的代码。</p></li></ul></div><p>在编译时可用包含路径的库文件名或用-l参数指定使用的库文件，/usr/lib/libm.a等价于-lm。如:</p><pre class="screen">
+gcc -o hello hello.c /usr/lib/libm.a  
+或用-l参数写成 
+gcc -o hello hello.c -lm
+</pre><p>如果我们要使用的库文件不在默认位置，在编译程序时可用-L参数指定库文件的路径。下面例子使用了/usr/hello/lib目录下的libhello库文件：</p><pre class="screen">
+gcc -o hello -L/usr/hello/lib hello.c -lhello
+</pre><p>创建和使用静态库。</p><div class="itemizedlist"><ul type="disc"><li><p> 分别创建两个函数，函数a的内容如下：</p><pre class="screen">
+#include &lt;stdio.h&gt;
+
+void a(char *arg)
+{
+        printf(&quot;function a,hello world %s\n&quot;,arg);
+}
+</pre><p>函数b的内容如下：</p><pre class="screen">
+#include &lt;stdio.h&gt;
+
+void b(int arg)
+{
+        printf(&quot;function b,hello world %d\n&quot;,arg);
+}
+</pre></li><li><p>接着，生成两个对象文件。</p><pre class="screen">
+debian:~/c# gcc -c a.c b.c
+debian:~/c# ls *.o
+a.o  b.o
+</pre></li><li><p>最后，用ar归档命令把生成的对象文件打包成一个静态库libhello.a。</p><pre class="screen">
+debian:~/c# ar crv libhello.a a.o b.o 
+r - a.o
+r - b.o
+</pre></li><li><p>为我们的静态库定义一个头文件lib.h，包含这两个函数的定义。</p><pre class="screen">
+/*
+ * this is a header file.
+ */
+void a(char *arg);
+void b(int arg);
+}}}
+  * 创建jims.c程序，内容如下。{{{#!cplusplus
+#include &quot;lib.h&quot;
+
+int main()
+{
+        a(&quot;jims.yang&quot;);
+        b(3);
+        exit(0);
+}
+</pre></li><li><p>利用静态链接库编译程序。</p><pre class="screen">
+debian:~/c# gcc -c jims.c
+debian:~/c# gcc -o jims jims.o libhello.a
+debian:~/c# ./jims
+function a,hello world jims.yang
+function b,hello world 3
+debian:~/c#                                       
+</pre><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="http://www.kuqin.com/docs/images/note.png"></td><th align="left"></th></tr><tr><td colspan="2" align="left" valign="top">gcc -o jims jims.o libhello.a也可以写成gcc -o jims jims.o -L. -lhello。</td></tr></table></div></li></ul></div><p>预处理，在程序开头以“#”开头的命令就是预处理命令，它在语法扫描和分析法时被预处理程序处理。预处理有以下几类：</p><div class="itemizedlist"><ul type="disc"><li><p>宏定义，用#define指令定义。如：#define BUFFER 1024。取消宏定义用#undef指令。宏还可带参数，如：</p><pre class="screen">
+#define BUF(x) x*3
+</pre></li><li><p>包含头文件，用#include指令，可把包含的文件代码插入当前位置。如：</p><pre class="screen">
+&lt;#include &lt;stdio.h&gt;。
+</pre><p>包含的文件可以用尖括号，也可用双引号，如：</p><pre class="screen">
+#include &quot;stdio.h&quot;。
+</pre><p>不同之处是，使用尖括号表示在系统的包含目录（/usr/include）下查找该文件，而双引号表示在当前目录下查找包含文件。每行只能包含一个包含文件，要包含多个文件要用多个#include指令。</p></li><li><p>条件编译，格式如下：</p><pre class="screen">
+格式一，如果定义了标识符，则编译程序段1，否则编译程序段2：
+#ifdef 标识符
+程序段1
+#else
+程序段2
+#endif
+
+格式二，如果定义了标识符，则编译程序段2，否则编译程序段1，与格式一相反：
+#ifndef 标识符
+程序段1
+#else
+程序段2
+#endif 
+
+格式三，常量表达式为真则编译程序段1，否则编译程序段2：
+#if 常量表达式
+程序段1
+#else
+程序段2
+#endif 
+</pre></li></ul></div><p>使用gcc编译程序时，要经过四个步骤。</p><div class="itemizedlist"><ul type="disc"><li><p>预处理（Pre-Processing），用-E参数可以生成预处理后的文件。</p><pre class="screen">
+debian:~/c# gcc -E hello.c -o hello.i
+</pre></li><li><p>编译（Compiling）</p></li><li><p>汇编（Assembling）</p></li><li><p>链接（Linking）</p></li></ul></div><p>GCC默认将.i文件看成是预处理后的C语言源代码，所以我们可以这样把.i文件编译成目标文件。</p><pre class="screen">
+debian:~# gcc -c hello.i -o hello.o}}}
+</pre><p>在GCC中使用-pedantic选项能够帮助程序员发现一些不符合ANSI/ISO C标准的代码，但不是全部。从程序员的角度看，函数库实际上就是一些头文件（.h）和库文件（.so或者.a）的集合。</p></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2810479"></a>Chapter 3. 文件处理</h2></div></div><div></div></div><p>在Linux系统内所有东西都是以文件的形式来表示的，除一般的磁盘文件外，还有设备文件，如硬盘、声卡、串口、打印机等。设备文件又可分为字符设备文件（character devices）和块设备文件（block devices）。使用man hier命令
+可以查看Linux文件系统的分层结构。文件的处理方法一般有五种，分别是：</p><div class="itemizedlist"><ul type="disc"><li><p>open，打开一个文件或设备。</p></li><li><p>close，关闭一个打开的文件或设备。</p></li><li><p>read，从一个打开的文件或者设备中读取信息。</p></li><li><p>write，写入一个文件或设备。</p></li><li><p>ioctl，把控制信息传递给设备驱动程序。</p></li></ul></div><p>open，close，read，write和ioctl都是低级，没有缓冲的文件操作函数，在实际程序开发中较少使用，一般我们使用标准I/O函数库来处理文件操作。如：fopen，fclose，fread，fwrite，fflush等。在使用标准I/O库时，需用到stdio.h头文件。</p><p>一些常用的文件和目录维护函数：chmod、chown、unlink、link、symlink、mkdir、rmdir、chdir、getcwd、opendir，closedir、readdir、telldir、seekdir等。</p><p>fcntl用于维护文件描述符，mmap用于分享内存。</p><p>创建文档并输入信息的示例代码：</p><pre class="screen">
+#include &lt;stdio.h&gt;
+
+main(void)
+        {
+        FILE *fp1;
+        char c;
+
+        fp1 = fopen(&quot;text.txt&quot;,&quot;w&quot;);
+        while ((c = getchar())!= '\n')
+                putc(c,fp1);
+        fclose(fp1);
+        }
+</pre><p>显示路径的示例代码</p><pre class="screen">
+#include &lt;unistd.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;dirent.h&gt;
+#include &lt;string.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main(int argc, char *argv[])
+{
+        char *topdir = &quot;.&quot;;
+        if (argc &gt;= 2)
+                topdir = argv[1];
+
+        printf(&quot;Directory scan of %s\n&quot;, topdir);
+        printdir(topdir,0);
+        printf(&quot;done.\n&quot;);
+
+        exit(0);
+}
+
+printdir(char *dir, int depth)
+{
+        DIR *dp;
+        struct dirent *entry;
+        struct stat statbuf;
+
+        if((dp = opendir(dir)) == NULL)
+        {
+                fprintf(stderr,&quot;cannot open directory:%s\n&quot;,dir);
+                return;
+        }
+        chdir(dir);
+        while((entry = readdir(dp)) != NULL)
+        {
+                lstat(entry-&gt;d_name,&amp;statbuf);
+                if(S_ISDIR(statbuf.st_mode))
+                {
+                        if(strcmp(&quot;.&quot;,entry-&gt;d_name) == 0 || strcmp(&quot;..&quot;,entry-&gt;d_name) == 0)
+                                continue;
+                        printf(&quot;%*s%s/\n&quot;,depth,&quot;&quot;,entry-&gt;d_name);
+                        printdir(entry-&gt;d_name,depth+4);
+                }
+                else printf(&quot;%*s%s\n&quot;,depth,&quot;&quot;,entry-&gt;d_name);
+        }
+        chdir(&quot;..&quot;);
+        closedir(dp);
+}
+</pre></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2861408"></a>Chapter 4. Linux环境</h2></div></div><div></div></div><p>void main()表示程序没有参数，int main(int argc, char *argv[])表示程序要带参数，argc保存着参数的个数，argv[]数组保存着参数列表。如：</p><pre class="screen">
+debian:~# mytest a b c 
+argc: 4
+argv: [&quot;mytest&quot;,&quot;a&quot;,&quot;b&quot;,&quot;c&quot;]
+</pre><p>getopt()函数和getopt_long()用来处理程序选项。getopt_long()函数可以处理以&quot;--&quot;开头的选项。Gnu官方手册页：<a href="http://www.gnu.org/software/libc/manual/html_node/Getopt.html" target="_top">http://www.gnu.org/software/libc/manual/html_node/Getopt.html</a></p><p>获取命令行参数的示例代码：</p><pre class="screen">
+#include &lt;stdio.h&gt;
+#include &lt;unistd.h&gt;
+
+int main(int argc, char *argv[])
+{
+   int opt;
+
+   while((opt = getopt(argc,argv,&quot;if:lr&quot;)) != -1)       /* 返回“-1”表示已没选项需要处理。*/
+   {
+           switch(opt){
+           case 'i':
+           case 'l':
+           case 'r':
+                   printf(&quot;option: %c\n&quot;, opt);
+                   break;
+           case 'f':
+                   printf(&quot;filename: %s\n&quot;, optarg);           /*如果选项需要一个参数，则参数存放在外部变量optarg中。*/
+                   break;
+           case ':':
+                   printf(&quot;option needs a value \n&quot;);          /*“：”表示选项需要参数*/
+                   break;
+           case ' ':
+                   printf(&quot;unknown option: %c\n&quot;, optopt);    /*返回“ ”表示无效的选项，并把无效的选项存放在外部变量optopt中。*/
+                   break;
+           }
+   }
+   for(; optind &lt; argc; optind++)                      /*外部变量optind指向下一个要处理的选项索引值。*/
+           printf(&quot;argument: %s\n&quot;, argv[optind]);
+}
+</pre><p>在bash shell中使用set命令可以列出Linux系统的环境变量，在C程序中我们也可以用putenv()和getenv()函数来获取Linux系统的环境变量。这两个函数的声明如下：</p><pre class="screen">
+char *getenv(const char *name);
+int putenv(const char *string);
+</pre><p>系统有一个environ变量记录了所有的系统变量。下面的示例代码可把environ的值显示同来。</p><pre class="screen">
+#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+
+extern char **environ;
+
+int main()
+{
+        char **env = environ;
+
+        while(*env)
+        {
+                printf(&quot;%s\n&quot;,*env);
+                env++;
+        }
+}
+</pre><p>linux和其它unix一样，使用GMT1970年1月1日子夜作为系统时间的开始，也叫UNIX纪元的开始。现在的时间表示为UNIX纪元至今经过的秒数。</p><pre class="screen">
+#include &lt;time.h&gt;
+ time_t time(time_t *t);
+
+显示系统时间的示例代码：
+#include &lt;time.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;unistd.h&gt;
+
+int main()
+{
+        int i;
+        time_t the_time;
+
+        for(i = 1; i &lt;= 10; i++){
+                the_time = time((time_t *)0);
+                printf(&quot;%d  the time is %ld\n&quot;, i, the_time);
+                sleep(2);
+        }
+}
+</pre><p>用ctime()函数以友好方式返回当前时间，它的函数声明格式：</p><pre class="screen">
+#include &lt;time.h&gt;
+char *ctime(const time_t *timeval);
+
+示例：
+#include &lt;time.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(void)
+{
+        time_t time1;
+
+        (void)time(&amp;time1);
+        printf(&quot;The date is: %s\n&quot;,ctime(&amp;time1));
+}
+</pre><p>用mkstemp()函数创建临时文件。声明：</p><pre class="screen">
+#include&lt;stdlib.h&gt;
+int mkstemp(char * template);
+
+示例：
+#include &lt;stdio.h&gt;
+
+int main(void)
+{
+        char template[] = &quot;template-XXXXXX&quot;;
+        int fp;
+        fp = mkstemp(template);
+        printf(&quot;template = %s\n&quot;, template);
+        close(fp);
+}
+</pre><p>获取用户信息。</p><pre class="screen">
+声明：
+#include &lt;sys/types.h&gt;
+#include &lt;pwd.h&gt;
+struct passwd *getpwuid(uid_t uid);   /* 根据uid返回用户信息 */
+struct passwd *getpwnam(const char *name);   /* 根据用户名返回用户信息 */
+
+passwd结构体说明：
+passwd Member Description
+char *pw_name          The user's login name
+uid_t pw_uid             The UID number
+gid_t pw_gid             The GID number
+char *pw_dir            The user's home directory
+char *pw_gecos        The user's full name
+char *pw_shell         The user's default shell
+
+示例代码：
+#include &lt;stdio.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;pwd.h&gt;
+
+int main(void)
+{
+        uid_t uid;
+        gid_t gid;
+        struct passwd *pw;
+
+        uid = getuid();
+        gid = getgid();
+        pw = getpwuid(uid);
+
+        printf(&quot;User is %s\n&quot;, getlogin());
+        printf(&quot;The uid is:%d\n&quot;, uid);
+        printf(&quot;The gid is:%d\n&quot;,gid);
+        printf(&quot;The pw struct:\n name=%s, uid=%d, gid=%d, home=%s,shell=%s\n&quot;, pw-&gt;pw_name, pw-&gt;pw_uid, pw-&gt;pw_gid, pw-&gt;pw_dir, pw-&gt;pw_shell);
+}
+</pre><p>用gethostname()函数获取主机名。</p><pre class="screen">
+函数声明：
+#include &lt;unistd.h&gt;
+int gethostname(char *name, size_t namelen);    /* 主机名返回给name变量 */
+
+示例代码：
+#include &lt;stdio.h&gt;
+#include &lt;unistd.h&gt;
+
+int main(void)
+{
+        char computer[100];
+        int status;
+
+        status = gethostname(computer, 100);
+        printf(&quot;The status is %d\n&quot;, status);
+        printf(&quot;The hostname is: %s\n&quot;, computer);
+}
+</pre><p>用uname()函数获取主机详细信息，就像shell的uname命令返回的信息一样。</p><pre class="screen">
+函数声明：
+#include &lt;sys/utsname.h&gt;
+int uname(struct utsname *name);
+
+utsname结构体说明：
+utsname Member                  Description
+char sysname[]                  The operating system name
+char nodename[]                 The host name
+char release[]                  The release level of the system
+char version[]                  The version number of the system
+char machine[]                  The hardware type
+
+示例代码：
+#include &lt;stdio.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/utsname.h&gt;
+
+int main(void)
+{
+        char computer[100];
+        int status;
+        struct utsname uts;
+
+        status = gethostname(computer,100);
+        printf(&quot;The computer's size is %d\n&quot;,sizeof(computer));
+        printf(&quot;The status is %d\n&quot;, status);
+        printf(&quot;The hostname is: %s\n&quot;, computer);
+
+        uname(&amp;uts);
+        printf(&quot;The uname's information.\n uts.sysname=%s\n uts.machine=%s\n uts.nodename=%s\n uts.release=%s\n uts.version=%s\n&quot;, uts.sysname,uts.machine,uts.nodename,uts.release,uts.version);
+}
+</pre><p>使用syslog()函数处理日志信息。</p><pre class="screen">
+函数声明：
+#include &lt;syslog.h&gt;
+void syslog(int priority, const char *message, arguments...);
+
+priority参数的格式（severity level|facility code）
+示例： 
+LOG_ERR|LOG_USER
+
+severity level：
+Priority Level               Description
+LOG_EMERG                    An emergency situation
+LOG_ALERT                    High-priority problem, such as database corruption
+LOG_CRIT                     Critical error, such as hardware failure
+LOG_ERR                      Errors
+LOG_WARNING                  Warning
+LOG_NOTICE                   Special conditions requiring attention
+LOG_INFO                     Informational messages
+LOG_DEBUG                    Debug messages
+
+facility value（转自syslog.h头文件）：
+/* facility codes */
+#define LOG_KERN        (0&lt;&lt;3)  /* kernel messages */
+#define LOG_USER        (1&lt;&lt;3)  /* random user-level messages */
+#define LOG_MAIL        (2&lt;&lt;3)  /* mail system */
+#define LOG_DAEMON      (3&lt;&lt;3)  /* system daemons */
+#define LOG_AUTH        (4&lt;&lt;3)  /* security/authorization messages */
+#define LOG_SYSLOG      (5&lt;&lt;3)  /* messages generated internally by syslogd */
+#define LOG_LPR         (6&lt;&lt;3)  /* line printer subsystem */
+#define LOG_NEWS        (7&lt;&lt;3)  /* network news subsystem */
+#define LOG_UUCP        (8&lt;&lt;3)  /* UUCP subsystem */
+#define LOG_CRON        (9&lt;&lt;3)  /* clock daemon */
+#define LOG_AUTHPRIV    (10&lt;&lt;3) /* security/authorization messages (private) */
+#define LOG_FTP         (11&lt;&lt;3) /* ftp daemon */
+
+示例代码：
+#include &lt;syslog.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(void)
+{
+        FILE *f;
+
+        f = fopen(&quot;abc&quot;,&quot;r&quot;);
+        if(!f)                                    
+                syslog(LOG_ERR|LOG_USER,&quot;test - %m\n&quot;);       
+}
+</pre><p>上面的日志信息由系统自动给出，我们也可过滤日志信息。用到以下函数：</p><pre class="screen">
+#include &lt;syslog.h&gt;
+void closelog(void);
+void openlog(const char *ident, int logopt, int facility);
+int setlogmask(int maskpri);
+
+logopt参数的选项：
+logopt Parameter    Description
+LOG_PID             Includes the process identifier, a unique number allocated to each process by the system, in the messages.
+LOG_CONS            Sends messages to the console if they can’t be logged.
+LOG_ODELAY          Opens the log facility at first call to .
+LOG_NDELAY          Opens the log facility immediately, rather than at first log.
+
+示例代码：
+#include &lt;syslog.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;unistd.h&gt;
+
+int main(void)
+{
+        int logmask;
+
+        openlog(&quot;logmask&quot;, LOG_PID|LOG_CONS, LOG_USER); /*日志信息会包含进程id。*/
+        syslog(LOG_INFO, &quot;informative message, pid=%d&quot;, getpid()); 
+        syslog(LOG_DEBUG,&quot;debug message, should appear&quot;);   /*记录该日志信息。*/
+        logmask = setlogmask(LOG_UPTO(LOG_NOTICE));     /*设置屏蔽低于NOTICE级别的日志信息。*/
+        syslog(LOG_DEBUG, &quot;debug message, should not appear&quot;);  /*该日志信息被屏蔽，不记录。*/
+}
+</pre><p>不同安全级别的日志信息存放在/var/log目录下的哪个文件中是由/etc/syslog.conf文件控制的，下面是我系统中syslog.conf文件的内容：</p><pre class="screen">
+#  /etc/syslog.conf     Configuration file for syslogd.
+#
+#                       For more information see syslog.conf(5)
+#                       manpage.
+
+#
+# First some standard logfiles.  Log by facility.
+#
+
+auth,authpriv.*                 /var/log/auth.log
+*.*;auth,authpriv.none          -/var/log/syslog
+#cron.*                         /var/log/cron.log
+daemon.*                        -/var/log/daemon.log
+kern.*                          -/var/log/kern.log
+lpr.*                           -/var/log/lpr.log
+mail.*                          -/var/log/mail.log
+user.*                          -/var/log/user.log
+uucp.*                          /var/log/uucp.log
+
+#
+# Logging for the mail system.  Split it up so that
+# it is easy to write scripts to parse these files.
+#
+mail.info                       -/var/log/mail.info
+mail.warn                       -/var/log/mail.warn
+mail.err                        /var/log/mail.err
+
+# Logging for INN news system
+#
+news.crit                       /var/log/news/news.crit
+news.err                        /var/log/news/news.err
+news.notice                     -/var/log/news/news.notice
+
+#
+# Some `catch-all' logfiles.
+#
+*.=debug;\
+        auth,authpriv.none;\
+        news.none;mail.none     -/var/log/debug
+*.=info;*.=notice;*.=warn;\
+        auth,authpriv.none;\
+        cron,daemon.none;\
+        mail,news.none          -/var/log/messages
+
+#
+# Emergencies are sent to everybody logged in.
+#
+*.emerg                         *
+
+#
+# I like to have messages displayed on the console, but only on a virtual
+# console I usually leave idle.
+#
+#daemon,mail.*;\
+#       news.=crit;news.=err;news.=notice;\
+#       *.=debug;*.=info;\
+#       *.=notice;*.=warn       /dev/tty8
+
+# The named pipe /dev/xconsole is for the `xconsole' utility.  To use it,
+# you must invoke `xconsole' with the `-file' option:
+#
+#    $ xconsole -file /dev/xconsole [...]
+#
+# NOTE: adjust the list below, or you'll go crazy if you have a reasonably
+#      busy site..
+#
+daemon.*;mail.*;\
+        news.crit;news.err;news.notice;\
+        *.=debug;*.=info;\
+        *.=notice;*.=warn       |/dev/xconsole
+</pre></div></div>
+
+
+<DIV style="DISPLAY: none">
+ <script src='http://s42.cnzz.com/stat.php?id=423754&web_id=423754&show=pic' language='JavaScript' charset='gb2312'>
+</script>
+</DIV>
+</body></html>

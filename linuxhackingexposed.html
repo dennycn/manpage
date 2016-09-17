@@ -1,0 +1,1553 @@
+<html><head><meta content="text/html; charset=gb2312" http-equiv="Content-Type"><title>在线教程-Grep学习笔记</title><link rel="stylesheet" href="http://www.kuqin.com/docbook.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.65.1"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<a href="index.html"><< 返回在线教程 </a><br><br>
+
+<div><h1 class="title"><a name="id2875166"></a>Linux黑客大曝光学习笔记</h1></div>
+
+<p>我的评价：<br />
+  本书讲述了linux安全的方方面面，并且以一问一答的方式介绍，思路清晰。文中提供了很<br />
+  多有益的安全提示，是Linux系统维护人员的必备参考书。通过本书，你能了解到linux安<br />
+  全的整体概念，从系统安全到应用安全，从单机安全到网络安全。但安全问题是一个不断变<br />
+  化不断更新的过程而不是一个解决方案，所以本书只是提到当时为人所发现的安全问题的介<br />
+  绍，新出现的安全问题可参考该书网站的更新和网上的安全警告。</p>
+<p>第一章    linux安全问题概述<br />
+  粘着位（Sticky bit）<br />
+  如果用户对目录有写权限，则可以删除其中的文件和子目录，即使该用户不是这些文件的所<br />
+  有者，而且也没有读或写许可。粘着位出现执行许可的位置上，用t表示，设置了该位后，<br />
+  其它用户就不以删除不属于他的文件和目录。但是该目录下的目录不继承该权限，要再设置<br />
+  才可使用。<br />
+  # chmod 1770 xxx</p>
+<p> 文件属性<br />
+  chattr命令修改<br />
+  lsattr命令列出文件属性</p>
+<p>文件属性定义<br />
+  A    不要更新atime文件，当在笔记本电脑或NFS上限制磁盘I/0流量时，很有用，除2.0<br />
+  系列外，这一属性不被其它内核支持。<br />
+  a    文件仅能以追加方式打开，只有root才能设置这个属性。<br />
+  c    文件保存在磁盘时，内核将自动压缩该文件。<br />
+  d    文件标记，使其不能被转储。<br />
+  i     文件不能被修改，删除或重命名，不能创建任何指向它的链接，并不能写入任何数据。<br />
+  s    删除文件时，相应的磁盘存储块清零。<br />
+  S    修改文件时，对其写入进行同步。<br />
+  u    删除文件时，保存其内容。</p>
+<p> Ulimit命令<br />
+  设置限制     可以把命令加到profile文件里，也可以在/etc/security/limits.conf文件中定义<br />
+  限制。<br />
+  命令参数<br />
+  -a      显示所有限制<br />
+  -c      core文件大小的上限<br />
+  -d      进程数据段大小的上限<br />
+  -f      shell所能创建的文件大小的上限<br />
+  -m     驻留内存大小的上限<br />
+  -s      堆栈大小的上限<br />
+  -t      每秒可占用的CPU时间上限<br />
+  -p     管道大小<br />
+  -n     打开文件数的上限<br />
+  -u     进程数的上限<br />
+  -v     虚拟内存的上限<br />
+  除可用Ulimit命令设置外，也可以在/etc/security/limits.conf文件中定义限制。<br />
+  domino    type    item    value<br />
+  domino是以符号@开头的用户名或组名，*表示所有用户，type设置为hard or soft。item指<br />
+  定想限制的资源。如cpu,core nproc or maxlogins<br />
+  。value是相应的限制值。</p>
+<p> 信号<br />
+  # kill -TERM XXXX       终止信号<br />
+  # kill -HUP HTTPD       重读配置信号</p>
+<p> 特权端口<br />
+  root用户是可绑定端口小于1024的惟一用户。可以信任来自于远程机器端口小于1024的连<br />
+  接。</p>
+<p>&nbsp;</p>
+<p>第二章 预防措施与从入侵中恢复<br />
+  系统安全<br />
+  简单的FIND命令 <br />
+  # find / \(-perm -02000 -o -perm -4000 \) -ls   可以找出系统中所有的setuserid and setgroupid<br />
+  程序。<br />
+  在最严格的情况下，可以去掉除/bin/su外所有已安装程序的setXid位。</p>
+<p>系统安全扫描工具   cops   tiger   Nabou</p>
+<p> 扫描检测器<br />
+  黑客入侵系统前所做的第一件事就是从网络上扫描系统，扫描检测器能及时获知，是一个良<br />
+  好的入侵检测系统（IDS）<br />
+  Klaxon   Courtney   Scanlogd    PortSentry</p>
+<p> 加固系统<br />
+  Bastille项目创建了一组模块来加固新近发布的REDHAT。在安装完系统后可运行该补丁，<br />
+  在什么时候都可运行，不必要一定是刚安装完系统。<br />
+  加固的方法是：1、下载源代码到/root目录并解包。以root身份动行InteractiveBastille.pl脚<br />
+  本。在回答完问题后，程序将做出相应改动。配置完成后，该工具把其保存在BackEnd.pl<br />
+  中，如果希望加固同样配置的服务器，将它复制到新服务器并运行AutomatedBastille.pl即可。</p>
+<p>Openwall Linux补丁<br />
+  它是一个内核补丁。要这些补丁起作用，用户必须重新编译和安装新的打上补丁的内核。在<br />
+  某些情况下，这些内核补丁和标准linux不完全兼容，因此在决定使用前必须确信理解其含<br />
+  义。<br />
+</p>
+<p>LIDS<br />
+  它包括内核级的端口扫描检测程序和安全警告程序。是内核补丁（现在适用于2.2.X和2.4.X，<br />
+  但以后将不再支持2.2）和系统管理工具。其特性包括：<br />
+  1、高级文件保护，甚至root也不能发现和处置受LIDS保护的文件。<br />
+  2、进程保护，内核拒绝向受保护的进程发送信号（例如SIGKILL），进程也可以被完全隐<br />
+  藏起来，在/proc下不会存在任何痕迹。<br />
+  3、更好的访问控制，更有效地使用与特权相关的权能，包括禁止root更改这些权能。<br />
+  4、内置式端口扫描检测，内置于内核的扫描程序能够检测到Nmap，SATAN等工具的绝大<br />
+  部分扫描。<br />
+  要安装LIDS,必须下载最新的linux内核正式版和LIDS源代码。使用LIDS给内核打上补丁，<br />
+  然后重新编译内核。</p>
+<p> 日志文件分析<br />
+  syslogd消信可标记为特定的功能和级别，在/etc/syslog.conf文件中可以根据这两个选项来设<br />
+  置消信的去向。</p>
+<p>syslogd功能                 描述<br />
+  auth            安全性/验证消息(负面)<br />
+  authpriv        安全性/验证消息<br />
+  cron            cron and at<br />
+  daemon            其它系统守护进程（sshd,xinetd,pppd等）<br />
+  kern            内核消息<br />
+  lpr            行打印系统<br />
+  mail            邮件子系统（sendmail,postfix,qmail等）<br />
+  news            Usenet新闻消息<br />
+  syslog            内部syslog消息<br />
+  user            一般用户级消息<br />
+  uucp            UUCP子系统<br />
+  local0-local7        自定义的级别</p>
+<p>日志级别           描述<br />
+  emerg            系统已不可用<br />
+  alert            必须马上采取行动<br />
+  crit            危急<br />
+  err            错误<br />
+  warning            警告<br />
+  notice            普通但重要的情形<br />
+  info            通知消息<br />
+  debug            调试消息</p>
+<p>syslog.conf每一行的配置格式为<br />
+  facility.loglevel     logtarget,所有字段用tab隔开<br />
+  例子：<br />
+  daemon.notice    /var/log/daemon.log    把程序发送过来的功能为daemon，优先级为notice<br />
+  或更高级别的所有日志消息记录到/var/log/daemon.log文件中，可以使用*号表示匹配所有功<br />
+  能或日志级别。<br />
+  目标                   描述<br />
+  /path/to/filename    将消息附加到所指定文件的文件尾，这是最常用的情形。<br />
+  @loghost        写到loghost机器上的syslog服务器。可方便把日志发来多台机器上，<br />
+  |/path/to/named_pipe    写到指定的命名管道（便于用外部程序过滤消息）。<br />
+  user1,user2        写到所列用户。<br />
+  *            写到所有登录用户。<br />
+  /dev/console        写到已命名的终端。</p>
+<p> 日志文件许可<br />
+  应设置日志只为root所有和写入，同时能够被log组（或你所希望的组）读取，而其他用户<br />
+  没有任何权限。一个用户在输入用户名的地方使用了口令，在登录失败时，将会把用户名（在<br />
+  此例中为口令，因为用户失误）记录到日志中。然后创建一个属于log组的虚构用户，并让<br />
+  所有日志检查程序以该用户而不是root运行。日志检查程序不应当以root用户运行。<br />
+  可以通过日志分析软件开监控日志，如logcheck,swatch和logsurfer。但最好的工具还是管理<br />
+  员自已写的脚本。</p>
+<p> 文件系统完整性检查<br />
+  修改文件系统是黑客在侵入系统之后经常要做的一件事情，下面列出了经常被修改的一些文<br />
+  件：<br />
+  类型            例子<br />
+  服务器配置文件        /etc/inetd.conf,/etc/ftpaccess<br />
+  网络配置文件        /etc/host.conf,/etc/sysconfig/network<br />
+  系统配置文件        /etc/ld.so.conf,/etc/nsswitch.conf<br />
+  crontab            /etc/cron.daily/*,/var/spool/cron/root<br />
+  setuserid程序        /bin/su,/bin/ping,usr/bin/chfn,/sbin/dump<br />
+  setgroupid程序        /sbin/netreport,/usr/bin/lpr,/usr/bin/write,/usr/bin/man<br />
+  如果知道机器何时被入侵，就可以判断修改时，并了解哪些东西被修改了，例如想知道在9<br />
+  月17日发生的侵入事件中被修改的所有文件，可以执行如下命令：<br />
+  # touch 09170000 /tmp/comparison<br />
+  # find / \( -newer /tmp/comparison -o -cnewer /tmp/comparison \) -ls<br />
+  但记住，检查文件时间所给出的统计结果是不可靠的，touch命令可以更改任何文件的修改<br />
+  时间（mtime）和访问时间（atime）.</p>
+<p> 校验和<br />
+  校验和是一个使用数学算法生成的字符串，可以用来判断两个文件是否相同，即使在一个文<br />
+  件中只改动了一位，它们的校验和也会不同。通常<br />
+  用md5sum命令。<br />
+  # md5sum  xxx</p>
+<p> 文件许可<br />
+  通过检查文件许可，用户可以知道修改发生的时间，并判断其行为是合法，意外还是恶意的，<br />
+  同时确定其对系统的影响。</p>
+<p> 生成校验和与许可数据库<br />
+  在黑客入侵系统前生成文件的校验和，下面是一个快捷的perl脚本，能够使用户生成自已<br />
+  的文件许可和校验和数据库(文本)。<br />
+  #!/usr/bin/perl</p>
+<p>use MD5;<br />
+  require 'find.pl';</p>
+<p>$md5 = new MD5;<br />
+  @dirs = @ARGV;<br />
+  for $dir ( @dirs ) { find($dir);}<br />
+  sub wanted { push @files,$name;}</p>
+<p>for $name ( sort @files ) {<br />
+  ($uid,$gid) = (stat $name)[4,5];<br />
+  $stat = sprintf &quot;%0o&quot;,(stat _)[2];<br />
+  unless ( -f $name ) {<br />
+  printf &quot;$stat\t$uid $gid\t\t\t\t\t\t$name\n&quot;;<br />
+  next;<br />
+  }<br />
+  $md5-&gt;reset();<br />
+  open FILE,$name or print(STDERR &quot;Can't open file $name\n&quot;),next;<br />
+  $md5-&gt;addfile(FILE);<br />
+  close FILE;<br />
+  $checksum = $md5-&gt;hexdigest();<br />
+  printf &quot;$stat\t$uid $gid $checksum\t$name\n&quot;;<br />
+  }<br />
+  生成的数据库尽量不要放在本机上，要放在其它机器上或一次写多次读（CDR）的机器上。</p>
+<p>现有的文件完整性工具 Tripwire  AIDE Nabou</p>
+<p> 如何知道系统何时被黑<br />
+  发现系统被入侵的方法：<br />
+  1、主页变化<br />
+  2、磁盘空间的急剧减少        用df工具查看磁盘使用情况<br />
+  3、频繁地使用网络            使用netstat -na 或lsof输出，检查存在什么连接<br />
+  4、来自其它管理员的联系        当你的机器被用于攻击其它机器时<br />
+  5、混杂模式的网络接口        如果黑客想嗅探系统中可用的网络服务，会把网络接口设置<br />
+  为混杂模式（捕获所有的包）。请检查                ifconfig -a输出的promisc以确定接<br />
+  口模式。<br />
+  6、抹去/截断的日志文件        检查syslog<br />
+  7、被破坏的utmp/wtmp <br />
+  8、系统中存在的新用户        黑客通常使用与现存的用户名相近的名称以减少被发现的<br />
+  机会，例如与lp近似的lpr或uucp1等。或者<br />
+  黑客方言中的名字，如t00r and own3d.<br />
+  9、正在运行的陌生程序 <br />
+  10、不能解释的CPU使用情况 <br />
+  11、本地用户的远程帐号被破解<br />
+  12、“看起来古怪”的事情</p>
+<p> 被入侵后应采取的措施<br />
+  制止损害<br />
+  1、    关闭所有网络接口，使黑客对系统丧失了交互行为的能力，但那些正在运行的进程仍然<br />
+  2、    会继续运行。<br />
+  3、    将系统切换到单用户模式，关闭所有正式的root进程和所有用户进程，任何剩下的进程<br />
+  4、    可能就来自于黑客。<br />
+  3、使用未被损害的linux启动盘重启系统。以只读模式加载系统，检查系统，以查看黑客<br />
+  所动的手脚。<br />
+  4、进行严重损害的控制。</p>
+<p> 破坏估计<br />
+  以只读模式挂上所有分区，并记录所发现的任何事情。<br />
+  1、找到可疑的文件和目录        口令文件，黑客工具和任何你没有放置在系统中的目录。这<br />
+  些目录在你重启前可能是不可见的。<br />
+  2、定位新的setuserid程序    任何新的setXid程序（尤其是属于root的）都极有可疑。<br />
+  3、检查时间戳            检查黑客入侵之后发生变化的文件。<br />
+  4、阅读日志文件            检查所有日志文件。<br />
+  5、验证校验和            比较黑客入侵前后的校验和数据库。<br />
+  6、验证所安装的软件包        确认正确的版本，黑客可以把软件降级，以让系统使用不安<br />
+  全的版本。<br />
+  7、手工验证配置文件        快速浏览，以确定变化，如web以root用户运行，或在<br />
+  /etc/inetd.conf中出现了额外的服务器。<br />
+  8、备份文件 <br />
+  9、特殊工具            有很多工具可以帮助检查系统，最新的是组件是coroners toolkit。<br />
+  10、通知权威机构。</p>
+<p> 在线恢复<br />
+  在确定了黑客行为后，有两个选择，1、堵上漏洞并对系统被篡改部份启用备份；2、重新安<br />
+  装系统。最安全的方法是完全重新安装系统。<br />
+  仅仅堵上发现的漏洞并继续运行通常要快得多，但是，你可能并不能确定黑客在系统中所做<br />
+  的所有事情。黑客可留下在几个月后才发作的时间炸弹，也可能修改了系统二进制代码，使<br />
+  其运行不稳定。因此，我们建议的把黑客从系统中清除出去的最好方法如下：<br />
+  1、对重要文件进行备份。<br />
+  2、完全格式化所有驱动器，（这也是对系统进行任何改变的最佳时间，例如添加硬盘或改变<br />
+  分区大小，要充分利用停工期的有利条件）<br />
+  3、从头安装linux版本，并且只包含那此必需的东西。<br />
+  4、对已安装的软件包进行完全升级。<br />
+  5、生成校验和并将之保存在安全的地方。<br />
+  6、对配置文件进行必要的手工修改。不要仅仅从备份中复制这些文件，它们可能已经被改<br />
+  变。<br />
+  7、从备份中复制必要的文件。<br />
+  8、重新检查从备份中安装的文件，确认其没有被破坏的迹像。<br />
+  9、使用另一种方法计算文件系统的校验和。<br />
+  10、第一次启用网络。</p>
+<p>对于实际或觉察到的攻击，常用的对策是取消发动攻击的机器与本机通信的能力。具体做法<br />
+  有如下几种：<br />
+  1、使用tcp封装器，拒绝来自黑客ip的连接。<br />
+  2、使用iptables规则，退回/拒绝来自该ip地址的包。<br />
+  3、创建拒绝路由表以使本机不能和相应的ip地址通信，此时，仍然可以收到来自源地址的<br />
+  包，但不能响应，从而破坏相互间的通信。<br />
+  4、在防火墙上创建类似的拒绝访问列表。<br />
+</p>
+<p>第三章 对机器和网络踩点<br />
+  在线搜索<br />
+  新闻组/邮件列表搜索<br />
+  internet上有很多新闻组/邮件列表或论坛，是向知识渊博的人请教问题的好地方，但也可能<br />
+  在完全无意识下泄露了系统信息。比如公司的网络拓扑结构，安全配置情况，电话号码，管<br />
+  理员名字，个人信息等。<br />
+  对策：<br />
+  对所发贴子要再三审读，删除任何有可能被黑客利用的信息。或使用与系统不相关的帐号发<br />
+  送邮件，比如申请的免费邮箱。</p>
+<p>whois数据库</p>
+<p> ping扫射<br />
+  ping扫射是指ping指定网络中的所有ip，如果机器正在监听ip地址，就会回应ping。从而<br />
+  就知道它处于活动状态。有黑客通过这种方法列出所有正在运行的机器，然后决定攻击目标。<br />
+  有两种不同的ping主机方法：ICMP ping and echo ping。可以用一些工具加速ping。其中两<br />
+  个最有意义：Fping and Nmap<br />
+  ICMP ping方法：源机器向目的机器发送icmp echo request.如果目标机器正在运行，则会响<br />
+  应icmp echo reply。<br />
+  # ping -c 3 target<br />
+  echo ping方法：以udp or tcp包连接到目标机器的回显端口（端口7），如果机器在运行状态，<br />
+  该端口直接回显发送过来的信息。<br />
+  # telnet target.example.com echo<br />
+  Fping是一个直接了当的ping工具，可以在命令行列出需要ping的机器，也可以用文件方<br />
+  式<br />
+  # Fping -a &lt; machinelist<br />
+  如果要扫描整个网络（192.168.10.X），必须提供IP列表，在命令行用perl语句可以容量实<br />
+  现。<br />
+  # perl -e 'for (1..254) {print &quot;192.168.10.$_\n&quot;}' |fping -a -q 2&gt;/dev/null<br />
+  Nmap是一种多用途的扫描工具，内置了ping扫描功能。<br />
+  # nmap -sP 192.168.10.0/24<br />
+  ping扫射对策<br />
+  通过配置机器（iptables等）来拒绝进入的echo request包和出去的echo reply包。从而避免<br />
+  响应icmp echo request。关闭本机回显服务。在/etc/inetd.conf中注释掉以下两行<br />
+  echo stream tcp nowait root internal<br />
+  echo dgram udp wait root internal<br />
+  再重启inetd。</p>
+<p> dns问题<br />
+  在linux上，最好的dns服务器是bind,它有几个版本，如果你是先锋派，bind9.x是最佳选择，<br />
+  4.x是最稳定版本，8.x则是一个不错的过滤，大部分站点都是用这个版本。请保持bind的<br />
+  版本是最新，最为它的安全漏洞较多，而且一旦发现漏洞，就会很被黑客利用。<br />
+  尽量不要在配置文件中包含hinfo and txt信息。<br />
+  区域传送<br />
+  一般情况下，为了保证dns总是可以，每个域中，都有一个主dns机器，而其它都是次级dns，<br />
+  每当dns区域发生变化时，次级dns机器就从主机器复制全部内容。系统成为次级dns的方<br />
+  法是在named.conf中添加如下内容：<br />
+  zone &quot;expample.com&quot; {<br />
+  type slave;<br />
+  file &quot;slave/expample.com&quot;;<br />
+  masters {xxx.xxx.xxx.xxx};<br />
+  };<br />
+  但是黑客也可以攫取区域文件（如果没有采取措施）,下例给出使用host命令列出整个域中<br />
+  所有NS,A和PTR记录的方法。<br />
+  # host -t ns example.com<br />
+  # host -l example.com<br />
+  对策：<br />
+  配置主名字服务器时，使之不允许除次级服务器外机器的区域传送。在全局默认选项中设置<br />
+  如下：<br />
+  option {<br />
+  ....<br />
+  allow-transfer {xxx.xxx.xxx.xxx};<br />
+  ...<br />
+  }<br />
+  警告：必须确保在主和从服务器上都禁止区域传送，因为从服务器也能接受区域传送请求。<br />
+  任何未经授权的区域传送都会被syslog记录下来。</p>
+<p>反解析是指从ip到域名的过程。可以用host命令实现。如果大量使用真实的主机名，会给<br />
+  黑客知道机器的功能。所以最好在PTR记录中使用一般的反解析名如：<br />
+  xxx-xxx-xxx-xxx.example.com. </p>
+<p> 端口扫描<br />
+  黑客会运行一个或多个端口扫描工具来了解目标系统提供的服务。工具主要有<br />
+  netcat,strobe,nmap(best)。玩转nmap可以学到很多东西。包括自已的系统，也包括网络方面。</p>
+<p> 网络漏洞扫描程序<br />
+  iss,satan,Nessus</p>
+<p> 加密文件系统<br />
+  CFS,TCFS,BestCrypt,PPDD,Encrypted</p>
+<p>第四章 社交工程、特洛伊木马和其他黑客伎俩</p>
+<p>第五章 物理攻击<br />
+  物理攻击小结<br />
+  1、不要把口令或访问ID记在别人可以看到的地方。<br />
+  2、不要把电话本，组织结构图，备忘录，内部手册，会议安排或内部安全策略遗忘在容量<br />
+  被阅读或偷窃的地方。<br />
+  3、在丢弃打印文档，电子介质或客户数据时必须谨慎从事，把敏感材料标记为“敏感”，在<br />
+  处理前粉碎敏感的文件和手册。抹去电子介质中的数据，并且把所有的垃圾箱放置在照明状<br />
+  况良好的保护区域。<br />
+  4、在标记网络设施时必须谨慎。将这些信息记录在清楚的网络图中，并将其锁起来。<br />
+  5、    使用好的屏幕保护程序，确保带有口令，并且在运行时隐藏屏幕内容。将延迟时间设置<br />
+  6、    为合理值---在合理时间后就运行它。<br />
+  6、必须离开系统时，锁定屏幕。<br />
+  7、    使用便携机时，必须尽可能在所有时间都将其带在身边。对窃贼的那些把它从你身过分<br />
+  8、    开的诡计保持警惕。对进入工作场所的每个便携机贴上标签，在带离时对其进行安全检查。<br />
+  8、避免使用双重启动系统，linux的安全性取决于机器中安装的安全性最差的系统。<br />
+  9、在启动加载时程序中设置保护口令，防止可能获得root权限的非法重启方式。<br />
+  10、设置BIOS口令，以防止其被修改。<br />
+  11，将所有敏感系统放在加锁的房间，以防止破坏。<br />
+  12、使用好的加密文件系统可以防止那些获得系统权限的人看到机密数据。这应当作为安全防卫的底线。</p>
+<p>第六章 网络攻击<br />
+  合法的tcp标志组合<br />
+  标志组合    含义<br />
+  SYN        这是tcp连接的第一个数据包，表示希望与目标系统建立连接。<br />
+  SYN|ACK        目标系统通过确认原始消息和发送SYN信息来响应SYN数据包。<br />
+  ACK        在连接建立期间的每一个数据包都要设置其ACK位，以确认前面收到的数据<br />
+  包。<br />
+  FIN        在连接准备关闭时，发送FIN给对方。<br />
+  FIN|ACK        这一组合用于确认第一个FIN包，并完成关闭步骤。<br />
+  RST        当系统接收到不期望的数据包时，发送RST包重置连接---例如，系统在未发出SYN<br />
+  的情况下收到SYN|ACK。</p>
+<p> ICMP类型代码<br />
+  类型代码    ICMP消息<br />
+  0        回波响应（响应PING）<br />
+  3        目的地址不可到达<br />
+  4        源终结<br />
+  5        重定向<br />
+  8        回波（PING请求）<br />
+  11        TTL超时<br />
+  12        参数问题<br />
+  13        请求时间戳<br />
+  14        响应时间戳<br />
+  17        地址掩码请求<br />
+  18        地址掩码响应</p>
+<p> 攻击错误配置的NFS导出<br />
+  为了保护文件系统不被非法访问，应当让防火墙阻塞NFS，通过阻止对NFS（2049端口）<br />
+  的进入连接可以做到这一点。如果内部确实需要，确保它只导出必需的文件系统。例如，在<br />
+  允许远程加载用户主目录时，使用/home 替代/。为了验证是否正确配置了NFS，检查<br />
+  /etc/exports和/etc/dfs/dfstab以确信没有以读写权限向外导出任何东西。</p>
+<p> 攻击Nestscape默认配置<br />
+  SuiteSpot是一个工具用于管理web服务器，其中包含实现这一功能的java and javascript code.<br />
+  它将Nestscape服务器的用户名和口令配置保存在服务根目录下的文件中，默认可被任何人<br />
+  读取。位于/web_server root/admin-serv/config/admpw。在网络上使用web浏览器并将url指<br />
+  向该文件，就可获得。文件格式为user:password。虽然这个文件是加密的，但可以对口令进<br />
+  行蛮力攻击。所以应保护admpw文件，</p>
+<p> 攻击配置错误的Squid服务器<br />
+  Squid可以被错误地配置成允许外部地址作为访问内部系统的代理。这使攻击者能够以该服<br />
+  务器为代理来察看或访问内部网络，即使其地址不能被路由。squid.conf文件的一个错误配<br />
+  置如下：<br />
+  tcp_incoming_address &lt;squid system external address&gt;<br />
+  tcp_outgoing_address &lt;squid system internal address&gt;<br />
+  udp_incoming_address &lt;squid system external address&gt;<br />
+  udp_outgoing_address &lt;squid system internal address&gt;<br />
+  对策：<br />
+  首先设置正确的防火墙规则以阻塞外部地址对端口3128（代理端口）的连接。然后编辑配<br />
+  置文件，确信下面这些内容的正确性。<br />
+  tcp_incoming_address &lt;squid system internal address&gt;<br />
+  tcp_outgoing_address &lt;squid system external address&gt;<br />
+  udp_incoming_address &lt;squid system internal address&gt;<br />
+  udp_outgoing_address &lt;squid system external address&gt;</p>
+<p> x windows system<br />
+  它使用端口6000---6063<br />
+  攻击错误的X 配置。xhost工具用于保障X的基本安全性，用户可以使用这一程序指定允<br />
+  许连接本地X服务器的系统。如果不带参数执行，则列出所有允许连接的系统，可以通过<br />
+  如下命令添加新和系统。<br />
+  # xhost + &lt;system name&gt;<br />
+  如果省略system and name，则任何系统都可以建立连接。这样入侵者可以通过xkey程序记<br />
+  录用户在X窗口介面上的所有击键序列。另一个类似程序是xscan，可以扫描网络以查找X<br />
+  系统的漏洞。<br />
+  对策：<br />
+  主要是在防火墙上阻塞端口6000--6063。<br />
+  # ipchains -A input -p tcp -j DENY -s 0.0.0.0/0 -d 0.0.0.0/0 6000:-6063<br />
+  如果不允许阻塞，可以-auth参数启动xinit程序。则系统将在认证时使用“magic cookies”。<br />
+  或者以ssh传送X会话。使用X11的ssh时，远程root用户对本地X服务器拥有全部权限。<br />
+  在双方信任时才使用X11的ssh。</p>
+<p> 默认口令<br />
+  Prianha<br />
+  red hat提供的用于linux 服务器的Prianha虚拟服务器和平衡软件包。在Prianha-gui程序的<br />
+  0.4.12版中存在一个名为prianha的帐号，其默认口令为q。<br />
+  对策是修改所有系统和网络设备的默认口令。</p>
+<p> 嗅探网络信息<br />
+  嗅探器工作时，将网卡设置成所谓的混杂模式，在该模式下，网卡会将每个帧的数据都传送<br />
+  给协议而不检查其MAC地址。这样，系统中的嗅探器就能够检查帧中的数据，并摘取感兴<br />
+  趣的信息。其中包括报头信息或其它信息，如口令和用户名。很多协议以未加密方式发送敏<br />
+  感信息，因此黑客就能够使用嗅探器获是系统的访问权限。如telnet,ftp,http中的口令和用户<br />
+  名都直接在网络上传播，此外，一些基于web的管理工具也以一般的http协议来传送用户<br />
+  名和口令，例如webmin就是这样的。避免受到嗅探器危害的最好办法是不要在网络上以未<br />
+  经加密的方式传送用户名和口令，通过使用ssh 代替telnet,用https代替http传送敏感信息<br />
+  可大大加强安全性。<br />
+  常见的嗅探器<br />
+  tcpdump,hunt,linux-sniff,snort</p>
+<p> 口令猜测<br />
+  在大多数linux中，口令长度被限制在8个字符。如果只能使用小写字母，则总畏惧26的8<br />
+  次方（大约2090亿）种组合，如果允许使用大写字母和数字，则有62的8次方（大约218<br />
+  万亿）种组合。<br />
+  对策：<br />
+  保护系统帐号，关闭finger and rwho服务。限制root只能从控制台登录。可以通过修改<br />
+  /etc/securetty文件做到这一点。这个文件列出了root可以登录的tty（终端），在该文件中只<br />
+  包括tty1--tty6，就能限制root只能从控制台登录。如果从该文件中删除所有行。则任何人<br />
+  在获得root权限前必须首先以其他用户登录，然后使用su。修改/etc/login.def中的最小口令<br />
+  长度。</p>
+<p> 缓冲区溢出漏洞<br />
+  当开发者在程序中采用错误的方法编写操作代码时，则可能导致缓冲区溢出。罪魁祸首多半<br />
+  是标准C语言中的字符串函数。例如strcat(),strcpy(),sprintf(),vsprintf(),scanf() and gets()。这<br />
+  些函数在执行前不检查参数的大小。常见的攻击所针对的程序有<br />
+  rpc.mountd(nfs),rpc.statd(nsf),imapd/popd,wu-ftp。一旦对系统尝试了缓冲区溢出攻击，通常会<br />
+  从日志消息中看到这类行为。<br />
+  对策：<br />
+  对于不必要服务，关闭它们，或者在防火墙阻塞对其访问。如果服务是必须的，就只有一个<br />
+  对策，就是使系统应用最新的补丁。</p>
+<p>netstat,lsof工具能识别系统中运行的进程序，打开的端口等信息。但这些程序都不可靠，可<br />
+  能会被黑客替换。可以用nmap从外部扫描系统以训别服务，因为从外部扫描，所以不会被<br />
+  黑客在系统中所做的手脚所欺骗。<br />
+  # nmap -sT -O xxxx     对本系统进行tcp扫描。<br />
+  # nmap -sU -O xxxx    对本系统进行udp扫描。</p>
+<p>第七章 恶意使用网络<br />
+  DNS攻击<br />
+  bind缓冲欺诈<br />
+  dns是一个分布式系统，使用缓存来降低网络负载，在BIND8.1.1 和4.9.6版中存在一个问<br />
+  题，即它们没有验证接收自其它名字服务器的信息的合法性。黑客利用这个漏洞可以在目村<br />
+  服务器中插入伪造记录，引导客户到黑客的机器上来。从而捕获口令和敏感信息。</p>
+<p> 路由问题<br />
+  源路由，允许发送者指定数据包到达目的地前在internet上经由的路径。这一特点对于网络<br />
+  勘探很有用，但也能用来绕过安全网关和地址转换。<br />
+  # cat /proc/sys/net/ipv4/conf/eth0/accept_source_route   0 表示不允许    1 表示允许</p>
+<p> 不正确的ip转发<br />
+  /proc/sys/net/ipv4/ip_forward文件配置ip转发。0 表示禁止   1 表示允许。这个功能对于防<br />
+  火墙和ip伪装网关是必要，但对于名字服务器，邮件服务器或堡垒主机则不必要。可能如<br />
+  下禁止：<br />
+  # echo 0 &gt; /proc/sys/net/ipv4/ip_forward  /etc/sysctl.conf的 net.ipv4.ip_forward = 0控制系统<br />
+  启动时是否允许。</p>
+<p> Hunt<br />
+  同时具有数据包嗅探和会话劫持功能。<br />
+  对策：<br />
+  采用openssh。<br />
+  dsniff<br />
+  是一组优秀的网络审计，测试和嗅探工具。<br />
+  sshmitm<br />
+  对客户端伪装成ssh服务器，而对服务器伪装成ssh客户端，默认时，它将记录所有用户名<br />
+  和口令。<br />
+  对策：<br />
+  sshmitm依赖于用户忽略对ssh主机密钥的检查，当第一次连接服务器时，将会在<br />
+  $home/.ssh/known_hosts中添加主机密钥。应当比较这份密钥与实际服务器密钥（通常在文<br />
+  件/etc/ssh/ssh_host_key.pub or /etc/ssh_host_key/.pub中）的一致性。如果两者不匹配，则说<br />
+  明黑客已经介入过刚才的会话。并获得了口令，应马上断开连接，并通知系统管理员重新设<br />
+  置口令，以防止帐号被黑客滥用。为了防止在无意中使用潜在不安全连接，应配置ssh进行<br />
+  强制的主机密钥检查。即将如下几行写入到$home/.ssh/config的起始处。<br />
+  Host *<br />
+  StrictHostKeyChecking yes<br />
+  也可以将系统的全局ssh_config文件配置成StrictHostKeyChecking.<br />
+  目前，Sshmitm仅支持ssh版本1，但并不保证支持ssh版本2的软件不在开发中。</p>
+<p> Webmitm<br />
+  它的工作方式和sshmitm很相似，它监听端口80（http），和443（https）。中继对于实际服<br />
+  务器的web请求。并将结果返回给客户端。因为webmitm没有真实的ssl服务器证书和密钥，<br />
+  所以必须伪造一个。因此，当第一次运行webmitm时，它将生成一个与openssl相关的ssl<br />
+  密钥和证书。当用户连接https站点时，其浏览器将试图验证所得到的ssl证书，而webmitm<br />
+  服务器所创建的证书未经浏览器数据中保存的某一可信官方机构颁发签名。因此浏览器将弹<br />
+  出一系列对话框，以确认用户是否要连接到可能的欺骗站点。如果用户点击并忽略所有警告，<br />
+  就能够像一切正常那样访问web站点。然而，该会话实际上流经webmitm程序，使用其能<br />
+  访问所有数据。<br />
+  对策：<br />
+  和sshmitm一样，比技术问题更重要的是用户培训。当浏览器给出众多Are you sure 这样有<br />
+  价值的提问时，不要简单的点击Yes。 </p>
+<p> SYN潮涌攻击<br />
+  根据tcp/ip协议的规定，在收到最初的SYN数据包时，服务器TCP协议栈将相应的半连接<br />
+  记录添加到队列里。然后等待一会以接收余下的握手数据包。如果成功则从队列中删除该记<br />
+  录。由于队列容纳半连接记录的数量有限，因此如果许多初始化的连接最终没有成功握手。<br />
+  就会出现问题，一旦队列已满，服务器将不再接收新的连接。当攻击者能够以足够快的速度<br />
+  向目标服务器发送SYN数据包以填满该队列，就能够阻塞任何tcp服务。这就是SYN潮涌<br />
+  攻击。如果web服务器不再接受请求，或者甚至连本地连接也变慢，就应使用netstat -nat 来<br />
+  检查处于SYN_RECV半连接状态的连接。一旦发现系统正受SYN攻击。可以用如下shell<br />
+  脚本跟踪半连接数量：<br />
+  #!/bin/sh<br />
+  while [1] ; do<br />
+  echo -n &quot;half-open connectons:&quot;<br />
+  netstat -nat |grep SYN_RECV|wc -l<br />
+  sleep 1<br />
+  done<br />
+  如果为零，说明攻击者放弃了。如果发现数目达到最大值并趋于平衡，就很不幸了，队列可<br />
+  能已经满了。<br />
+  对策：<br />
+  升级到2.0.29以上版本，在这些版本中增加了队列容量。并缩短了超时值，从而更加难以填<br />
+  满。此外，修改/proc下的某几项，以缩短等待SYN|ACK的超时时间并增加队列中SYN数<br />
+  据包的最大数目。<br />
+  /proc/sys/net/ipv4/vs/timeout_synack<br />
+  /proc/sys/net/ipv4/vs/timeout_synrecv<br />
+  /proc/sys/net/ipv4/tcp_max_syn_backlog<br />
+  在受攻击中，可以增加tcp_max_syn_backlog的值，减少timeout_*的值。改变这些值会导致<br />
+  丢失合法连接，但是如果不对SYN攻击采取措施，系统将失去所有连接。</p>
+<p> 实施出口过滤<br />
+  很多攻击方法都是依赖ip地址欺骗，以掩盖攻击策源地或将响应流量引导到实际并没有发<br />
+  出请求的主机，出口过滤（egress filtering）是阻止欺骗的最重要途径。一个连接不同网络的<br />
+  路由器应该检查所有的外出流量，只有当数据包拥有相应的本地网络合法地址时才允许它通<br />
+  过。这看起来理所当然，但确实有许多网络允许任何源地址的数据包通过。</p>
+<p>第八章 提升用户权限<br />
+  setuserid程序以所有者id而不是以使用者id的权限运行。<br />
+  setgroupid程序以组id权限而不是调用者id权限运行。</p>
+<p> 在path中包括“.”的坏习惯<br />
+  在path中包括“.”可以减少用户的击键次数，以foo 代替 sh foo或./foo。这些做法有很大<br />
+  的危险。例如，在/tmp中创建如下的ls文件。<br />
+  #!/bin/sh -<br />
+  #fake trojan ls<br />
+  if chmod 666 /etc/passwd &gt; /dev/null 2&gt;&amp;1 ; then<br />
+  cp /bin/sh /tmp/.sh<br />
+  chmod 4755 tmp/.sh<br />
+  fi<br />
+  exec ls &quot;$@&quot;<br />
+  #end of script<br />
+  如果在环境变量中设置了“.”，并且其位置先于ls所在的系统目录，那么当用户在/tmp中执<br />
+  行命令ls时，执行的是上面所给出的脚本，而不是实际的ls命令。因为最终还是执行了ls，<br />
+  所以用户不会看出任何异常。如果执行该命令的是root，就会将口令文件设置成为可写，并<br />
+  将shell复制到/tmp保存成.sh，同时设置其setuserid位。所有这一切都非常安静地发生。在<br />
+  登录时可以在多个地方修改path，例如/etc/profile or /etc/profile.d中的脚本。手工修改较麻<br />
+  烦，且容易出错。建议在bashrc 或.profile文件的未尾加如下一行：<br />
+  PATH=`echo $PATH |sed -e 's/::/:/g; s/:.:/:/g; s/:.$//; s/^://'`以删除路径中所有“.”，包括其另一形<br />
+  式“::”</p>
+<p> 明文的口令<br />
+  去掉用户文件中的的口令，如fechmail中的控制文件。如果必须那样做，应确保文件只能被<br />
+  所有者读取，而不能被组成员或其它人读取。</p>
+<p> 存储在系统文件中的口令<br />
+  有些系统程序可能需要存储在系统文件中的口令，例如samba软件包内有一个smbprint的<br />
+  工具，允许linux使用与windows相连接的打印机。通常<br />
+  对于拔号上网用户，链接所需的用户名和口令通常保存在某个文件中，一般ppp将在<br />
+  /etc/ppp/chap-secrets文件中查口令，而Wvdial则在/etc/wvdial.conf中查找。使用chmod 600 <br />
+  filename来限制文件。使用只能被root读取。</p>
+<p>使用用户名和口令来控制这种对打印机的访问。要保护保存的smbprint口令，必须确保并<br />
+  非所有用户都能读取/var/spool/lp下的每个config文件，在/var/spool/lp目录下查找所有<br />
+  的.config文件，对每个文件执行chmod o -rw。</p>
+<p> 可逆的口令<br />
+  pop3通常以纯文本格式在网上传输用户名和口令认证信息。这不是一件好事，一人替代方<br />
+  式是使用名Popauth的认证方法。Popauth将所有口令以某种可逆的加密方式处理后保存在<br />
+  数据库中。如果攻击者能够访问该数据库，则系统中所有用户和口令将受到威胁。如果可能，<br />
+  就不要使用popauth，许多pop3客户端支持ssl加密方式，尽可能使用ssl加密为用户的认<br />
+  证提供保护，如果必须使用popauth，则要确保/etc/popauth只能被root读取。</p>
+<p> 命令行中的口令<br />
+  某些实用工具，例例如smbmount and smbclient，允许通过命令行或环境变量传递口令。这<br />
+  样可以通过使用ps命令或者直接读取/proc下的文件来获得口令。所有输入命令都会保存在<br />
+  shell历史文件中.bash_history。无论如何都要避免在命令行输入口令。并且周期性于清除历<br />
+  史文件，以避免命令和安全信息的长期积累。如果要运行某些不想被记录的命令，可以反置<br />
+  环境变量中的hisfile以关闭历史记录功能，然后打开一个新的shell。</p>
+<p> 可写的组许可<br />
+  一个主组的成员被入侵，会增加组中其它成员的安全威胁。每个用户应该有自已惟一的主组，<br />
+  并且该组只有他一个用户，然后所有的用户在创建文件时都使用这个惟一主组，除非修改了<br />
+  组所有权，通过次级组来解决共享文件的访问的问题。用户的umask设置应当严格设置为<br />
+  安全值，以避免文件创建后就能够被默认组所读写，将umask设置为066就可以保证文件<br />
+  创建后只有所有者才有读写权限。而组成员和其它人都不能读写该文件。在极端的情况下，<br />
+  可以使用077的umask。这一默认umask使得文件只能被root或者root权限的用户访问。</p>
+<p> 特殊用途组和设备访问<br />
+  攻击者通常在/dev下查找许可设置不当的设备，他们能够利用这些情况来访问内存，磁盘或<br />
+  串行调协。并以此为基础，进一步入侵系统和敏感文件。例如，通过/dev/kmem可以访问内<br />
+  核存储区，对该文件有读权限的攻击者就可以从中读取系统当前使用的任何数据。如果磁盘<br />
+  分区（如/dev/hda1）可读，则攻击者就能够读到原始的磁盘数据。她可以使用/sbin/dump直<br />
+  接得到该分区下所有文件的拷贝。变这样可以绕过所有的文件许可。而且所有文件，包括<br />
+  /etc/shadow等文件都可以读取，而不需要root权限。如果用户需要访问只有root才有权访<br />
+  问的特殊设备文件时，应当考虑使用Sudo。</p>
+<p> wheel组<br />
+  它是系统上一个特殊的组，在启用wheel组的系统中，只有该组的成员才能su成root，即<br />
+  使root口令被破解，如果用户不是wheel组成员，就不能运行su而进入root。对于远程root<br />
+  登录，将这一制约手段和/etc/securetty文件相结合，可以增强系统安全性并保护最重要的root<br />
+  帐号。使用它的缺点是它为攻击者确定那此更有价值和权限的帐号提供了线索。即使预定义<br />
+  了wheel组，多数linux系统并不自动启用wheel组的访问控制功能 。对于支持pam的系<br />
+  统，只要在适当的pam控制文件中（/etc/pam.d/su）添加pam_wheel行，就可以支持wheel<br />
+  组。</p>
+<p> sudo<br />
+  sudo是一个常用工具，用于分担管理员的某此权限。使用sudo，可以允许特定用户执行通<br />
+  常必须是root用户才能运行的特定管理任务。例如，可以授权某此用户添加，删除或修改<br />
+  用户或它们自已的口令。</p>
+<p> sudo更改口令<br />
+  通常，根据系统管理员授权，普通用户能够运行passwd命令，运行该命令时，该用户能修<br />
+  改任何口令，包括root，这显然是一个问题，我们应该创建一个前端脚本以检查与口令相对<br />
+  的用户名确认其修改的合法性。一般而言，系统用户的id号要小于某个预设值（通常是200<br />
+  或500）。如果试图修改的id号小于最小值，脚本应当产生一个错误。根据系统策略，这个<br />
+  脚本也应该检查和保证所更改的用户未被锁定并且拥用合法的shell。</p>
+<p> sudo编辑器操作<br />
+  通常，用户用权权访问的配置程序可能会运行编辑器，例如crontab -e -u user。因为我多数<br />
+  这类程序允许通过环境变量VISUAL OR EDITOR设置默认编辑器。所以可以运行几乎所有<br />
+  程序。应当把编辑器限制在众所周知的范围内，如vi,ed or emacs。但编辑器同样可以执行<br />
+  shell或外部命令。因为编辑器以root运行，所以任何程序只要运行在由该编辑器得到的shell<br />
+  中，都将拥用root权限。对该问题的最佳解决方法是当编辑文件时，应当文件锁定并复制<br />
+  到普通用户能够以最小权限编辑的安全位置。然后用户再编辑这个临时文件，而不会危及受<br />
+  保护的系统文件。在编辑完成后，确保没有改动受限区域，并且所做改动与文件结构和系统<br />
+  要求一致，之后再将所修改文件复制到原始文件并解锁。</p>
+<p> sudo带来的其它程序漏洞<br />
+  chmod,允许开发者将目录设置为可写以完成工作。攻击者可以直接运行chmod 666 <br />
+  /etc/passwd /etc/shadow，并随心所欲地创建或修改帐号。<br />
+  chown,允许某公共区域（如某个web文档树）的开发者获得其他开发者的文件的控制权。<br />
+  攻击效果同chmod。<br />
+  tar/cpio，允许用户创建文档及备份。攻击者可以用于抽取文件，以替换系统的执行文件或<br />
+  配置文件。<br />
+  mount，允许用户加载远程文件系统。攻击者能够用于加载包含setuserid程序的文件系统，<br />
+  从而使用攻击者获得系统权限。<br />
+  useradd，允许可信用户创建新帐号。攻击者可用于创建新的root级帐号。<br />
+  rpm,安装rpm软件包。攻击者用于降级系统的软件，使其包含能够被攻击者利用的漏洞，或<br />
+  者用来安装使用攻击者获得root权限的rpm软件包。<br />
+  创建sudoers文件时，应当详细地设置允许运行的程序及其参数。下例配置两个组，<br />
+  httpd_restricted组中的用户运行apachectl程序时只能指定start和stop选项。而httpd_full组<br />
+  成员能运行所有被支持的选项。<br />
+  User_Alias    httpd_full = king,ryan,chris<br />
+  User_Alias    httpd_restricted = guest,tax</p>
+<p>Cmnd_Alias    apachectl = /etc/apachectl *<br />
+  Cmnd_Alias    web_restart = /etc/apachectl start,/etc/apachectl stop</p>
+<p>httpd_full    ALL=(ALL) apachectl<br />
+  httpd_restricted ALL=(ALL) web_restart<br />
+  通过显式列出参数防止用户对程序的自由使用，避免了使用不当的情况。应当使用谨慎设计<br />
+  的前端脚本来验证参数。在脚本中应当检查path,libpath and editor等敏感的环境变量。必须<br />
+  给出绝对路径，以避免特洛伊木马攻击。</p>
+<p> 格式字符串攻击<br />
+  问题出在现在程序员使用类似于*printf() or syslog()等支持格式化输出的函数打印简单字符<br />
+  串的场合，正确的方式应当是：<br />
+  printf(&quot;%s&quot;,str),然而，为了节省时间和少打6个字符。许多程序员转而输入如下省略第一个<br />
+  参数的命令：printf(str)。</p>
+<p> setuserid的一般预防<br />
+  使用chattr +i将所有setuserid程序设置为不可修改，同时设置所有的系统程序和目录不可修<br />
+  改。在/bin,/usr/bin,/sbin,/usr/sbin,/lib等目录下的文件很少变化，因此当它们变化时，管理员<br />
+  必须知道。如果可能，对/,/boot,/usr,/var,/home使用单独分区，设置系统目录为只读，并使<br />
+  用类似于linux入侵检测系统（LIDS）等安全性增强工具来阻止入侵者重新以读-写方式加<br />
+  载只读分区。删除或去掉没用的setuserid程序。</p>
+<p> 已加载文件系统上的黑客setuserid程序<br />
+  用户用mount加载驱动器、设备、文件和远程文件系统，当把有setuserid程序的NFS程序<br />
+  加载到本时这样会产生问题。要防止加载文件系统上的setuserid文件。任何远程文件系统<br />
+  或本地文件系统都应以nosuid标志加载。也可以在不可信的文件系统上设置noexec标志。<br />
+  以阻止其上任何程序的运行。如果想要运行其中的程序可以复制到本地文件系统，然后运行。<br />
+  这不仅有助于防止权限提升类型的攻击，也能够对付setuserid的perl脚本。并减少蠕虫和<br />
+  自繁殖程序通过网络传播。</p>
+<p> 硬链接和符号链接<br />
+  任何必须创建临时文件的程序应当使用那此文件存在时来会重复创建的函数，对于系统调用<br />
+  open(),可以使用O_EXCL参数做到这点。<br />
+  open(&quot;/tmp/filename&quot;,O_EXCL|O_CREAT|O_RDWR,0666);<br />
+  在perl中，可用sysopen命令实现：<br />
+  sysopen(HANDLE,&quot;/tmp/filename&quot;,O_EXCL|O_CREAT|O_RDWR);<br />
+  在shell脚本中，使用mktemp实用工具：tmpfile=`mktemp /tmp/filename.xxxxx`||exit 1 <br />
+  commands &gt; $tmpfile。<br />
+  如果想要更高的安全必一，可以安装solar designer开发的linux内核补丁,位于<br />
+  http://www.openwall.org,该补丁能够阻止对/tmp目录下文件的符号链接和硬链接攻击。用户<br />
+  只有在拥有实际文件或读写权限的情形下，才能够在/tmp下创建链接。应用好的分区习惯，<br />
+  如/home,/var,/tmp,/usr,/boot,/这样的分区规则。确保普通用户对除/home and /tmp目录之外的<br />
+  所有其他分区都没有写权限。这能够防止建立对系统文件如/etc/passwd and /bin/ls的硬链接。</p>
+<p> 输入验证<br />
+  脚本应总是验证其输入参数，以确保其中没有包含非法的字符和shell元字符。这些参数不<br />
+  能包括可能引起意外解释的空白字符，shell控制符和元字符。这一规则适用于所shell脚本，<br />
+  也适用于那些不明智地使用system()函数的C程序。脚本还应当屏蔽对IFS的修改。或者在<br />
+  执行传入参数和正确性检查前将IFS设置为安全值。</p>
+<p>第九章 口令破解<br />
+  DES(Data Encryption Standard 数据加密标准)，linux中crypt(3)实现des的功能，它有两个参<br />
+  数，key and salt，key是用户的口令，salt是从[a-zA-Z0-9./]中选择的长度为2的字符串，用<br />
+  户口令最长不能超过8字符。DES的开发得到美国政府的部份支持，所以不能向美国之外<br />
+  地区输出。<br />
+  MD5算法是一种散列算法，在很多方面改善了DES，无限长口令；更大的密钥空间，远比<br />
+  13字符长；可输出来美国之外地区。</p>
+<p> 口令破解程序<br />
+  crack,john the ripper,viper,slurpie<br />
+  对策:<br />
+  1、自已运行口令破解程序，找到机器中存在的弱口令。<br />
+  2、确保口令文件不是可读的。<br />
+  3、经常检查日志文件。<br />
+  4、使用阴影口令。</p>
+<p> 阴影口令<br />
+  /etc/shadow，只有root可读。格式如下：<br />
+  1、用户名；<br />
+  2、口令密文；<br />
+  3、口令最后修改日期与1970年1月1日的相隔天数；<br />
+  4、离用户允许修改口令还剩下的天数；<br />
+  5、离用户必须修改口令还剩下的天数；<br />
+  6、离系统提醒用户必须修改口令还剩下的天数；<br />
+  7、用户仍可修改口令的剩余天数，否则到期之后该帐号被禁止。<br />
+  8、保留字段。</p>
+<p> 启用阴影口令<br />
+  pwck----检查/etc/passwd完整性<br />
+  pwconv----转换到阴影口令。它根据现有的/etc/passwd文件创建/etc/shadow文件，如果系统<br />
+  中已经存在该文件，则将被合并。此外，在成功转换后，仍可能在/etc/passwd中添加普通未<br />
+  加阴影的帐号。因此，需要定期检查/etc/passwd的内容以确保所有的口令都已阴影化。<br />
+  pwunconv----去除阴影。<br />
+  chage命令，判断用户是否必须更改口令。执行时使用-M选项可以强制用户在指定期限之<br />
+  后更改口令。<br />
+  选项<br />
+  mindays        两次更改口令之间的最小天数。<br />
+  maxdays        口令有效的最大天数。<br />
+  lastday        口令最后修改日期与1970年1月1日的相隔天数。<br />
+  inactive    口令过期之后，帐号禁用之前的休眠天数。<br />
+  expiredate    帐号禁用的起始日期。<br />
+  warndays    在用户必须修改口令之前开始提醒用户的天数。<br />
+  其它实用程序<br />
+  gpasswd        往组中添加新用户。<br />
+  groupadd    创建新组。<br />
+  groupdel    删除组。<br />
+  groupmod    修改组信息。<br />
+  passwd        设置密码。<br />
+  useradd        创建新用户。<br />
+  userdel        删除用户。<br />
+  usermod        修改用户信息。</p>
+<p> 口令保护<br />
+  创建强状口令的规划，至少各有一个字符来自于这些字符集：a-zA-Z0-9标点符号。如果使<br />
+  用des,使用6--8个字符，如果使用md5，使用任意长度的字符，长于15位更好。在不同的<br />
+  系统上使用不同的口令，但会非常难于记住，一个解决办法是使用PGP和强口令对该文件<br />
+  加密。<br />
+  passwd+程序能强制用户使用健壮的口令。<br />
+  npasswd,anlpasswd都是优秀的口令检查程序。</p>
+<p>使用一次有效的口令。OTP的SeureID，S/Key，OPIE</p>
+<p>小结口令保护方法：<br />
+  1、实现阴影口令。<br />
+  2、使用md5取代des.<br />
+  3、实施好的口令策略，包括在用户创建新口令时进行测试，强制用户采用健壮的口令。<br />
+  4、定期运行口令破解程序，以发现系统中的脆弱口令。<br />
+  5、考虑使用口令期限和一次有效口令。<br />
+  6、决不把口令告诉不认识的人。</p>
+<p>第十章 黑客保持通道的方法<br />
+  基于主机的认证和用户访问<br />
+  修改hosts.allow and hosts.deny<br />
+  有多个网络服务使用/etc/hosts.allow文件来确定哪些客户端被允许连接。如果服务不接受来<br />
+  自该主机的连接，则在tcp握手完成之后将即刻关闭连接，而不发送或接收任何数据。也就<br />
+  是说，该服务能够对来自该主机此类连接的攻击完全免疫,因为黑客没有机会发送数据以做<br />
+  出破坏。/etc/hosts.deny文件中的内空通常应该是&quot;ALL:ALL&quot;，表示所有没有在hosts.allow<br />
+  中列出的机器都将被拒绝。只要删除该行（例如：cat /dev/null &gt;/etc/host.deny），黑客就可以<br />
+  连接所提供的服务。 <br />
+  对策：<br />
+  使用文件完整性工具监视两个文件。同时考虑使用chattr +i命令将它们设置成不可更改。</p>
+<p> 不安全的nfs导出<br />
+  导出&quot;/&quot;本身，黑客不用登录就可以修改目标主机上的所有文件。</p>
+<p>关闭远程命令，即将以下行从/etc/inetd.conf中注释：<br />
+  shell stream tcp nowait root /usr/sbin/tcpd in.rshd<br />
+  login stream tcp nowait root /usr/sbin/tcpd in.rlogind<br />
+  exec stream tcp nowait root /usr/sbin/tcpd in.rexecd</p>
+<p>安装ssh后，应当使用文件完整性工具监视如下所有文件：<br />
+  /etc/hosts.equiv<br />
+  /etc/shosts.equiv<br />
+  /home/*/.rhosts<br />
+  /home/*/.shosts<br />
+  /etc/sshd_config<br />
+  /ect/ssh_known_hosts</p>
+<p>向inetd添加root shell<br />
+  创建一个网络可达的root shell的一种简单方法是在/etc/inetd.conf文件中添加一条记录。假<br />
+  设在被侵入的系统中没有使用ingreslock端口，这样，黑可以将如下一行添加到/etc/inetd.conf<br />
+  文件中：<br />
+  ingreslock stream tcp nowait root /bin/bash -i    给定-i参数，/bin/bash将创建一个交互的<br />
+  shell。这样，只要连接到系统的ingreslock端口，黑客就能直接执行命令。因为这不是一个<br />
+  实际的tty（该连接通过某个网络套接字）。所以它不如任务控制台好用，但仍然能够运行任<br />
+  何命令。<br />
+  对策：<br />
+  运行文件完整性检查工具。配置防火墙只允许来自所需端口（ssh,smtp and http）的进入连接。<br />
+  使用chattr +i命令。甚至一个更好的办法，即根本不运行inted。通过inted提供的大部份服<br />
+  务都不是必需的。</p>
+<p>木马化程序是黑客在取得主机控权后，利用编程技术，把一样常用程序如ls,netstat等进行修<br />
+  改重新编译，从而达到控制，隐藏等目的。</p>
+<p>lrk--linux root kit 提供大量木马化程序如du,find,ls,ifconfig等。<br />
+  RKdet和CHKrootkit是两个检测lrk的工具。</p>
+<p>入侵内核<br />
+  可装载内核模块。利用完整性检查发现安装的新模块和修改现有模块的时间，对/lib/modules<br />
+  目录树限制许可以及应用chattr +i命令。使用类似LIDS内核补丁，并进行适当配置，使得<br />
+  即使root也不能在/lib/modules下安装文件或装载内核模块。<br />
+  内核本身如果被入侵，麻烦就大了，在新内核运行时，管理员不能相信与系统相关的任何信<br />
+  息。包括文件和进程列表，网络链接，磁盘和CPU统计，以及/proc。必须马上开始第二章<br />
+  所介绍的系统恢复过程。</p>
+<p>第十一章 服务器安全问题<br />
+  mail安全性<br />
+  Mail User Agent(MUA)邮件用户代理，如Mutt,Pine,Elm。用户使用这些程序编辑和阅读邮件。<br />
+  Mail Transfer Agent(MTA)邮件传送代理，如sendmail,qmail,postfix。主要功能是在多台机器<br />
+  之间转发邮件。<br />
+  Mail Delivery Agent(MDA)邮件分发代理，是用户介面和MTA之间的中介，它从MTA中取<br />
+  回邮件并放置在本地收件箱，或者把发件箱中的邮件传给MTA。这方面的程序有mail.local <br />
+  and Procmail。<br />
+  安全问题绝大多数和MTA有关。</p>
+<p>sendmail<br />
+  在互联网上大约75%的邮件服务器上运行。<br />
+  1988年，Morris的internet蠕虫就利用它的WIZ命令，它使用任何用户能立即获得root权<br />
+  限。然而，近来，它已变得相当稳定，这很大程度归功Sendmail Inc的成立。该商业组织现<br />
+  在负责Sendmail的开发工作。</p>
+<p>为了保证安全一个必须采取而且绝对重要，即订阅所选择的邮件服务器的安全问题邮件列<br />
+  表，并随时准备在必要时升级。</p>
+<p>邮件服务器的最大问题是它需要绑定端口25，因此必须以root启动。只要服务器中发现漏<br />
+  洞，黑客就有可能立即获得root权限。Postfix and Qmail不以root运行，它们都使用一个单<br />
+  独的进程绑定25端口，该进程把所建立的连接立即转交给独立的smtp程序，这个程序永远<br />
+  都不以root运行。这两个程序都不存在root类漏洞。sendmail在sendmail.cf文件中提供<br />
+  RunAsUser选项，如果设置了该选项，sendmail守护进程在读取和分发邮件时会先成为指定<br />
+  用户。这也意味着必须修改相应的文件。使用该用户对它们有读权限，这些文件包括队列目<br />
+  录/var/spool/mqueue,别名列表，以及:include:文件等。由于没有默认的用户和组，所以要创<br />
+  建它。以sendmail用户和mail组运行sendmail为例，就必须在.cf文件中包括如下代码： <br />
+  O RunAsUser=sendmail:mail</p>
+<p>邮件服务器旗标<br />
+  建立连接后，smtp立即向用户发送旗标。这个旗标通常包括邮件服务器名，smtp软件名和<br />
+  版本号，当前时间等，这些信息对黑客非常重要，所以要关闭这一欢迎信息。在sendmail.cf<br />
+  文件中找到SmtpGreetingMessage，将如下配置：<br />
+  O SmtpGreetingMessage=$j Sendmail $v/$z; $b <br />
+  修改为 O SmtpGreetingMessage=$j BWare -SMTP spoken here; $b <br />
+  再使用如下命令重载其配置文件：killall -hup sendmail<br />
+  qmail修改qmail-smtpd的smtpgreeting值；postfix修改smtpd_banner值。</p>
+<p>SMTP VRFY命令<br />
+  VRFY最初用于帮助机器确定用户名或邮件地址是否合法，但是，现在该命令很少再用于这<br />
+  个目的。相反，它通常被黑客对用户实施蛮力攻击。<br />
+  用法：VRFY XXXX   日志可以记录VRFY命令操作情况。<br />
+  关闭该命令需对sendmail.cf文件中对PrivacyOption做如下更改：<br />
+  O PrivacyOption=authwarnings,novrfy 或将下面一行添加到sendmail.mc配置文件中，然后重<br />
+  新编译sendmail.cf。define('confPRIVACY_FLAGS',&quot;authwarnings,novrfy&quot;)dnl，修改完成后重<br />
+  载配置文件。</p>
+<p>SMTP EXPN命令<br />
+  EXPN命令扩展所提供的用户名和邮件地址。与VRFY命令类似，它也可以用来猜测用户名<br />
+  和邮件地址。<br />
+  要关闭EXPN请求，只需在sendmail.cf中将PrivacyOption标志修改为：<br />
+  O PrivacyOption=authwarnings,noexpn,或将下面一行添加到sendmail.mc配置文件中，然后重<br />
+  新编译sendmail.cf。define('confPRIVACY_FLAGS',&quot;authwarnings,noexpn&quot;)dnl，修改完成后重<br />
+  载配置文件。如果同进关闭VRFY AND EXPN可以这样写authwarnings,noexpn,novrfy。如<br />
+  果使用的是新近的版本，也可以使用goaway选项，它自动包括了noexpn,novrfy和其它<br />
+  PrivacyOption选项。</p>
+<p>qmail and postfix 都不支持expn命令，所以不存在这个问题</p>
+<p>不适当的文件许可<br />
+  在接收和分发邮件时，邮件服务器可能会用到多个文件，例如虚拟主机名，邮件别名和邮件<br />
+  路由映射文件等，如果某个用户能够修改这些文件，它就能够对邮件服务器的运作产生影响。<br />
+  所以必须对这些文件设置合适的文件许可，使用文件完整性工具密切监视被邮件服务器使用<br />
+  的所有文件。同时，为确保万无一失，也可以用chattr +i命令将这些文件设置为不可修改。<br />
+  sendmail8.9或以上的版本在使用.forwards,:include:,地址映射以及其他相关文件前先对其执<br />
+  行许可正确性检查，如果它认为所给的许可权超过了所需的，就会取消动作并发回邮件。如<br />
+  果确实要依赖于所给的过渡性许可，则必须在sendmail.mc中添加如下一行配置信息显示地<br />
+  告诉sendmail使用相应的不安全许可设置。<br />
+  OPTION('confDONT_BLAME_SENDMAIL','groupwritablealiasfile')dnl<br />
+  警告：如果想打破sendmail的严格许可规定，就必须确信所做事情的含义。因为一旦允许<br />
+  用户修改与sendmail相关的文件，他们就有可能得到root权限。</p>
+<p>为进一步防止运行外部命令，可以将sendmail配置成使用smrsh（sendmail受限shell）运行<br />
+  所有shell命令，将下面一行加到sendmail.mc:<br />
+  FEATURE('smrsh','path-to-smrsh'),smrsh程序只执行在特定目录下（默认为/usr/adm/sm.bin）<br />
+  的程序。但要确保该目录下程序的安全。<br />
+  qmail and postfix都遵循一个原则：只有不受限制的root用户才可以对邮件服务器的相关文<br />
+  件具有写权限。惟一例外的是.forward文件。一旦启用，其所有者必须是接收的用户。邮件<br />
+  服务器相关文件在/etc/postfix and /var/qmail下。要确保这些文件只有root可写。</p>
+<p>邮件中继<br />
+  为保护机器和网络不被垃圾邮件兜售商滥用，必须确保它们不中继来自非授权域的邮件。<br />
+  sendmail8.9及之后的版本默认情况下拒绝邮件中继，如果必须中继来自某些主机的邮件，<br />
+  必须将它们的地址加下/etc/mail/access文件中。<br />
+  警告：sendmail将整个域名中主机名之后的部份看做域名，如果管理员在.mc文件中使用<br />
+  FEATURE{relay_entire_domain}，并且当前域中的任一本地ip地址都反解析为某二级域名<br />
+  （如example.com），那么其意图是允许中继所有该域中机器的邮件，不幸的是，sendmail<br />
+  会将域认为是.com，从而实际上是以开放中继方式运行。</p>
+<p>qmail0.91及以上版本默认情况下拒绝邮件中继，要设置服务器中继特定主机的邮件，可以<br />
+  有以下两种方式：<br />
+  1、以支持host_options方式安装tcp封装器。如下所示方式运行qmail的smtpd守护进程。<br />
+  tcpd /var/qmail/bin/tcp-env /var/qmail/bin/qmail-smtpd<br />
+  并在/etc/hosts.allow中为所有需要中继的主机添加与下面类似的行。<br />
+  tcp-env:xxx.xxx.xxx.xxx :setenv=RELAYCLIENT<br />
+  2、如果使用tcpserver0.80或更高版本，在/etc/tcp.smtp中添加如下行：<br />
+  xxx.xxx.xxx.xxx:allow,RELAYCLIENT=&quot;&quot;<br />
+  然后运行：tcprules /etc/tcp.smtp.cdb /etc/tcp.smtp.tmp &lt; /etc/tcp.smtp,并且在tcpserver调用<br />
+  qmail-smtpd的命令行后面添加：<br />
+  -x /etc/tcp.smtp.cdb</p>
+<p>postfix在默认情况下总是拒绝邮件中继，服务器处理邮件所进出的网络必须在它第一次运行<br />
+  前在main.cf中配置，涉及的相关变量有myhostname,mydomain,myorigin,mydestination and <br />
+  mynetworks。对于许多系统来说，要建立一个可运行的postfix配置，只需要处理这些变量。<br />
+  不幸的是，因为smtp服务器不知道实际邮件分发的所有细节，时期版本（早于1999年12<br />
+  月27日）并不对中继请求响应smtp错误码，这样，中继检查程序如ORBS AND RBL会以<br />
+  为该服务器运行于开发中继方式。将postfix升级到新版可避免这一问题。</p>
+<p>垃圾邮件<br />
+  当前使用最广泛的阻止垃圾邮件的方法是Paul Vixie首创的MAPS(Mail Abuse Prevention <br />
+  System--按照习惯，这也被看作&quot;spam&quot;的逆序拼写)Realtime Blackhole List 或 RBL.它是通过<br />
+  DNS实现的服务，列出了知名的垃圾邮件发送站点和被他们中继的服务器。邮件服务器使<br />
+  用这一基于DNS的垃圾邮件阻塞方法时，对所有与之联系的机器的IP地址执行DNS查询。<br />
+  如果该IP已被登记，则拒绝来自相应机器的邮件。RBL是另一个开发的数据库，但它只记<br />
+  录开发中继的邮件服务器。</p>
+<p>在sendmail.mc文件中添加如下内容就可防止垃圾邮件的骚扰，不过，对于每一个sendmail<br />
+  版本，其语法有所不同。<br />
+  8.9        FEATURE(rbl,`rbl.maps.vix.com')<br />
+  8.10        FEATURE(dnsbl,1rbl.maps.vix.com',`error message')<br />
+  8.11        HACK(`check_dnsbl',`rbl.maps.vix.com',`',`general',`reason')<br />
+  qmail可以结合使用Rblsmtpd和smtpd来阻塞RBL类数据库列出的站点。Rblsmtpd由<br />
+  tcpserver启动，<br />
+  postfix要启用基于DNS的垃圾邮件阻塞功能，首先要将maps_rbl_domains变量设置为所要<br />
+  查询的数据库：<br />
+  maps_rbl_domains=rbl.vix.com,dul.maps.vix.com<br />
+  然后在smtpd_client_restrictions变量后直接添加&quot;reject_maps_rbl&quot;<br />
+  smtpd_client_restrictions = permit_mynetworks,reject_maps_rbl</p>
+<p>邮件炸弹和拒绝服务攻击<br />
+  过量的连接会使合法用户邮件无法到达，而邮件炸弹会迅速耗尽磁盘空间。因为邮件通常保<br />
+  存在/var目录下，所以一旦填满，就会对系统造成灾难性影响。日志信息无处可放，而系统<br />
+  也会最终陷于停顿。<br />
+  在sendmail中可使用多个选项来限制守护进程使用的资源数量：<br />
+  MaxDaemonChildren    限制并发运行sendmail进程数，保障cpu不被过度使用。<br />
+  ConnectionRateThrottle    限制smtp的每秒并发入连连接数量。<br />
+  MaxRcptsPerMessage    限制单个邮件的接收者数量，也可用于阻止编写拙劣的垃圾邮件。<br />
+  MaxMessageSize        拒绝尺寸过大的邮件。如果经常通过邮件交换大型文件，则这个限制<br />
+  会带来问题，但是不论怎么说，使用http,ftp            或scp/sftp来实现文件服务器要更好<br />
+  一些。<br />
+  注意：这些值设置过低会导致延误或拒绝正常邮件，因此，在设置前最好检查邮件日志以确<br />
+  定日常的邮件使用情况。<br />
+  默认情况下qmail允许同时处理20封外发邮件。如要修改，可在文件<br />
+  /var/qmail/control/concurrencyremote中设置所需的数值。然后重启。编译该值时设置的上限<br />
+  为120，但编译前可在conf-spawn中修改。qmail并不实施额外的限制，Bernstein认为进一<br />
+  步的限制是操作系统的职责。管理员应该在/etc/limits.conf中设置约束，并对/var执行磁盘<br />
+  配额。要限制队列中邮件的数据，只需在/var中设置qmail用户所能使用的inode上限就可<br />
+  以了。<br />
+  针对MTA的同件炸弹和DoS攻击，postfix有内建的最具扩展性和可调节的防御措施。最快<br />
+  捷的解决方法是在main.cf中设置default_process_limit变量，这个变量限制并发的进程数，<br />
+  其默认值是50，大致适用于通常的系统。其它设置包括：<br />
+  local_destination_concurrency_limit    同时向同一本地接收者发送的邮件上限<br />
+  default_destination_concurrency_limit    同时向同一接收者发送的邮件上限<br />
+  message_size_limit            任何大于该尺寸的邮件都将被拒收<br />
+  bounce_size_limit            在回返时允许发回给发关者的原始内空尺寸，通常认为发回整个<br />
+  邮伯没有必要。<br />
+  queue_minfree                在邮件队列所在的文件系统中应当保留多大的未用空间。设置该<br />
+  变量有助于在填满文件系统前阻                    止postfix接收新的邮件。<br />
+  还有很多与资源和使用率限制有关的选项，可以查阅postfix相关技术文档。</p>
+<p>postfix自由可写的maildrop目录<br />
+  postfix首次发布时，自夸在套件中没有一个程序是setuserid and setgroupid的，所有要发送<br />
+  的邮件都由某个postfix程序写入到maildrop目录中，然后由单独的postfix守护程序进程取<br />
+  出并发送。maildrop目录应该设置sticky位，让所有用户都可写。如果该目录中的某个文件<br />
+  有多个硬链接，则postfix将丢弃这个文件。任何人都可以对队列中的文件添加额外的链接，<br />
+  这样，这些文件（邮件）就会被删除。而不会发送出去，且此时也不会向用户发送警告。另<br />
+  一个存在的可能性是用户可以将别人的文件以邮件形式发送出去。但这要满足非常严格的条<br />
+  件。受影响的文件必须设置为700，必须与maildrop目录在同一文件系统，必须以postfix<br />
+  可以接受的格式保存。攻击者必须能够对其建立链接，而且在链接创建之后，必须由受影响<br />
+  者将该文件删除。这些要求不是不可能满足，但确实不是很常见。这些缺陷最初是由qmail<br />
+  的作Bemstein指出。最初Venema不愿意改正这个问题，因为看起来这只有一种解决方法：<br />
+  一个setuserid程序。然而，最终他不得不承认这是惟一的方法，并创建了一个名为postdropr<br />
+  的setgroupid程序，并将maildrop目录的许可设为1730，并将其组ID设置成与postdrop的<br />
+  组一致，从而只有该程序才能写入maildrop目录。如果postfix sendmail外壳程序发现不能<br />
+  写入maildrop目录，就会自动调用postdrop。在安装配置postfix时，它会要求用户输入setgid<br />
+  的组名，如果指定了名字，它就会安装setgroupid的postdrop程序，并且使用受限的目录许<br />
+  可。否则，仍将使用自由的可写目录。如果系统只被自已及可信任的人使用，则设置自由可<br />
+  写的maildrop目录可能更好一些。</p>
+<p>纯文本smtp<br />
+  邮件在网上是以纯文本的方式传输，所以只要能够监听发送和接收机之间的连接，就能够读<br />
+  取所有过往的邮件。如果邮件中存在敏感信息，不应当未加密就发送。任何现代的MUA都<br />
+  包含加密部分。PGP是最被广泛支持的加密算法。在RFC2487中定义了SMTP的新扩展<br />
+  ---STARTTLS。STARTTLS在SMTP链接中提供SSL/TLS加密设置，现在它仍然没有在服<br />
+  务器或客户端得到广泛应用。但随着时间的推移，估计会得到越来越多的支持，使用它可确<br />
+  保SMTP-AUTH数据通过加密连接传输。因而不会被嗅探。sendmail在版本8.11之后内建<br />
+  支持。qmail在它网站上有补丁。postfix也有补丁。通过查看EHLO的响应可确定系统使用<br />
+  的邮件服务器是否支持STARTTLS</p>
+<p>pop and imap中的纯文本口令<br />
+  pop and imap本身并不支持加密，所以要使用SSL OR SSH连接。首先设置加密程序监听某<br />
+  个本地端口，并将流入该端口的数据以加密方式发送到目标机器。然后，执行邮件操作时，<br />
+  客户端不需连接到实际的邮件服务器，而只要连向本地主机的相应端口。下面给出两个不同<br />
+  的例子：<br />
+  使用Stunnel加密IMAP<br />
+  假设用户使用Mutt连接mail.example.com。Mutt支持SSL，而IMAP服务器不支持该加密<br />
+  方式。这时则需要在服务器上运行Stunnel以监听imaps端口的链接。<br />
+  mailserver# /usr/sbin/stunnel -D mail.debug -p /path/to/stunnel.pem -N simapd -d simapd -l <br />
+  /usr/sbin/imapd<br />
+  在客户设置环境变量，$mail指向邮件服务器<br />
+  client#export MAIL='{mailserver.example.com/ssl}'<br />
+  client#mutt<br />
+  当连接到达IMAPS端口时，Stunnel将启动imapd服务器。Stunnel可能使用TCP封装器，<br />
+  因此要在/etc/hosts.allow中添加下应内容。</p>
+<p>使用ssh加密POP<br />
+  假设用户使用Fetchmail通过pop下载邮件，如果能用SSH登录服务器，就可以利用SSH<br />
+  的端口转发功能将POP连接建立在加密通道上。只需在启动fetchmail之前直接运行如下命<br />
+  令：<br />
+  client#ssh -n -x -f mailserver.example.com -L888:mailserver.example.com:110\&quot;sleep 60&quot;<br />
+  所有连向本地端口888的链接都将通过加密通道发送到邮件服务器的pop端口，然后，运行<br />
+  fetchmail时，在命令行参数上添加--port 888，并指向本地主机而非mailserver.example.com。</p>
+<p>FTP协议<br />
+  大部份现代的协议使用单个网络连接来传输所有数据，例如HTTP1.1客户端与服务器的80<br />
+  端口建立连接，并请指定的页面。服务器告诉客户端所要发送的字节数，在接收完数据后，<br />
+  客户端还可以在同一通道内发送请求。然后，FTP协议使用两个单独的连接分别传输命令和<br />
+  数据。<br />
+  命令通道。是FTP客户端连向服务器21端口的网络套接字连接。比如LIST AND RETR的<br />
+  命令通过这个通道传输。它在整个会话期间保持连接。<br />
+  数据通道。客户端和服务器需要交换数据时，就建立数据通道。这一连接由PORT OR PASV<br />
+  命令动态创建。<br />
+  FTP这种本性使防火墙管理员大伤脑筋。需要以应用代理逻辑来处理频繁的动态创建连接。<br />
+  如TIS防火墙中的ftp-gw，或ipchains masquerade的ip_masq_ftp。</p>
+<p>创建数据连接的两种方式：主动和被动模式<br />
+  主动模式，对于大多数UNIX FTP客户端而言，这是默认的模式，但最近某些LINUX发行<br />
+  版开始转向默认设置被动模式。用户输入ls命令时，FTP客户端绑定一个端口，以供服务<br />
+  器连向这个端口并发回所请求的数据。然后客户端使用PORT命令把该端口号和IP地址发<br />
+  送给服务器，格式是PORT W,X,Y,Z,H,L w,x,y,z是客户端的地址，H,L分别是端口号的高和<br />
+  低字节。这样，客户端绑定本地端口H*256+L,然后客户端发送实际的请求，这里是LIST。<br />
+  之后服务器打开一个从其端口20(即ftp-data端口）到客户端口H*256+L的连接。如果连接<br />
+  成功，就通过它发送所请求的数据。然后断开。<br />
+  被动模式，客户请服务器打开一个端口，以连接并传送数据。按前面的方式，输入ls，客户<br />
+  机发送PASV命令给服务器，服务器接收到该命令后，将绑定某个本地端口，然后在PASV<br />
+  返回码中告诉客户端所绑定的端口。客户端根据返回码与服务器建立连接，发送LIST命令，<br />
+  传输数据。</p>
+<p>纯文本口令<br />
+  FTP以纯文本方式传输用户各和口令，黑客能监听到这些信息，而多数据情况下FTP用户<br />
+  也是系统的合法用户，因而黑客能利用这些帐号攻击ROOT帐号。可以使用几种方法加密<br />
+  命令通道，但这些方法不能保护动态的数据通道。要有效地进行加密，两端必须都使用主动<br />
+  模式。而且服务器必须允许命令通道之外的机器向其发送PORT命令。例子：首先与同一网<br />
+  络的ftp服务器建立ssh连接，ssh程序绑定本地端口，使用该端口将命令通道的数据转发到<br />
+  ftp服务器的21端口。<br />
+  ftpcliet#ssh -L 2121:ftpserver.example.com:21 trusted_machine.example.com<br />
+  #then,from a separate shell<br />
+  ftpclient#ftp localhost 2121<br />
+  技巧：如果用户在ftp服务器上拥有帐号，应当直接使用scp or sftp，而不是使用ssh转发绕<br />
+  弯子。</p>
+<p>另一种方法是使用一次口令，如果用户的系统支持PAM，则只需修改/etc/pam.d/ftp文件设<br />
+  置所选的一次性口令算法。</p>
+<p>FTP旗标信息<br />
+  要修改默认的旗标信息，不要向黑客提供多余的信息。if wu-ftpd modify /etc/ftpaccess,if <br />
+  proftpd modify /etc/proftpd.conf。</p>
+<p>PASV FTP数据劫持<br />
+  在ftp客户端发出PASV OR PORT命令之后，发送跟随的数据请（LIST,RETR,STOR等）之<br />
+  前，存在一个易受攻击的时间窗口，如果黑客能够猜到所打开的端口，就能够连接并截取或<br />
+  替换正在发送的数据。对于匿名ftp，这一点没什么用处，对于非匿名ftp，黑客就可以使用<br />
+  这个方法截取有用的数据。</p>
+<p>PORT FTP数据劫持<br />
+  原理同上，较少用。<br />
+</p>
+<p>通过第三方FTP服务器进行端口扫描<br />
+  FTP客户端所发送的PORT命令告诉服务器传送数据时应当连向的IP和端口，通常，这就<br />
+  是客户端所在机器的IP地址和所绑定的端口。但是，FTP规范中并没有规定客户端发送的<br />
+  PORT命令中必须指定自已的IP地址。黑客就可以利用这点通过第三方FTP服务器进行端<br />
+  口扫描。因为这是通过第三方的FTP服务器的反射实现的，所以叫FTP反射。优点有:<br />
+  1、匿名性，源地址为FTP服务器，不是黑客的机器。<br />
+  2、规避阻塞，如果目标主机通过添加内核ACL或无效路由来自动阻塞对其进行扫描的主机，<br />
+  则黑客不可能在地址被拒之前完成扫描。但是，利用FTP服务器进行中继扫描，就只会阻<br />
+  塞FTP服务器。黑客可以换另一个FTP服务器继续进行，扫描完成后就可以进行攻击，而<br />
+  这样不会触发扫描防御机制。利用nmap工具可进行这种扫描。<br />
+  # nmap -b username:password@ftpserver:port   如果不给出用户名和口令，则其默认为<br />
+  anonymous，default port is 21，因此对于匿名服务器，命令可简写成# nmap -b ftpserver<br />
+  注意：对于某些防火墙，只有当命令中的IP地址属于受其保护的机器，它才会重写PORT <br />
+  AND PASV COMMAND。即这一方法也能用于扫描防火墙后的机器。# nmap -P0 -b <br />
+  username:password@ftpserver:21 -p 5400,5800,5900,6000 target.example.com<br />
+  经由FTP的nmap扫描要慢于普通的端口扫描。依赖于FTP服务器的完整TCP握手过程。<br />
+  不能进行并发扫描。除非编写脚本建立多个连接。<br />
+  对策：<br />
+  阻塞来自20端口（ftp-data）的连接。但这样做会阻止合法的FTP流量。而且并不是所有<br />
+  FTP服务器都用该端口发送数据。<br />
+  可配置成拒绝IP地址与客户端机器不符的PORT。可手工核查这类方法<br />
+  #cat ftp.bounce.detect<br />
+  USER username<br />
+  PASS password<br />
+  PORT 127,0,0,1,10,10<br />
+  LIST<br />
+  QUIT</p>
+<p>#nc ftpserver 21 &lt; ftp.bounce.detect<br />
+  如果出现'425 Can't build data connection:Connection refused'这一行信息说明例中的服务器易<br />
+  于受到攻击。说明服务器确实尝试过连接PORT中所指的主机/端口。多数配置正确的服务<br />
+  器将给出不同的出错信息，或直接断开连接。</p>
+<p>启用第三方FTP<br />
+  允许任意使用PORT命令会带来某些问题，以某种巧妙的方式使用PORT AND PASV，可以<br />
+  使FTP客户端某个服务器上的数据直接发送到另一个FTP服务器上，数据无需流经控制这<br />
+  一操作的机器。Xftp支持这一功能。</p>
+<p>FTP反射攻击<br />
+  如果黑客能够向服务器上载文件，那他就可以使用PORT AND RETR命令传送任何数据。<br />
+  例如有一个可写的incoming目录<br />
+  hacker$cat anonymous_mail.smtp<br />
+  HELO FTPSERVER.EXAMPLE.COM<br />
+  mail from :user@some_host.com<br />
+  rcpt to:mailbomb_recipient@other_host.com<br />
+  data<br />
+  ....</p>
+<p>hacker$ncftpput ftpserver incoming anonymous_mail.smtp</p>
+<p>hacker$nc ftpserver 21<br />
+  USER anonymous<br />
+  PASS ftp@example.com<br />
+  PORT 10,10,10,10,0,25<br />
+  RETR anonymous_mail.smtp<br />
+  QUIT</p>
+<p>FTP服务器将把anonymous_mail.smtp文件发送到邮件服务器10.10.10.10 的SMTP(25)端口,<br />
+  该文件被设计成正确的SMTP命令，并且邮件服务器认为FTP服务器就是连接的源机器，<br />
+  有效防止它确定邮件真实来源的可能性。利用这种方法还可以攻击其它网络服务，POP,IMAP <br />
+  OR lpd。些时，FTP服务器被认为是攻击源，而黑客就高枕无忧了。<br />
+  对策：<br />
+  限制服务器接收任意的PORT命令。确保jail目录下不存在所有人都可写的目录或文件。假<br />
+  设FTP帐号用户ID为100组ID为200。则可使用下面命令找出这些文件<br />
+  ftpserver# cd /path/to/jail<br />
+  ftpserver# find . \( -user 100 -o -group 200 -o -perm -002 \) -a -ls<br />
+  禁用SITE CHMOD命令，可限制用户把文件许可改为可写。<br />
+  更好的办法是确保FTP区域不中存在属于匿名用户或能被其写入的文件。</p>
+<p>对防火墙之后的FTP服务器端口的非授权访问<br />
+  通常FTP服务器处于防火墙之后，并阻塞所有除FTP之外的所有访问。在FTP服务器发送<br />
+  PASV之后，防火墙必须为数据连接打开给定的端口，并在传输完成后关闭它，但多数防火<br />
+  墙并不保持会话的真实状态。而且会被欺骗打开端口。ftp-ozone脚本可用于攻击这种情况。<br />
+  hacker$ftp-ozone ftpserver.example.com 79 &amp;<br />
+  hacker$nc ftpserver.example.com 79<br />
+  对策：<br />
+  用ftp-ozone测试FTP服务器。升级防火墙，此外ip_masq_ftp模块不再存此漏洞。或配置<br />
+  服务器不使用PASV FTP。</p>
+<p>对防火墙之后的FTP客户端端口的非授权访问<br />
+  防火墙要想支持主动FTP,就必须提供方法转换PORT地址中的地址，并在防火墙外侧绑定<br />
+  端口，然后将其正确地对应到实际的FTP客户端。如果不保护连接状态的完整记录，做到<br />
+  这一点不容量，很多开发商选择绕过这一点选择更快的处理速度。黑客可以利用这一点欺骗<br />
+  客户端，使用其发送伪造的PORT命令，就可以穿透防火墙与FTP客户端的任何端口建立<br />
+  连接。<br />
+  Ftpd-ozone脚本提供了一个用于欺骗防火墙的特制URL，将其发给客户，客户一旦单击这<br />
+  个链接，FTP服务器所在机器就能连向位于防火墙之后的客户端。<br />
+  对策：<br />
+  用Ftpd-ozone脚本测试服务器，升级防火墙。ip_masq_ftp没有这个问题。使用PASV FTP。</p>
+<p>使用Aftpd代替匿名FTP,编译时指定DREADONLY,它将只提供文件下载服务。而不能上传<br />
+  文件。出连连接不使用20端口，即服务器不需要任何root权限。惟一在服务器外运行的命<br />
+  令是/bin/ls。</p>
+<p>Publicfile可作http and 匿名ftp服务器，安全性极高。它不支持任何有问题的传统功能（SITE <br />
+  EXEC等），并对PORT AND PASV命令提供了适当的保护。而且不运行任何外部命令，包<br />
+  括/bin/ls。</p>
+<p>小结<br />
+  sendmail是使用最广的邮件服务器，但保障其安全不是件容量的事情，所以应了解它的基础<br />
+  知识，才不会误入岐途。qmail and postfix吸取了sendmail的教训，变得更小，也更易于配<br />
+  置，并且在设计时就考虑了安全性。但它们的使用不如sendmail广。资料相对较少。</p>
+<p>主动和被动的FTP服务器都存在问题，最好的方法是不使用FTP服务器。如需支持匿名ftp<br />
+  文件下载，应当运行WEB服务器。如Publicfile。如果服务器的用户必须上传文件，应当使<br />
+  用scp or sftp来到代FTP。它们是SSH的组成部份。scp是一个安全的命令行复制程序，sftp<br />
+  本质上与之相同，但拥有一个类似于ftp的交互界面。这两个程序可以保护口令免遭嗅探，<br />
+  并且确保数据不会被攻击者破坏。</p>
+<p>第十二章 Web服务和动态页面<br />
+  生成HTTP请求<br />
+  machine$telnet localhost 80<br />
+  输入<br />
+  HEAD / HTTP/1.0<br />
+  它向服务器请求其文档树根目录“/”的头部信息。<br />
+  头部信息会给黑客提供一些有用的信息，如服务器版本，操作系统，安装的模块等。<br />
+  可以修改默认的头部信息以防止信息泄露。<br />
+  编辑src/include/httpd.h文件，将下面这些行<br />
+  #define SERVER_BASEPRODUCT &quot;Apache&quot;<br />
+  #define SERVER_BASERVISION &quot;1.3.14&quot;<br />
+  修改成<br />
+  #define SERVER_BASEPRODUCT &quot;myweb&quot;<br />
+  #define SERVER_BASERVISION &quot;xx.xx.xx&quot;<br />
+  然后编译安装就可以了。并且在启动服务器前，在httpd.conf中添加如下指令：ServerTokens <br />
+  Min</p>
+<p>限制IP以保护数据<br />
+  在.htaccess中添加如下内容：<br />
+  Order Deny,Allow<br />
+  Deny from All<br />
+  Allow from 192.168.1.100<br />
+  Allow from 192.168.1.101</p>
+<p>使用http身份认证<br />
+  可控制结web服务器特定目录和子目录的访问。以base64格式将用户名和口令组合编码。<br />
+  但仍是明文。可给黑客劫取。并用perl程序破解：<br />
+  hacker$perl -MMIME::Base64 -le &gt; `print decode_base64&quot;监听到的密码串&quot;'<br />
+  为了把黑客监听到用户名和口令可能性减少，应当使用安全的http连接，SSL.下面例子使用<br />
+  stunnel连接站点所监听的ssl端口443。在发送数据前，首先建立加密连接，之后所发送数<br />
+  据都以加密方式发送。<br />
+  machine$stunnel -f -D7 -c -r www.example.com:443</p>
+<p>ssl version2所要求的算法是一项2000年9月20日到期的美国专利，可以使用RESREF库。<br />
+  而不要使用RSAREF库（存在安全和稳定性问题）。<br />
+  TSL(transport layer security传输层安全协议)协议基于SSLv3.0由internet engineering task <br />
+  force（IEIF)D 1998年提出，主要用途和ssl相同，提供安全的传输层。目标：密码安全性，<br />
+  互操作性，扩展性，相对的高效性。对ssl的改进:对安全性略有增强，规范定义更清晰，为<br />
+  将来的协议提供更广泛的基础。</p>
+<p>在URL中允许..(double dot)<br />
+  早期的apache存在巨大的安全漏洞，在URL中允许..指向上层目录。Apache在很早期就补<br />
+  上了这个漏洞。但仍会影响CGI程序。</p>
+<p>不应该以root用户运行apache。这样服务器就可读取属于root的文件，由其执行的CGI程<br />
+  序也拥有root权限。</p>
+<p>危险的符号链接<br />
+  如果允许服务器使用符号链接，就有潜在的安全威胁。将web服务器访问的文件限制在文<br />
+  档树范围内是最重要的安全策略。如果存在符号链接，如某用户在其html目录下放置了一<br />
+  个指向/etc的符号链接link_to_etc，则黑客就可以如下请求/etc/passwd文件：<br />
+  http://localhost/~hack/link_to_ect/passwd。<br />
+  允许符号链接的配置如下<br />
+  Options FollowSymLinks<br />
+  更为严格的配置是只允许符号链接指向属于同一个用户的文件或目录<br />
+  Options SymlinkIfOwnerMatch<br />
+  如果要使用链接应把它们集中放置于只有授权用户如root才能写入的目录中，拒绝普通用<br />
+  户创建符号链接限能限制敏感信息被链接的数量。目录许可为rwxr-xr--x,使用Directory指令<br />
+  限制apache只使用给定的目录下的符号链接。<br />
+  &lt;Directory /usr/local/apache/htdocs/links_dir&gt;<br />
+  Options FollowSymLinks<br />
+  &lt;/Directory&gt;</p>
+<p>防止获得目录内容列表<br />
+  apache中配置服务返回目录内容列表的指令为Option Indexes。在所有Option指令中去掉该<br />
+  指令可防止返回目录内容列表。<br />
+</p>
+<p>将CGI限制在某些目录下，允许CGI运行于任何目录有潜在的安全问题，一般APACHE配<br />
+  置CGI程序只能在CGI目录下执行。这些目录通常被命名为cgi-bin or bin。这些目录下的<br />
+  所有文件被看作是可执行的。并以运行web的用户（通常是nobody）的身份运行。应当关<br />
+  注这个目录下的内容，因为它们被请求时执行。<br />
+  ScriptAlias /cgi-bin/ &quot;/usr/local/apache/cgi-bin&quot;</p>
+<p>不要基于文件名来启用CGI。服务器可以基于特定的扩展名(.cgi, .pl, .php)。这样就允许程序<br />
+  员将程序放在服务器目录结构下，而不仅仅是特定目录，这样会造成潜在安全问题。基于文<br />
+  件名来启动CGI的配置命令是：AddHandler cgi-script .cgi。不要用以上命令。注意，有些系<br />
+  统默认是打开该功能的，要检查系统配置，注释该选项或删除它。</p>
+<p>不要在CGI目录下保存一个程序的多个版本。</p>
+<p>根据文件名限制对文件的访问，应当使用Files or FilesMatch指令。如果使用Files，则应当<br />
+  使用“~”号来表示引号内的字符串为正则表达式。下面的例子给出了拒绝访问所有以.bak<br />
+  结尾的文件的设置方法：<br />
+  &lt;Files ~ &quot;\.bak$&quot;&gt;<br />
+  Order allow,deny<br />
+  Deny from all<br />
+  &lt;/Files&gt;<br />
+  使用FilesMatch时，字符串直接被认为是正则表达式。</p>
+<p>不安全的CGI对其他web站点的影响。如果服务器以同一个用户（通常是nobody）运行虚<br />
+  拟主机，则某个虚拟主机上的CGI程序漏洞可能会危及所有的虚拟主机。所以要使用<br />
+  SuEXEC配置每个虚拟机以不同用户运行CGI程序。</p>
+<p>安全地使用.htaccess文件配置http身份认证<br />
+  配置服务器允许使用.htaccess文件是实施身份认证的一个便利方法，此时，只需在需要身份<br />
+  认证的目录下放置一个名为.htaccess的文件，就可以控制访问。为将服务器配置为启<br />
+  用.htaccess文件，可以使用AllowOverride and AccessFileName。<br />
+  下面是一个配置HTTP身份认证的例子，将下列指令写入httpd.conf，以启用.htaccess文件。<br />
+  AllowOverride指令设定.htaccess可以取代的项目（用于身份认证应设为AuthConfig）。<br />
+  AllowOverride    AuthConfig<br />
+  为指定由名为.htaccess的文件控制文件访问，应使用AccessFileName指令<br />
+  AccessFileName    .htaccess<br />
+  应用.htaccess文件时，它本身决不应被服务器提供给客户端，因此必须使用Files命令来配<br />
+  置服务器，使其拒绝浏览器对.htaccess的访问。<br />
+  &lt;Files .htaccess&gt;<br />
+  Order allow,deny<br />
+  Deny from all<br />
+  &lt;/Files&gt;</p>
+<p>.htaccess文件内容告诉服务器口令文件的位置和其它信息，例如：<br />
+  &lt;LIMIT GET&gt;<br />
+  require user login jdoe<br />
+  &lt;/LIMIT&gt;<br />
+  AuthUserFile指令指向包含用户名和口令组合的文件，该文件用htpasswd创建。这个文件决<br />
+  不能放在文档树目录下。</p>
+<p>安全地使用httpd.conf文件来配置身份认证。这种方法会更安全一些，它不需要创建和管<br />
+  理.htaccess文件。配置例子如下：<br />
+  &lt;Directory /usr/local/apache/htdocs/private_dir&gt;<br />
+  AuthType    Basic<br />
+  AuthName    &quot;my private directory&quot;<br />
+  AuthUserFile    /usr/local/apache/misc/my_private_dir.htpasswd<br />
+  require        valid-user<br />
+  &lt;/Directory&gt;</p>
+<p>利用默认配置的漏洞，安装系统时，都有一个默认的配置，这个默认的配置可能是不安全的，<br />
+  建议关闭所有没用的默认配置。<br />
+  1、删除联机手册<br />
+  2、删除默认欢迎页面<br />
+  3、删除根据文件名执行CGI程序。<br />
+  4、安全配置parsed HTML文件，也叫SSIs(Server Side Includes)，是需要预处理的HTML<br />
+  文件，允许服务器通过包含其它文件或执行外部命令来生成HTML，配置指令是：<br />
+  AddType text/html .shtml<br />
+  AddHandler server-parsed .shtml<br />
+  AddHandler server-parsed .html<br />
+  SSIs允许用户（包括某些能力低下的用户）上传能够执行的程序的HTML文件。所以只有<br />
+  必要时才配置。否则关闭它。</p>
+<p>安全配置服务器状态和信息显示<br />
+  &lt;Location /server-status/&gt;<br />
+  SetHandler server-status<br />
+  Order deny,allow<br />
+  Deny from all<br />
+  Allow from localhost<br />
+  &lt;/Location&gt;</p>
+<p>&lt;Location /server-info/&gt;<br />
+  SetHandler server-info<br />
+  Order deny,allow<br />
+  Deny from all<br />
+  Allow from .example.com<br />
+  &lt;/Location&gt;<br />
+  应当只对可信主机才显示该信息，所以应当确保上述命令中包含Deny from all.并且在Allow <br />
+  from中列出可信主机。但更好的做法是关闭它。</p>
+<p>配置public_html目录<br />
+  通过适当配置apache可将http://www.example.com/~jdoe/等类似URL指向~jdoe/public_html<br />
+  或相应文件：<br />
+  UserDir public_html</p>
+<p>&lt;Directory /home/*/public_html&gt;<br />
+  ....<br />
+  &lt;/Directory&gt;<br />
+  如果不需要这个功能，则注释或删除它。更加安全的方法是为需要放置HTML文件的用户<br />
+  在web文档树下创建一个目录。并且将这一目录设置为只有相应用户或组才能够写入。</p>
+<p>如果不需WEB代理，请删除或注释掉以下指令<br />
+  &lt;Directory proxy:*&gt;<br />
+  Order deny,allow<br />
+  Deny from all<br />
+  Allow from .example.com<br />
+  &lt;/Directory&gt;</p>
+<p>CGI程序问题<br />
+  不要信任预装和下载的CGI，应当遵循3个简单的规则：<br />
+  1、删除web服务器附带的CGI程序；<br />
+  2、删除那些不是自已编写或没有彻底检查过和CGI程序；<br />
+  3、不要从流行的脚本库（免费或收费）下载和使用脚本，应该自已写。</p>
+<p>不安全的CGI程序大部分可归为以下两类：<br />
+  1、作不正确假设。<br />
+  2、执行操作系统程序和找开连向操作系统的管道。</p>
+<p>在写CGI时应该<br />
+  1、总是检查接收到的字段。<br />
+  2、使用MD5来校验隐藏字段。使用隐藏字段是在CGI之间传递数据的天真做法，更为成<br />
+  熟的做法是创建cookie以保存随机会话ID，并在服务器上将会话相关数据保存到数据库中，<br />
+  以会话ID作为相应数据库的主键。<br />
+  3、总是检查数据的长度。<br />
+  4、不要依赖于referer头部信息。<br />
+  5、不要依赖cookie。将cookie与ssl一起使用。<br />
+  6、以显式读模式打开文件。检查文件名中字符。如果存在允许范围之外的字符，就不要把<br />
+  这个文件名传给open()。<br />
+  7、绝不要假设预处理会被执行。CGI程序决不能假设所收到的数据必定处于正确的格式。<br />
+  必须在CGI程序中检查数据格式，并在必要时修改它。<br />
+  9、    使用系统调用或管道时绝对不要相信来自表单的参数。应当验证变量只包含合法字符。<br />
+  10、    而不是检查其中是否包含非法字符。这样才能确保$file中文件名正确。即只包含<br />
+  11、    字母，数字，下划线各点号。<br />
+  if ($file =~ /^[\w\.]+$/)) {   all is well   }  else {  all is not well  }<br />
+  9、以序列方式执行system()。如：system(&quot;wc -c $file&quot;),如果$file是a.dat;rm -rf / 就问题严重。<br />
+  变成wc -c a.dat;rm -rf /。可写成system 'wc','-c',$file。如果要在程序内部以反引号方式或管道<br />
+  方式得到相应结果，使用fork() and exec()。<br />
+  如：$num_chars =`wc -c $file'; 安全实现为：if (open PIPE,'-|') { $num_chars =&lt;PIPE&gt;;} else <br />
+  { exec 'wc','-c',$file; }。如果要用管道实现如下：open P,&quot;wc -c $file |&quot;; print &lt;P&gt;; 可安全实现<br />
+  为：if (open PIPE, '-|') { print &lt;PIPE&gt; } else { exec 'wc','-c',$file; }</p>
+<p>利用WEB农场，现在，将web服务器建立在大型ISP服务器上情形很常见，因此，你的站<br />
+  点可能同时和几百上千个站点一起被“放牧”在“WEB农场上。如果其中一个站点出现漏<br />
+  洞，那么就可能受到攻击，并使黑客获得root权限。那你也不能幸免。所以要明智地选择<br />
+  ISP.最好自已建站。</p>
+<p>其它web服务器<br />
+  Jigsaw(www.w3.org/Jigsaw)是由w3c开发，并用java实现，它的设计目的更着重于技术示范，<br />
+  示范将要流行的功能和技术，不建议使用。</p>
+<p>thttpd是一个简单，小型，可移植，快速和安全的HTTP服务器。它内建调节功能，允许用<br />
+  户指定URL OR URL GROUP的最大字节流量。</p>
+<p>AOL服务器。基于Tcl的多线程服务器。适用大型动态站点。由大型商业公司开发，但遵<br />
+  循GPL。</p>
+<p>bash-httpd。是一个用bash编写的web服务器。但它没有其它大多数web服务器的功能，运<br />
+  行缓慢而且不安全，不适合于工作环境。</p>
+<p>awk-httpd。一个用AWK写的web服务器。运行缓慢，不安全，而且只实现了http的一个<br />
+  子集。不适合于工作环境。</p>
+<p>小结<br />
+  采用以下几个措施可以帮助管理员保护web站点的安全。<br />
+  1、    选择一个安全的服务器，确保每当出现安全漏洞时都能够快速升级（apache能很好地满<br />
+  2、    足这个要求）。这个要求也针对在基础软件中添加的其它部件，如mod_perl,mod_php4。<br />
+  3、    正确配置服务器，使其拒绝列出目录内容，只执行特定目录下的CGI程序，并禁止使用<br />
+  4、    “..”（指向上层目录）。<br />
+  3、绝不使用来处INTERNET的CGI程序，并且在编写这类程序时避免作任何假设。<br />
+  4、除非使用序列方式，否则不要调用system() or exec()函数。也不要打开管道。<br />
+  5、定时检查服务器的日志文件。</p>
+<p>第十三章 访问控制和防火墙<br />
+  只要你的linux系统连接了Internet并提供了某些服务，那么实施主机访问控制和防火墙就<br />
+  是实现linux安全的第一步。<br />
+  inetd<br />
+  很多网络服务都由inetd（Internet Daemon）启动。它能够监听系统中多个指定的端口，如果<br />
+  在某个端口上建立了连接，就启动相应的服务。例如，假设在端口23建立了一个连接，则<br />
+  inetd就启动telnet守护进程来处理请求。类似地，如果用户连向机器的ftp端口21，inetd<br />
+  就会启动ftpd进程。inetd在文件/etc/services中查找请求连接的端口。使用了inetd，系统就<br />
+  只需持续运行一个守护进程序就可以了，而不是十个八个。启动inetd时，它读取配置文件<br />
+  /etc/inetd.conf以确定自已控制的服务。<br />
+  telnet        stream        tcp        nowait    root        /usr/sbin/telnetd<br />
+  pop-3        stream        tcp        nowait    root        /usr/sbin/pop3d<br />
+  各字段分别表示：<br />
+  1、服务的名称（在/etc/services中指定）<br />
+  2、套接字类型stream/dgram<br />
+  3、协议 tcp/udp<br />
+  4、nowait指定inetd为新连接创建新的进程<br />
+  5、进程将以什么用户（root）运行<br />
+  6、程序的位置</p>
+<p>xinetd<br />
+  是inetd的扩展或增强版。它实现了若干inetd中没有但很有价值的功能，包括：<br />
+  1、内建了基于远程主机地址、名字或域名的访问控制功能，类似于tcp封装器。<br />
+  2、基于时间段的访问控制。<br />
+  3、完整记录连接日志、包括成功或失败的连接。<br />
+  5、    通过限制同类服务进程的并发运行数、服务进程的总数、日志文件大小、接收同一主机<br />
+  6、    的连接数等，可防止DoS。<br />
+  5、可将服务绑定到指定的网络接口（例如只绑定内部接口而不绑定外部接口）。<br />
+  配置方法和inetd完全不同，可通过perl程序xconv.pl从inetd.conf文件转换为xinetd.conf<br />
+  文件。<br />
+  $/usr/local/sbin/xconv.pl &lt; /etc/inetd.conf &gt; /etc/xinetd.conf<br />
+  配置文件格式<br />
+  defaults<br />
+  { <br />
+  instances = 25<br />
+  log_type  = FILE /var/log/servicelog<br />
+  log_on_seccess = HOST PID<br />
+  log_on_failure = HOST RECORD<br />
+  per_sourece = 5<br />
+  }</p>
+<p>service ftp<br />
+  {<br />
+  flags = REUSE NAMEINARGS<br />
+  socket_type = stream<br />
+  protocol = tcp<br />
+  wait = no<br />
+  user = root<br />
+  server = /usr/sbin/in.ftpd<br />
+  server_args = -l -a<br />
+  }</p>
+<p>defaults节中各字段含义如下：<br />
+  instances    服务器并发处理的请求数上限<br />
+  log_type    在指定文件中记录日志，但xinetd也允许使用syslog<br />
+  log_on_success    对成功的连接选择要记录的信息，包括PID,HOST AND USERID<br />
+  log_on_failure    对失败的连接选择要记录的信息，包括PID,HOST AND USERID<br />
+  per_source    同一ip地址对同一服务建立连接数的上限。<br />
+  includedir /etc/xinetd.d    该目录下的脚本也可由xinetd启动。<br />
+  将inetd转换为xinetd的最后一步是修改/etc/rc.d下的相应脚本，将xinetd配置为在系统启动<br />
+  时运行。</p>
+<p>使用inetd and tcpd实施主机访问控制<br />
+  tcpd能对服务进行外“封装”，请求规则在/etc/hosts.allow and /etc/hosts.deny中定义。下面是<br />
+  某个安装了tcpd的inetd.conf配置文件。<br />
+  ftp    stream        tcp        nowait    root    /usr/sbin/tcpd in.ftpd -l -a<br />
+  telnet    stream        tcp        nowait    root    /usr/sbin/tcpd in.telnetd<br />
+  pop-3    stream        tcp        nowait    root    /usr/sbin/tcpd ipop3d<br />
+  这里用tcpd封装了in.ftpd,in.telnetd,ipop3d，当试图与这些服务连接时，tcpd会检验相应规<br />
+  则。<br />
+  /etc/hosts.allow and /etc/hosts.deny中的规则格式为：<br />
+  daemon_list : client_list [:shell_command]<br />
+  ALL:ALL<br />
+  ALL:127.0.0.1<br />
+  in.telnetd:127.0.0.1<br />
+  in.telnetd:127.0.0.1 trusted.machine.example.com .example.com<br />
+  完整的匹配规则如下<br />
+  1、    如果项以前导点号开始，它匹配该域内的所有客户机。如.example.com匹配<br />
+  2、    xxx.example.com，xxx.xxx.example.com等。<br />
+  2、如果项以点号结尾，它匹配所有前缀相同的客户机。如192.168.与所有类似于<br />
+  192.168.xxx.xxx的机器匹配。<br />
+  3、如果项以&quot;@&quot;开始，就被认作是nis网络组名。如sshd:@trustedhosts将允许trustedhosts<br />
+  网络组中的机器访问ssh。<br />
+  4、如果项格式为xxx.xxx.xxx.xxx/yyy.yyy.yyy.yyy，就被认作是网络掩码对。如<br />
+  192.168.1.0/255.255.255.0将匹配所有ip在192.168.1.0--192.168.1.255范围内的机器在。</p>
+<p>通配符说明：<br />
+  ALL        匹配所有客户机。<br />
+  LOCAL        匹配所有不包含点号的机器。<br />
+  UNKNOWN        匹配任何名称或地址未知的客户机（必须小心使用）。<br />
+  KNOWN        匹配任何名称或地址已知的客户机（必须小心使用，可能会因为名字服务器的<br />
+  原因而临时无法获得主机名）。<br />
+  PARANOID    匹配任何名称或地址不匹配的客户机。<br />
+  因此，为抵御telnet攻击，可在/etc/host.deny中写规则all:all，以拒绝黑客的telnet连接。如<br />
+  果允许某机器使用telnet连接，可将其添加到/etc/hosts.allow文件中：telnetd:xxx.example.com。</p>
+<p>使用xinetd实施主机访问控制<br />
+  xinetd对inetd最重要的增强之一是内建访问控制能力，从而不需要tcp封装器。它对服务可<br />
+  以实施如下访问控制:<br />
+  1、类似于tcp封装器的控制。基于ip地址的控制，基于ip名控制，基于域名控制。<br />
+  2、访问时间（例如将ftp访问限制在上午8点到下午5点之间）</p>
+<p>使用xinetd拒绝所有机器的所有访问可在xinetd.conf的defaults节中设置no_access = <br />
+  0.0.0.0    。另一个方法是使用属性only_from = ，不给它赋值，这种办法较好，因为之后我们<br />
+  0.0.1.0    可以在其后添加允许连接的主机。</p>
+<p>可以为每个服务指定允许连接的ip。给only_from添加时必须使用“+=”操作符。</p>
+<p>可以用access_times属性限制访问的时间，如access_times=8:00-17:00</p>
+<p>伪造“可信”的反解析DNS地址<br />
+  hacker$host hacker.example.com<br />
+  hacker.example.com has address 192.168.15.10.<br />
+  hacker$host 192.168.15.10<br />
+  10.15.168.192.IN-ADDR.ARPA domain name pointer trusted.target_network.com<br />
+  这个黑客为了进入target_network.com，就将他的反解析DNS地址设置成属于可信域。<br />
+  对策：<br />
+  如果软件采用简单的预防措施，这一攻击就不能得逞：同时进行前向和反向的DNS查询。<br />
+  编译tcp封装器时如果选了-DPARANOID选项，就会切断所有前向和反向DNS解析不一致<br />
+  的连接。</p>
+<p>来自信任域的攻击者<br />
+  在inetd中锁定域中指定主机。可在HOSTS.ALLOW文件中使用EXCEPT操作。<br />
+  ALL：127.0.0.1 .example.com EXCEPT trouble.example.com<br />
+  另一个方法是删除它的么向DNS记录，使该机器不能映射到任何域名。</p>
+<p>在xinetd中锁住域中指定主机。可使用no_access。</p>
+<p>一些不支持inetd/xinetd启动和程序，如SSH，如果想支持TCP封装器，可在编译时指定<br />
+  --with-tcp-wrappers选项。如果软件包本身不支持可请程序维护者添加该功能（通常不成功），<br />
+  或自已开发实现该功能。</p>
+<p>攻击脆弱的tcp封装器规则<br />
+  在安装了封装器并设置了规则后，可能会发现封装器没有正常工作，这通常是配置文件中的<br />
+  错误造成的。可用TCPDCHK AND TCPDMATCH检验规则。</p>
+<p>针对由inetd启动服务的资源耗尽攻击<br />
+  黑客可以对被tcp封装器保护的服务发起数以千记的连接对系统发动资源耗尽攻击。造成不<br />
+  能响应合法的连接。如果系统没有使用xinetd，可以用tcpserver来限制连向服务的连接数量。<br />
+  这个程序也允许管理员配置主机访问控制。其功能与TCP封装器相同。使用xinetd可以防<br />
+  御这种攻击，它内建功能有助于对付这种问题。1、限制每个服务的并发连接数(instances)；<br />
+  2、限制每个IP地址连向单个服务的连接数(per_source)。</p>
+<p>防火墙<br />
+  防火墙要比通过tcp封装器或xinetd实现的主机访问控制更加安全。这是因为防火墙能够阻<br />
+  止黑客到达受保护机器的端口，而封装器是针对已到达系统的连接请求所采取的安全措施。</p>
+<p>主要有两类的防火墙<br />
+  1、    应用代理服务器。解析指定的协议并根据要求建立连接。通常包括内容过滤功能（例如：<br />
+  2、    阻塞javascript）<br />
+  3、    包过滤防火墙。根据源和目的地址有选择地接收或拒绝数据包，它常并不解析相应协议，<br />
+  4、    所以不执行内容检查。<br />
+  许多防火墙，特别是商业版本，通常整合了这两个类型。它们通常被称为有状态包过滤器。<br />
+  因为它们维护某些会话状态以支持类似FTP的协议，同时又基于数据包过渡以便快速处理。</p>
+<p>linux包过滤功能集成在内核中，2.2版的是ipchains，2.4版的是iptables。包过滤检查数据<br />
+  包的头部并确定所应采取的动作：<br />
+  接受数据包，即允许通过。<br />
+  回绝（reject）数据包，丢弃它并告诉源地址数据包被拒绝。<br />
+  拒绝（deny）数据凶，直接丢掉它，就好像没有接收到这个数据包。<br />
+  最高效的策略是拒绝数据包，这样就能拒绝潜在的黑客访问，并且不给出任何响应---他将不<br />
+  知道连接已经被拒绝，而该连接也被挂起，直到超时（这样极大延缓了端口扫描的速度）。</p>
+<p>linux2.4内核彻底重写了包过滤代码以使之更为强大。相应系统称为Netfilter。控制其规则<br />
+  集的程序是iptables，iptables类似于ipchains，两者间的区别有：<br />
+  1、内建chain名现在为大写（即INPUT,OUTPUT,FORWARD等）。<br />
+  3、    TCP AND UDP端口现在需要指定--source-port or --sport和--distination-port or dport选项，<br />
+  4、    并且必须放置在-p tcp or -p udp之后。<br />
+  3、-y标志现在改为-syn，并必须放置在-p tcp 之后。<br />
+  4、DENY 被 DROP取代。<br />
+  5、MASQ被改为MASQUERQDE,并使用不同的语法。<br />
+  6、对状态检查的支持不再需要内核模块。</p>
+<p>状态检查<br />
+  引入状态检查的概念是iptables所做的最重要的工作之一。有状态检测的防火墙不仅检查源、<br />
+  目的IP地址和端口，也监视所使用的协议，以确保该通信遵循相应的连接规则。如果是HTTP<br />
+  连接，它可以确保发往远程主机的GET,POST OR HEAD请求符合HTTP协议，之后，它也<br />
+  确保远程主机的响应信息包括HTTP报头和数据体。注意，一个极有经验的黑客如果控制了<br />
+  通信双方，就只需修改其协议，使之看起来像HTTP即可以通过防火墙。</p>
+<p>阻塞特定的网络访问<br />
+  拒绝ICMP ping and traceroute<br />
+  ipchains的实现<br />
+  /sbin/ipchains -A input -s 0/0 echo-request -d 192.168.1.102 -p icmp -j DENY<br />
+  -A input    添加规则到input规则集<br />
+  -s 0/0        来自任何ip地址<br />
+  echo-request -d x.x.x.x    到目的地址的echo-request类型<br />
+  -p icmp        协议<br />
+  -j DENY        立即拒绝</p>
+<p>为对付traceroute，应拒绝所有流向端口33435---33525的包。<br />
+  /sbin/ipchains -A input -s 0/0 -d 192.168.1.102 -p udp 33435:33525 -j DENY</p>
+<p>iptables的实现<br />
+  /sbin/iptables -A INPUT -s 0/0 -d 192.168.1.102 -p icmp --icmp-type echo-request -j DROP<br />
+  /sbin/iptables -A INPUT -s 0/0 -d 192.168.1.102 -p udp --dport 33435:33525 -j DROP</p>
+<p>telnet端口连接尝试<br />
+  ipchains的实现<br />
+  /sbin/ipchains -A input -i eth0 -s 0/0 -d 192.168.1.102 telnet -p tcp -j DENY (    如果其它服务只<br />
+  需替换telnet就可以了)</p>
+<p>防火墙策略<br />
+  在系统上建立防火墙时， 我们建议遵循一个简单的规则，拒绝所有未被显式许可的东西。<br />
+  换名话说就是，应先确定哪些包允许通过并创建规则，其它所有数据包应被拒绝。这是最安<br />
+  全的方法。实现这一策略的一种方法是启动防火墙并拒绝所有数据包，将所有被拒绝的数据<br />
+  包记录到日志文件中，然后，检查日志文件，注意那些被拒绝的包，如果发现应允许的某个<br />
+  数据包通过，就在规则集的起始处添加规则以允许该数据包通过，然后继续这一过程。直到<br />
+  系统允许的所有服务都能通过internet访问。</p>
+<p>如果允许所有数据包流入的某个端口（如：SSH），仍然应当使用tcp封装器以拒绝来自<br />
+  hosts.allow中指主机之外的连接。这样做能达到双层保护的效果，旦防火墙配置出错都还有<br />
+  另一条防线。</p>
+<p>使用ipchains创建防火墙(规则的顺序至关重要。应该是默认规则，允许流入，拒绝全部)<br />
+  /sbin/ipchains -P input DENY    处理流入数据包的默认规则是DENY<br />
+  /sbin/ipchains -A input -s 0/0 -d 192.168.1.102 www -p tcp -j ACCEPT <br />
+  /sbin/ipchains -A input -s 0/0 -d 192.168.1.102 ssh -p tcp -j ACCEPT <br />
+  /sbin/ipchains -A input -j DENY -l    拒绝所有流入的数据包并记录它们（使用-l选项）</p>
+<p>iptables实现，也应遵循与ipchains相同的策略<br />
+  /sbin/iptables -P INPUT DROP<br />
+  /sbin/iptables -A INPUT -s 0/0 -d 192.168.1.102 -p tcp --dport www -j ACCEPT<br />
+  /sbin/iptables -A INPUT -s 0/0 -d 192.168.1.102 -p tcp --dport ssh -j ACCEPT<br />
+  /sbin/iptables -A INPUT -j DROP<br />
+  /sbin/iptables -A UNPUT -j LOG    记录所有拒绝流入的数据包。</p>
+<p>防火墙配置工具<br />
+  www.linux-firewal-toos.com/linux<br />
+  MonMatha的IPTables</p>
+<p>开源防火墙<br />
+  FWTK    应用代理防火墙<br />
+  SINUS    一个可运行于较小的linux系统以及2.0内核的防火墙。<br />
+  Floppyfw    一个具有防火墙功能的静态路由器，只要一张1.44M软盘就可启动2.2内核并安装<br />
+  配置防火墙。<br />
+  linux router project    另一个单软盘路由器/防火墙</p>
+<p>商业防火墙<br />
+  checkpoint<br />
+  cisco pix<br />
+  gauntlet<br />
+  sonicwall</p>
+<p>附录<br />
+  保持你的程序的最新版本 </p>
+
+
+  <DIV style="DISPLAY: none">
+ <script src='http://s42.cnzz.com/stat.php?id=423754&web_id=423754&show=pic' language='JavaScript' charset='gb2312'>
+</script>
+</DIV>
+</body></html>

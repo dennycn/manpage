@@ -1,0 +1,122 @@
+<html><head><meta content="text/html; charset=gb2312" http-equiv="Content-Type"><title>在线教程-PyGTK学习笔记</title><link rel="stylesheet" href="http://www.kuqin.com/docs/docbook.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.65.1"><meta name="description" content="本笔记基于http://www.pygtk.org上的PyGTK 2.0 Tutorial。"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<a href="index.html"><< 返回在线教程 </a><br><br>
+
+<div class="book" lang="en"><div class="titlepage"><div><div><h1 class="title"><a name="id2875166"></a>PyGTK学习笔记</h1></div><div><div class="author"><h3 class="author"><span class="firstname">整理：Jims of <a href="http://www.ringkee.com" target="_top">肥肥世家</a></span></h3><div class="affiliation"><div class="address"><p><tt class="email">&lt;<a href="mailto:jims.yang@gmail.com">jims.yang@gmail.com</a>&gt;</tt></p></div></div></div></div><div><p class="copyright">Copyright &copy; 2005 本文遵从GNU 的自由文档许可证(Free Document License)的条款，欢迎转载、修改、散布。</p></div><div><p class="pubdate">发布时间:2005年03月27日</p></div><div><p class="pubdate">更新时间:2005年04月21日</p></div><div><div class="abstract"><p class="title"><b>Abstract</b></p><p>本笔记基于<a href="http://www.pygtk.org" target="_top">http://www.pygtk.org</a>上的PyGTK 2.0 Tutorial。</p></div></div></div><div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="chapter"><a href="pygtk.html#id2811710">1. 引言</a></span></dt><dt><span class="chapter"><a href="pygtk.html#id2811780">2. 开始</a></span></dt><dd><dl><dt><span class="sect1"><a href="pygtk.html#id2811787">2.1. 示例</a></span></dt><dt><span class="sect1"><a href="pygtk.html#id2809683">2.2. 信号和回调函数</a></span></dt></dl></dd><dt><span class="chapter"><a href="pygtk.html#id2810178">3. 事件（events）</a></span></dt><dt><span class="chapter"><a href="pygtk.html#id2810188">4. 包装组件</a></span></dt></dl></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2811710"></a>Chapter 1. 引言</h2></div></div><div></div></div><p>PyGTK2.0是Python的一个开发GTK+ 2.X程序的接口模块。通过该模块，我们可使用Python语言开发GTK+程序。相比C语言，开发速度大大提高。PyGTK的主要作者是James Henstridge。可通过这个电子邮件与他沟通：james@daa.com.au。</p><p>为了方便学习PyGTK，Johan Dahlin写了一个Python小程序（<a href="http://www.ringkee.com/jims/technic_folder/python/scripts/pygtkconsole.py" target="_top">pygtkconsole.py</a>），它可使我们以python交互环境的形式使用PyGTK。使用该工具，我们可方便地测试PyGTK的功能，而不用编写一个完整的Python程序。下面是一个简单的例子：</p><pre class="screen">
+debian:~/pygtk# ./pygtkconsole.py
+Python 2.3.5, PyGTK 2.4.1 (Gtk+ 2.6.2)
+Interactive console to manipulate GTK+ widgets.
+&gt;&gt;&gt; w=Window()
+&gt;&gt;&gt; w.set_title('window test')
+&gt;&gt;&gt; w.show()
+</pre><p>这样屏幕上会显示一个标题为“window test”的小窗口。</p></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2811780"></a>Chapter 2. 开始</h2></div></div><div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="pygtk.html#id2811787">2.1. 示例</a></span></dt><dt><span class="sect1"><a href="pygtk.html#id2809683">2.2. 信号和回调函数</a></span></dt></dl></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2811787"></a>2.1. 示例</h2></div></div><div></div></div><p>我们以一个简单的例子开始本章的内容，这个程序叫base.py，它会创建一个200X200的窗口，但没有设计退出程序，所以只能用shell的中断功能强行结束程序。</p><pre class="screen">
+    1   #!/usr/bin/env python
+    2
+    3   # example base.py
+    4
+    5   import pygtk
+    6   pygtk.require('2.0')
+    7   import gtk
+    8
+    9   class Base:
+   10       def __init__(self):
+   11           self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
+   12           self.window.show()
+   13
+   14       def main(self):
+   15           gtk.main()
+   16
+   17   print __name__
+   18   if __name__ == &quot;__main__&quot;:
+   19       base = Base()
+   20       base.main()
+</pre><p>存盘后，可用两种方式运行该程序，一种是用：</p><pre class="screen">
+debian:~# python base.py
+</pre><p>另一种是用chmod命令设置base.py文件为可执行，再用shell的点号执行：</p><pre class="screen">
+debian:~# chmod +x base.py
+debian:~# ./base.py
+</pre><p>下面简单解析一下base.py程序：</p><div class="itemizedlist"><ul type="disc"><li><p>程序第1行调用python来执行base.py脚本，每个python脚本的第一句都是这样的。</p></li><li><p>第5-6行导入PyGTK模块，并限制PyGTK模块的版本为2.0。因为在一个系统中可同时存在多个PyGTK版本，如果没有版本限制，程序可能会出现混乱。</p></li><li><p>9-15行定义一个Base类，用以创建一个窗口。</p></li><li><p>第18-20行检查__name__变量是否是&quot;__main__&quot;，如果是，则代表该脚本是当作脚本执行的，则执行下面的代码，否则，代表作为模块导入，不执行下面的代码。</p></li><li><p>19行生成一个Base类的实例base，通过该实例调用Base类的main()方法启动GTK+的事件处理循环，等待X事件（击键、鼠标点击等）的发生。</p></li></ul></div><p>下面是一个Hello World的例子：</p><pre class="screen">
+#!/usr/bin/env python
+#-*- encoding:utf-8 -*-
+
+import pygtk
+pygtk.require('2.0')
+import gtk
+
+class base:
+#destroy信号的回调函数
+        def destroy(self,widget,data=None):
+                gtk.main_quit()
+
+#clicked信号的回调函数
+        def hello(self,widget,data):
+                print 'hello ' + data + ' this is a button clicked() test'
+
+#delete_event事件的回调函数
+        def delete_event(self, widget, event, data=None):
+                print &quot;delete event occurred&quot;
+#如果delete_event事件返回假，则会触发destroy信号，从而关闭窗口。
+#如果返回真，则不会关闭窗口。这个特性在当我们需要一个确认是否退出的选择对话框时是很有用。
+                return False
+
+        def __init__(self):
+                self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
+#设置窗口的delete_event信号触发delete_event函数
+                self.window.connect(&quot;delete_event&quot;, self.delete_event)
+#设置窗口的destroy信号触发destroy函数
+                handler1 = self.window.connect(&quot;destroy&quot;,self.destroy)
+                print &quot;handler1 is:%d&quot; % handler1
+                self.window.set_title('PyGTK 测试 window')
+                self.window.set_default_size(200,200)
+                self.window.set_border_width(100)
+#控制窗口出现的位置
+                self.window.set_position(gtk.WIN_POS_CENTER)
+#生成按钮实例
+                self.button1 = gtk.Button()
+                self.button2 = gtk.Button()
+                self.button1.set_label('label1')
+                self.button2.set_label('label2')
+#设置按钮的clicked信号触发hello函数，并传递‘pyGTK’字符串参数给hello函数
+                handler2 = self.button1.connect(&quot;clicked&quot;,self.hello,&quot;pyGTK&quot;)
+                print &quot;handler2 is:%d&quot; % handler2
+#设置按钮的clicked信号触发self.window对象的gtk.Widget.destroy方法
+                self.button1.connect_object(&quot;clicked&quot;, gtk.Widget.destroy, self.window)
+#使用object.disconnect(id)方法取消handler2的功能
+#               self.button.disconnect(handler2)
+#设置一个不可见的横向的栏位self.box1
+                self.box1 = gtk.HBox(gtk.False, 0)
+#把box1放到窗口中
+                self.window.add(self.box1)
+#把button1部件放到box1中
+                self.box1.pack_start(self.button1,True,True,0)
+                self.button1.show()
+#把button2部件放到button1部件之后
+                self.box1.pack_start(self.button2,True,True,0)
+                self.button2.show()
+                self.box1.show()
+                self.window.show()
+
+        def main(self):
+                gtk.main()
+
+print __name__
+if __name__ == &quot;__main__&quot;:
+        base = base()
+        base.main()
+</pre></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2809683"></a>2.2. 信号和回调函数</h2></div></div><div></div></div><p>GTK+是一套事件驱动的工具包，也就是说，当执行gtk.main()后，进程会进入等待状态，等待事件的发生，从而触发相应的动作。</p><p>当事件发生时，相应的GTK+部件会发出信号（Signals），不同的Signals代表不同的事件，从而调用相应的函数。要使一个按钮完成一个动作。我们可以设置一个信号处理器来捕获这个按钮按下的信号，再调用相应的函数完成指定动作。这可通过GtkWidget方法来做，如：</p><pre class="screen">
+handler_id = object.connect(name, func, func_data)
+</pre><p>object是GtkWidget的一个实例，它将会发送一个信号。connect方法把实例与信号关联起来，并返回一个处理句柄，通过它我们可断开或阻塞这个句柄，也就是说使该操作失效。connect的第一个参数name代表你想捕获的信号，第二个参数代表你想调用的函数，第三个参数代表要传递给函数的参数。</p><p>第二个参数调用的函数我们叫它“回调函数”。定义方法如下：</p><pre class="screen">
+def callback_func(widget, callback_data):
+</pre><p>第一个参数是指向发出信号的widget的指针，第二个参数是一个指向func_data的指针，用以接收传递过来的数据。</p><p>如果回调函数是对象方法，则可写成：</p><pre class="screen">
+def callback_method(self, widget, callback_data):
+</pre><p>还有一种调用方法是connect_object()，它和connect()类似：</p><pre class="screen">
+handler_id = object.connect_object(name, func, slot_object)
+def callback_func(object)
+def callback_method(self,object)
+</pre></div></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2810178"></a>Chapter 3. 事件（events）</h2></div></div><div></div></div><p></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2810188"></a>Chapter 4. 包装组件</h2></div></div><div></div></div><p>使用gtk.container add()方法可把一个组件放到窗口里。当有多个组件需放到窗口时，就需用到水平方框和垂直方框这两个包装组件，一般来说，它们是不可见，只是用来规范布局。我们可把多个组件放到这两种方框中，摆放的位置可以是从左到右和从上到下。</p><p>要创建一个水平方框，用gtk.HBox()方法，要创建一个垂直方框调用gtk.VBox()方法。有了摆放组件的方框后，就可用pack_start()和pack_end()方法把组件放到这些方框中。pack_start()方法按从上到下，从左到右这种正常的顺序摆放组件，而pack_end()的摆放顺序和pack_start()刚刚相关，是按从下到上，从右到左摆放的。下面是一个示例：</p></div></div>
+
+
+<DIV style="DISPLAY: none">
+ <script src='http://s42.cnzz.com/stat.php?id=423754&web_id=423754&show=pic' language='JavaScript' charset='gb2312'>
+</script>
+</DIV>
+</body></html>
