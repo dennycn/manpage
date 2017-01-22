@@ -1,5 +1,6 @@
 <html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=gb2312"><title>Postfix + Cyrus-IMAP + Cyrus-SASL + MySQL + IMPÍêÈ«Ö¸ÄÏ</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Postfix + Cyrus-IMAP + Cyrus-SASL + MySQL + IMPå®Œå…¨æŒ‡å—</title>
 
 <style type="text/css">
 <!--
@@ -12,107 +13,107 @@ td {  font-family: "Courier New", "Courier", "mono"; font-size: 12px; font-weigh
 <body leftmargin="20" bgcolor="#ffffff">
 
 
-<h2 align="left"><font face="Arial, Helvetica, sans-serif">CNGNU Postfix</font>ÓÊ¼þÏµÍ³ÏµÁÐÖ¸ÄÏÖ®Ò»</h2>
+<h2 align="left"><font face="Arial, Helvetica, sans-serif">CNGNU Postfix</font>é‚®ä»¶ç³»ç»Ÿç³»åˆ—æŒ‡å—ä¹‹ä¸€</h2>
 <h1 align="center"><font face="Arial, Helvetica, sans-serif"><font color="#ff0000">P</font>ostfix 
   + <font color="#ff0000">C</font>yrus-IMAP + <font color="#ff0000">C</font>yrus-SASL 
   + <font color="#ff0000">M</font>ySQL + <font color="#ff0000">I</font>MP</font><br>
-  ÍêÈ«Ö¸ÄÏ</h1>
+  å®Œå…¨æŒ‡å—</h1>
 <hr noshade="noshade" size="1">
 <p>&nbsp;</p>
 <blockquote> 
-  <p>×÷Õß£ºÍõÐËÓî <a href="mailto:wxy@cngnu.org">&lt;wxy@cngnu.org&gt;</a> </p>
-  <p>°æ±¾£º0.71</p>
-  <p>°æÈ¨£ºGPL</p>
-  <p>·¢²¼ÈÕÆÚ£º2003-02-04</p>
+  <p>ä½œè€…ï¼šçŽ‹å…´å®‡ <a href="mailto:wxy@cngnu.org">&lt;wxy@cngnu.org&gt;</a> </p>
+  <p>ç‰ˆæœ¬ï¼š0.71</p>
+  <p>ç‰ˆæƒï¼šGPL</p>
+  <p>å‘å¸ƒæ—¥æœŸï¼š2003-02-04</p>
   <p>&nbsp;</p>
-  <h3>Ä¿Â¼</h3>
-  <p><a href="#a.1">1.&nbsp; ¸ÅÊö</a></p>
-  <p><a href="#a.1.1">1.1.&nbsp; Ä¿µÄ</a></p>
-  <p><a href="#a.1.2">1.2.&nbsp; ¸üÐÂÀúÊ·</a></p>
+  <h3>ç›®å½•</h3>
+  <p><a href="#a.1">1.&nbsp; æ¦‚è¿°</a></p>
+  <p><a href="#a.1.1">1.1.&nbsp; ç›®çš„</a></p>
+  <p><a href="#a.1.2">1.2.&nbsp; æ›´æ–°åŽ†å²</a></p>
   <p><a href="#a.1.3">1.3.&nbsp; TODO</a></p>
-  <p><a href="#a.1.4">1.4.&nbsp; ÃùÐ»</a></p>
-  <p><a href="#a.2">2.&nbsp; ÏµÍ³¹¦ÄÜ</a></p>
-  <p><a href="#a.3">3.&nbsp; ÏµÍ³»ù±¾Ç°Ìá</a></p>
-  <p><a href="#a.4">4.&nbsp; °²×°MySQL</a></p>
-  <p><a href="#a.4.1">4.1. ÏÂÔØ</a></p>
-  <p><a href="#a.4.2">4.2. ±àÒëÓë°²×°</a></p>
-  <p><a href="#a.4.3">4.3. ÔËÐÐ</a></p>
-  <p><a href="#a.4.4">4.4. ²âÊÔ</a></p>
-  <p><a href="#a.4.5">4.5.&nbsp; ½¨Á¢Êý¾Ý¿â</a></p>
-  <p><a href="#a.5">5.&nbsp; °²×°pam_mysql</a></p>
-  <p><a href="#a.5.1">5.1.&nbsp; ÏÂÔØ</a></p>
-  <p><a href="#a.5.2">5.2.&nbsp; ±àÒëÓë°²×°</a></p>
-  <p><a href="#a.5.3">5.3.&nbsp; ÅäÖÃ</a></p>
-  <p><a href="#a.6">6.&nbsp; ÅäÖÃCyrus-SASL</a></p>
-  <p><a href="#a.6.1">6.1.&nbsp; </a><a href="#a.6.3">ÅäÖÃ</a></p>
-  <p><a href="#a.6.2">6.2.&nbsp;ÔËÐÐ</a></p>
-  <p><a href="#a.7">7.&nbsp; °²×°Postfix</a></p>
-  <p><a href="#a.7.1">7.1.&nbsp; ÏÂÔØ</a></p>
-  <p><a href="#a.7.2">7.2.&nbsp; ±àÒëÓë°²×°</a></p>
-  <p><a href="#a.7.3">7.3.&nbsp; ÅäÖÃ</a></p>
-  <p><a href="#a.7.4">7.4.&nbsp; ÔËÐÐ</a></p>
-  <p><a href="#a.7.5">7.5.&nbsp; ²âÊÔ</a></p>
-  <p><a href="#a.8">8.&nbsp; °²×°Cyrus-IMAP</a></p>
-  <p><a href="#a.8.1">8.1.&nbsp; ÏÂÔØ</a></p>
-  <p><a href="#a.8.2">8.2.&nbsp; ±àÒëÓë°²×°</a></p>
-  <p><a href="#a.8.3">8.3.&nbsp; ÅäÖÃ</a></p>
-  <p><a href="#a.8.4">8.4.&nbsp; ÔËÐÐ</a></p>
-  <p><a href="#a.8.5">8.5.&nbsp; ²âÊÔ</a></p>
-  <p><a href="#a.9">9.&nbsp; °²×°IMP</a></p>
-  <p><a href="#a.9.1">9.1.&nbsp; ÏÂÔØ</a></p>
-  <p><a href="#a.9.2">9.2.&nbsp; ÅäÖÃApache/PHP</a></p>
-  <p><a href="#a.9.3">9.3.&nbsp; ÅäÖÃHorde</a></p>
-  <p><a href="#a.9.4">9.4.&nbsp; ÅäÖÃImp</a></p>
-  <p><a href="#a.9.5">9.5.&nbsp; ÅäÖÃTurba</a></p>
-  <p><a href="#a.9.6">9.6.&nbsp; ²âÊÔIMP</a></p>
-  <p><a href="#a.10">10.&nbsp; ÆäËü</a></p>
-  <p><a href="#a.10.1">10.1.&nbsp; Æô¶¯½Å±¾</a></p>
-  <p><a href="#a.10.2">10.2.&nbsp; </a><a href="#a.10.3">ÕûÌå²âÊÔ</a></p>
+  <p><a href="#a.1.4">1.4.&nbsp; é¸£è°¢</a></p>
+  <p><a href="#a.2">2.&nbsp; ç³»ç»ŸåŠŸèƒ½</a></p>
+  <p><a href="#a.3">3.&nbsp; ç³»ç»ŸåŸºæœ¬å‰æ</a></p>
+  <p><a href="#a.4">4.&nbsp; å®‰è£…MySQL</a></p>
+  <p><a href="#a.4.1">4.1. ä¸‹è½½</a></p>
+  <p><a href="#a.4.2">4.2. ç¼–è¯‘ä¸Žå®‰è£…</a></p>
+  <p><a href="#a.4.3">4.3. è¿è¡Œ</a></p>
+  <p><a href="#a.4.4">4.4. æµ‹è¯•</a></p>
+  <p><a href="#a.4.5">4.5.&nbsp; å»ºç«‹æ•°æ®åº“</a></p>
+  <p><a href="#a.5">5.&nbsp; å®‰è£…pam_mysql</a></p>
+  <p><a href="#a.5.1">5.1.&nbsp; ä¸‹è½½</a></p>
+  <p><a href="#a.5.2">5.2.&nbsp; ç¼–è¯‘ä¸Žå®‰è£…</a></p>
+  <p><a href="#a.5.3">5.3.&nbsp; é…ç½®</a></p>
+  <p><a href="#a.6">6.&nbsp; é…ç½®Cyrus-SASL</a></p>
+  <p><a href="#a.6.1">6.1.&nbsp; </a><a href="#a.6.3">é…ç½®</a></p>
+  <p><a href="#a.6.2">6.2.&nbsp;è¿è¡Œ</a></p>
+  <p><a href="#a.7">7.&nbsp; å®‰è£…Postfix</a></p>
+  <p><a href="#a.7.1">7.1.&nbsp; ä¸‹è½½</a></p>
+  <p><a href="#a.7.2">7.2.&nbsp; ç¼–è¯‘ä¸Žå®‰è£…</a></p>
+  <p><a href="#a.7.3">7.3.&nbsp; é…ç½®</a></p>
+  <p><a href="#a.7.4">7.4.&nbsp; è¿è¡Œ</a></p>
+  <p><a href="#a.7.5">7.5.&nbsp; æµ‹è¯•</a></p>
+  <p><a href="#a.8">8.&nbsp; å®‰è£…Cyrus-IMAP</a></p>
+  <p><a href="#a.8.1">8.1.&nbsp; ä¸‹è½½</a></p>
+  <p><a href="#a.8.2">8.2.&nbsp; ç¼–è¯‘ä¸Žå®‰è£…</a></p>
+  <p><a href="#a.8.3">8.3.&nbsp; é…ç½®</a></p>
+  <p><a href="#a.8.4">8.4.&nbsp; è¿è¡Œ</a></p>
+  <p><a href="#a.8.5">8.5.&nbsp; æµ‹è¯•</a></p>
+  <p><a href="#a.9">9.&nbsp; å®‰è£…IMP</a></p>
+  <p><a href="#a.9.1">9.1.&nbsp; ä¸‹è½½</a></p>
+  <p><a href="#a.9.2">9.2.&nbsp; é…ç½®Apache/PHP</a></p>
+  <p><a href="#a.9.3">9.3.&nbsp; é…ç½®Horde</a></p>
+  <p><a href="#a.9.4">9.4.&nbsp; é…ç½®Imp</a></p>
+  <p><a href="#a.9.5">9.5.&nbsp; é…ç½®Turba</a></p>
+  <p><a href="#a.9.6">9.6.&nbsp; æµ‹è¯•IMP</a></p>
+  <p><a href="#a.10">10.&nbsp; å…¶å®ƒ</a></p>
+  <p><a href="#a.10.1">10.1.&nbsp; å¯åŠ¨è„šæœ¬</a></p>
+  <p><a href="#a.10.2">10.2.&nbsp; </a><a href="#a.10.3">æ•´ä½“æµ‹è¯•</a></p>
   <hr size="1">
   <p>&nbsp;</p>
 </blockquote>
-<h1><a name="a.1" id="a.1"></a>1.&nbsp; ¸ÅÊö</h1>
-<h2><a name="a.1.1"></a>1.1.&nbsp; Ä¿µÄ</h2>
-<p>¡¡¡¡±¾ÎÄÊÔÍ¼½éÉÜÈçºÎÔÚÒ»¸öLinuxÆ½Ì¨ÉÏ°²×°Ò»Ì×¹¦ÄÜÍêÕûµÄÓÊ¼þÏµÍ³¡£ÕâÀïÎÒÃÇÒÔPostfix×öSMTP·þÎñÆ÷¡¢Cyrus-IMAP×ö
-POP3/IMAP4·þÎñÆ÷¡¢Í¨¹ýCyrus-SASL¶Ô´æ´¢ÔÚMySQLÊý¾Ý¿âÖÐµÄÓÃ»§½øÐÐÑéÖ¤ºÍÊÚÈ¨£¬²¢ÇÒÊ¹ÓÃIMPÀ´Ìá¹©Ò»¸öÍêÉÆµÄWEBMAIL
-½çÃæ¡£</p>
-<p>¡¡¡¡Õâ¸öÓÊ¼þÏµÍ³µÄÉè¼ÆÄ¿±êÊÇÌá¹©Ò»¸ö¿ÉÀ©³äµÄ¡¢¾ß±¸´ó¶àÊý¹¦ÄÜµÄÓÊ¼þÏµÍ³¡£</p>
-<p> ¡¡¡¡±¾ÎÄµÄ×îÐÂ°æ±¾¿ÉÒÔÔÚÕâÀïÕÒµ½:<a href="http://www.cngnu.org/technology/Postfix_I.html">http://www.cngnu.org/technology/Postfix_I.html</a>¡£Èç¹ûÏ£ÍûÊ¹ÓÃCourier-IMAPÌæ´úÁËCyrus-IMAP×öIMAP/POP3·þÎñÆ÷£¬¿ÉÒÔ²ÎÔÄ±¾ÎÄµÄæ¢ÃÃÆª<a href="http://www.cngnu.org/technology/Postfix_II.html">http://www.cngnu.org/technology/Postfix_II.html</a>¡£</p>
-<p>¡¡¡¡ÓÐ¹Ø±¾ÎÄËùÉæ¼°µÄ¼¼ÊõÎÊÌâ£¬Çëµ½<a href="http://anti-spam.org.cn/forums/index.php?showforum=6">http://www.anti-spam.org.cn/forums/</a>µÄÓÊ¼þ¼¼Êõ°æÌÖÂÛ£¬ÎÒ»á¾¡¿ì»Ø¸´µÄ£¬ÇëÎð¾Í¼¼ÊõÎÊÌâ¸øÎÒ·¢ÓÊ¼þ¡£</p>
-<p>¡¡¡¡±¾ÎÄµÄ°æÈ¨×ñÑ­GPL£¬¿ÉÒÔÔÚ²»É¾³ý°æÈ¨ÐÅÏ¢ºÍ×¢Ã÷ÐÞ¸ÄµÄÇé¿öÏÂÈÎÒâ´«²¥¡£</p>
-<h2><a name="a.1.2"></a>1.2.&nbsp; ¸üÐÂÀúÊ·</h2>
+<h1><a name="a.1" id="a.1"></a>1.&nbsp; æ¦‚è¿°</h1>
+<h2><a name="a.1.1"></a>1.1.&nbsp; ç›®çš„</h2>
+<p>ã€€ã€€æœ¬æ–‡è¯•å›¾ä»‹ç»å¦‚ä½•åœ¨ä¸€ä¸ªLinuxå¹³å°ä¸Šå®‰è£…ä¸€å¥—åŠŸèƒ½å®Œæ•´çš„é‚®ä»¶ç³»ç»Ÿã€‚è¿™é‡Œæˆ‘ä»¬ä»¥PostfixåšSMTPæœåŠ¡å™¨ã€Cyrus-IMAPåš
+POP3/IMAP4æœåŠ¡å™¨ã€é€šè¿‡Cyrus-SASLå¯¹å­˜å‚¨åœ¨MySQLæ•°æ®åº“ä¸­çš„ç”¨æˆ·è¿›è¡ŒéªŒè¯å’ŒæŽˆæƒï¼Œå¹¶ä¸”ä½¿ç”¨IMPæ¥æä¾›ä¸€ä¸ªå®Œå–„çš„WEBMAIL
+ç•Œé¢ã€‚</p>
+<p>ã€€ã€€è¿™ä¸ªé‚®ä»¶ç³»ç»Ÿçš„è®¾è®¡ç›®æ ‡æ˜¯æä¾›ä¸€ä¸ªå¯æ‰©å……çš„ã€å…·å¤‡å¤§å¤šæ•°åŠŸèƒ½çš„é‚®ä»¶ç³»ç»Ÿã€‚</p>
+<p> ã€€ã€€æœ¬æ–‡çš„æœ€æ–°ç‰ˆæœ¬å¯ä»¥åœ¨è¿™é‡Œæ‰¾åˆ°:<a href="http://www.cngnu.org/technology/Postfix_I.html">http://www.cngnu.org/technology/Postfix_I.html</a>ã€‚å¦‚æžœå¸Œæœ›ä½¿ç”¨Courier-IMAPæ›¿ä»£äº†Cyrus-IMAPåšIMAP/POP3æœåŠ¡å™¨ï¼Œå¯ä»¥å‚é˜…æœ¬æ–‡çš„å§Šå¦¹ç¯‡<a href="http://www.cngnu.org/technology/Postfix_II.html">http://www.cngnu.org/technology/Postfix_II.html</a>ã€‚</p>
+<p>ã€€ã€€æœ‰å…³æœ¬æ–‡æ‰€æ¶‰åŠçš„æŠ€æœ¯é—®é¢˜ï¼Œè¯·åˆ°<a href="http://anti-spam.org.cn/forums/index.php?showforum=6">http://www.anti-spam.org.cn/forums/</a>çš„é‚®ä»¶æŠ€æœ¯ç‰ˆè®¨è®ºï¼Œæˆ‘ä¼šå°½å¿«å›žå¤çš„ï¼Œè¯·å‹¿å°±æŠ€æœ¯é—®é¢˜ç»™æˆ‘å‘é‚®ä»¶ã€‚</p>
+<p>ã€€ã€€æœ¬æ–‡çš„ç‰ˆæƒéµå¾ªGPLï¼Œå¯ä»¥åœ¨ä¸åˆ é™¤ç‰ˆæƒä¿¡æ¯å’Œæ³¨æ˜Žä¿®æ”¹çš„æƒ…å†µä¸‹ä»»æ„ä¼ æ’­ã€‚</p>
+<h2><a name="a.1.2"></a>1.2.&nbsp; æ›´æ–°åŽ†å²</h2>
 <ul>
-  <li>2002-05-21 µÚÒ»´Î·¢²¼£¬°æ±¾0.20¡£</li>
-  <li>2002-08-13 ÐÞÕýÒ»Ð©´íÎó£¬°æ±¾0.21¡£</li>
-  <li>2002-08-23 ÐÞÕýÒ»Ð©´íÎó£¬°æ±¾0.22¡£</li>
-  <li>2002-09-12 ÔÚRedHat Linux Advance Server V2.1ÉÏ½øÐÐÁË²âÊÔ£¬ÐÞÕýÁËÒ»Ð©´íÎó£¬°æ±¾0.30¡£</li>
-  <li>2002-12-12 ÐÞÕýÁËÒ»Ð©´íÎó£¬Ìí¼ÓÁËIMP²¿·ÖµÄÄÚÈÝ£¬°æ±¾0.31¡£</li>
-  <li>2003-01-30 ÐÞÕýÁËÒ»Ð©´íÎó£¬Ìí¼ÓÁË·ÇÃ÷ÎÄÃÜÂë²¿·ÖµÄÄÚÈÝ£¬°æ±¾0.32¡£</li>
-  <li>2003-02-05 ÐÞÕýÁËÒ»Ð©´íÎó£¬°æ±¾0.33</li>
-  <li>2003-03-26 Ê¹ÓÃÁËSASL V2ºÍCyrus-IMAP 2£¬Ö§³ÖÊ¹ÓÃdb4µÄÐÂµÄLinux·¢ÐÐ°æ£¬ÈçRedHat 8.0ºÍMandrake 
-    9.0£¬²¢ÒÔRedHat 8.0ÎªÊ¾·¶Æ½Ì¨¡£ÐÞÕýÁËÒ»Ð©´íÎó£¬°æ±¾0.40¡£</li>
-  <li>2003-03-28 ÐÞÕýÁËÒ»Ð©´íÎó£¬ÌØ±ð¸ÐÐ»bjchenxu£¬°æ±¾0.41¡£</li>
-  <li>2003-09-24 Ìí¼ÓÁËÐéÄâÓò¹¦ÄÜ£¬ÐÞÕýÁËÒ»Ð©±ÊÎó£¬°æ±¾0.50¡£</li>
-  <li>2003-10-13 ÐÞÕýÁËÐéÄâÓòµÄ´íÎó£¬°æ±¾0.51¡£</li>
-  <li>2003-12-02 ÐÞÕýÁË²¿·Ö´íÎó£¬°æ±¾0.52¡£Èç¹ûÃ»ÓÐÆäËüµÄÊäÈë´íÎóÎÊÌâ£¬±¾ÎÄ½«²»ÔÙ¸üÐÂ¡£</li>
+  <li>2002-05-21 ç¬¬ä¸€æ¬¡å‘å¸ƒï¼Œç‰ˆæœ¬0.20ã€‚</li>
+  <li>2002-08-13 ä¿®æ­£ä¸€äº›é”™è¯¯ï¼Œç‰ˆæœ¬0.21ã€‚</li>
+  <li>2002-08-23 ä¿®æ­£ä¸€äº›é”™è¯¯ï¼Œç‰ˆæœ¬0.22ã€‚</li>
+  <li>2002-09-12 åœ¨RedHat Linux Advance Server V2.1ä¸Šè¿›è¡Œäº†æµ‹è¯•ï¼Œä¿®æ­£äº†ä¸€äº›é”™è¯¯ï¼Œç‰ˆæœ¬0.30ã€‚</li>
+  <li>2002-12-12 ä¿®æ­£äº†ä¸€äº›é”™è¯¯ï¼Œæ·»åŠ äº†IMPéƒ¨åˆ†çš„å†…å®¹ï¼Œç‰ˆæœ¬0.31ã€‚</li>
+  <li>2003-01-30 ä¿®æ­£äº†ä¸€äº›é”™è¯¯ï¼Œæ·»åŠ äº†éžæ˜Žæ–‡å¯†ç éƒ¨åˆ†çš„å†…å®¹ï¼Œç‰ˆæœ¬0.32ã€‚</li>
+  <li>2003-02-05 ä¿®æ­£äº†ä¸€äº›é”™è¯¯ï¼Œç‰ˆæœ¬0.33</li>
+  <li>2003-03-26 ä½¿ç”¨äº†SASL V2å’ŒCyrus-IMAP 2ï¼Œæ”¯æŒä½¿ç”¨db4çš„æ–°çš„Linuxå‘è¡Œç‰ˆï¼Œå¦‚RedHat 8.0å’ŒMandrake 
+    9.0ï¼Œå¹¶ä»¥RedHat 8.0ä¸ºç¤ºèŒƒå¹³å°ã€‚ä¿®æ­£äº†ä¸€äº›é”™è¯¯ï¼Œç‰ˆæœ¬0.40ã€‚</li>
+  <li>2003-03-28 ä¿®æ­£äº†ä¸€äº›é”™è¯¯ï¼Œç‰¹åˆ«æ„Ÿè°¢bjchenxuï¼Œç‰ˆæœ¬0.41ã€‚</li>
+  <li>2003-09-24 æ·»åŠ äº†è™šæ‹ŸåŸŸåŠŸèƒ½ï¼Œä¿®æ­£äº†ä¸€äº›ç¬”è¯¯ï¼Œç‰ˆæœ¬0.50ã€‚</li>
+  <li>2003-10-13 ä¿®æ­£äº†è™šæ‹ŸåŸŸçš„é”™è¯¯ï¼Œç‰ˆæœ¬0.51ã€‚</li>
+  <li>2003-12-02 ä¿®æ­£äº†éƒ¨åˆ†é”™è¯¯ï¼Œç‰ˆæœ¬0.52ã€‚å¦‚æžœæ²¡æœ‰å…¶å®ƒçš„è¾“å…¥é”™è¯¯é—®é¢˜ï¼Œæœ¬æ–‡å°†ä¸å†æ›´æ–°ã€‚</li>
   <li>2004-01-29
-×öÁË½Ï´óµÄ¸Ä¶¯£¬°æ±¾0.70¡£ÒÔAS3ÎªÊ¾·¶Æ½Ì¨¡£ÁîÈË·è¿ñµÄÊÇµ±ÎÒ¼´½«Íê³ÉÕâ´ÎµÄÐÞ¸ÄÊ±£¬¾ÓÈ»ÒòÎªDreamWeaverµÄÒ»¸ö½Å±¾´íÎóµ¼ÖÂÎÒÒ»ÌìÒ»
-Ò¹µÄÐÁ¿à¹¤×÷ÏûÊ§µÄ¸É¸É¾»¾»¡£ÎÒ¿Þ¡«¡£±¾´ÎµÄÐÞ¸ÄÉæ¼°SASL¡¢MySQLºÍCyrus-IMAPµÈ¸÷¸ö²¿·Ö£¬×ñÕÕ×îÐ¡ÐÞ¸ÄµÄÔ­Ôò£¬·²ÊÇAS3ÖÐÌá¹©µÄ²¿
-¼þ¿ÉÓÃ£¬ÎÒ½«²»ÔÙÖØÐÂ±àÒë£¬Õâ¿ÉÄÜ¶ÔÒÆÖ²µ½ÆäËüÆ½Ì¨»ò°æ±¾ÓÐ½Ï´óµÄÀ§ÄÑ¡£</li>
-  <li>2004-02-04 ÐÞÕýÁËÒ»Ð©±ÊÎó¡£</li>
+åšäº†è¾ƒå¤§çš„æ”¹åŠ¨ï¼Œç‰ˆæœ¬0.70ã€‚ä»¥AS3ä¸ºç¤ºèŒƒå¹³å°ã€‚ä»¤äººç–¯ç‹‚çš„æ˜¯å½“æˆ‘å³å°†å®Œæˆè¿™æ¬¡çš„ä¿®æ”¹æ—¶ï¼Œå±…ç„¶å› ä¸ºDreamWeaverçš„ä¸€ä¸ªè„šæœ¬é”™è¯¯å¯¼è‡´æˆ‘ä¸€å¤©ä¸€
+å¤œçš„è¾›è‹¦å·¥ä½œæ¶ˆå¤±çš„å¹²å¹²å‡€å‡€ã€‚æˆ‘å“­ï½žã€‚æœ¬æ¬¡çš„ä¿®æ”¹æ¶‰åŠSASLã€MySQLå’ŒCyrus-IMAPç­‰å„ä¸ªéƒ¨åˆ†ï¼Œéµç…§æœ€å°ä¿®æ”¹çš„åŽŸåˆ™ï¼Œå‡¡æ˜¯AS3ä¸­æä¾›çš„éƒ¨
+ä»¶å¯ç”¨ï¼Œæˆ‘å°†ä¸å†é‡æ–°ç¼–è¯‘ï¼Œè¿™å¯èƒ½å¯¹ç§»æ¤åˆ°å…¶å®ƒå¹³å°æˆ–ç‰ˆæœ¬æœ‰è¾ƒå¤§çš„å›°éš¾ã€‚</li>
+  <li>2004-02-04 ä¿®æ­£äº†ä¸€äº›ç¬”è¯¯ã€‚</li>
 </ul>
 <h2><a name="a.1.3"></a>1.3.&nbsp; TODO </h2>
 <ul>
-  <li>Ôö¼ÓÓÊ¼þÁÐ±í¹¦ÄÜ</li>
-  <li>Ôö¼ÓSSL²¿·ÖµÄÄÚÈÝ</li>
-  <li>·­Òë£ºÏ£ÍûÓÐÄÜÁ¦µÄÅóÓÑ¿ÉÒÔ·­ÒëÕâÆªÎÄÕÂÎªÓ¢ÎÄ£¬ÕâÑù¹úÍâµÄÅóÓÑÒ²¿ÉÒÔ¿´µ½</li>
+  <li>å¢žåŠ é‚®ä»¶åˆ—è¡¨åŠŸèƒ½</li>
+  <li>å¢žåŠ SSLéƒ¨åˆ†çš„å†…å®¹</li>
+  <li>ç¿»è¯‘ï¼šå¸Œæœ›æœ‰èƒ½åŠ›çš„æœ‹å‹å¯ä»¥ç¿»è¯‘è¿™ç¯‡æ–‡ç« ä¸ºè‹±æ–‡ï¼Œè¿™æ ·å›½å¤–çš„æœ‹å‹ä¹Ÿå¯ä»¥çœ‹åˆ°</li>
 </ul>
-<h2><a name="a.1.4"></a>1.4.&nbsp; ÃùÐ»</h2>
-<p> ¡¡¡¡Ð»Ð»lesson.ward¡¢Yunping Zhu¡¢Temp¡¢bjchenxuµÄÖ¸Õý¡£Ò²¸ÐÐ»<a href="http://chinaunix.net/">Chinaunix.net</a>ºÍ<a href="http://anti-spam.org.cn/">anti-spam.org.cn</a>µÄ¸÷Î»ÅóÓÑµÄ¹Ø×¢ºÍ½¨Òé¡£</p>
+<h2><a name="a.1.4"></a>1.4.&nbsp; é¸£è°¢</h2>
+<p> ã€€ã€€è°¢è°¢lesson.wardã€Yunping Zhuã€Tempã€bjchenxuçš„æŒ‡æ­£ã€‚ä¹Ÿæ„Ÿè°¢<a href="http://chinaunix.net/">Chinaunix.net</a>å’Œ<a href="http://anti-spam.org.cn/">anti-spam.org.cn</a>çš„å„ä½æœ‹å‹çš„å…³æ³¨å’Œå»ºè®®ã€‚</p>
 <p>&nbsp;</p>
-<p>¡¡¡¡²Î¿¼ÎÄµµ£º<a href="http://www.delouw.ch/linux/Postfix-Cyrus-Web-cyradm-HOWTO/html/index.html">http://www.delouw.ch/linux/Postfix-Cyrus-Web-cyradm-HOWTO/html/index.html</a>¡£ÔÚÕâÆªÎÄÕÂ×«Ð´Ö®³õ£¬²Î¿¼¹ý¸ÃÎÄÕÂ£¬Ä¿Ç°¸ÃÎÄÕÂÒ²ÔÚ²»¶Ï¸üÐÂ£¬´ó¼ÒÒ²¿ÉÒÔ¿´¿´¡£</p>
-<h1><a name="a.2"></a>2.&nbsp; ÏµÍ³¹¦ÄÜ</h1>
-<p>¡¡¡¡ÏµÍ³Âß¼­½á¹¹£º</p>
+<p>ã€€ã€€å‚è€ƒæ–‡æ¡£ï¼š<a href="http://www.delouw.ch/linux/Postfix-Cyrus-Web-cyradm-HOWTO/html/index.html">http://www.delouw.ch/linux/Postfix-Cyrus-Web-cyradm-HOWTO/html/index.html</a>ã€‚åœ¨è¿™ç¯‡æ–‡ç« æ’°å†™ä¹‹åˆï¼Œå‚è€ƒè¿‡è¯¥æ–‡ç« ï¼Œç›®å‰è¯¥æ–‡ç« ä¹Ÿåœ¨ä¸æ–­æ›´æ–°ï¼Œå¤§å®¶ä¹Ÿå¯ä»¥çœ‹çœ‹ã€‚</p>
+<h1><a name="a.2"></a>2.&nbsp; ç³»ç»ŸåŠŸèƒ½</h1>
+<p>ã€€ã€€ç³»ç»Ÿé€»è¾‘ç»“æž„ï¼š</p>
 <pre><font face="Courier New, Courier, mono" size="2">
 +---------------------------------------------------+
 |                                                   |
@@ -137,28 +138,28 @@ POP3/IMAP4·þÎñÆ÷¡¢Í¨¹ýCyrus-SASL¶Ô´æ´¢ÔÚMySQLÊý¾Ý¿âÖÐµÄÓÃ»§½øÐÐÑéÖ¤ºÍÊÚÈ¨£¬²¢ÇÒÊ
 |                      MySQL                        |
 +---------------------------------------------------+
 </font></pre>
-<p> ¡¡¡¡Õû¸öÏµÍ³¶ÔÍâµÄ½çÃæ°üÀ¨¼¸¸ö²¿·Ö£¬ÓÃÀ´·¢ÐÅµÄSMTP¡¢ÓÃÀ´ÊÕÐÅµÄPOP3ºÍIMAP¡¢ÒÔ¼°Ò»¸öWEB½çÃæµÄÓÊ¼þÊ¹ÓÃÏµÍ³¡£ÕâÀïÃ»ÓÐÌá¹©WEB½çÃæµÄ¹ÜÀí¹¤¾ß£¬ÐèÒª´ó¼Ò×ÔÐÐÒÀ¾ÝÊµ¼ÊÐèÒª¿ª·¢¡£Èç¹ûÐèÒªÉÌÒµÓ¦ÓÃ£¬¿ÉÒÔ¹ºÂòCEM²úÆ·£¨<a href="http://cngnu.net/products/cem/">http://cngnu.net/products/cem/</a>£©£¬ÆäÖÐ°üÀ¨ÁËÍêÉÆµÄ¹ÜÀí½çÃæºÍÓÅ»¯µÄÓÊ¼þ·þÎñÆ÷»·¾³¡£</p>
-<p>¡¡¡¡MySQL×÷ÎªÏµÍ³ÖÐ´æ´¢Êý¾ÝµÄºËÐÄ£¬Ëü´æ´¢ÁËÓÃ»§µÄÐÅÏ¢¡£Õâ¸öÐÅÏ¢²»µ«ÓÃÓÚPOP3/IMAPºÍSMTP AUTHµÄÈÏÖ¤ÐèÒª£¬¶øÇÒÒ²ÎªPostfixÌá¹©ÁË±¾µØ½ÓÊÕÕßµÄÁÐ±íºÍ×ª·¢¹¦ÄÜ¡£</p>
-<p>¡¡¡¡ÈÏÖ¤Á÷³Ì±È½Ï·±Ëö¡£Õû¸öÈÏÖ¤ÊÇÍ¨¹ýCyrus-SASLÀ´×öµÄ£¬Í¨¹ýÔËÐÐÒ»¸öÊØ»¤½ø³ÌsaslauthdÀ´¼àÌýÈÏÖ¤ÐèÇó¡£saslauthdÕâÀïÊ¹ÓÃÁËpamÈÏÖ¤·½Ê½Í¨¹ýpam_mysql²å¼þ¶ÔMySQLÊý¾Ý¿â½øÐÐ²éÕÒ¡£</p>
-<p>¡¡¡¡ÏµÍ³Ö§³ÖÐéÄâÓòÓÃ»§ºÍ·ÇÐéÄâÓòÓÊÏä¡£</p>
-<p>¡¡¡¡ÎªÊ²Ã´Ñ¡ÔñÕâÐ©²¿¼þ×é³ÉÕâÌ×ÓÊ¼þÏµÍ³ÄØ£¿</p>
-<p>¡¡¡¡Ñ¡ÔñPostfix×÷ÎªMTA£¬ÊÇÒòÎªËüÊÇÒ»¸ö·Ç³£ÓÅÐãµÄMTA·þÎñÆ÷£¬Ëü²»µ«ÐÔÄÜ×¿Ô½£¬¶ÔsendmailµÄ¼æÈÝÐÔºÃ£¬Ö§³ÖºÍ¶àÖÖÆäËüÈí¼þµÄÓçºÏ£¬¶øÇÒ±¾Éí¾Í´øÓÐºÜÇ¿µÄ·´À¬»øÓÊ¼þ¹¦ÄÜ¡£</p>
-<p>¡¡¡¡Ñ¡ÔñMySQL×÷Îª´æ´¢ÓÃ»§ÐÅÏ¢µÄ²¿·Ö£¬ÊÇÒòÎªÒ»·½ÃæMySQL±¾ÉíÊÇÒ»¸öÇáÁ¿¼¶µÄÊý¾Ý¿â£¬ÔÚ´¦ÀíÉÙÁ¿Êý¾ÝÊ±·Ç³£¿ìËÙ£¬¶øÇÒÍ¨¹ý¹ØÏµÐÍÊý¾Ý¿â¿ÉÒÔ¸ü·½±ãµØ¹ÜÀíÓÃ»§ÐÅÏ¢ºÍÌá¹©¸ü¶àÓÃ»§ÌØÐÔ£¨Èç»ù±¾Ã¿ÓÃ»§µÄ¹ýÂË¿ØÖÆ£©£¬´ËÍâ»¹Ïû³ýÁËÒòÎªÊ¹ÓÃÏµÍ³ÓÃ»§Ëù´øÀ´µÄ°²È«Òþ»¼¡£</p>
-<p>¡¡¡¡Ñ¡ÔñCyrus-SASL×÷ÎªÈÏÖ¤»úÖÆ£¬ÊÇÒòÎªËüÊÇÒ»¸ö±ê×¼µÄÈÏÖ¤²ã£¬¶àÊýÈí¼þ¶¼Ö§³ÖËüµÄÈÏÖ¤¡£</p>
-<p>¡¡¡¡Ñ¡ÔñCyrus-IMAP×÷ÎªIMAP/POP3·þÎñÆ÷£¬ÊÇÒòÎªËüµÄIMAP/POPÊµÏÖÐ§ÂÊºÜ¸ß£¬Òª±ÈCourier-IMAPµÄÊµÏÖÒª¸ßÒ»Ð©£¬ËäÈ»ËüÒò´Ë¶øÊ¹ÓÃµÄMaildir/¸ñÊ½Óë±ê×¼µÄQMAIL¶¨ÒåµÄ¸ñÊ½ÓÐËù²»Í¬¡£</p>
-<p>¡¡¡¡Õâ¸öÏµÍ³½«À´¿ÉÄÜµÄ¸Ä½øÓÐ¼¸¸ö·½Ãæ£ºÒ»ÊÇÊ¹ÓÃ¸ü¸ß°æ±¾µÄCyrus-SASL£¬Ö±½ÓÖ§³Ö¶ÔMySQLµÄ²éÑ¯ÈÏÖ¤£¬±ÜÃâÁËÊ¹ÓÃsaslauthd
-=&gt;pam=&gt;pam_mysqlÕâÑùÂÞàÂµÄ»·½Ú£»¶þÊÇÊ¹ÓÃ¸ü¸ß°æ±¾µÄCyrus-IMAP£¬¶ÔÐéÄâÓòÓÐ¸ü¼ÓÖ±½ÓµÄÖ§³Ö£¬²»ÓÃÏñÏÖÔÚÕâÑùÐèÒª
-×ö±ðÃû×ª·¢²ÅÄÜÊµÏÖ¡£</p>
-<h1><a name="a.3"></a>3.&nbsp; ÏµÍ³»ù±¾Ç°Ìá</h1>
-<p>¡¡¡¡±¾ÎÄÒÔLinuxÏµÍ³ÎªÄ¿±êÆ½Ì¨£¬Ö§³Ö¶àÊýµÄLinuxÆ½Ì¨ÈçRedHat 7.x/8.x/9.x/AS2.1/AS3¡¢Mandrake 8.x/9.xµÈ£¬ÀíÂÛÉÏÒ²»áÖ§³ÖÆäËûµÄLinux·¢ÐÐ°æ£¬ÉõÖÁÆäËûµÄUNIXÏµÍ³¡£</p>
-<p>¡¡¡¡ÕâÀïÒÔRedHat Linux Advance Server Enterprise V 3.0 £¨ÒÔÏÂ¼ò³ÆAS3£©ÎªËµÃ÷Æ½Ì¨¡£ÎÒ²ÉÓÃÁË×î»ù±¾µÄAS3°²×°£¬Ö»Ñ¡ÔñÁË¡°Web
-  Server¡±¡¢¡°Dns Name Server¡±¡¢¡°MySQL Database Server¡±¡¢¡°Development Tools¡±ºÍ¡°Kernel
-  Development¡±µÈÈí¼þ°ü×é£¨¡°Core¡±ºÍ¡°Base¡±×éÊÇÄ¬ÈÏ±ØÑ¡µÄÈí¼þ°ü£©¡£</p>
-<p>¡¡¡¡³ý´ËÍâ£¬»¹ÐèÒª¶îÍâ°²×°ÒÔÏÂRPM£º</p>
-<p>¡¡¡¡1¡¢php-mysql-4.3.2-8.ent.i386.rpm£¨ÔÚCD3£©</p>
-<h1><a name="a.4"></a>4.&nbsp; °²×°MySQL</h1>
-<h2><a name="a.4.1" id="a.4.1"></a>4.1.&nbsp; ÏÂÔØ</h2>
-<p>¡¡¡¡AS3Ä¬ÈÏÊÇÖ»°üº¬MySQL³ýÁË·þÎñÆ÷³ÌÐòÍâµÄ²¿·ÖµÄ£¬ËùÒÔÐèÒª´ÓRPMFINDÏÂÔØMySQLµÄÔ´RPMÖØ½¨£¨×îºÃÊ¹ÓÃÔ´Âë°ü£¬²ÉÓÃMySQL.comÌá¹©µÄRPMºÍBIN°ü¶¼¿ÉÄÜÔÚÆäËüÊ¹ÓÃmysqlµÄ²¿·Ö±àÒëÊ±ºò³öÏÖ´íÎó£©¡£</p>
+<p> ã€€ã€€æ•´ä¸ªç³»ç»Ÿå¯¹å¤–çš„ç•Œé¢åŒ…æ‹¬å‡ ä¸ªéƒ¨åˆ†ï¼Œç”¨æ¥å‘ä¿¡çš„SMTPã€ç”¨æ¥æ”¶ä¿¡çš„POP3å’ŒIMAPã€ä»¥åŠä¸€ä¸ªWEBç•Œé¢çš„é‚®ä»¶ä½¿ç”¨ç³»ç»Ÿã€‚è¿™é‡Œæ²¡æœ‰æä¾›WEBç•Œé¢çš„ç®¡ç†å·¥å…·ï¼Œéœ€è¦å¤§å®¶è‡ªè¡Œä¾æ®å®žé™…éœ€è¦å¼€å‘ã€‚å¦‚æžœéœ€è¦å•†ä¸šåº”ç”¨ï¼Œå¯ä»¥è´­ä¹°CEMäº§å“ï¼ˆ<a href="http://cngnu.net/products/cem/">http://cngnu.net/products/cem/</a>ï¼‰ï¼Œå…¶ä¸­åŒ…æ‹¬äº†å®Œå–„çš„ç®¡ç†ç•Œé¢å’Œä¼˜åŒ–çš„é‚®ä»¶æœåŠ¡å™¨çŽ¯å¢ƒã€‚</p>
+<p>ã€€ã€€MySQLä½œä¸ºç³»ç»Ÿä¸­å­˜å‚¨æ•°æ®çš„æ ¸å¿ƒï¼Œå®ƒå­˜å‚¨äº†ç”¨æˆ·çš„ä¿¡æ¯ã€‚è¿™ä¸ªä¿¡æ¯ä¸ä½†ç”¨äºŽPOP3/IMAPå’ŒSMTP AUTHçš„è®¤è¯éœ€è¦ï¼Œè€Œä¸”ä¹Ÿä¸ºPostfixæä¾›äº†æœ¬åœ°æŽ¥æ”¶è€…çš„åˆ—è¡¨å’Œè½¬å‘åŠŸèƒ½ã€‚</p>
+<p>ã€€ã€€è®¤è¯æµç¨‹æ¯”è¾ƒç¹çã€‚æ•´ä¸ªè®¤è¯æ˜¯é€šè¿‡Cyrus-SASLæ¥åšçš„ï¼Œé€šè¿‡è¿è¡Œä¸€ä¸ªå®ˆæŠ¤è¿›ç¨‹saslauthdæ¥ç›‘å¬è®¤è¯éœ€æ±‚ã€‚saslauthdè¿™é‡Œä½¿ç”¨äº†pamè®¤è¯æ–¹å¼é€šè¿‡pam_mysqlæ’ä»¶å¯¹MySQLæ•°æ®åº“è¿›è¡ŒæŸ¥æ‰¾ã€‚</p>
+<p>ã€€ã€€ç³»ç»Ÿæ”¯æŒè™šæ‹ŸåŸŸç”¨æˆ·å’Œéžè™šæ‹ŸåŸŸé‚®ç®±ã€‚</p>
+<p>ã€€ã€€ä¸ºä»€ä¹ˆé€‰æ‹©è¿™äº›éƒ¨ä»¶ç»„æˆè¿™å¥—é‚®ä»¶ç³»ç»Ÿå‘¢ï¼Ÿ</p>
+<p>ã€€ã€€é€‰æ‹©Postfixä½œä¸ºMTAï¼Œæ˜¯å› ä¸ºå®ƒæ˜¯ä¸€ä¸ªéžå¸¸ä¼˜ç§€çš„MTAæœåŠ¡å™¨ï¼Œå®ƒä¸ä½†æ€§èƒ½å“è¶Šï¼Œå¯¹sendmailçš„å…¼å®¹æ€§å¥½ï¼Œæ”¯æŒå’Œå¤šç§å…¶å®ƒè½¯ä»¶çš„éš…åˆï¼Œè€Œä¸”æœ¬èº«å°±å¸¦æœ‰å¾ˆå¼ºçš„ååžƒåœ¾é‚®ä»¶åŠŸèƒ½ã€‚</p>
+<p>ã€€ã€€é€‰æ‹©MySQLä½œä¸ºå­˜å‚¨ç”¨æˆ·ä¿¡æ¯çš„éƒ¨åˆ†ï¼Œæ˜¯å› ä¸ºä¸€æ–¹é¢MySQLæœ¬èº«æ˜¯ä¸€ä¸ªè½»é‡çº§çš„æ•°æ®åº“ï¼Œåœ¨å¤„ç†å°‘é‡æ•°æ®æ—¶éžå¸¸å¿«é€Ÿï¼Œè€Œä¸”é€šè¿‡å…³ç³»åž‹æ•°æ®åº“å¯ä»¥æ›´æ–¹ä¾¿åœ°ç®¡ç†ç”¨æˆ·ä¿¡æ¯å’Œæä¾›æ›´å¤šç”¨æˆ·ç‰¹æ€§ï¼ˆå¦‚åŸºæœ¬æ¯ç”¨æˆ·çš„è¿‡æ»¤æŽ§åˆ¶ï¼‰ï¼Œæ­¤å¤–è¿˜æ¶ˆé™¤äº†å› ä¸ºä½¿ç”¨ç³»ç»Ÿç”¨æˆ·æ‰€å¸¦æ¥çš„å®‰å…¨éšæ‚£ã€‚</p>
+<p>ã€€ã€€é€‰æ‹©Cyrus-SASLä½œä¸ºè®¤è¯æœºåˆ¶ï¼Œæ˜¯å› ä¸ºå®ƒæ˜¯ä¸€ä¸ªæ ‡å‡†çš„è®¤è¯å±‚ï¼Œå¤šæ•°è½¯ä»¶éƒ½æ”¯æŒå®ƒçš„è®¤è¯ã€‚</p>
+<p>ã€€ã€€é€‰æ‹©Cyrus-IMAPä½œä¸ºIMAP/POP3æœåŠ¡å™¨ï¼Œæ˜¯å› ä¸ºå®ƒçš„IMAP/POPå®žçŽ°æ•ˆçŽ‡å¾ˆé«˜ï¼Œè¦æ¯”Courier-IMAPçš„å®žçŽ°è¦é«˜ä¸€äº›ï¼Œè™½ç„¶å®ƒå› æ­¤è€Œä½¿ç”¨çš„Maildir/æ ¼å¼ä¸Žæ ‡å‡†çš„QMAILå®šä¹‰çš„æ ¼å¼æœ‰æ‰€ä¸åŒã€‚</p>
+<p>ã€€ã€€è¿™ä¸ªç³»ç»Ÿå°†æ¥å¯èƒ½çš„æ”¹è¿›æœ‰å‡ ä¸ªæ–¹é¢ï¼šä¸€æ˜¯ä½¿ç”¨æ›´é«˜ç‰ˆæœ¬çš„Cyrus-SASLï¼Œç›´æŽ¥æ”¯æŒå¯¹MySQLçš„æŸ¥è¯¢è®¤è¯ï¼Œé¿å…äº†ä½¿ç”¨saslauthd
+=&gt;pam=&gt;pam_mysqlè¿™æ ·ç½—å—¦çš„çŽ¯èŠ‚ï¼›äºŒæ˜¯ä½¿ç”¨æ›´é«˜ç‰ˆæœ¬çš„Cyrus-IMAPï¼Œå¯¹è™šæ‹ŸåŸŸæœ‰æ›´åŠ ç›´æŽ¥çš„æ”¯æŒï¼Œä¸ç”¨åƒçŽ°åœ¨è¿™æ ·éœ€è¦
+åšåˆ«åè½¬å‘æ‰èƒ½å®žçŽ°ã€‚</p>
+<h1><a name="a.3"></a>3.&nbsp; ç³»ç»ŸåŸºæœ¬å‰æ</h1>
+<p>ã€€ã€€æœ¬æ–‡ä»¥Linuxç³»ç»Ÿä¸ºç›®æ ‡å¹³å°ï¼Œæ”¯æŒå¤šæ•°çš„Linuxå¹³å°å¦‚RedHat 7.x/8.x/9.x/AS2.1/AS3ã€Mandrake 8.x/9.xç­‰ï¼Œç†è®ºä¸Šä¹Ÿä¼šæ”¯æŒå…¶ä»–çš„Linuxå‘è¡Œç‰ˆï¼Œç”šè‡³å…¶ä»–çš„UNIXç³»ç»Ÿã€‚</p>
+<p>ã€€ã€€è¿™é‡Œä»¥RedHat Linux Advance Server Enterprise V 3.0 ï¼ˆä»¥ä¸‹ç®€ç§°AS3ï¼‰ä¸ºè¯´æ˜Žå¹³å°ã€‚æˆ‘é‡‡ç”¨äº†æœ€åŸºæœ¬çš„AS3å®‰è£…ï¼Œåªé€‰æ‹©äº†â€œWeb
+  Serverâ€ã€â€œDns Name Serverâ€ã€â€œMySQL Database Serverâ€ã€â€œDevelopment Toolsâ€å’Œâ€œKernel
+  Developmentâ€ç­‰è½¯ä»¶åŒ…ç»„ï¼ˆâ€œCoreâ€å’Œâ€œBaseâ€ç»„æ˜¯é»˜è®¤å¿…é€‰çš„è½¯ä»¶åŒ…ï¼‰ã€‚</p>
+<p>ã€€ã€€é™¤æ­¤å¤–ï¼Œè¿˜éœ€è¦é¢å¤–å®‰è£…ä»¥ä¸‹RPMï¼š</p>
+<p>ã€€ã€€1ã€php-mysql-4.3.2-8.ent.i386.rpmï¼ˆåœ¨CD3ï¼‰</p>
+<h1><a name="a.4"></a>4.&nbsp; å®‰è£…MySQL</h1>
+<h2><a name="a.4.1" id="a.4.1"></a>4.1.&nbsp; ä¸‹è½½</h2>
+<p>ã€€ã€€AS3é»˜è®¤æ˜¯åªåŒ…å«MySQLé™¤äº†æœåŠ¡å™¨ç¨‹åºå¤–çš„éƒ¨åˆ†çš„ï¼Œæ‰€ä»¥éœ€è¦ä»ŽRPMFINDä¸‹è½½MySQLçš„æºRPMé‡å»ºï¼ˆæœ€å¥½ä½¿ç”¨æºç åŒ…ï¼Œé‡‡ç”¨MySQL.comæä¾›çš„RPMå’ŒBINåŒ…éƒ½å¯èƒ½åœ¨å…¶å®ƒä½¿ç”¨mysqlçš„éƒ¨åˆ†ç¼–è¯‘æ—¶å€™å‡ºçŽ°é”™è¯¯ï¼‰ã€‚</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr>
     <td>
@@ -166,7 +167,7 @@ POP3/IMAP4·þÎñÆ÷¡¢Í¨¹ýCyrus-SASL¶Ô´æ´¢ÔÚMySQLÊý¾Ý¿âÖÐµÄÓÃ»§½øÐÐÑéÖ¤ºÍÊÚÈ¨£¬²¢ÇÒÊ
       <p>[root@mail src]# <span class="type">wget <a href="ftp://rpmfind.net/linux/redhat/enterprise/3/en/os/i386/SRPMS/mysql-3.23.58-1.src.rpm">ftp://rpmfind.net/linux/redhat/enterprise/3/en/os/i386/SRPMS/mysql-3.23.58-1.src.rpm</a></span></p></td>
   </tr>
 </tbody></table>
-<h2><a name="a.4.2" id="a.4.2"></a>4.2.&nbsp; ±àÒëÓë°²×°</h2>
+<h2><a name="a.4.2" id="a.4.2"></a>4.2.&nbsp; ç¼–è¯‘ä¸Žå®‰è£…</h2>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr>
     <td>
@@ -175,7 +176,7 @@ POP3/IMAP4·þÎñÆ÷¡¢Í¨¹ýCyrus-SASL¶Ô´æ´¢ÔÚMySQLÊý¾Ý¿âÖÐµÄÓÃ»§½øÐÐÑéÖ¤ºÍÊÚÈ¨£¬²¢ÇÒÊ
       <p>[root@mail i386]# <span class="type">rpm -ivh mysql-server-3.23.58-1.i386.rpm</span></p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡ÎªÌá¸ßMySQLµÄ°²È«ÐÔ£¬Ê¹Ö®Ö»¼àÌýÔÚ±¾µØ´ò»·¶Ë¿Ú£¬ÐÞ¸Ä/etc/my.cnf£º</p>
+<p>ã€€ã€€ä¸ºæé«˜MySQLçš„å®‰å…¨æ€§ï¼Œä½¿ä¹‹åªç›‘å¬åœ¨æœ¬åœ°æ‰“çŽ¯ç«¯å£ï¼Œä¿®æ”¹/etc/my.cnfï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr>
     <td>
@@ -183,13 +184,13 @@ POP3/IMAP4·þÎñÆ÷¡¢Í¨¹ýCyrus-SASL¶Ô´æ´¢ÔÚMySQLÊý¾Ý¿âÖÐµÄÓÃ»§½øÐÐÑéÖ¤ºÍÊÚÈ¨£¬²¢ÇÒÊ
     <p>[root@mail root]# <span class="type">vi /etc/my.cnf </span></p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡ÔÚ[mysqld]Ð¡½ÚÀïÃæÌí¼Ó£º</p>
+<p>ã€€ã€€åœ¨[mysqld]å°èŠ‚é‡Œé¢æ·»åŠ ï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr>
     <td bgcolor="#ffffcc">bind-address=127.0.0.1</td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡²¢ÉèÖÃÆä¿ª»úÊ±ºò×Ô¶¯ÔËÐÐ£º</p>
+<p>ã€€ã€€å¹¶è®¾ç½®å…¶å¼€æœºæ—¶å€™è‡ªåŠ¨è¿è¡Œï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr>
     <td>
@@ -198,15 +199,15 @@ POP3/IMAP4·þÎñÆ÷¡¢Í¨¹ýCyrus-SASL¶Ô´æ´¢ÔÚMySQLÊý¾Ý¿âÖÐµÄÓÃ»§½øÐÐÑéÖ¤ºÍÊÚÈ¨£¬²¢ÇÒÊ
   </tr>
 </tbody></table>
 <p></p>
-<h2><a name="a.4.3" id="a.4.3"></a>4.3.&nbsp; ÔËÐÐ</h2>
-<p>¡¡¡¡Æô¶¯ÃüÁîÈçÏÂ£º</p>
+<h2><a name="a.4.3" id="a.4.3"></a>4.3.&nbsp; è¿è¡Œ</h2>
+<p>ã€€ã€€å¯åŠ¨å‘½ä»¤å¦‚ä¸‹ï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail i386]# <span class="type">/etc/init.d/mysqld start</span></p></td>
   </tr>
 </tbody></table>
-<h2><a name="a.4.4" id="a.4.4"></a>4.4.&nbsp; ²âÊÔ</h2>
-<p>¡¡¡¡Æô¶¯MySQLºó£¬Ê×ÏÈ¼ì²éÈÕÖ¾/var/log/messagesÓÐÎÞ´íÎóÐÅÏ¢£¬È»ºó¼ì²é½ø³Ì£¬Ó¦¸ÃÓÐÈçÏÂ½ø³Ì´æÔÚ£º</p>
+<h2><a name="a.4.4" id="a.4.4"></a>4.4.&nbsp; æµ‹è¯•</h2>
+<p>ã€€ã€€å¯åŠ¨MySQLåŽï¼Œé¦–å…ˆæ£€æŸ¥æ—¥å¿—/var/log/messagesæœ‰æ— é”™è¯¯ä¿¡æ¯ï¼Œç„¶åŽæ£€æŸ¥è¿›ç¨‹ï¼Œåº”è¯¥æœ‰å¦‚ä¸‹è¿›ç¨‹å­˜åœ¨ï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail root]# <span class="type">pstree | grep mysqld</span></p>
@@ -215,19 +216,19 @@ POP3/IMAP4·þÎñÆ÷¡¢Í¨¹ýCyrus-SASL¶Ô´æ´¢ÔÚMySQLÊý¾Ý¿âÖÐµÄÓÃ»§½øÐÐÑéÖ¤ºÍÊÚÈ¨£¬²¢ÇÒÊ
     <p>&nbsp;</p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡½Ó×Å¼ì²é¶Ë¿Ú£¬Ó¦¸ÃÓÐÈçÏÂ¶Ë¿Ú´ò¿ª£º</p>
+<p>ã€€ã€€æŽ¥ç€æ£€æŸ¥ç«¯å£ï¼Œåº”è¯¥æœ‰å¦‚ä¸‹ç«¯å£æ‰“å¼€ï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail root]#<font color="#ff0000"> </font><span class="type">netstat
            -an | grep LISTEN</span></p>
       <p>&nbsp;</p>
-      <p>tcp¡¡¡¡0¡¡¡¡0 127.0.0.1:3306¡¡¡¡0.0.0.0:*¡¡¡¡LISTEN<br>
+      <p>tcpã€€ã€€0ã€€ã€€0 127.0.0.1:3306ã€€ã€€0.0.0.0:*ã€€ã€€LISTEN<br>
     </p></td>
   </tr>
 </tbody></table>
 <p>&nbsp;</p>
-<h2><a name="a.4.1"></a>4.5.&nbsp; ½¨Á¢Êý¾Ý¿â</h2>
-<p>¡¡¡¡MySQL°²×°ÅäÖÃºÃÒÔºó£¬´´½¨ÈçÏÂSQL½Å±¾mail.sql£º</p>
+<h2><a name="a.4.1"></a>4.5.&nbsp; å»ºç«‹æ•°æ®åº“</h2>
+<p>ã€€ã€€MySQLå®‰è£…é…ç½®å¥½ä»¥åŽï¼Œåˆ›å»ºå¦‚ä¸‹SQLè„šæœ¬mail.sqlï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr>
     <td bgcolor="#ffffcc">
@@ -268,43 +269,43 @@ POP3/IMAP4·þÎñÆ÷¡¢Í¨¹ýCyrus-SASL¶Ô´æ´¢ÔÚMySQLÊý¾Ý¿âÖÐµÄÓÃ»§½øÐÐÑéÖ¤ºÍÊÚÈ¨£¬²¢ÇÒÊ
       <p>[root@mail root]# <span class="type">mysql &lt; mail.sql</span></p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡ÔÚMySQLÖÐ´´½¨ÓÊ¼þÓÃ»§Êý¾Ý¿â£¬²¢Ìí¼ÓÁ½¸ö²âÊÔÓÊÏä£º</p>
+<p>ã€€ã€€åœ¨MySQLä¸­åˆ›å»ºé‚®ä»¶ç”¨æˆ·æ•°æ®åº“ï¼Œå¹¶æ·»åŠ ä¸¤ä¸ªæµ‹è¯•é‚®ç®±ï¼š</p>
 <ul>
-  <li>·ÇÐéÄâÓòÓÊÏä¡°trueuser¡±£¬ÃÜÂëÊÇ¡°testpw¡±</li>
-  <li>ÐéÄâÓòÓÊÏä¡°virtualuser@cngnu.org¡±£¬ÃÜÂëÊÇ¡°testpw¡±</li>
+  <li>éžè™šæ‹ŸåŸŸé‚®ç®±â€œtrueuserâ€ï¼Œå¯†ç æ˜¯â€œtestpwâ€</li>
+  <li>è™šæ‹ŸåŸŸé‚®ç®±â€œvirtualuser@cngnu.orgâ€ï¼Œå¯†ç æ˜¯â€œtestpwâ€</li>
 </ul>
-<p>¡¡¡¡ÉÏÃæµÄmailÊý¾Ý¿âµÄUSER±íÓÃÀ´±£´æÓÃ»§ÐÅÏ¢£º</p>
+<p>ã€€ã€€ä¸Šé¢çš„mailæ•°æ®åº“çš„USERè¡¨ç”¨æ¥ä¿å­˜ç”¨æˆ·ä¿¡æ¯ï¼š</p>
 <ul>
-  <li>USERNAMEºÍPASSWORD×Ö¶Î¾ÍÊÇÓÃ»§ÃûºÍMD5-CryptÃÜÂë¡£USERNAME²»µ«×÷ÎªÈÏÖ¤µÄ×Ö¶Î£¬¶øÇÒÊÇ±¾µØÓÊÏä²éÕÒÌõ¼þ£¨¼ûÏÂÃæµÄPostfixµÄvirtual.mysql£©¡£ÕâÀï²ÉÓÃÁË¼ÓÃÜÃÜÂëÊÇÎªÁË¸üºÃµÄ°²È«ÐÔ¡£¶ÔÓÚ
+  <li>USERNAMEå’ŒPASSWORDå­—æ®µå°±æ˜¯ç”¨æˆ·åå’ŒMD5-Cryptå¯†ç ã€‚USERNAMEä¸ä½†ä½œä¸ºè®¤è¯çš„å­—æ®µï¼Œè€Œä¸”æ˜¯æœ¬åœ°é‚®ç®±æŸ¥æ‰¾æ¡ä»¶ï¼ˆè§ä¸‹é¢çš„Postfixçš„virtual.mysqlï¼‰ã€‚è¿™é‡Œé‡‡ç”¨äº†åŠ å¯†å¯†ç æ˜¯ä¸ºäº†æ›´å¥½çš„å®‰å…¨æ€§ã€‚å¯¹äºŽ
     <ul>
-      <li>·ÇÐéÄâÓòÓÊÏä£ºUSERNAME×Ö¶ÎÊÇÓÊ¼þµÄ±¾µØ²¿·Ö£¨¡°@¡±Ç°ÃæµÄ²¿·Ö£©</li>
-      <li>ÐéÄâÓòÓÊÏä£ºUSERNAME×Ö¶ÎÊÇÓÊ¼þµØÖ·È«³Æ</li>
+      <li>éžè™šæ‹ŸåŸŸé‚®ç®±ï¼šUSERNAMEå­—æ®µæ˜¯é‚®ä»¶çš„æœ¬åœ°éƒ¨åˆ†ï¼ˆâ€œ@â€å‰é¢çš„éƒ¨åˆ†ï¼‰</li>
+      <li>è™šæ‹ŸåŸŸé‚®ç®±ï¼šUSERNAMEå­—æ®µæ˜¯é‚®ä»¶åœ°å€å…¨ç§°</li>
     </ul>
-ÓÊÏäµÄÃÜÂëÊÇ¡°testpw¡±£¬¼ÓÃÜºóµÄ£¨MD5-CRYPT£©ÃÜÎÄÊÇ¡°$1$pi.WVgBx$a3dUCzBnbY76jnZlqWQCQ/¡±£¨¿ÉÒÔÍ¨¹ýÏµÍ³µÄpasswdÃüÁîÀ´Ìí¼ÓÒ»¸öÓÃ»§£¬Éú³ÉÃÜÂë£¬È»ºó´Ó/etc/shadowÖÐ¸´ÖÆ¡££©
+é‚®ç®±çš„å¯†ç æ˜¯â€œtestpwâ€ï¼ŒåŠ å¯†åŽçš„ï¼ˆMD5-CRYPTï¼‰å¯†æ–‡æ˜¯â€œ$1$pi.WVgBx$a3dUCzBnbY76jnZlqWQCQ/â€ï¼ˆå¯ä»¥é€šè¿‡ç³»ç»Ÿçš„passwdå‘½ä»¤æ¥æ·»åŠ ä¸€ä¸ªç”¨æˆ·ï¼Œç”Ÿæˆå¯†ç ï¼Œç„¶åŽä»Ž/etc/shadowä¸­å¤åˆ¶ã€‚ï¼‰
   </li>
-  <li>FORWARD×Ö¶ÎÄ¬ÈÏÊÇÖ¸ÏòÓÃ»§µÄ¡°´æ´¢ÓÊÏä¡±ÃûµÄ£¨Cyrus-IMAPËù¹ÜÀíµÄÓÊÏäÃû³Æ£©£¬¼´½øÐÐ±¾µØÍ¶µÝ£»Èç¹ûFORWARD×Ö¶ÎÊÇÁíÍâÒ»¸öÓÃ»§Ãû»òÕßÓÊ¼þµØÖ·£¬Ôò¸ÃÓÊ¼þ±»×ª·¢µ½±ðµÄÓÃ»§»òÆäËüÓÊ¼þµØÖ·¡£¶ÔÓÚ
+  <li>FORWARDå­—æ®µé»˜è®¤æ˜¯æŒ‡å‘ç”¨æˆ·çš„â€œå­˜å‚¨é‚®ç®±â€åçš„ï¼ˆCyrus-IMAPæ‰€ç®¡ç†çš„é‚®ç®±åç§°ï¼‰ï¼Œå³è¿›è¡Œæœ¬åœ°æŠ•é€’ï¼›å¦‚æžœFORWARDå­—æ®µæ˜¯å¦å¤–ä¸€ä¸ªç”¨æˆ·åæˆ–è€…é‚®ä»¶åœ°å€ï¼Œåˆ™è¯¥é‚®ä»¶è¢«è½¬å‘åˆ°åˆ«çš„ç”¨æˆ·æˆ–å…¶å®ƒé‚®ä»¶åœ°å€ã€‚å¯¹äºŽ
     <ul>
-    <li>·ÇÐéÄâÓòÓÊÏä£ºÆä´æ´¢ÓÊÏäÓëÓÃ»§ÃûÏàÍ¬</li>
-    <li>Ðé
-ÄâÓòÓÊÏä£ºÎªÁËÖ§³Ö¶à¸öÓò£¬¿¼ÂÇµ½²»Í¬µÄÓò¿ÉÄÜÓµÓÐÏàÍ¬µÄÓÃ»§Ãû£¨±¾µØ²¿·Ö£©£¬ËùÒÔÊ¹ÓÃÓÊ¼þÈ«³Æ×÷ÎªÓÃ»§µÄµÇÂ¼Ãû£¨POP/IMAPµÄµÇÂ¼ÃûºÍSMTPÈÏ
-Ö¤µÄµÇÂ¼Ãû£©£¬µ«ÊÇÓÉÓÚCyrus-IMAP²»Ö±½ÓÖ§³ÖÐéÄâÓò£¨ËäÈ»¿ÉÒÔ´´½¨´ø¡°@¡±µÄÓÊÏä£¬ÔÚCyrus-IMAPµÄ2.2.x°æ±¾Ö§³ÖÐéÄâÓò£¬µ«ÊÇÄ¿
-Ç°¸Ã°æ±¾»¹ÊÇ²âÊÔ°æ£©£¬²»ÄÜÔÚÓÊ¼þµÄ±¾µØ²¿·Ö°üº¬¡°@¡±£¬ËùÒÔÊµ¼ÊµÄ´æ´¢ÓÊÏäÃû°Ñ¡°@¡±Ìæ»»Îª¡°~¡±¡££¨²Î¼ûÏÂÃæCyrus-IMAP²¿·ÖÃèÊö£©</li>
+    <li>éžè™šæ‹ŸåŸŸé‚®ç®±ï¼šå…¶å­˜å‚¨é‚®ç®±ä¸Žç”¨æˆ·åç›¸åŒ</li>
+    <li>è™š
+æ‹ŸåŸŸé‚®ç®±ï¼šä¸ºäº†æ”¯æŒå¤šä¸ªåŸŸï¼Œè€ƒè™‘åˆ°ä¸åŒçš„åŸŸå¯èƒ½æ‹¥æœ‰ç›¸åŒçš„ç”¨æˆ·åï¼ˆæœ¬åœ°éƒ¨åˆ†ï¼‰ï¼Œæ‰€ä»¥ä½¿ç”¨é‚®ä»¶å…¨ç§°ä½œä¸ºç”¨æˆ·çš„ç™»å½•åï¼ˆPOP/IMAPçš„ç™»å½•åå’ŒSMTPè®¤
+è¯çš„ç™»å½•åï¼‰ï¼Œä½†æ˜¯ç”±äºŽCyrus-IMAPä¸ç›´æŽ¥æ”¯æŒè™šæ‹ŸåŸŸï¼ˆè™½ç„¶å¯ä»¥åˆ›å»ºå¸¦â€œ@â€çš„é‚®ç®±ï¼Œåœ¨Cyrus-IMAPçš„2.2.xç‰ˆæœ¬æ”¯æŒè™šæ‹ŸåŸŸï¼Œä½†æ˜¯ç›®
+å‰è¯¥ç‰ˆæœ¬è¿˜æ˜¯æµ‹è¯•ç‰ˆï¼‰ï¼Œä¸èƒ½åœ¨é‚®ä»¶çš„æœ¬åœ°éƒ¨åˆ†åŒ…å«â€œ@â€ï¼Œæ‰€ä»¥å®žé™…çš„å­˜å‚¨é‚®ç®±åæŠŠâ€œ@â€æ›¿æ¢ä¸ºâ€œ~â€ã€‚ï¼ˆå‚è§ä¸‹é¢Cyrus-IMAPéƒ¨åˆ†æè¿°ï¼‰</li>
   </ul>
-´ËÍâ£¬ÓÉÓÚPostfixÁîÈË³Ô¾ªµÄÇø·ÖÓÊÏäµÄ´óÐ¡Ð´£¬ËùÒÔÍ¨¹ýÕâÑùµÄÒ»¸ö×ª·¢£¬ÕýºÃ¿ÉÒÔÏû³ý´óÐ¡Ð´µÄÇø±ð¡£
+æ­¤å¤–ï¼Œç”±äºŽPostfixä»¤äººåƒæƒŠçš„åŒºåˆ†é‚®ç®±çš„å¤§å°å†™ï¼Œæ‰€ä»¥é€šè¿‡è¿™æ ·çš„ä¸€ä¸ªè½¬å‘ï¼Œæ­£å¥½å¯ä»¥æ¶ˆé™¤å¤§å°å†™çš„åŒºåˆ«ã€‚
 </li>
 
-  <li>DOMAIN×Ö¶ÎÓÃÀ´¿ìËÙÕÒ³öÄ³¸öÓòÏÂ´æÔÚµÄÓÊÏä£¬½öÎª¹ÜÀí·½±ãÊ¹ÓÃ¡£</li>
-  <li>MAIL×Ö¶ÎÊÇÓÊ¼þµØÖ·
-È«³Æ¡£¶ÔÓÚ·ÇÐéÄâÓòÓÊÏä£¬Ëü°üº¬ÁË±¾µØ²¿·ÖÍâµÄÓò²¿·Ö£»¶ÔÓÚÐéÄâÓòÓÊÏä£¬ËüºÍUSERNAME×Ö¶ÎÒ»Ñù¡£Ò»·½ÃæÊÇÎªÁË¹ÜÀí·½±ãÊ¹ÓÃ£¬Í¬Ê±¸Ã×Ö¶Î»¹ÓÃÀ´×öÈ«
-¾Ö¹ýÂË¿ØÖÆFILTERµÄ²éÕÒÌõ¼þ£¨¼ûFILTER×Ö¶Î¼°ÏÂÃæPostfixµÄfilter.mysql£©¡£</li>
-  <li>FILTER×Ö¶ÎÓÃÓÚ¿ØÖÆ¸ÃÓÊÏäÊÇ·ñ½ÓÊÜ·þÎñÆ÷µÄÈ«¾ÖÓÊ¼þ¹ýÂË¡£¸ÃÖµÉèÖÃÎª¡°OK¡±»òÎª¿Õ±íÊ¾¶Ô¸ÃÓÊÏä²»½øÐÐ¹ýÂË£»ÉèÖÃÎª¡°DUNNO¡±±íÊ¾¶Ô¸ÃÓÊÏä½øÐÐPostfixÖÐ¶¨ÓÚµÄÈ«¾Ö¹ýÂË¡£¸ÃÖµ¿ÉÒÔÊÇÈÎºÎºÏ·¨µÄPostfixµÄaccess¹ýÂË¹æÔò¡£</li>
-  <li>PARTITION×Ö¶ÎÓÃÓÚÖ¸Ã÷ÓÊÏä´æ´¢µÄCyrus-IMAPÓÊ¼þ·ÖÇø¡£¿ÉÒÔ½¨Á¢¶à¸ö²»Í¬µÄÓÊ¼þ·ÖÇø¡£½öÎªÁË¹ÜÀí·½±ãÊ¹ÓÃ¡£</li>
-  <li>QUOTA×Ö¶ÎÖ¸¶¨ÓÊÏäµÄ´ÅÅÌÏÞ¶î¡£½öÎªÁË¹ÜÀí·½±ãÊ¹ÓÃ¡£</li>
-  <li>STATUS×Ö¶ÎÓÃÀ´Ö¸Ê¾¸ÃÓÃ»§ÊÇ·ñÓÐÐ§£¬¿ÉÒÔÍ¨¹ýÐÞ¸Ä¸ÃÖµÎª0À´ÁÙÊ±½ûÖ¹Ä³¸öÓÃ»§¡£</li>
+  <li>DOMAINå­—æ®µç”¨æ¥å¿«é€Ÿæ‰¾å‡ºæŸä¸ªåŸŸä¸‹å­˜åœ¨çš„é‚®ç®±ï¼Œä»…ä¸ºç®¡ç†æ–¹ä¾¿ä½¿ç”¨ã€‚</li>
+  <li>MAILå­—æ®µæ˜¯é‚®ä»¶åœ°å€
+å…¨ç§°ã€‚å¯¹äºŽéžè™šæ‹ŸåŸŸé‚®ç®±ï¼Œå®ƒåŒ…å«äº†æœ¬åœ°éƒ¨åˆ†å¤–çš„åŸŸéƒ¨åˆ†ï¼›å¯¹äºŽè™šæ‹ŸåŸŸé‚®ç®±ï¼Œå®ƒå’ŒUSERNAMEå­—æ®µä¸€æ ·ã€‚ä¸€æ–¹é¢æ˜¯ä¸ºäº†ç®¡ç†æ–¹ä¾¿ä½¿ç”¨ï¼ŒåŒæ—¶è¯¥å­—æ®µè¿˜ç”¨æ¥åšå…¨
+å±€è¿‡æ»¤æŽ§åˆ¶FILTERçš„æŸ¥æ‰¾æ¡ä»¶ï¼ˆè§FILTERå­—æ®µåŠä¸‹é¢Postfixçš„filter.mysqlï¼‰ã€‚</li>
+  <li>FILTERå­—æ®µç”¨äºŽæŽ§åˆ¶è¯¥é‚®ç®±æ˜¯å¦æŽ¥å—æœåŠ¡å™¨çš„å…¨å±€é‚®ä»¶è¿‡æ»¤ã€‚è¯¥å€¼è®¾ç½®ä¸ºâ€œOKâ€æˆ–ä¸ºç©ºè¡¨ç¤ºå¯¹è¯¥é‚®ç®±ä¸è¿›è¡Œè¿‡æ»¤ï¼›è®¾ç½®ä¸ºâ€œDUNNOâ€è¡¨ç¤ºå¯¹è¯¥é‚®ç®±è¿›è¡ŒPostfixä¸­å®šäºŽçš„å…¨å±€è¿‡æ»¤ã€‚è¯¥å€¼å¯ä»¥æ˜¯ä»»ä½•åˆæ³•çš„Postfixçš„accessè¿‡æ»¤è§„åˆ™ã€‚</li>
+  <li>PARTITIONå­—æ®µç”¨äºŽæŒ‡æ˜Žé‚®ç®±å­˜å‚¨çš„Cyrus-IMAPé‚®ä»¶åˆ†åŒºã€‚å¯ä»¥å»ºç«‹å¤šä¸ªä¸åŒçš„é‚®ä»¶åˆ†åŒºã€‚ä»…ä¸ºäº†ç®¡ç†æ–¹ä¾¿ä½¿ç”¨ã€‚</li>
+  <li>QUOTAå­—æ®µæŒ‡å®šé‚®ç®±çš„ç£ç›˜é™é¢ã€‚ä»…ä¸ºäº†ç®¡ç†æ–¹ä¾¿ä½¿ç”¨ã€‚</li>
+  <li>STATUSå­—æ®µç”¨æ¥æŒ‡ç¤ºè¯¥ç”¨æˆ·æ˜¯å¦æœ‰æ•ˆï¼Œå¯ä»¥é€šè¿‡ä¿®æ”¹è¯¥å€¼ä¸º0æ¥ä¸´æ—¶ç¦æ­¢æŸä¸ªç”¨æˆ·ã€‚</li>
 </ul>
-<h1><a name="a.5"></a>5.&nbsp; °²×°pam_mysql</h1>
-<h2><a name="a.5.1"></a>5.1.&nbsp; ÏÂÔØ</h2>
-<p>¡¡¡¡<a href="http://sourceforge.net/projects/pam-mysql/">http://sourceforge.net/projects/pam-mysql/</a></p>
+<h1><a name="a.5"></a>5.&nbsp; å®‰è£…pam_mysql</h1>
+<h2><a name="a.5.1"></a>5.1.&nbsp; ä¸‹è½½</h2>
+<p>ã€€ã€€<a href="http://sourceforge.net/projects/pam-mysql/">http://sourceforge.net/projects/pam-mysql/</a></p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail root]# <span class="type">cd /usr/src</span></p>
@@ -312,9 +313,9 @@ POP3/IMAP4·þÎñÆ÷¡¢Í¨¹ýCyrus-SASL¶Ô´æ´¢ÔÚMySQLÊý¾Ý¿âÖÐµÄÓÃ»§½øÐÐÑéÖ¤ºÍÊÚÈ¨£¬²¢ÇÒÊ
     </td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡×¢£ºÈç¹û²»ÄÜ·ÃÎÊ¸ÃÍøÕ¾È¡µÃpam_mysql£¬Çë×ÔÐÐÊ¹ÓÃ´úÀí·þÎñÆ÷·ÃÎÊ¡£</p>
-<h2><a name="a.5.2"></a>5.2.&nbsp; ±àÒëÓë°²×°</h2>
-<p>¡¡¡¡±àÒëpam_mysql£º</p>
+<p>ã€€ã€€æ³¨ï¼šå¦‚æžœä¸èƒ½è®¿é—®è¯¥ç½‘ç«™å–å¾—pam_mysqlï¼Œè¯·è‡ªè¡Œä½¿ç”¨ä»£ç†æœåŠ¡å™¨è®¿é—®ã€‚</p>
+<h2><a name="a.5.2"></a>5.2.&nbsp; ç¼–è¯‘ä¸Žå®‰è£…</h2>
+<p>ã€€ã€€ç¼–è¯‘pam_mysqlï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail src]# <span class="type">tar -zxf pam_mysql-0.5.tar.gz</span></p>
@@ -322,26 +323,26 @@ POP3/IMAP4·þÎñÆ÷¡¢Í¨¹ýCyrus-SASL¶Ô´æ´¢ÔÚMySQLÊý¾Ý¿âÖÐµÄÓÃ»§½øÐÐÑéÖ¤ºÍÊÚÈ¨£¬²¢ÇÒÊ
     </td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡ÐÞ¸Äpam_mysql.cµÄÔ´´úÂë£¬È¥µôµ÷ÊÔÏûÏ¢£º</p>
+<p>ã€€ã€€ä¿®æ”¹pam_mysql.cçš„æºä»£ç ï¼ŒåŽ»æŽ‰è°ƒè¯•æ¶ˆæ¯ï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail pam_mysql]# <span class="type">vi +54 pam_mysql.c</span></p>
     </td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡½«ÈçÏÂÒ»ÐÐ£º</p>
+<p>ã€€ã€€å°†å¦‚ä¸‹ä¸€è¡Œï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td bgcolor="#ffffcc">#define DEBUG</td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡ÐÞ¸ÄÎª£º</p>
+<p>ã€€ã€€ä¿®æ”¹ä¸ºï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td bgcolor="#ffffcc">/* #define DEBUG */</td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡È»ºó±àÒë£º</p>
+<p>ã€€ã€€ç„¶åŽç¼–è¯‘ï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail pam_mysql]# <span class="type">make</span></p>
@@ -349,9 +350,9 @@ POP3/IMAP4·þÎñÆ÷¡¢Í¨¹ýCyrus-SASL¶Ô´æ´¢ÔÚMySQLÊý¾Ý¿âÖÐµÄÓÃ»§½øÐÐÑéÖ¤ºÍÊÚÈ¨£¬²¢ÇÒÊ
   </tr>
 </tbody></table>
 <p>&nbsp;</p>
-<p>¡¡¡¡ÓÐÐ©Çé¿öÏÂ£¬Õâ¸ö±àÒë»á±¨´í£¬µ«ÊÇÈç¹û±àÒëÄÜÉú³Épam_mysql.soÄ£¿é£¬»¹ÊÇ¿ÉÒÔÓÃµÄ¡£</p>
-<h2><a name="a.5.3"></a>5.3.&nbsp; ÅäÖÃ</h2>
-<p>¡¡¡¡´´½¨/etc/pam.d/mail£¬ËüÓÃÀ´Ö§³ÖCyrus-IMAPµÄimapÈÏÖ¤¡¢popÈÏÖ¤ºÍPostfixµÄsmtpÈÏÖ¤£º</p>
+<p>ã€€ã€€æœ‰äº›æƒ…å†µä¸‹ï¼Œè¿™ä¸ªç¼–è¯‘ä¼šæŠ¥é”™ï¼Œä½†æ˜¯å¦‚æžœç¼–è¯‘èƒ½ç”Ÿæˆpam_mysql.soæ¨¡å—ï¼Œè¿˜æ˜¯å¯ä»¥ç”¨çš„ã€‚</p>
+<h2><a name="a.5.3"></a>5.3.&nbsp; é…ç½®</h2>
+<p>ã€€ã€€åˆ›å»º/etc/pam.d/mailï¼Œå®ƒç”¨æ¥æ”¯æŒCyrus-IMAPçš„imapè®¤è¯ã€popè®¤è¯å’ŒPostfixçš„smtpè®¤è¯ï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail pam_mysql]# <span class="type">cd /etc/pam.d</span></p>
@@ -372,22 +373,22 @@ POP3/IMAP4·þÎñÆ÷¡¢Í¨¹ýCyrus-SASL¶Ô´æ´¢ÔÚMySQLÊý¾Ý¿âÖÐµÄÓÃ»§½øÐÐÑéÖ¤ºÍÊÚÈ¨£¬²¢ÇÒÊ
     </td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡ÕâÀïÇ°ÃæÁ½ÐÐÊÇÖ¸Í¨¹ýmysqlÊý¾Ý¿âÀ´ÈÏÖ¤ÓÃ»§£¬ºóÃæÁ½ÐÐÖ¸ÊÇÍ¨¹ýUNIXµÄ»ù±¾·½Ê½ÈÏÖ¤ÓÃ»§£¨¼´ÏµÍ³ÓÃ»§£©¡£ÕâÀïÎÒÃÇÖ®ËùÒÔ±£ÁôUNIXÏµ
-Í³ÈÏÖ¤Ä£Ê½£¬ÊÇÒòÎªÎÒÃÇÏÂÃæÒªÍ¨¹ýÏµÍ³ÓÃ»§cyrusÀ´¹ÜÀícyrus-imapÓÊÏä¡£²»¹ýÄãÒ²¿ÉÒÔÑ¡Ôñ½«Õâ¸ö¹ÜÀíÕÊºÅcyrus·ÅÈëmysqlÈÏÖ¤Êý¾Ý
-¿âÀïÃæ£¬Ö»ÐèÒªÄãÔÚÉÏÃæµÄÊý¾Ý¿âÀïÃæÌí¼ÓÒ»¸öcyrusÓÃ»§¡£</p>
-<p>¡¡¡¡Í¨¹ý¸øÉÏÃæµÄcrypt¸³Óè²»Í¬µÄÖµ¿ÉÒÔÊ¹ÓÃ¶àÖÖÃÜÂë´æ´¢·½Ê½£º</p>
+<p>ã€€ã€€è¿™é‡Œå‰é¢ä¸¤è¡Œæ˜¯æŒ‡é€šè¿‡mysqlæ•°æ®åº“æ¥è®¤è¯ç”¨æˆ·ï¼ŒåŽé¢ä¸¤è¡ŒæŒ‡æ˜¯é€šè¿‡UNIXçš„åŸºæœ¬æ–¹å¼è®¤è¯ç”¨æˆ·ï¼ˆå³ç³»ç»Ÿç”¨æˆ·ï¼‰ã€‚è¿™é‡Œæˆ‘ä»¬ä¹‹æ‰€ä»¥ä¿ç•™UNIXç³»
+ç»Ÿè®¤è¯æ¨¡å¼ï¼Œæ˜¯å› ä¸ºæˆ‘ä»¬ä¸‹é¢è¦é€šè¿‡ç³»ç»Ÿç”¨æˆ·cyrusæ¥ç®¡ç†cyrus-imapé‚®ç®±ã€‚ä¸è¿‡ä½ ä¹Ÿå¯ä»¥é€‰æ‹©å°†è¿™ä¸ªç®¡ç†å¸å·cyrusæ”¾å…¥mysqlè®¤è¯æ•°æ®
+åº“é‡Œé¢ï¼Œåªéœ€è¦ä½ åœ¨ä¸Šé¢çš„æ•°æ®åº“é‡Œé¢æ·»åŠ ä¸€ä¸ªcyrusç”¨æˆ·ã€‚</p>
+<p>ã€€ã€€é€šè¿‡ç»™ä¸Šé¢çš„cryptèµ‹äºˆä¸åŒçš„å€¼å¯ä»¥ä½¿ç”¨å¤šç§å¯†ç å­˜å‚¨æ–¹å¼ï¼š</p>
 <ul>
-  <li>crypt=0£º±íÊ¾Ê¹ÓÃÃ÷ÎÄÀ´´æ´¢ÃÜÂë¡£ÕâÑù´æ´¢µÄºÃ´¦ÊÇ¼òµ¥£¬µ«ÊÇ²»¹»°²È«¡£</li>
-  <li>crypt=1£º±í
-Ê¾Ê¹ÓÃUNIXÏµÍ³µÄDES¼ÓÃÜÃÜÂë·½Ê½À´´æ´¢¡£¼´Í¨³£µÄUNIXµÄ/etc/passwd£¨ÀÏÊ½ÏµÍ³¼ÓÃÜ¿ÚÁî´æ´¢ÔÚÕâÀï£©»ò/etc/shadow£¨½Ï
-ÎªÐÂµÄÏµÍ³¼ÓÃÜ¿ÚÁî´æ·ÅÔÚÕâÀï£©ÖÐ´æ´¢µÄ¼ÓÃÜ¿ÚÁî¡£¼ÓÃÜ¿ÚÁîÓÐÁ½ÖÖ£¬Ò»ÖÖÊÇÆÕÍ¨µÄdes¼ÓÃÜµÄ£¬Ò²½Ðcrypt()£¬ÕâÖÖÃÜÂëÊÇ13Î»³¤£¬Ç°ÃæÁ½¸ö×Ö·ûÊÇ
-¼ÓÃÜÖÖ×Ó£»»¹ÓÐÒ»ÖÖÊÇÊ¹ÓÃÁËMD5Ëã·¨ÔöÇ¿ÁËµÄ£¬Ò²½ÐMD5 crypt()£¬ÕâÖÖÃÜÂëµÄ¼ÓÃÜÖÖ×ÓÊÇÒÔ$1$¿ªÍ·µÄ12¸ö×Ö·û£¬ÃÜÂë³¤¶È²»¶¨¡£</li>
-  <li>crypt=2£º±íÊ¾Ê¹ÓÃmysqlµÄSQLº¯Êýpassword()¼ÓÃÜ·½Ê½À´´æ´¢¡£</li>
-  <li>crypt=3£º±íÊ¾Ê¹ÓÃmd5µÄÉ¢ÁÐ·½Ê½À´´æ´¢¡£ÕâÖÖ·½Ê½ºÍMD5 crypt()ÊÇ²»Ò»ÑùµÄ¡£</li>
+  <li>crypt=0ï¼šè¡¨ç¤ºä½¿ç”¨æ˜Žæ–‡æ¥å­˜å‚¨å¯†ç ã€‚è¿™æ ·å­˜å‚¨çš„å¥½å¤„æ˜¯ç®€å•ï¼Œä½†æ˜¯ä¸å¤Ÿå®‰å…¨ã€‚</li>
+  <li>crypt=1ï¼šè¡¨
+ç¤ºä½¿ç”¨UNIXç³»ç»Ÿçš„DESåŠ å¯†å¯†ç æ–¹å¼æ¥å­˜å‚¨ã€‚å³é€šå¸¸çš„UNIXçš„/etc/passwdï¼ˆè€å¼ç³»ç»ŸåŠ å¯†å£ä»¤å­˜å‚¨åœ¨è¿™é‡Œï¼‰æˆ–/etc/shadowï¼ˆè¾ƒ
+ä¸ºæ–°çš„ç³»ç»ŸåŠ å¯†å£ä»¤å­˜æ”¾åœ¨è¿™é‡Œï¼‰ä¸­å­˜å‚¨çš„åŠ å¯†å£ä»¤ã€‚åŠ å¯†å£ä»¤æœ‰ä¸¤ç§ï¼Œä¸€ç§æ˜¯æ™®é€šçš„desåŠ å¯†çš„ï¼Œä¹Ÿå«crypt()ï¼Œè¿™ç§å¯†ç æ˜¯13ä½é•¿ï¼Œå‰é¢ä¸¤ä¸ªå­—ç¬¦æ˜¯
+åŠ å¯†ç§å­ï¼›è¿˜æœ‰ä¸€ç§æ˜¯ä½¿ç”¨äº†MD5ç®—æ³•å¢žå¼ºäº†çš„ï¼Œä¹Ÿå«MD5 crypt()ï¼Œè¿™ç§å¯†ç çš„åŠ å¯†ç§å­æ˜¯ä»¥$1$å¼€å¤´çš„12ä¸ªå­—ç¬¦ï¼Œå¯†ç é•¿åº¦ä¸å®šã€‚</li>
+  <li>crypt=2ï¼šè¡¨ç¤ºä½¿ç”¨mysqlçš„SQLå‡½æ•°password()åŠ å¯†æ–¹å¼æ¥å­˜å‚¨ã€‚</li>
+  <li>crypt=3ï¼šè¡¨ç¤ºä½¿ç”¨md5çš„æ•£åˆ—æ–¹å¼æ¥å­˜å‚¨ã€‚è¿™ç§æ–¹å¼å’ŒMD5 crypt()æ˜¯ä¸ä¸€æ ·çš„ã€‚</li>
 </ul>
-<p>¡¡¡¡Ò»°ãÈç¹û´ÓÏµÍ³ÓÃ»§Ç¨ÒÆµ½Ê¹ÓÃÊý¾Ý¿âµÄÐéÄâÓÃ»§Ê±£¬¿ÉÒÔÊ¹ÓÃcrypt=1·½Ê½£¬ÏµÍ³»á×Ô¶¯±æ±ðÁ½ÖÖ¼ÓÃÜ¿ÚÁî¡£Èç¹ûÐèÒª¿ª·¢ÓÃ»§ÐÞ¸Ä¿ÚÁîµÄ¹¦ÄÜÊ±£¬CºÍPerlÀïÃæµÄcryptº¯Êý²»ÄÜÖ§³ÖMD5 
-  crypt()¿ÚÁî£¬ÐèÒªÊ¹ÓÃ¶îÍâµÄ±à³Ì»òÄ£¿éÀ´Ö§³Ö¡£</p>
-<p>¡¡¡¡×ö¸ö·ûºÅÁ´½Ó/etc/pam.d/imap£¬ËüÓÃÀ´Ö§³ÖCyrus-IMAPµÄimapÈÏÖ¤£º</p>
+<p>ã€€ã€€ä¸€èˆ¬å¦‚æžœä»Žç³»ç»Ÿç”¨æˆ·è¿ç§»åˆ°ä½¿ç”¨æ•°æ®åº“çš„è™šæ‹Ÿç”¨æˆ·æ—¶ï¼Œå¯ä»¥ä½¿ç”¨crypt=1æ–¹å¼ï¼Œç³»ç»Ÿä¼šè‡ªåŠ¨è¾¨åˆ«ä¸¤ç§åŠ å¯†å£ä»¤ã€‚å¦‚æžœéœ€è¦å¼€å‘ç”¨æˆ·ä¿®æ”¹å£ä»¤çš„åŠŸèƒ½æ—¶ï¼ŒCå’ŒPerlé‡Œé¢çš„cryptå‡½æ•°ä¸èƒ½æ”¯æŒMD5 
+  crypt()å£ä»¤ï¼Œéœ€è¦ä½¿ç”¨é¢å¤–çš„ç¼–ç¨‹æˆ–æ¨¡å—æ¥æ”¯æŒã€‚</p>
+<p>ã€€ã€€åšä¸ªç¬¦å·é“¾æŽ¥/etc/pam.d/imapï¼Œå®ƒç”¨æ¥æ”¯æŒCyrus-IMAPçš„imapè®¤è¯ï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail pam.d]# <span class="type">[ -f imap ] &amp;&amp; mv imap 
@@ -397,7 +398,7 @@ POP3/IMAP4·þÎñÆ÷¡¢Í¨¹ýCyrus-SASL¶Ô´æ´¢ÔÚMySQLÊý¾Ý¿âÖÐµÄÓÃ»§½øÐÐÑéÖ¤ºÍÊÚÈ¨£¬²¢ÇÒÊ
   </tr>
 </tbody></table>
 <p></p>
-<p>¡¡¡¡Í¬Ñù´´½¨/etc/pam.d/pop&nbsp;£¬ËüÓÃÀ´Ö§³ÖCyrus-IMAPµÄpop3ÈÏÖ¤£º</p>
+<p>ã€€ã€€åŒæ ·åˆ›å»º/etc/pam.d/pop&nbsp;ï¼Œå®ƒç”¨æ¥æ”¯æŒCyrus-IMAPçš„pop3è®¤è¯ï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail pam.d]# <span class="type">[ -f pop ] &amp;&amp; mv pop 
@@ -407,7 +408,7 @@ POP3/IMAP4·þÎñÆ÷¡¢Í¨¹ýCyrus-SASL¶Ô´æ´¢ÔÚMySQLÊý¾Ý¿âÖÐµÄÓÃ»§½øÐÐÑéÖ¤ºÍÊÚÈ¨£¬²¢ÇÒÊ
     </td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡Í¬Ñù´´½¨/etc/pam.d/smtp&nbsp;£¬ËüÓÃÀ´Ö§³ÖPostfixµÄsmtp authÈÏÖ¤£º</p>
+<p>ã€€ã€€åŒæ ·åˆ›å»º/etc/pam.d/smtp&nbsp;ï¼Œå®ƒç”¨æ¥æ”¯æŒPostfixçš„smtp authè®¤è¯ï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail pam.d]# <span class="type">[ -f smtp ] &amp;&amp; mv smtp 
@@ -416,12 +417,12 @@ POP3/IMAP4·þÎñÆ÷¡¢Í¨¹ýCyrus-SASL¶Ô´æ´¢ÔÚMySQLÊý¾Ý¿âÖÐµÄÓÃ»§½øÐÐÑéÖ¤ºÍÊÚÈ¨£¬²¢ÇÒÊ
     </td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡ÏµÍ³ÉÏ¿ÉÄÜÒÑ¾­´æÔÚÁËÕâÐ©ÎÄ¼þ£¬½«Ô­À´µÄ¸ÄÃû±¸·Ý»òÉ¾³ý¼´¿É¡£</p>
-<h1><a name="a.6"></a>6.&nbsp; ÅäÖÃCyrus-SASL</h1>
-<h2><a name="a.6.1"></a>6.1.&nbsp; ÅäÖÃ</h2>
-<p>¡¡¡¡AS3Ä¬ÈÏ°²×°µÄCyrus-SASL¿ÉÒÔÂú×ãÕâÌ×ÓÊ¼þÏµÍ³µÄÐèÒª£¬Ò»°ã²»±ØÖØÐÂ±àÒë¡£</p>
-<p>¡¡¡¡ÉèÖÃPostfixÊ¹ÓÃSASLµÄsaslauthdÈÏÖ¤ÊØ»¤½ø³ÌÀ´Ö§³Ösmtp
-    authÈÏÖ¤£¬²¢Ö»´ò¿ªÁËplainºÍloginÈÏÖ¤Ä£¿é£º</p>
+<p>ã€€ã€€ç³»ç»Ÿä¸Šå¯èƒ½å·²ç»å­˜åœ¨äº†è¿™äº›æ–‡ä»¶ï¼Œå°†åŽŸæ¥çš„æ”¹åå¤‡ä»½æˆ–åˆ é™¤å³å¯ã€‚</p>
+<h1><a name="a.6"></a>6.&nbsp; é…ç½®Cyrus-SASL</h1>
+<h2><a name="a.6.1"></a>6.1.&nbsp; é…ç½®</h2>
+<p>ã€€ã€€AS3é»˜è®¤å®‰è£…çš„Cyrus-SASLå¯ä»¥æ»¡è¶³è¿™å¥—é‚®ä»¶ç³»ç»Ÿçš„éœ€è¦ï¼Œä¸€èˆ¬ä¸å¿…é‡æ–°ç¼–è¯‘ã€‚</p>
+<p>ã€€ã€€è®¾ç½®Postfixä½¿ç”¨SASLçš„saslauthdè®¤è¯å®ˆæŠ¤è¿›ç¨‹æ¥æ”¯æŒsmtp
+    authè®¤è¯ï¼Œå¹¶åªæ‰“å¼€äº†plainå’Œloginè®¤è¯æ¨¡å—ï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail pam.d]#<span class="type"> cd </span></p>
@@ -429,21 +430,21 @@ POP3/IMAP4·þÎñÆ÷¡¢Í¨¹ýCyrus-SASL¶Ô´æ´¢ÔÚMySQLÊý¾Ý¿âÖÐµÄÓÃ»§½øÐÐÑéÖ¤ºÍÊÚÈ¨£¬²¢ÇÒÊ
     saslauthd &gt; /usr/lib/sasl2/smtpd.conf</span></p>      <p>[root@mail root]# <span class="type">echo mech_list: plain login &gt;&gt; /usr/lib/sasl2/smtpd.conf</span></p></td>
   </tr>
 </tbody></table>
-<p>&nbsp; ¡¡Cyrus-IMAPµÄSASLÅäÖÃ²»Ê¹ÓÃ±ê×¼µÄsaslÓï·¨£¬ËüµÄÅäÖÃÎÄ¼þ·ÅÔÚ/etc/imapd.confÖÐ£¬ÏêÏ¸ÅäÖÃÔÚCyrus-IMAP²¿·ÖËµÃ÷¡£</p>
-<p>¡¡¡¡ÅäÖÃsaslauthdÊ¹ÓÃPAMÈÏÖ¤·½°¸£º</p>
+<p>&nbsp; ã€€Cyrus-IMAPçš„SASLé…ç½®ä¸ä½¿ç”¨æ ‡å‡†çš„saslè¯­æ³•ï¼Œå®ƒçš„é…ç½®æ–‡ä»¶æ”¾åœ¨/etc/imapd.confä¸­ï¼Œè¯¦ç»†é…ç½®åœ¨Cyrus-IMAPéƒ¨åˆ†è¯´æ˜Žã€‚</p>
+<p>ã€€ã€€é…ç½®saslauthdä½¿ç”¨PAMè®¤è¯æ–¹æ¡ˆï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr>
     <td>
       <p>[root@mail root]# <span class="type">vi /etc/sysconfig/saslauthd</span></p>    </td>
   </tr>
 </tbody></table>
-<p>&nbsp; ¡¡ÄÚÈÝÈçÏÂ£º</p>
+<p>&nbsp; ã€€å†…å®¹å¦‚ä¸‹ï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr>
     <td bgcolor="#ffffcc">MECH=pam</td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡ÐÞ¸Ä/etc/sysconfig/saslauthd²¢½«saslauthdÉèÖÃÎª×Ô¶¯ÔËÐÐ</p>
+<p>ã€€ã€€ä¿®æ”¹/etc/sysconfig/saslauthdå¹¶å°†saslauthdè®¾ç½®ä¸ºè‡ªåŠ¨è¿è¡Œ</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr>
     <td>
@@ -451,21 +452,21 @@ POP3/IMAP4·þÎñÆ÷¡¢Í¨¹ýCyrus-SASL¶Ô´æ´¢ÔÚMySQLÊý¾Ý¿âÖÐµÄÓÃ»§½øÐÐÑéÖ¤ºÍÊÚÈ¨£¬²¢ÇÒÊ
     on </span></p></td>
   </tr>
 </tbody></table>
-<h2><a name="a.6.2" id="a.6.2"></a>6.2.&nbsp; ÔËÐÐ</h2>
-<p>¡¡¡¡ÔËÐÐsaslauthdÊØ»¤½ø³Ì£¬²¢Ê¹ÆäÊ¹ÓÃpamÈÏÖ¤Ä£Ê½À´Ìá¹©ÈÏÖ¤ÐÅÏ¢£º</p>
+<h2><a name="a.6.2" id="a.6.2"></a>6.2.&nbsp; è¿è¡Œ</h2>
+<p>ã€€ã€€è¿è¡Œsaslauthdå®ˆæŠ¤è¿›ç¨‹ï¼Œå¹¶ä½¿å…¶ä½¿ç”¨pamè®¤è¯æ¨¡å¼æ¥æä¾›è®¤è¯ä¿¡æ¯ï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail root]# <span class="type">/etc/rc.d/init.d/saslauthd
     start</span></p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡Õû¸öÏµÍ³Ê¹ÓÃµÄÈÏÖ¤»úÖÆ±È½Ï¸´ÔÓ¡£ËùÓÐµÄÓ¦ÓÃ£¨SMTP¡¢IMAP¡¢POP3µÈ£©¶¼²ÉÓÃSASL2µÄsaslauthdÀ´ÈÏÖ¤£»¶ø
-saslauthdÊÇÍ¨¹ýËüËùÖ§³ÖµÄPAMÄ£Ê½À´½èÖúpam_mysql½Ó¿Ú¶Ô´æ´¢ÔÚMySQLÊý¾Ý¿âÖÐÓÃ»§ÐÅÏ¢½øÐÐÈÏÖ¤µÄ¡£Çë²ÎÔÄÉÏÃæµÄÏµÍ³½á¹¹ÒÔÁË½â
-ÈÏÖ¤Á÷³Ì¡£</p>
+<p>ã€€ã€€æ•´ä¸ªç³»ç»Ÿä½¿ç”¨çš„è®¤è¯æœºåˆ¶æ¯”è¾ƒå¤æ‚ã€‚æ‰€æœ‰çš„åº”ç”¨ï¼ˆSMTPã€IMAPã€POP3ç­‰ï¼‰éƒ½é‡‡ç”¨SASL2çš„saslauthdæ¥è®¤è¯ï¼›è€Œ
+saslauthdæ˜¯é€šè¿‡å®ƒæ‰€æ”¯æŒçš„PAMæ¨¡å¼æ¥å€ŸåŠ©pam_mysqlæŽ¥å£å¯¹å­˜å‚¨åœ¨MySQLæ•°æ®åº“ä¸­ç”¨æˆ·ä¿¡æ¯è¿›è¡Œè®¤è¯çš„ã€‚è¯·å‚é˜…ä¸Šé¢çš„ç³»ç»Ÿç»“æž„ä»¥äº†è§£
+è®¤è¯æµç¨‹ã€‚</p>
 <p>&nbsp;</p>
-<h1><a name="a.7"></a>7.&nbsp; °²×°Postfix</h1>
-<h2><a name="a.7.1"></a>7.1.&nbsp; ÏÂÔØ</h2>
-<p>¡¡¡¡<a href="http://www.postfix.org/ftp-sites.html" target="_top">http://www.postfix.org/ftp-sites.html</a></p>
+<h1><a name="a.7"></a>7.&nbsp; å®‰è£…Postfix</h1>
+<h2><a name="a.7.1"></a>7.1.&nbsp; ä¸‹è½½</h2>
+<p>ã€€ã€€<a href="http://www.postfix.org/ftp-sites.html" target="_top">http://www.postfix.org/ftp-sites.html</a></p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail root]# <span class="type">cd /usr/src</span></p>
@@ -473,8 +474,8 @@ saslauthdÊÇÍ¨¹ýËüËùÖ§³ÖµÄPAMÄ£Ê½À´½èÖúpam_mysql½Ó¿Ú¶Ô´æ´¢ÔÚMySQLÊý¾Ý¿âÖÐÓÃ»§ÐÅÏ¢
     </span> </p></td>
   </tr>
 </tbody></table>
-<h2><a name="a.7.2"></a>7.2.&nbsp; ±àÒëÓë°²×°</h2>
-<p>¡¡¡¡Èç¹ûÄãµÄÏµÍ³ÉÏÔ­À´ÓÐsendmail£¬ÏÈ½«ÆäÍ£Ö¹²¢½«ÆäÎÄ¼þ¸ÄÃû£º</p>
+<h2><a name="a.7.2"></a>7.2.&nbsp; ç¼–è¯‘ä¸Žå®‰è£…</h2>
+<p>ã€€ã€€å¦‚æžœä½ çš„ç³»ç»Ÿä¸ŠåŽŸæ¥æœ‰sendmailï¼Œå…ˆå°†å…¶åœæ­¢å¹¶å°†å…¶æ–‡ä»¶æ”¹åï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail src]# <span class="type">/etc/init.d/sendmail stop</span></p>
@@ -487,7 +488,7 @@ saslauthdÊÇÍ¨¹ýËüËùÖ§³ÖµÄPAMÄ£Ê½À´½èÖúpam_mysql½Ó¿Ú¶Ô´æ´¢ÔÚMySQLÊý¾Ý¿âÖÐÓÃ»§ÐÅÏ¢
   </tr>
 </tbody></table>
 <p>&nbsp;</p>
-<p>¡¡¡¡È»ºóÌí¼ÓÁ½¸ö×é£ºpostfixºÍmaildropºÍÒ»¸öÓÃ»§£ºpostfix</p>
+<p>ã€€ã€€ç„¶åŽæ·»åŠ ä¸¤ä¸ªç»„ï¼špostfixå’Œmaildropå’Œä¸€ä¸ªç”¨æˆ·ï¼špostfix</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail src]# <span class="type">groupadd -g 400 postfix</span></p>
@@ -497,9 +498,9 @@ saslauthdÊÇÍ¨¹ýËüËùÖ§³ÖµÄPAMÄ£Ê½À´½èÖúpam_mysql½Ó¿Ú¶Ô´æ´¢ÔÚMySQLÊý¾Ý¿âÖÐÓÃ»§ÐÅÏ¢
     </td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡ÕâÀïµÄ×éºÍÓÃ»§µÄIDÊÇÏµÍ³ÖÐÎ´Ê¹ÓÃµÄID¡£</p>
+<p>ã€€ã€€è¿™é‡Œçš„ç»„å’Œç”¨æˆ·çš„IDæ˜¯ç³»ç»Ÿä¸­æœªä½¿ç”¨çš„IDã€‚</p>
 <p>&nbsp;</p>
-<p>¡¡¡¡±àÒëPostfix£¬²¢Ö§³ÖmysqlºÍsasl£º</p>
+<p>ã€€ã€€ç¼–è¯‘Postfixï¼Œå¹¶æ”¯æŒmysqlå’Œsaslï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail src]# <span class="type">tar -xvzf postfix-2.0.16.tar.gz</span></p>
@@ -515,11 +516,11 @@ saslauthdÊÇÍ¨¹ýËüËùÖ§³ÖµÄPAMÄ£Ê½À´½èÖúpam_mysql½Ó¿Ú¶Ô´æ´¢ÔÚMySQLÊý¾Ý¿âÖÐÓÃ»§ÐÅÏ¢
     </td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡°²×°Ê±£¬°²×°³ÌÐò»áÌáÎÊÒ»Ð©ÎÊÌâ£¬¿ÉÒÔÖ±½Ó°´»Ø³µ²ÉÓÃÄ¬ÈÏÖµ¡£</p>
-<p>¡¡¡¡ÕâÀïÇÐ¼ÇÒªÖ¸¶¨ÕýÈ·µÄSASL2µÄINCLUDEºÍLIBÎ»ÖÃ¡£ÓÉÓÚÏÖÔÚºÜ¶àlinux·¢ÐÐ°æÉÏ¶¼ÒÑ¾­´øÓÐÁËsasl£¬Èç¹û²»Ö¸¶¨µÄ»°£¬ºÜ¿ÉÄÜ»áÊ¹ÓÃÁË²»Í¬°æ±¾µÄÍ·ÎÄ¼þºÍ¿â£¬ÔÚÕâÖÖÇé¿öÏÂ£¬Ã¿´ÎÁ¬½ÓSMTPÊ±£¬smtpd¾Í»á·¢ÉúÖÂÃü´íÎó¡°Fatal:
-  SASL per-connection server init...¡±¶ø±ÀÀ£¡£</p>
+<p>ã€€ã€€å®‰è£…æ—¶ï¼Œå®‰è£…ç¨‹åºä¼šæé—®ä¸€äº›é—®é¢˜ï¼Œå¯ä»¥ç›´æŽ¥æŒ‰å›žè½¦é‡‡ç”¨é»˜è®¤å€¼ã€‚</p>
+<p>ã€€ã€€è¿™é‡Œåˆ‡è®°è¦æŒ‡å®šæ­£ç¡®çš„SASL2çš„INCLUDEå’ŒLIBä½ç½®ã€‚ç”±äºŽçŽ°åœ¨å¾ˆå¤šlinuxå‘è¡Œç‰ˆä¸Šéƒ½å·²ç»å¸¦æœ‰äº†saslï¼Œå¦‚æžœä¸æŒ‡å®šçš„è¯ï¼Œå¾ˆå¯èƒ½ä¼šä½¿ç”¨äº†ä¸åŒç‰ˆæœ¬çš„å¤´æ–‡ä»¶å’Œåº“ï¼Œåœ¨è¿™ç§æƒ…å†µä¸‹ï¼Œæ¯æ¬¡è¿žæŽ¥SMTPæ—¶ï¼Œsmtpdå°±ä¼šå‘ç”Ÿè‡´å‘½é”™è¯¯â€œFatal:
+  SASL per-connection server init...â€è€Œå´©æºƒã€‚</p>
 <p>&nbsp;</p>
-<p>¡¡¡¡¸øpostfixÓÃ»§×öÒ»¸öÏµÍ³±ðÃû£¬²¢½«³¬¼¶ÓÃ»§µÄÓÊÏä×ª·¢µ½Ò»¸öÆÕÍ¨ÓÃ»§¡£Ê¹ÓÃ/etc/postfix/aliases±ðÃûÊý¾Ý¿â£º</p>
+<p>ã€€ã€€ç»™postfixç”¨æˆ·åšä¸€ä¸ªç³»ç»Ÿåˆ«åï¼Œå¹¶å°†è¶…çº§ç”¨æˆ·çš„é‚®ç®±è½¬å‘åˆ°ä¸€ä¸ªæ™®é€šç”¨æˆ·ã€‚ä½¿ç”¨/etc/postfix/aliasesåˆ«åæ•°æ®åº“ï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td><p>[root@mail postfix-2.0.16]# <font color="#ff0000">cd /etc/postfix</font></p>
@@ -528,45 +529,45 @@ saslauthdÊÇÍ¨¹ýËüËùÖ§³ÖµÄPAMÄ£Ê½À´½èÖúpam_mysql½Ó¿Ú¶Ô´æ´¢ÔÚMySQLÊý¾Ý¿âÖÐÓÃ»§ÐÅÏ¢
     </td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡Éú³É/etc/postfix/aliases±ðÃûÊý¾Ý¿â£º</p>
+<p>ã€€ã€€ç”Ÿæˆ/etc/postfix/aliasesåˆ«åæ•°æ®åº“ï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td>[root@mail postfix]# <span class="type">postalias /etc/postfix/aliases</span></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡Éú³É/etc/postfix/virtualµÄDB¿â£º</p>
+<p>ã€€ã€€ç”Ÿæˆ/etc/postfix/virtualçš„DBåº“ï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr>
     <td>
       <p>[root@mail postfix]# <span class="type">postmap virtual</span></p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡±£Áôdb¸ñÊ½µÄvirtual¿âÊÇÎªÁËÏµÍ³ÁÙÊ±Ôö¼Ó×ª·¢·½±ãÆð¼û¡£</p>
-<h2><a name="a.7.3"></a>7.3.&nbsp; ÅäÖÃ</h2>
-<p>¡¡¡¡ÐÞ¸Ä/etc/postfix/master.cfÖÐµÄ¹ØÓÚcyrusµÄÅäÖÃ£¬£¨cyrusµÄÃüÁîÐÐºÍÒÔÇ°ÓÐ²»¼æÈÝµÄµØ·½£¬È·±£ÄãµÄcyrusµÄ²ÎÊýÈçÏÂÊ¹ÓÃÁË-r 
-  ${sender}²ÎÊý£©£º</p>
+<p>ã€€ã€€ä¿ç•™dbæ ¼å¼çš„virtualåº“æ˜¯ä¸ºäº†ç³»ç»Ÿä¸´æ—¶å¢žåŠ è½¬å‘æ–¹ä¾¿èµ·è§ã€‚</p>
+<h2><a name="a.7.3"></a>7.3.&nbsp; é…ç½®</h2>
+<p>ã€€ã€€ä¿®æ”¹/etc/postfix/master.cfä¸­çš„å…³äºŽcyrusçš„é…ç½®ï¼Œï¼ˆcyrusçš„å‘½ä»¤è¡Œå’Œä»¥å‰æœ‰ä¸å…¼å®¹çš„åœ°æ–¹ï¼Œç¡®ä¿ä½ çš„cyrusçš„å‚æ•°å¦‚ä¸‹ä½¿ç”¨äº†-r 
+  ${sender}å‚æ•°ï¼‰ï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td><p>[root@mail postfix]# <span class="type">vi master.cf</span></p>
     </td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡½«ÈçÏÂÁ½ÐÐ£º</p>
+<p>ã€€ã€€å°†å¦‚ä¸‹ä¸¤è¡Œï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td bgcolor="#ffffcc"> cyrus unix - n n - - pipe<br>
-      ¡¡user=cyrus argv=/cyrus/bin/deliver -e -r ${sender} -m ${extension} ${user}</td>
+      ã€€user=cyrus argv=/cyrus/bin/deliver -e -r ${sender} -m ${extension} ${user}</td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡ÐÞ¸ÄÎª£º</p>
+<p>ã€€ã€€ä¿®æ”¹ä¸ºï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td bgcolor="#ffffcc"> cyrus unix - n n - - pipe<br>
-      ¡¡user=cyrus argv=/usr/cyrus/bin/deliver -e -r ${sender} -m ${extension} 
+      ã€€user=cyrus argv=/usr/cyrus/bin/deliver -e -r ${sender} -m ${extension} 
       ${user}</td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡ÕâÀïÒª°ÑcyrusµÄÂ·¾¶ÐÞ¸ÄÎªÄãµÄcyrusÊµ¼Ê°²×°Â·¾¶£¨ÎÒÃÇÏÂÃæ»á½«cyrus-imap°²×°µ½/usr/cyrus£©¡£ ¼Ç×Åuser=...ÕâÐÐÇ°ÃæÊÇÒÔ¿Õ¸ñËõ½øµÄ£¨ÊÇÉÏÒ»ÐÐµÄÐøÐÐ£©¡£</p>
+<p>ã€€ã€€è¿™é‡Œè¦æŠŠcyrusçš„è·¯å¾„ä¿®æ”¹ä¸ºä½ çš„cyruså®žé™…å®‰è£…è·¯å¾„ï¼ˆæˆ‘ä»¬ä¸‹é¢ä¼šå°†cyrus-imapå®‰è£…åˆ°/usr/cyrusï¼‰ã€‚ è®°ç€user=...è¿™è¡Œå‰é¢æ˜¯ä»¥ç©ºæ ¼ç¼©è¿›çš„ï¼ˆæ˜¯ä¸Šä¸€è¡Œçš„ç»­è¡Œï¼‰ã€‚</p>
 <p>&nbsp;</p><table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td><p>[root@mail postfix]# <span class="type">vi main.cf</span></p>
@@ -574,7 +575,7 @@ saslauthdÊÇÍ¨¹ýËüËùÖ§³ÖµÄPAMÄ£Ê½À´½èÖúpam_mysql½Ó¿Ú¶Ô´æ´¢ÔÚMySQLÊý¾Ý¿âÖÐÓÃ»§ÐÅÏ¢
   </tr>
 </tbody></table>
 <p>&nbsp;</p>
-<p>¡¡¡¡ÐÞ¸Ä/etc/postfix/main.cfµÄÅäÖÃ£º</p>
+<p>ã€€ã€€ä¿®æ”¹/etc/postfix/main.cfçš„é…ç½®ï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td bgcolor="#ffffcc"> 
@@ -616,20 +617,20 @@ saslauthdÊÇÍ¨¹ýËüËùÖ§³ÖµÄPAMÄ£Ê½À´½èÖúpam_mysql½Ó¿Ú¶Ô´æ´¢ÔÚMySQLÊý¾Ý¿âÖÐÓÃ»§ÐÅÏ¢
       <p></p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡Èç¹ûÏ£ÍûÖ§³Ö¸ü¶àµÄÐéÄâÓò£¬¿ÉÒÔÔÚmydestination²ÎÊýºóÃæ¼ÓÉÏÄãËùÒªÖ§³ÖµÄÓò¼´¿É¡£</p>
-<p>¡¡¡¡Í¨¹ývirtualºÍvirtual.mysqlÎªÏµÍ³Ìá¹©ÁËÓÊÏä±¾µØ²éÑ¯±í¡£</p>
-<p>¡¡¡¡Ê¹ÓÃÁËSASLÀ´½øÐÐSMTP·¢ÐÅÈÏÖ¤¡£</p>
-<p>¡¡¡¡Í¨¹ýsmtpd_recipient_restrictionsÌá¹©ÁË»ù±¾µÄ·´À¬»øÓÊ¼þ¹¦ÄÜ¡£Ê×ÏÈÔÊÐí±¾µØÍøÂç£¨ÕâÀïÊÇ±¾»ú£©ºÍÍ¨¹ýSASLÈÏ
-Ö¤µÄÓÃ»§¿ÉÒÔÊ¹ÓÃ±¾·þÎñÆ÷·¢ÐÅ£»È»ºó¼ì²éÃ¿¸öÓÃ»§µÄÈ«¾ÖÓÊ¼þ¹ýÂË¹¦ÄÜÊÇ·ñ´ò¿ª£¬Èç¹û¹Ø±ÕÔò²»½øÐÐºóÃæµÄ·´À¬»øÓÊ¼þ¼ì²é£»ÆäºóÊÇÒ»Ð©PostfixÖ§³ÖµÄ»ù
-±¾·´À¬»øÓÊ¼þ¹¦ÄÜ¡£</p>
-<p>¡¡¡¡´´½¨/etc/postfix/virtual.mysql£¬ËüÌá¹©ÁË±¾µØÓÃ»§ºÍÓÊ¼þ×ª·¢¹¦ÄÜ¡£FORWARD×Ö¶ÎÄ¬ÈÏÊÇÖ¸ÏòÓÃ»§µÄ´æ´¢ÓÊÏäÃû
-µÄ£¨Cyrus-IMAPËù¹ÜÀíµÄÓÊÏäÃû³Æ£©£¬¼´½øÐÐ±¾µØÍ¶µÝ£»Èç¹ûFORWARD×Ö¶ÎÊÇÁíÍâÒ»¸öÓÃ»§Ãû»òÕßÓÊ¼þµØÖ·£¬Ôò¸ÃÓÊ¼þ±»×ª·¢µ½±ðµÄÓÃ»§»òÆäËüÓÊ
-¼þµØÖ·¡£¶ÔÓÚ</p>
+<p>ã€€ã€€å¦‚æžœå¸Œæœ›æ”¯æŒæ›´å¤šçš„è™šæ‹ŸåŸŸï¼Œå¯ä»¥åœ¨mydestinationå‚æ•°åŽé¢åŠ ä¸Šä½ æ‰€è¦æ”¯æŒçš„åŸŸå³å¯ã€‚</p>
+<p>ã€€ã€€é€šè¿‡virtualå’Œvirtual.mysqlä¸ºç³»ç»Ÿæä¾›äº†é‚®ç®±æœ¬åœ°æŸ¥è¯¢è¡¨ã€‚</p>
+<p>ã€€ã€€ä½¿ç”¨äº†SASLæ¥è¿›è¡ŒSMTPå‘ä¿¡è®¤è¯ã€‚</p>
+<p>ã€€ã€€é€šè¿‡smtpd_recipient_restrictionsæä¾›äº†åŸºæœ¬çš„ååžƒåœ¾é‚®ä»¶åŠŸèƒ½ã€‚é¦–å…ˆå…è®¸æœ¬åœ°ç½‘ç»œï¼ˆè¿™é‡Œæ˜¯æœ¬æœºï¼‰å’Œé€šè¿‡SASLè®¤
+è¯çš„ç”¨æˆ·å¯ä»¥ä½¿ç”¨æœ¬æœåŠ¡å™¨å‘ä¿¡ï¼›ç„¶åŽæ£€æŸ¥æ¯ä¸ªç”¨æˆ·çš„å…¨å±€é‚®ä»¶è¿‡æ»¤åŠŸèƒ½æ˜¯å¦æ‰“å¼€ï¼Œå¦‚æžœå…³é—­åˆ™ä¸è¿›è¡ŒåŽé¢çš„ååžƒåœ¾é‚®ä»¶æ£€æŸ¥ï¼›å…¶åŽæ˜¯ä¸€äº›Postfixæ”¯æŒçš„åŸº
+æœ¬ååžƒåœ¾é‚®ä»¶åŠŸèƒ½ã€‚</p>
+<p>ã€€ã€€åˆ›å»º/etc/postfix/virtual.mysqlï¼Œå®ƒæä¾›äº†æœ¬åœ°ç”¨æˆ·å’Œé‚®ä»¶è½¬å‘åŠŸèƒ½ã€‚FORWARDå­—æ®µé»˜è®¤æ˜¯æŒ‡å‘ç”¨æˆ·çš„å­˜å‚¨é‚®ç®±å
+çš„ï¼ˆCyrus-IMAPæ‰€ç®¡ç†çš„é‚®ç®±åç§°ï¼‰ï¼Œå³è¿›è¡Œæœ¬åœ°æŠ•é€’ï¼›å¦‚æžœFORWARDå­—æ®µæ˜¯å¦å¤–ä¸€ä¸ªç”¨æˆ·åæˆ–è€…é‚®ä»¶åœ°å€ï¼Œåˆ™è¯¥é‚®ä»¶è¢«è½¬å‘åˆ°åˆ«çš„ç”¨æˆ·æˆ–å…¶å®ƒé‚®
+ä»¶åœ°å€ã€‚å¯¹äºŽ</p>
 <ul>
-  <li>·ÇÐéÄâÓòÓÊÏä£ºÆä´æ´¢ÓÊÏäÓëÓÃ»§ÃûÏàÍ¬</li>
-  <li>ÐéÄâÓòÓÊÏä£ºÎªÁËÖ§³Ö¶à¸öÓò£¬¿¼ÂÇµ½²»Í¬µÄÓò¿ÉÄÜÓµÓÐÏàÍ¬µÄÓÃ
-»§Ãû£¨±¾µØ²¿·Ö£©£¬ËùÒÔÊ¹ÓÃÓÊ¼þÈ«³Æ×÷ÎªÓÃ»§µÄµÇÂ¼Ãû£¨POP/IMAPµÄµÇÂ¼ÃûºÍSMTPÈÏÖ¤µÄµÇÂ¼Ãû£©£¬µ«ÊÇÓÉÓÚCyrus-IMAP²»Ö±½ÓÖ§³ÖÐéÄâ
-Óò£¬²»ÄÜÔÚÓÊ¼þµÄ±¾µØ²¿·Ö°üº¬¡°@¡±£¬ËùÒÔÊµ¼ÊµÄ´æ´¢ÓÊÏäÃû°Ñ¡°@¡±Ìæ»»Îª¡°~¡±¡£</li>
+  <li>éžè™šæ‹ŸåŸŸé‚®ç®±ï¼šå…¶å­˜å‚¨é‚®ç®±ä¸Žç”¨æˆ·åç›¸åŒ</li>
+  <li>è™šæ‹ŸåŸŸé‚®ç®±ï¼šä¸ºäº†æ”¯æŒå¤šä¸ªåŸŸï¼Œè€ƒè™‘åˆ°ä¸åŒçš„åŸŸå¯èƒ½æ‹¥æœ‰ç›¸åŒçš„ç”¨
+æˆ·åï¼ˆæœ¬åœ°éƒ¨åˆ†ï¼‰ï¼Œæ‰€ä»¥ä½¿ç”¨é‚®ä»¶å…¨ç§°ä½œä¸ºç”¨æˆ·çš„ç™»å½•åï¼ˆPOP/IMAPçš„ç™»å½•åå’ŒSMTPè®¤è¯çš„ç™»å½•åï¼‰ï¼Œä½†æ˜¯ç”±äºŽCyrus-IMAPä¸ç›´æŽ¥æ”¯æŒè™šæ‹Ÿ
+åŸŸï¼Œä¸èƒ½åœ¨é‚®ä»¶çš„æœ¬åœ°éƒ¨åˆ†åŒ…å«â€œ@â€ï¼Œæ‰€ä»¥å®žé™…çš„å­˜å‚¨é‚®ç®±åæŠŠâ€œ@â€æ›¿æ¢ä¸ºâ€œ~â€ã€‚</li>
 </ul>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
@@ -695,15 +696,15 @@ saslauthdÊÇÍ¨¹ýËüËùÖ§³ÖµÄPAMÄ£Ê½À´½èÖúpam_mysql½Ó¿Ú¶Ô´æ´¢ÔÚMySQLÊý¾Ý¿âÖÐÓÃ»§ÐÅÏ¢
   </tr>
 </tbody></table>
 <p>&nbsp;</p>
-<h2><a name="a.7.4"></a>7.4.&nbsp; ÔËÐÐ</h2>
-<p>¡¡¡¡Æô¶¯ÃüÁîÈçÏÂ£º</p>
+<h2><a name="a.7.4"></a>7.4.&nbsp; è¿è¡Œ</h2>
+<p>ã€€ã€€å¯åŠ¨å‘½ä»¤å¦‚ä¸‹ï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail postfix]# <span class="type">/usr/sbin/postfix start</span></p></td>
   </tr>
 </tbody></table>
-<h2><a name="a.7.5"></a>7.5.&nbsp; ²âÊÔPostfix</h2>
-<p>¡¡¡¡Æô¶¯Postfixºó£¬Ê×ÏÈ¼ì²éÈÕÖ¾/var/log/messagesÓÐÎÞ´íÎóÐÅÏ¢£¬È»ºó¼ì²é½ø³Ì£¬Ó¦¸ÃÓÐÈçÏÂ½ø³Ì´æÔÚ£º¼ì²é¶Ë¿Ú¼°½ø³Ì£º</p>
+<h2><a name="a.7.5"></a>7.5.&nbsp; æµ‹è¯•Postfix</h2>
+<p>ã€€ã€€å¯åŠ¨PostfixåŽï¼Œé¦–å…ˆæ£€æŸ¥æ—¥å¿—/var/log/messagesæœ‰æ— é”™è¯¯ä¿¡æ¯ï¼Œç„¶åŽæ£€æŸ¥è¿›ç¨‹ï¼Œåº”è¯¥æœ‰å¦‚ä¸‹è¿›ç¨‹å­˜åœ¨ï¼šæ£€æŸ¥ç«¯å£åŠè¿›ç¨‹ï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail postfix]#<font color="#ff0000"> </font><span class="type">pstree 
@@ -713,16 +714,16 @@ saslauthdÊÇÍ¨¹ýËüËùÖ§³ÖµÄPAMÄ£Ê½À´½èÖúpam_mysql½Ó¿Ú¶Ô´æ´¢ÔÚMySQLÊý¾Ý¿âÖÐÓÃ»§ÐÅÏ¢
       <p>&nbsp;</p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡½Ó×Å¼ì²é¶Ë¿Ú£¬Ó¦¸ÃÓÐÈçÏÂ¶Ë¿Ú´ò¿ª£º</p>
+<p>ã€€ã€€æŽ¥ç€æ£€æŸ¥ç«¯å£ï¼Œåº”è¯¥æœ‰å¦‚ä¸‹ç«¯å£æ‰“å¼€ï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail postfix]# <span class="type">netstat -an |grep LISTEN</span></p>
       <p>&nbsp;</p>
-      <p>tcp¡¡¡¡0¡¡¡¡0 0.0.0.0:25¡¡¡¡0.0.0.0:*¡¡¡¡LISTEN</p>
+      <p>tcpã€€ã€€0ã€€ã€€0 0.0.0.0:25ã€€ã€€0.0.0.0:*ã€€ã€€LISTEN</p>
       <p>&nbsp;</p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡ÔÙ¼ì²âSMTP·þÎñÊÇ·ñÕý³££º</p>
+<p>ã€€ã€€å†æ£€æµ‹SMTPæœåŠ¡æ˜¯å¦æ­£å¸¸ï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail postfix]# <span class="type">telnet localhost 25</span></p>
@@ -735,8 +736,8 @@ saslauthdÊÇÍ¨¹ýËüËùÖ§³ÖµÄPAMÄ£Ê½À´½èÖúpam_mysql½Ó¿Ú¶Ô´æ´¢ÔÚMySQLÊý¾Ý¿âÖÐÓÃ»§ÐÅÏ¢
         Connection closed by foreign host.</p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡Ê¹ÓÃÈçÏÂÃüÁî²âÊÔpostfixµÄSMTPµÄÈÏÖ¤£¨ÕâÀï½ö²âÊÔÁË¡°virtualuser@cngnu.org¡±£¬¡°trueuser¡±Çë×ÔÐÐ²âÊÔ£©£º</p>
-<p>¡¡¡¡PLAINÈÏÖ¤·½Ê½£º</p>
+<p>ã€€ã€€ä½¿ç”¨å¦‚ä¸‹å‘½ä»¤æµ‹è¯•postfixçš„SMTPçš„è®¤è¯ï¼ˆè¿™é‡Œä»…æµ‹è¯•äº†â€œvirtualuser@cngnu.orgâ€ï¼Œâ€œtrueuserâ€è¯·è‡ªè¡Œæµ‹è¯•ï¼‰ï¼š</p>
+<p>ã€€ã€€PLAINè®¤è¯æ–¹å¼ï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail postfix]# <font color="#ff0000">perl -MMIME::Base64 -e 
@@ -772,7 +773,7 @@ saslauthdÊÇÍ¨¹ýËüËùÖ§³ÖµÄPAMÄ£Ê½À´½èÖúpam_mysql½Ó¿Ú¶Ô´æ´¢ÔÚMySQLÊý¾Ý¿âÖÐÓÃ»§ÐÅÏ¢
       <p>&nbsp;</p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡LOGINÈÏÖ¤·½Ê½£º</p>
+<p>ã€€ã€€LOGINè®¤è¯æ–¹å¼ï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail postfix]# <font color="#ff0000">perl -MMIME::Base64 -e 
@@ -818,14 +819,14 @@ saslauthdÊÇÍ¨¹ýËüËùÖ§³ÖµÄPAMÄ£Ê½À´½èÖúpam_mysql½Ó¿Ú¶Ô´æ´¢ÔÚMySQLÊý¾Ý¿âÖÐÓÃ»§ÐÅÏ¢
       <p>&nbsp;</p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡´ËÊ±£¬ÓÉÓÚ»¹Ã»ÓÐ°²×°Cyrus-IMAPÒÔ¼°´´½¨ÓÊÏä£¬ËùÒÔ»¹²»ÄÜÌá½»ÓÊ¼þ£¬Çë¼ÌÐøÏÂÒ»²½¡£</p>
-<p>¡¡¡¡ÕâÀïÊ¹ÓÃPerlÀïÃæµÄMIME::Base64Ä£¿é£¨Èç¹ûÐèÒª°²×°£ºperl -MCPAN -e 'install
-MIME::Base64;'£©À´È¡µÃÕâ¸öÑéÖ¤´®£ºperl -MMIME::Base64 -e 'print
-base64_encode("ÓÃ»§Ãû\000ÓÃ»§Ãû\000ÃÜÂë");'À´µÃµ½MIME-Base64±àÂëµÄÑéÖ¤´®£¨¡°\000¡±ÊÇ°Ë½øÖÆµÄASCII
-(0)×Ö·û£©¡£´ËÍâ£¬ÄãÒ²¿ÉÒÔÊ¹ÓÃmmencodeÀ´Éú³É£¬mmencode¿ÉÒÔÔÚmetamailÕâ¸ö°üÀïÃæÕÒµ½¡£</p>
-<h1><a name="a.8"></a>8.&nbsp; °²×°Cyrus-IMAP</h1>
-<h2><a name="a.8.1"></a>8.1.&nbsp; ÏÂÔØ</h2>
-<p>¡¡¡¡<a href="http://asg.web.cmu.edu/cyrus/download/">http://asg.web.cmu.edu/cyrus/download/</a></p>
+<p>ã€€ã€€æ­¤æ—¶ï¼Œç”±äºŽè¿˜æ²¡æœ‰å®‰è£…Cyrus-IMAPä»¥åŠåˆ›å»ºé‚®ç®±ï¼Œæ‰€ä»¥è¿˜ä¸èƒ½æäº¤é‚®ä»¶ï¼Œè¯·ç»§ç»­ä¸‹ä¸€æ­¥ã€‚</p>
+<p>ã€€ã€€è¿™é‡Œä½¿ç”¨Perlé‡Œé¢çš„MIME::Base64æ¨¡å—ï¼ˆå¦‚æžœéœ€è¦å®‰è£…ï¼šperl -MCPAN -e 'install
+MIME::Base64;'ï¼‰æ¥å–å¾—è¿™ä¸ªéªŒè¯ä¸²ï¼šperl -MMIME::Base64 -e 'print
+base64_encode("ç”¨æˆ·å\000ç”¨æˆ·å\000å¯†ç ");'æ¥å¾—åˆ°MIME-Base64ç¼–ç çš„éªŒè¯ä¸²ï¼ˆâ€œ\000â€æ˜¯å…«è¿›åˆ¶çš„ASCII
+(0)å­—ç¬¦ï¼‰ã€‚æ­¤å¤–ï¼Œä½ ä¹Ÿå¯ä»¥ä½¿ç”¨mmencodeæ¥ç”Ÿæˆï¼Œmmencodeå¯ä»¥åœ¨metamailè¿™ä¸ªåŒ…é‡Œé¢æ‰¾åˆ°ã€‚</p>
+<h1><a name="a.8"></a>8.&nbsp; å®‰è£…Cyrus-IMAP</h1>
+<h2><a name="a.8.1"></a>8.1.&nbsp; ä¸‹è½½</h2>
+<p>ã€€ã€€<a href="http://asg.web.cmu.edu/cyrus/download/">http://asg.web.cmu.edu/cyrus/download/</a></p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail postfix]# <span class="type">cd /usr/src</span></p>
@@ -833,8 +834,8 @@ base64_encode("ÓÃ»§Ãû\000ÓÃ»§Ãû\000ÃÜÂë");'À´µÃµ½MIME-Base64±àÂëµÄÑéÖ¤´®£¨¡°\000
         </span></p></td>
   </tr>
 </tbody></table>
-<h2><a name="a.8.2"></a>8.2.&nbsp; ±àÒëÓë°²×°</h2>
-<p>¡¡¡¡ÔÚRedHatÏµÁÐµÄLinuxÖÐ£¬ÆäKerberosµÄÍ·ÎÄ¼þ²»ÔÚ±ê×¼µÄµØ·½£¬ËùÒÔÐèÒªÔÚ±àÒëÅäÖÃÇ°ÓÃenvÃüÁîÖ¸¶¨¡£´ËÍâÈ¡Ïû¶ÔucdsnmpµÄÖ§³Ö£º</p>
+<h2><a name="a.8.2"></a>8.2.&nbsp; ç¼–è¯‘ä¸Žå®‰è£…</h2>
+<p>ã€€ã€€åœ¨RedHatç³»åˆ—çš„Linuxä¸­ï¼Œå…¶Kerberosçš„å¤´æ–‡ä»¶ä¸åœ¨æ ‡å‡†çš„åœ°æ–¹ï¼Œæ‰€ä»¥éœ€è¦åœ¨ç¼–è¯‘é…ç½®å‰ç”¨envå‘½ä»¤æŒ‡å®šã€‚æ­¤å¤–å–æ¶ˆå¯¹ucdsnmpçš„æ”¯æŒï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail src]# <span class="type">tar -zxf cyrus-imapd-2.1.16.tar.gz</span></p>
@@ -855,7 +856,7 @@ base64_encode("ÓÃ»§Ãû\000ÓÃ»§Ãû\000ÃÜÂë");'À´µÃµ½MIME-Base64±àÂëµÄÑéÖ¤´®£¨¡°\000
     </td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡Èç¹û±àÒëÊ±ÌáÊ¾Ã»ÓÐÕÒµ½com_err.h£¬Çë¸´ÖÆµ±Ç°Ä¿Â¼µÄetÄ¿Â¼ÏÂÃæµÄcom_err.hµ½/usr/include£º</p>
+<p>ã€€ã€€å¦‚æžœç¼–è¯‘æ—¶æç¤ºæ²¡æœ‰æ‰¾åˆ°com_err.hï¼Œè¯·å¤åˆ¶å½“å‰ç›®å½•çš„etç›®å½•ä¸‹é¢çš„com_err.håˆ°/usr/includeï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail cyrus-imapd-2.1.16]# <span class="type">cp et/com_err.h 
@@ -864,7 +865,7 @@ base64_encode("ÓÃ»§Ãû\000ÓÃ»§Ãû\000ÃÜÂë");'À´µÃµ½MIME-Base64±àÂëµÄÑéÖ¤´®£¨¡°\000
   </tr>
 </tbody></table>
 <p>&nbsp;</p>
-<p>¡¡¡¡Cyrus-IMAPµÄ°²×°½Å±¾ÓÐÎÊÌâ£¬cyradm£¨ÏÖÔÚÊ¹ÓÃµÄÊÇPerl°æ±¾£¬Ô­À´µÄTCL°æ±¾²»ÔÙÖ§³Ö£©ËùÐèÒªµÄperlÄ£¿é±»°²×°µ½Ò»Ð©²»ÔÚPerlµÄ±ê×¼@INCµÄÄ¿Â¼Àï£¬ÐèÒªÊÖ¹¤°²×°¡£</p>
+<p>ã€€ã€€Cyrus-IMAPçš„å®‰è£…è„šæœ¬æœ‰é—®é¢˜ï¼Œcyradmï¼ˆçŽ°åœ¨ä½¿ç”¨çš„æ˜¯Perlç‰ˆæœ¬ï¼ŒåŽŸæ¥çš„TCLç‰ˆæœ¬ä¸å†æ”¯æŒï¼‰æ‰€éœ€è¦çš„perlæ¨¡å—è¢«å®‰è£…åˆ°ä¸€äº›ä¸åœ¨Perlçš„æ ‡å‡†@INCçš„ç›®å½•é‡Œï¼Œéœ€è¦æ‰‹å·¥å®‰è£…ã€‚</p>
 <p>&nbsp;</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
@@ -875,8 +876,8 @@ base64_encode("ÓÃ»§Ãû\000ÓÃ»§Ãû\000ÃÜÂë");'À´µÃµ½MIME-Base64±àÂëµÄÑéÖ¤´®£¨¡°\000
   </tr>
 </tbody></table>
 <p>&nbsp;</p>
-<h2><a name="a.8.3"></a>8.3.&nbsp; ÅäÖÃ</h2>
-<p>¡¡¡¡´´½¨Ö÷ÅäÖÃÎÄ¼þ/etc/cyrus.conf£º</p>
+<h2><a name="a.8.3"></a>8.3.&nbsp; é…ç½®</h2>
+<p>ã€€ã€€åˆ›å»ºä¸»é…ç½®æ–‡ä»¶/etc/cyrus.confï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail imap]# <span class="type">cd ../..</span></p>
@@ -886,7 +887,7 @@ base64_encode("ÓÃ»§Ãû\000ÓÃ»§Ãû\000ÃÜÂë");'À´µÃµ½MIME-Base64±àÂëµÄÑéÖ¤´®£¨¡°\000
     </td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡Ìí¼Ócyrus-imapµÄ¹ÜÀíÕËºÅcyrus£¬²¢ÉèÖÃÃÜÂëÎª¡°cyrus¡±£¨Êµ¼ÊÓ¦ÓÃÖÐ¿ÉÒÔÊ¹ÓÃ¸ü¼Ó¸´ÔÓµÄÃÜÂë£©£¬µ«ÊÇÃ»ÓÐÖ¸¶¨ÓÐÐ§µÄSHELL£¬ÒÔ·ÀÖ¹Ê¹ÓÃËüÀ´µÇÂ¼£º</p>
+<p>ã€€ã€€æ·»åŠ cyrus-imapçš„ç®¡ç†è´¦å·cyrusï¼Œå¹¶è®¾ç½®å¯†ç ä¸ºâ€œcyrusâ€ï¼ˆå®žé™…åº”ç”¨ä¸­å¯ä»¥ä½¿ç”¨æ›´åŠ å¤æ‚çš„å¯†ç ï¼‰ï¼Œä½†æ˜¯æ²¡æœ‰æŒ‡å®šæœ‰æ•ˆçš„SHELLï¼Œä»¥é˜²æ­¢ä½¿ç”¨å®ƒæ¥ç™»å½•ï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail cyrus-imapd-2.1.16]# <span class="type">useradd -g mail
@@ -900,7 +901,7 @@ base64_encode("ÓÃ»§Ãû\000ÓÃ»§Ãû\000ÃÜÂë");'À´µÃµ½MIME-Base64±àÂëµÄÑéÖ¤´®£¨¡°\000
   </tr>
 </tbody></table>
 <p>&nbsp;</p>
-<p>¡¡¡¡´´½¨IMAPÅäÖÃÎÄ¼þ/etc/imapd.conf£¬¹ÜÀíÔ±ÊÇcyrus£º</p>
+<p>ã€€ã€€åˆ›å»ºIMAPé…ç½®æ–‡ä»¶/etc/imapd.confï¼Œç®¡ç†å‘˜æ˜¯cyrusï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail cyrus-imapd-2.1.16]# <span class="type">vi /etc/imapd.conf</span></p></td>
@@ -920,11 +921,11 @@ base64_encode("ÓÃ»§Ãû\000ÓÃ»§Ãû\000ÃÜÂë");'À´µÃµ½MIME-Base64±àÂëµÄÑéÖ¤´®£¨¡°\000
     </td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡ÔÚ/etc/imapd.confÖÐÊ¹ÓÃÁËunixhierarchysep:
-yesµÄÅäÖÃ¿ÉÒÔ´´½¨´ø¡°.¡±µÄÓÊÏä¡£ÓÊ¼þ´æ´¢·ÖÇøÔÚ/var/spool/imap£¬¿ÉÒÔÕë¶ÔÐèÇóÉè¶¨¶à¸ö·ÖÇø»òÆäËüÎ»ÖÃ¡£¹ØÓÚimapd.conf¿É
-ÒÔ²ÎÔÄCyrus-IMAPµÄÎÄµµÀ´ÅäÖÃÆäËû¿ÉÓÃµÄ²ÎÊý¡£</p>
+<p>ã€€ã€€åœ¨/etc/imapd.confä¸­ä½¿ç”¨äº†unixhierarchysep:
+yesçš„é…ç½®å¯ä»¥åˆ›å»ºå¸¦â€œ.â€çš„é‚®ç®±ã€‚é‚®ä»¶å­˜å‚¨åˆ†åŒºåœ¨/var/spool/imapï¼Œå¯ä»¥é’ˆå¯¹éœ€æ±‚è®¾å®šå¤šä¸ªåˆ†åŒºæˆ–å…¶å®ƒä½ç½®ã€‚å…³äºŽimapd.confå¯
+ä»¥å‚é˜…Cyrus-IMAPçš„æ–‡æ¡£æ¥é…ç½®å…¶ä»–å¯ç”¨çš„å‚æ•°ã€‚</p>
 <p>&nbsp;</p>
-<p>¡¡¡¡½¨Á¢Cyrus-IMAP·þÎñÆ÷µÄÄ¿Â¼½á¹¹£º</p>
+<p>ã€€ã€€å»ºç«‹Cyrus-IMAPæœåŠ¡å™¨çš„ç›®å½•ç»“æž„ï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail cyrus-imapd-2.1.16]# <span class="type">mkdir -p /var/imap/sieve</span></p>
@@ -941,9 +942,9 @@ yesµÄÅäÖÃ¿ÉÒÔ´´½¨´ø¡°.¡±µÄÓÊÏä¡£ÓÊ¼þ´æ´¢·ÖÇøÔÚ/var/spool/imap£¬¿ÉÒÔÕë¶ÔÐèÇóÉè¶¨¶
     </td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡ÕâÀïtools/mkimapÕâ¸öÊµÓÃ³ÌÐòÔÚcyrus-imapµÄÔ´³ÌÐòÄ¿Â¼ÀïÃæ¡£</p>
+<p>ã€€ã€€è¿™é‡Œtools/mkimapè¿™ä¸ªå®žç”¨ç¨‹åºåœ¨cyrus-imapçš„æºç¨‹åºç›®å½•é‡Œé¢ã€‚</p>
 <p>&nbsp;</p>
-<p>¡¡¡¡´´½¨ÈÕÖ¾£º</p>
+<p>ã€€ã€€åˆ›å»ºæ—¥å¿—ï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail cyrus-imapd-2.1.16]# <span class="type">echo local6.debug 
@@ -956,7 +957,7 @@ yesµÄÅäÖÃ¿ÉÒÔ´´½¨´ø¡°.¡±µÄÓÊÏä¡£ÓÊ¼þ´æ´¢·ÖÇøÔÚ/var/spool/imap£¬¿ÉÒÔÕë¶ÔÐèÇóÉè¶¨¶
     </td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡ÉèÖÃÓÊ¼þÏÞ¶î£º</p>
+<p>ã€€ã€€è®¾ç½®é‚®ä»¶é™é¢ï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail cyrus-imapd-2.1.16]# <span class="type">chattr -R +S /var/imap/user</span></p>
@@ -966,7 +967,7 @@ yesµÄÅäÖÃ¿ÉÒÔ´´½¨´ø¡°.¡±µÄÓÊÏä¡£ÓÊ¼þ´æ´¢·ÖÇøÔÚ/var/spool/imap£¬¿ÉÒÔÕë¶ÔÐèÇóÉè¶¨¶
   </tr>
 </tbody></table>
 <p>&nbsp;</p>
-<p>¡¡¡¡ÓÉÓÚCyrus-IMAPµÄÖ÷¿Ø½ø³ÌºÍPostfixµÄÖ÷¿Ø½ø³ÌÃû×ÖÒ»Ñù£¬ÈÝÒ×»ìÏý¶øÇÒ²»·½±ã¿ØÖÆ£¬ËùÒÔ½«Cyrus-IMAP·þÎñÆ÷µÄÖ÷¿Ø½ø³Ì×ö¸ö±ðÃûÁ¬½Ó£ºcyrusd¡£</p>
+<p>ã€€ã€€ç”±äºŽCyrus-IMAPçš„ä¸»æŽ§è¿›ç¨‹å’ŒPostfixçš„ä¸»æŽ§è¿›ç¨‹åå­—ä¸€æ ·ï¼Œå®¹æ˜“æ··æ·†è€Œä¸”ä¸æ–¹ä¾¿æŽ§åˆ¶ï¼Œæ‰€ä»¥å°†Cyrus-IMAPæœåŠ¡å™¨çš„ä¸»æŽ§è¿›ç¨‹åšä¸ªåˆ«åè¿žæŽ¥ï¼šcyrusdã€‚</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail cyrus-imapd-2.1.16]# <span class="type">cd /usr/cyrus/bin</span></p>
@@ -974,15 +975,15 @@ yesµÄÅäÖÃ¿ÉÒÔ´´½¨´ø¡°.¡±µÄÓÊÏä¡£ÓÊ¼þ´æ´¢·ÖÇøÔÚ/var/spool/imap£¬¿ÉÒÔÕë¶ÔÐèÇóÉè¶¨¶
     </td>
   </tr>
 </tbody></table>
-<h2><a name="a.8.4"></a>8.4.&nbsp; ÔËÐÐ</h2>
-<p>¡¡¡¡Æô¶¯ÃüÁîÈçÏÂ£º</p>
+<h2><a name="a.8.4"></a>8.4.&nbsp; è¿è¡Œ</h2>
+<p>ã€€ã€€å¯åŠ¨å‘½ä»¤å¦‚ä¸‹ï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail bin]# <span class="type">/usr/cyrus/bin/cyrusd&amp;</span></p></td>
   </tr>
 </tbody></table>
-<h2><a name="a.8.5" id="a.8.5"></a>8.5.&nbsp; ²âÊÔCyrus-IMAP</h2>
-<p>¡¡¡¡Æô¶¯Cyrus-IMAPºó£¬Ê×ÏÈ¼ì²éÈÕÖ¾/var/log/messages¡¢/var/log/imapd.logºÍ/var/log/auth.logÓÐÎÞ´íÎóÐÅÏ¢£¬È»ºó¼ì²é½ø³Ì£¬Ó¦¸ÃÓÐÈçÏÂ½ø³Ì´æÔÚ£º</p>
+<h2><a name="a.8.5" id="a.8.5"></a>8.5.&nbsp; æµ‹è¯•Cyrus-IMAP</h2>
+<p>ã€€ã€€å¯åŠ¨Cyrus-IMAPåŽï¼Œé¦–å…ˆæ£€æŸ¥æ—¥å¿—/var/log/messagesã€/var/log/imapd.logå’Œ/var/log/auth.logæœ‰æ— é”™è¯¯ä¿¡æ¯ï¼Œç„¶åŽæ£€æŸ¥è¿›ç¨‹ï¼Œåº”è¯¥æœ‰å¦‚ä¸‹è¿›ç¨‹å­˜åœ¨ï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail bin]# <span class="type">pstree |grep cyrusd</span></p>
@@ -991,33 +992,33 @@ yesµÄÅäÖÃ¿ÉÒÔ´´½¨´ø¡°.¡±µÄÓÊÏä¡£ÓÊ¼þ´æ´¢·ÖÇøÔÚ/var/spool/imap£¬¿ÉÒÔÕë¶ÔÐèÇóÉè¶¨¶
     </td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡½Ó×Å¼ì²é¶Ë¿Ú£¬Ó¦¸ÃÓÐÈçÏÂ¶Ë¿Ú´ò¿ª£º</p>
+<p>ã€€ã€€æŽ¥ç€æ£€æŸ¥ç«¯å£ï¼Œåº”è¯¥æœ‰å¦‚ä¸‹ç«¯å£æ‰“å¼€ï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail bin]# <span class="type">netstat -an |grep LISTEN</span></p>
       <p>&nbsp;</p>
-      <p>tcp¡¡¡¡0¡¡¡¡0 0.0.0.0:110¡¡¡¡0.0.0.0:*¡¡¡¡LISTEN</p>
-      <p>tcp¡¡¡¡0¡¡¡¡0 0.0.0.0:143¡¡¡¡0.0.0.0:*¡¡¡¡LISTEN</p>
+      <p>tcpã€€ã€€0ã€€ã€€0 0.0.0.0:110ã€€ã€€0.0.0.0:*ã€€ã€€LISTEN</p>
+      <p>tcpã€€ã€€0ã€€ã€€0 0.0.0.0:143ã€€ã€€0.0.0.0:*ã€€ã€€LISTEN</p>
     </td>
   </tr>
 </tbody></table>
 <p>&nbsp;</p>
-<p>¡¡¡¡ÏÖÔÚ´´½¨ÓÊÏä¡£</p>
-<p>¡¡¡¡Ê¹ÓÃcyradmÀ´´´½¨ºÍÉ¾³ýÓÊÏä£¬ËüÊÇCyrus-IMAP×Ô¼º´øµÄ½»»¥Ê½¹ÜÀí½çÃæ£¬ÏÖÔÚµÄ°æ±¾ÊÇÓÃPerlÐ´µÄ¡£ÄãÒ²¿ÉÒÔÖ±½Óµ÷ÓÃ
-Cyrus::IMAP::AdminÄ£¿é´´½¨×Ô¼ºµÄCGI»ò½Å±¾À´×öÓÊÏä¹ÜÀí£¬¿ÉÒÔ²Î¿¼Cyrus::IMAP::ShellÄ£¿éµÄ³ÌÐò¡£</p>
+<p>ã€€ã€€çŽ°åœ¨åˆ›å»ºé‚®ç®±ã€‚</p>
+<p>ã€€ã€€ä½¿ç”¨cyradmæ¥åˆ›å»ºå’Œåˆ é™¤é‚®ç®±ï¼Œå®ƒæ˜¯Cyrus-IMAPè‡ªå·±å¸¦çš„äº¤äº’å¼ç®¡ç†ç•Œé¢ï¼ŒçŽ°åœ¨çš„ç‰ˆæœ¬æ˜¯ç”¨Perlå†™çš„ã€‚ä½ ä¹Ÿå¯ä»¥ç›´æŽ¥è°ƒç”¨
+Cyrus::IMAP::Adminæ¨¡å—åˆ›å»ºè‡ªå·±çš„CGIæˆ–è„šæœ¬æ¥åšé‚®ç®±ç®¡ç†ï¼Œå¯ä»¥å‚è€ƒCyrus::IMAP::Shellæ¨¡å—çš„ç¨‹åºã€‚</p>
 <p>&nbsp;</p>
-<p>¡¡¡¡¶ÔÓÚ·ÇÐéÄâÓòÓÊÏä£¬Ö»ÐèÒª´´½¨Í¬ÓÃ»§ÃûÏàÍ¬µÄÓÊÏä£¨ÓÊ¼þµÄ±¾µØ²¿·Ö£©¡£</p>
+<p>ã€€ã€€å¯¹äºŽéžè™šæ‹ŸåŸŸé‚®ç®±ï¼Œåªéœ€è¦åˆ›å»ºåŒç”¨æˆ·åç›¸åŒçš„é‚®ç®±ï¼ˆé‚®ä»¶çš„æœ¬åœ°éƒ¨åˆ†ï¼‰ã€‚</p>
 <p>
-¡¡¡¡¶ÔÓÚÐéÄâÓòÓÊÏä£¬ÎªÁË½«ÐéÄâÓòÓÃ»§Çø±ð¿ªÀ´£¬ÎÒÃÇÏ£ÍûÊ¹ÓÃÓÃ»§µÄÓÊ¼þÈ«³ÆÀ´×öËüµÄÓÊÏäÃû£¨ÆäPOP3/IMAPµÄµÇÂ¼ÃûºÍÓÊÏäÃûÊÇÒ»ÑùµÄ£©£¬µ«ÊÇËäÈ»
-Cyrus-IMAPÔÊÐíÄã´´½¨´øÓÐ¡°@¡±µÄÓÊÏä£¬µ«ÊÇCyrus-IMAPµÄdeliver²»Ö§³ÖÓÊ¼þµÄ±¾µØ²¿·Ö´øÓÐ¡°@¡±µÄÓÊÏä£¬ÒÔÖÁÓÚ²»ÄÜÕý³£µÝ
-½»¡£ÎÒÃÇ²ÉÓÃÁËÒÔÏÂ²½ÖèÀ´½â¾öÕâ¸öÎÊÌâ£º</p>
+ã€€ã€€å¯¹äºŽè™šæ‹ŸåŸŸé‚®ç®±ï¼Œä¸ºäº†å°†è™šæ‹ŸåŸŸç”¨æˆ·åŒºåˆ«å¼€æ¥ï¼Œæˆ‘ä»¬å¸Œæœ›ä½¿ç”¨ç”¨æˆ·çš„é‚®ä»¶å…¨ç§°æ¥åšå®ƒçš„é‚®ç®±åï¼ˆå…¶POP3/IMAPçš„ç™»å½•åå’Œé‚®ç®±åæ˜¯ä¸€æ ·çš„ï¼‰ï¼Œä½†æ˜¯è™½ç„¶
+Cyrus-IMAPå…è®¸ä½ åˆ›å»ºå¸¦æœ‰â€œ@â€çš„é‚®ç®±ï¼Œä½†æ˜¯Cyrus-IMAPçš„deliverä¸æ”¯æŒé‚®ä»¶çš„æœ¬åœ°éƒ¨åˆ†å¸¦æœ‰â€œ@â€çš„é‚®ç®±ï¼Œä»¥è‡³äºŽä¸èƒ½æ­£å¸¸é€’
+äº¤ã€‚æˆ‘ä»¬é‡‡ç”¨äº†ä»¥ä¸‹æ­¥éª¤æ¥è§£å†³è¿™ä¸ªé—®é¢˜ï¼š</p>
 <ol>
-  <li>Ê×ÏÈ£¬ÔÚcyradmÖÐ´´½¨Á½¸öÓÊÏä£¬Ò»¸öÊÇÓÊ¼þµØÖ·È«³Æ×öÓÊÏäÃû£¬ÎÒÃÇ³ÆÖ®Îª¡°µØÖ·ÓÊÏä¡±£»Ò»¸öÍ¨¹ý½«ÓÊ¼þµØÖ·ÆäÖÐµÄ¡°@¡±»»³ÉÁË¡°~¡±×öÓÊÏäÃû£¬ÎÒÃÇ³ÆÖ®Îª¡°´æ´¢ÓÊÏä¡±¡£</li>
-  <li>È»ºó£¬ÍË³öcyradm£¬ÔÚÓÊ¼þ·ÖÇøµÄuserÄ¿Â¼ÏÂ£¨ÕâÀïÊÇ/var/spool/imap/user£©£¬ÕÒµ½¸Õ²Å´´½¨µÄÓÊÏä¡£ÔÚÎÄ¼þÏµÍ³ÖÐÉ¾³ý¡°µØÖ·ÓÊÏä¡±£¬²¢½«¡°´æ´¢ÓÊÏä¡±×ö¸ö·ûºÅÁ´½Ó£¬Ãû×Ö¾ÍÊÇ¸Õ¸ÕÉ¾³ýµÄ¡°µØÖ·ÓÊÏä¡±¡£</li>
-  <li>×îºó£¬ÉèÖÃÊý¾Ý¿âÖÐµÄFORWARD×Ö¶Î£¬Ê¹Ö®½«ÓÊ¼þÍ¶µÝµ½¡°´æ´¢ÓÊÏä¡±¡£</li>
+  <li>é¦–å…ˆï¼Œåœ¨cyradmä¸­åˆ›å»ºä¸¤ä¸ªé‚®ç®±ï¼Œä¸€ä¸ªæ˜¯é‚®ä»¶åœ°å€å…¨ç§°åšé‚®ç®±åï¼Œæˆ‘ä»¬ç§°ä¹‹ä¸ºâ€œåœ°å€é‚®ç®±â€ï¼›ä¸€ä¸ªé€šè¿‡å°†é‚®ä»¶åœ°å€å…¶ä¸­çš„â€œ@â€æ¢æˆäº†â€œ~â€åšé‚®ç®±åï¼Œæˆ‘ä»¬ç§°ä¹‹ä¸ºâ€œå­˜å‚¨é‚®ç®±â€ã€‚</li>
+  <li>ç„¶åŽï¼Œé€€å‡ºcyradmï¼Œåœ¨é‚®ä»¶åˆ†åŒºçš„userç›®å½•ä¸‹ï¼ˆè¿™é‡Œæ˜¯/var/spool/imap/userï¼‰ï¼Œæ‰¾åˆ°åˆšæ‰åˆ›å»ºçš„é‚®ç®±ã€‚åœ¨æ–‡ä»¶ç³»ç»Ÿä¸­åˆ é™¤â€œåœ°å€é‚®ç®±â€ï¼Œå¹¶å°†â€œå­˜å‚¨é‚®ç®±â€åšä¸ªç¬¦å·é“¾æŽ¥ï¼Œåå­—å°±æ˜¯åˆšåˆšåˆ é™¤çš„â€œåœ°å€é‚®ç®±â€ã€‚</li>
+  <li>æœ€åŽï¼Œè®¾ç½®æ•°æ®åº“ä¸­çš„FORWARDå­—æ®µï¼Œä½¿ä¹‹å°†é‚®ä»¶æŠ•é€’åˆ°â€œå­˜å‚¨é‚®ç®±â€ã€‚</li>
 </ol>
-<p>¡¡¡¡Ö®ËùÒÔÕâÑù×öµÄÔ­ÒòÊÇ£¬Í¨¹ýÔÚcyradmÖÐ´´½¨Á½¸öÓÊÏä£¬Í¨ÖªÁËCyrus-IMAPÏµÍ³ÖÐ´æÔÚ¡°µØÖ·ÓÊÏä¡±£¬É¾³ýµØÖ·ÓÊÏä£¬²¢½«Æä×÷Îª¡°´æ
-´¢ÓÊÏä¡±µÄ±ðÃûÊÇÏ£ÍûÍ¨¹ýËüÄÜ·ÃÎÊµ½Êµ¼Ê´æ´¢ÓÊ¼þµÄ¡°´æ´¢ÓÊÏä¡±¡££¨ÁíÍâÇë×¢Òâ£¬ÓÊÏäÃû³ÆÖÐµÄµãÊµ¼ÊÔÚÎÄ¼þÏµÍ³ÖÐÊÇÓÃ¡°^¡±´ú±íµÄ£©</p>
+<p>ã€€ã€€ä¹‹æ‰€ä»¥è¿™æ ·åšçš„åŽŸå› æ˜¯ï¼Œé€šè¿‡åœ¨cyradmä¸­åˆ›å»ºä¸¤ä¸ªé‚®ç®±ï¼Œé€šçŸ¥äº†Cyrus-IMAPç³»ç»Ÿä¸­å­˜åœ¨â€œåœ°å€é‚®ç®±â€ï¼Œåˆ é™¤åœ°å€é‚®ç®±ï¼Œå¹¶å°†å…¶ä½œä¸ºâ€œå­˜
+å‚¨é‚®ç®±â€çš„åˆ«åæ˜¯å¸Œæœ›é€šè¿‡å®ƒèƒ½è®¿é—®åˆ°å®žé™…å­˜å‚¨é‚®ä»¶çš„â€œå­˜å‚¨é‚®ç®±â€ã€‚ï¼ˆå¦å¤–è¯·æ³¨æ„ï¼Œé‚®ç®±åç§°ä¸­çš„ç‚¹å®žé™…åœ¨æ–‡ä»¶ç³»ç»Ÿä¸­æ˜¯ç”¨â€œ^â€ä»£è¡¨çš„ï¼‰</p>
 <p>&nbsp;</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
@@ -1042,13 +1043,13 @@ Cyrus-IMAPÔÊÐíÄã´´½¨´øÓÐ¡°@¡±µÄÓÊÏä£¬µ«ÊÇCyrus-IMAPµÄdeliver²»Ö§³ÖÓÊ¼þµÄ±¾µØ²¿·Ö
       <p>mail.cngnu.org&gt; <span class="type">quit</span></p>
       <p>[root@mail bin]# cd /var/spool/imap/user</p>
       <p>[root@mail user]# <span class="type">ls</span></p>
-      <p>cyrus ¡¡¡¡¡¡¡¡trueuser ¡¡¡¡¡¡¡¡virtualuser~cngnu^org¡¡¡¡¡¡¡¡virtualuser@cngnu^org</p>
+      <p>cyrus ã€€ã€€ã€€ã€€trueuser ã€€ã€€ã€€ã€€virtualuser~cngnu^orgã€€ã€€ã€€ã€€virtualuser@cngnu^org</p>
       <p>[root@mail user]# <span class="type">rm -rf tester\@cngnu\^org</span> </p>
       <p>[root@mail user]# <span class="type">ln -s tester~cngnu^org tester@cngnu^org</span></p>
     </td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡Èç¹ûÒªÉ¾³ýÒ»¸öIMAPÓÊÏä£¬ÐèÒªÏÈ¸ø¹ÜÀíÔ±cyrusÊÚÓèC£¨Create£©ºÍD£¨Delete£©µÄÈ¨ÏÞ²Å¿ÉÒÔÉ¾³ý¡£</p>
+<p>ã€€ã€€å¦‚æžœè¦åˆ é™¤ä¸€ä¸ªIMAPé‚®ç®±ï¼Œéœ€è¦å…ˆç»™ç®¡ç†å‘˜cyrusæŽˆäºˆCï¼ˆCreateï¼‰å’ŒDï¼ˆDeleteï¼‰çš„æƒé™æ‰å¯ä»¥åˆ é™¤ã€‚</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail user]# <span class="type">cyradm --user cyrus localhost</span></p>
@@ -1073,7 +1074,7 @@ user/virtualuser@cngnu.org (\HasNoChildren)</p>
   </tr>
 </tbody></table>
 <p>&nbsp;</p>
-<p>¡¡¡¡ÔÙ¼ì²âPOP3ºÍIMAP·þÎñ£º</p>
+<p>ã€€ã€€å†æ£€æµ‹POP3å’ŒIMAPæœåŠ¡ï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail user]# <span class="type">telnet localhost 110</span></p>
@@ -1105,11 +1106,11 @@ user/virtualuser@cngnu.org (\HasNoChildren)</p>
     <p>&nbsp;</p></td>
   </tr>
 </tbody></table>
-<h1><a name="a.9" id="a.9"></a>9.&nbsp; °²×°IMP</h1>
-<h2><a name="a.9.1" id="a.9.1"></a>9.1.&nbsp; ÏÂÔØ</h2>
-<p>¡¡¡¡http://www.horde.org/horde/</p>
-<p>¡¡¡¡http://www.horde.org/imp/3.2.2/</p>
-<p>¡¡¡¡http://www.horde.org/turba/</p>
+<h1><a name="a.9" id="a.9"></a>9.&nbsp; å®‰è£…IMP</h1>
+<h2><a name="a.9.1" id="a.9.1"></a>9.1.&nbsp; ä¸‹è½½</h2>
+<p>ã€€ã€€http://www.horde.org/horde/</p>
+<p>ã€€ã€€http://www.horde.org/imp/3.2.2/</p>
+<p>ã€€ã€€http://www.horde.org/turba/</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail user]# <span class="type">cd /usr/src</span></p>
@@ -1120,16 +1121,16 @@ user/virtualuser@cngnu.org (\HasNoChildren)</p>
   </tr>
 </tbody></table>
 <p>&nbsp;</p>
-<h2><a name="a.9.2" id="a.9.2"></a>9.2.&nbsp; ÅäÖÃApacheÓëPHP</h2>
-<p>¡¡¡¡IMP¶ÔPHPµÄ»·¾³ÒªÇó½Ï¸ß¡£ËùÒÔÍ¨³£ÐèÒªÉý¼¶PHP°ü£¬²¢°²×°ÓÉHorde¶¨ÖÆºóµÄPEAR°ü¡£</p>
-<p>¡¡¡¡ÐÞ¸Ä/etc/php.ini£¬½«register_globals¹¦ÄÜ´ò¿ª¡£</p>
+<h2><a name="a.9.2" id="a.9.2"></a>9.2.&nbsp; é…ç½®Apacheä¸ŽPHP</h2>
+<p>ã€€ã€€IMPå¯¹PHPçš„çŽ¯å¢ƒè¦æ±‚è¾ƒé«˜ã€‚æ‰€ä»¥é€šå¸¸éœ€è¦å‡çº§PHPåŒ…ï¼Œå¹¶å®‰è£…ç”±Hordeå®šåˆ¶åŽçš„PEARåŒ…ã€‚</p>
+<p>ã€€ã€€ä¿®æ”¹/etc/php.iniï¼Œå°†register_globalsåŠŸèƒ½æ‰“å¼€ã€‚</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td bgcolor="#ffffcc"> <p>register_globals = On</p>
     </td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡°²×°PEAR°ü£¬ÔÚAS3ÖÐ£¬ËüÎ»ÓÚ/usr/share/pearÏÂ£º</p>
+<p>ã€€ã€€å®‰è£…PEARåŒ…ï¼Œåœ¨AS3ä¸­ï¼Œå®ƒä½äºŽ/usr/share/pearä¸‹ï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail src]# <span class="type">tar zxf /usr/src/pear-1.1.tar.gz</span><span class="type"></span></p>
@@ -1137,15 +1138,15 @@ user/virtualuser@cngnu.org (\HasNoChildren)</p>
     <p>[root@mail lib]# <span class="type">/bin/cp -Rf  /usr/src/pear/* pear</span></p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡×îºóÖØÐÂÆô¶¯Apache£º</p>
+<p>ã€€ã€€æœ€åŽé‡æ–°å¯åŠ¨Apacheï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail lib]# <span class="type">/etc/rc.d/init.d/httpd restart</span></p>
     </td>
   </tr>
 </tbody></table>
-<h2><a name="a.9.3" id="a.9.3"></a>9.3.&nbsp; ÅäÖÃHorde</h2>
-<p>¡¡¡¡°²×°Horde£º</p>
+<h2><a name="a.9.3" id="a.9.3"></a>9.3.&nbsp; é…ç½®Horde</h2>
+<p>ã€€ã€€å®‰è£…Hordeï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail lib]# <font color="#ff0000">cd /var/www/html</font></p>
@@ -1161,27 +1162,27 @@ user/virtualuser@cngnu.org (\HasNoChildren)</p>
     </td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡È»ºóÐÞ¸ÄconfigÄ¿Â¼ÏÂÃæµÄhorde.php¡£</p>
+<p>ã€€ã€€ç„¶åŽä¿®æ”¹configç›®å½•ä¸‹é¢çš„horde.phpã€‚</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail config]# <span class="type">vi horde.php</span></p>
     </td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡ÐÞ¸Ä162ÐÐ£º</p>
+<p>ã€€ã€€ä¿®æ”¹162è¡Œï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td bgcolor="#ffffcc"> <p>$conf['prefs']['driver'] = 'none';</p>
     </td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡Îª£º</p>
+<p>ã€€ã€€ä¸ºï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td bgcolor="#ffffcc"> <p>$conf['prefs']['driver'] = 'sql';</p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡ÐÞ¸Ä171ÐÐÖÁ176ÐÐ£¬½«Æä×¢ÊÍÈ¥µô²¢Ð´ÈëhordeÊý¾Ý¿âµÄ¿ÚÁî£º</p>
+<p>ã€€ã€€ä¿®æ”¹171è¡Œè‡³176è¡Œï¼Œå°†å…¶æ³¨é‡ŠåŽ»æŽ‰å¹¶å†™å…¥hordeæ•°æ®åº“çš„å£ä»¤ï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td bgcolor="#ffffcc"> <p>// $conf['prefs']['params']['phptype'] = 'mysql';<br>
@@ -1193,7 +1194,7 @@ user/virtualuser@cngnu.org (\HasNoChildren)</p>
       </p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡Îª£º</p>
+<p>ã€€ã€€ä¸ºï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td bgcolor="#ffffcc"> <p>$conf['prefs']['params']['phptype'] = 'mysql';<br>
@@ -1205,15 +1206,15 @@ user/virtualuser@cngnu.org (\HasNoChildren)</p>
       </p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡ÕâÀïÎÒÃÇÃ»ÓÐÐÞ¸ÄhordeÊý¾Ý¿âµÄÄ¬ÈÏµÄÊý¾Ý¿âÉèÖÃ£¬Èç¹ûÔÚÊµ¼ÊÊ¹ÓÃÖÐ£¬ÖÁÉÙÓ¦¸ÃÈ¡Ò»¸ö±È½Ï¸´ÔÓµÄÃÜÂë¡£</p>
+<p>ã€€ã€€è¿™é‡Œæˆ‘ä»¬æ²¡æœ‰ä¿®æ”¹hordeæ•°æ®åº“çš„é»˜è®¤çš„æ•°æ®åº“è®¾ç½®ï¼Œå¦‚æžœåœ¨å®žé™…ä½¿ç”¨ä¸­ï¼Œè‡³å°‘åº”è¯¥å–ä¸€ä¸ªæ¯”è¾ƒå¤æ‚çš„å¯†ç ã€‚</p>
 <p>&nbsp;</p>
-<p> ¡¡¡¡ÔÙÀ´ÐÞ¸ÄconfigÄ¿Â¼ÏÂÃæµÄregistry.php¡£</p>
+<p> ã€€ã€€å†æ¥ä¿®æ”¹configç›®å½•ä¸‹é¢çš„registry.phpã€‚</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail config]# <span class="type">vi registry.php</span></p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡ÐÞ¸Ä23ÐÐÖÁ24ÐÐ£¬½«Æä×¢ÊÍÈ¥µô£º</p>
+<p>ã€€ã€€ä¿®æ”¹23è¡Œè‡³24è¡Œï¼Œå°†å…¶æ³¨é‡ŠåŽ»æŽ‰ï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td bgcolor="#ffffcc"> <p>// $this-&gt;registry['auth']['login'] = 'imp';<br>
@@ -1221,7 +1222,7 @@ user/virtualuser@cngnu.org (\HasNoChildren)</p>
       </p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡Îª£º</p>
+<p>ã€€ã€€ä¸ºï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td bgcolor="#ffffcc"> <p>$this-&gt;registry['auth']['login'] = 'imp';<br>
@@ -1229,29 +1230,29 @@ user/virtualuser@cngnu.org (\HasNoChildren)</p>
       </p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡È»ºóÐÞ¸Ä119¡¢138ÐÐ¼¤»îIMPºÍTurba£º</p>
+<p>ã€€ã€€ç„¶åŽä¿®æ”¹119ã€138è¡Œæ¿€æ´»IMPå’ŒTurbaï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td bgcolor="#ffffcc"> <p> 'status' =&gt; 'inactive'<br>
       </p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡Îª£º</p>
+<p>ã€€ã€€ä¸ºï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td bgcolor="#ffffcc"> <p> 'status' =&gt; 'active'<br>
       </p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡×îºóÔÚä¯ÀÀÆ÷ÖÐ·ÃÎÊÈçÏÂURL²âÊÔHordeÐèÒªµÄ»·¾³ÊÇ·ñÂú×ã£º</p>
+<p>ã€€ã€€æœ€åŽåœ¨æµè§ˆå™¨ä¸­è®¿é—®å¦‚ä¸‹URLæµ‹è¯•Hordeéœ€è¦çš„çŽ¯å¢ƒæ˜¯å¦æ»¡è¶³ï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
-    <td bgcolor="#ffffcc"> <p>http://ÄãµÄÓÊ¼þ·þÎñÆ÷µÄIP/horde/test.php</p></td>
+    <td bgcolor="#ffffcc"> <p>http://ä½ çš„é‚®ä»¶æœåŠ¡å™¨çš„IP/horde/test.php</p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡Èç¹û·¢ÏÖÓÐºìÉ«µÄÌáÊ¾£¬¿ÉÄÜÐèÒªÐÞ¸ÄÄãµÄPHPµÄ°²×°ºÍÅäÖÃ£¨²Î¼ûÉÏÒ»½Ú£©£¬È»ºóÔÙÖØÐÂ²âÊÔ¡£</p>
-<h2><a name="a.9.4" id="a.9.4"></a>9.4.&nbsp; ÅäÖÃIMP</h2>
-<p>¡¡¡¡°²×°IMP£º</p>
+<p>ã€€ã€€å¦‚æžœå‘çŽ°æœ‰çº¢è‰²çš„æç¤ºï¼Œå¯èƒ½éœ€è¦ä¿®æ”¹ä½ çš„PHPçš„å®‰è£…å’Œé…ç½®ï¼ˆå‚è§ä¸Šä¸€èŠ‚ï¼‰ï¼Œç„¶åŽå†é‡æ–°æµ‹è¯•ã€‚</p>
+<h2><a name="a.9.4" id="a.9.4"></a>9.4.&nbsp; é…ç½®IMP</h2>
+<p>ã€€ã€€å®‰è£…IMPï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail config]# <span class="type">cd ..</span></p>
@@ -1263,56 +1264,56 @@ user/virtualuser@cngnu.org (\HasNoChildren)</p>
     </td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡È»ºóÐÞ¸ÄconfigÄ¿Â¼ÀïÃæµÄconf.php£º</p>
+<p>ã€€ã€€ç„¶åŽä¿®æ”¹configç›®å½•é‡Œé¢çš„conf.phpï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail config]# <span class="type">vi conf.php</span></p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡ÐÞ¸Ä37ÐÐ£º</p>
+<p>ã€€ã€€ä¿®æ”¹37è¡Œï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td bgcolor="#ffffcc"> <p>$conf['menu']['apps'] = array();</p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡Îª£º</p>
+<p>ã€€ã€€ä¸ºï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td bgcolor="#ffffcc"> <p>$conf['menu']['apps'] = array('turba');</p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡ÐÞ¸Ä57ÐÐ£º</p>
+<p>ã€€ã€€ä¿®æ”¹57è¡Œï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td bgcolor="#ffffcc"> <p>$conf['user']['allow_resume_all'] = false;</p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡Îª£º</p>
+<p>ã€€ã€€ä¸ºï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td bgcolor="#ffffcc"> <p>$conf['user']['allow_resume_all'] = true;</p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡ÐÞ¸Ä63ÐÐ£º</p>
+<p>ã€€ã€€ä¿®æ”¹63è¡Œï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td bgcolor="#ffffcc"> <p>$conf['user']['allow_resume_all_in_drafts'] = false;</p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡Îª£º</p>
+<p>ã€€ã€€ä¸ºï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td bgcolor="#ffffcc"> <p>$conf['user']['allow_resume_all_in_drafts'] = true;</p></td>
   </tr>
 </tbody></table>
 <p>&nbsp;</p>
-<p>¡¡¡¡È»ºóÐÞ¸Äprefs.php£º</p>
+<p>ã€€ã€€ç„¶åŽä¿®æ”¹prefs.phpï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail config]# <span class="type">vi prefs.php</span></p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡½«×Ô¶¯Î¬»¤¹¦ÄÜ¹Ø±Õ£¬ÐÞ¸Ä426¡¢427ÐÐ£º</p>
+<p>ã€€ã€€å°†è‡ªåŠ¨ç»´æŠ¤åŠŸèƒ½å…³é—­ï¼Œä¿®æ”¹426ã€427è¡Œï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td bgcolor="#ffffcc"> <p> 'value' =&gt; 1,<br>
@@ -1320,7 +1321,7 @@ user/virtualuser@cngnu.org (\HasNoChildren)</p>
       </p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡Îª£º</p>
+<p>ã€€ã€€ä¸ºï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td bgcolor="#ffffcc"> <p> 'value' =&gt; 0,<br>
@@ -1328,38 +1329,38 @@ user/virtualuser@cngnu.org (\HasNoChildren)</p>
       </p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡ÔÙ×¢ÊÍ773ÐÐ£º</p>
+<p>ã€€ã€€å†æ³¨é‡Š773è¡Œï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td bgcolor="#ffffcc"> <p>'value' =&gt; '',</p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡Îª£º</p>
+<p>ã€€ã€€ä¸ºï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td bgcolor="#ffffcc"> <p>//'value' =&gt; '',</p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡È¡Ïû×¢ÊÍ774ÐÐ£º</p>
+<p>ã€€ã€€å–æ¶ˆæ³¨é‡Š774è¡Œï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td bgcolor="#ffffcc"> <p>// 'value' =&gt; 'localsql',</p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡Îª£º</p>
+<p>ã€€ã€€ä¸ºï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td bgcolor="#ffffcc"> <p>'value' =&gt; 'localsql',</p></td>
   </tr>
 </tbody></table>
 <p>&nbsp;</p>
-<p>¡¡¡¡×îºóÐÞ¸Äservers.php£º</p>
+<p>ã€€ã€€æœ€åŽä¿®æ”¹servers.phpï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail config]# <span class="type">vi servers.php</span></p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡×¢ÊÍ³ý¡°cyrus¡±·þÎñÆ÷ÍâµÄËùÓÐ·þÎñÆ÷ÅäÖÃ£¬È»ºóÐÞ¸Ä¡°cyrus¡±·þÎñÆ÷µÄÅäÖÃÎª£º</p>
+<p>ã€€ã€€æ³¨é‡Šé™¤â€œcyrusâ€æœåŠ¡å™¨å¤–çš„æ‰€æœ‰æœåŠ¡å™¨é…ç½®ï¼Œç„¶åŽä¿®æ”¹â€œcyrusâ€æœåŠ¡å™¨çš„é…ç½®ä¸ºï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td bgcolor="#ffffcc"> <p> $servers['cyrus'] = array(<br>
@@ -1378,8 +1379,8 @@ user/virtualuser@cngnu.org (\HasNoChildren)</p>
   </tr>
 </tbody></table>
 <p>&nbsp;</p>
-<h2><a name="a.9.5" id="a.9.5"></a>9.5.&nbsp; ÅäÖÃTurba</h2>
-<p>¡¡¡¡°²×°Turba£º</p>
+<h2><a name="a.9.5" id="a.9.5"></a>9.5.&nbsp; é…ç½®Turba</h2>
+<p>ã€€ã€€å®‰è£…Turbaï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail config]# <span class="type">cd ../..</span></p>
@@ -1390,43 +1391,43 @@ user/virtualuser@cngnu.org (\HasNoChildren)</p>
         `basename $foo .dist`;done</span></p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡È»ºóÐÞ¸ÄconfigÄ¿Â¼ÀïÃæµÄconf.php£º</p>
+<p>ã€€ã€€ç„¶åŽä¿®æ”¹configç›®å½•é‡Œé¢çš„conf.phpï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail config]# <span class="type">vi conf.php</span></p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡ÐÞ¸Ä32ÐÐ£º</p>
+<p>ã€€ã€€ä¿®æ”¹32è¡Œï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td bgcolor="#ffffcc"> <p>$conf['menu']['apps'] = array();</p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡Îª£º</p>
+<p>ã€€ã€€ä¸ºï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td bgcolor="#ffffcc"> <p>$conf['menu']['apps'] = array('imp');</p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡È»ºóÐÞ¸ÄconfigÄ¿Â¼ÀïÃæµÄsources.php£º</p>
+<p>ã€€ã€€ç„¶åŽä¿®æ”¹configç›®å½•é‡Œé¢çš„sources.phpï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail config]# <span class="type">vi sources.php</span></p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡ÐÞ¸Ä146ÐÐ£º</p>
+<p>ã€€ã€€ä¿®æ”¹146è¡Œï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td bgcolor="#ffffcc"> <p>'password' =&gt; '*****';</p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡Îª£º</p>
+<p>ã€€ã€€ä¸ºï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td bgcolor="#ffffcc"> <p>'password' =&gt; 'horde';</p></td>
   </tr>
 </tbody></table>
-<p> ¡¡¡¡×îºó£¬Ìí¼ÓturbaÊý¾Ý¿â±í£º</p>
+<p> ã€€ã€€æœ€åŽï¼Œæ·»åŠ turbaæ•°æ®åº“è¡¨ï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail config]# <font color="#ff0000">cd ../scripts/drivers</font></p>
@@ -1434,17 +1435,17 @@ user/virtualuser@cngnu.org (\HasNoChildren)</p>
   </tr>
 </tbody></table>
 <p>&nbsp;</p>
-<h2><a name="a.9.6" id="a.9.6"></a>9.6.&nbsp; ²âÊÔIMP</h2>
-<p>¡¡¡¡×îºóÔÚä¯ÀÀÆ÷ÖÐ·ÃÎÊÈçÏÂURL£º</p>
+<h2><a name="a.9.6" id="a.9.6"></a>9.6.&nbsp; æµ‹è¯•IMP</h2>
+<p>ã€€ã€€æœ€åŽåœ¨æµè§ˆå™¨ä¸­è®¿é—®å¦‚ä¸‹URLï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
-    <td bgcolor="#ffffcc"> <p>http://ÄãµÄÓÊ¼þ·þÎñÆ÷µÄIP/horde/</p></td>
+    <td bgcolor="#ffffcc"> <p>http://ä½ çš„é‚®ä»¶æœåŠ¡å™¨çš„IP/horde/</p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡ÊäÈëÓÃ»§Ãûvirtualuser@cngnu.orgºÍÃÜÂëtestpwµÇÂ¼£¨»òtrueuser£©¡£</p>
-<h1><a name="a.10" id="a.10"></a>10.&nbsp; ÆäËû</h1>
-<h2><a name="a.10.1" id="a.10.1"></a>10.1.&nbsp; Æô¶¯½Å±¾</h2>
-<p>¡¡¡¡¿ÉÒÔ±àÐ´Ò»¸öÆô¶¯½Å±¾/etc/rc.d/init.d/mailsysÀ´Æô¶¯ÕâÐ©½ø³Ì£¬ÕâÑù¾Í²»ÐèÒªµ¥¶ÀÆô¶¯postfixºÍcyrusdÁË£º</p>
+<p>ã€€ã€€è¾“å…¥ç”¨æˆ·åvirtualuser@cngnu.orgå’Œå¯†ç testpwç™»å½•ï¼ˆæˆ–trueuserï¼‰ã€‚</p>
+<h1><a name="a.10" id="a.10"></a>10.&nbsp; å…¶ä»–</h1>
+<h2><a name="a.10.1" id="a.10.1"></a>10.1.&nbsp; å¯åŠ¨è„šæœ¬</h2>
+<p>ã€€ã€€å¯ä»¥ç¼–å†™ä¸€ä¸ªå¯åŠ¨è„šæœ¬/etc/rc.d/init.d/mailsysæ¥å¯åŠ¨è¿™äº›è¿›ç¨‹ï¼Œè¿™æ ·å°±ä¸éœ€è¦å•ç‹¬å¯åŠ¨postfixå’Œcyrusdäº†ï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td bgcolor="#ffffcc"><pre>#!/bin/bash
@@ -1549,8 +1550,8 @@ exit $RETVAL
     </td>
   </tr>
 </tbody></table>
-<h2><a name="a.10.2" id="a.10.2"></a>10.2.&nbsp; ÕûÌå²âÊÔ</h2>
-<p>¡¡¡¡´´½¨ÓÊÏäºó£¬²âÊÔ·¢ÐÅ¹¦ÄÜ£º</p>
+<h2><a name="a.10.2" id="a.10.2"></a>10.2.&nbsp; æ•´ä½“æµ‹è¯•</h2>
+<p>ã€€ã€€åˆ›å»ºé‚®ç®±åŽï¼Œæµ‹è¯•å‘ä¿¡åŠŸèƒ½ï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail root]# <span class="type">mail virtualuser@cngnu.org</span></p>
@@ -1564,8 +1565,8 @@ exit $RETVAL
       <p>&nbsp;</p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡Ê¹ÓÃmailqÀ´²é¿´ÓÊ¼þ¶ÓÁÐÊÇ·ñÓÐ´íÎó£¬²¢²é¿´/var/log/mail/*ÊÇ·ñÓÐ´íÎóÐÅÏ¢¡£Èç¹ûÒ»ÇÐÕý³££¬ËµÃ÷ÐÅ¼þÒÑ¾­·¢ËÍµ½testerÁË¡£</p>
-<p>¡¡¡¡²âÊÔÊÕÐÅ£¬ÏÈ²âÊÔPOP3£º</p>
+<p>ã€€ã€€ä½¿ç”¨mailqæ¥æŸ¥çœ‹é‚®ä»¶é˜Ÿåˆ—æ˜¯å¦æœ‰é”™è¯¯ï¼Œå¹¶æŸ¥çœ‹/var/log/mail/*æ˜¯å¦æœ‰é”™è¯¯ä¿¡æ¯ã€‚å¦‚æžœä¸€åˆ‡æ­£å¸¸ï¼Œè¯´æ˜Žä¿¡ä»¶å·²ç»å‘é€åˆ°testeräº†ã€‚</p>
+<p>ã€€ã€€æµ‹è¯•æ”¶ä¿¡ï¼Œå…ˆæµ‹è¯•POP3ï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail root]# <span class="type">telnet localhost 110</span></p>
@@ -1593,7 +1594,7 @@ exit $RETVAL
       <p>+OK</p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡ÔÙ²âÊÔIMAP£º</p>
+<p>ã€€ã€€å†æµ‹è¯•IMAPï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
     <td> <p>[root@mail root]# <span class="type">imtest -m login -a virtualuser@cngnu.org
@@ -1631,17 +1632,17 @@ exit $RETVAL
   </tr>
 </tbody></table>
 <p>&nbsp;</p>
-<p>¡¡¡¡×îºó²âÊÔIMP£¬ÔÚä¯ÀÀÆ÷ÖÐ·ÃÎÊÈçÏÂURL£º</p>
+<p>ã€€ã€€æœ€åŽæµ‹è¯•IMPï¼Œåœ¨æµè§ˆå™¨ä¸­è®¿é—®å¦‚ä¸‹URLï¼š</p>
 <table bgcolor="#ccffcc" border="0" width="100%">
   <tbody><tr> 
-    <td bgcolor="#ffffcc"> <p>http://ÄãµÄÓÊ¼þ·þÎñÆ÷µÄIP/horde/</p></td>
+    <td bgcolor="#ffffcc"> <p>http://ä½ çš„é‚®ä»¶æœåŠ¡å™¨çš„IP/horde/</p></td>
   </tr>
 </tbody></table>
-<p>¡¡¡¡ÊäÈëÓÃ»§Ãûvirtualuser@cngnu.orgºÍÃÜÂëtestpwµÇÂ¼¡£</p>
+<p>ã€€ã€€è¾“å…¥ç”¨æˆ·åvirtualuser@cngnu.orgå’Œå¯†ç testpwç™»å½•ã€‚</p>
 <p>&nbsp;</p>
-<p>¡¡¡¡ÄãÒ²¿ÉÒÔÊ¹ÓÃÈÎºÎÆäËüµÄÓÊ¼þ¿Í»§¶Ë³ÌÐòÀ´²âÊÔ£¬Èçkmail¡¢Outlook ExpressµÈµÈ¡£</p>
+<p>ã€€ã€€ä½ ä¹Ÿå¯ä»¥ä½¿ç”¨ä»»ä½•å…¶å®ƒçš„é‚®ä»¶å®¢æˆ·ç«¯ç¨‹åºæ¥æµ‹è¯•ï¼Œå¦‚kmailã€Outlook Expressç­‰ç­‰ã€‚</p>
 <p>&nbsp;</p>
-<p>¡¡¡¡OK£¬µ½´ËÎªÖ¹£¬ÎÒÃÇµÄÓÊ¼þÏµÍ³¾Í¼ÜÉèÍê±ÏÁË¡£Èç¹ûÓÐÈÎºÎÎÊÌâ£¬Çëµ½<a href="http://anti-spam.org.cn/forums/index.php?showforum=6">http://www.anti-spam.org.cn/forums/</a>µÄmail°æÌÖÂÛ¡£</p>
+<p>ã€€ã€€OKï¼Œåˆ°æ­¤ä¸ºæ­¢ï¼Œæˆ‘ä»¬çš„é‚®ä»¶ç³»ç»Ÿå°±æž¶è®¾å®Œæ¯•äº†ã€‚å¦‚æžœæœ‰ä»»ä½•é—®é¢˜ï¼Œè¯·åˆ°<a href="http://anti-spam.org.cn/forums/index.php?showforum=6">http://www.anti-spam.org.cn/forums/</a>çš„mailç‰ˆè®¨è®ºã€‚</p>
 <hr size="1">
 <p>&nbsp;</p>
 </body></html>

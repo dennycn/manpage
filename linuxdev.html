@@ -1,51 +1,52 @@
-<html><head><meta content="text/html; charset=gb2312" http-equiv="Content-Type"><title>ÔÚÏß½Ì³Ì-LinuxÓ¦ÓÃ³ÌĞò¿ª·¢</title><link rel="stylesheet" href="http://www.kuqin.com/../docbook.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.65.1"><meta name="description" content="ÎÒµÄLinuxÓ¦ÓÃ³ÌĞò¿ª·¢±Ê¼Ç£¬´ÓÕâÀï¿ªÊ¼ÎÒµÄLinux¿ª·¢Ö®ÂÃ¡£"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
-<a href="index.html"><< ·µ»ØÔÚÏß½Ì³Ì </a><br><br>
+<html><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<title>åœ¨çº¿æ•™ç¨‹-Linuxåº”ç”¨ç¨‹åºå¼€å‘</title><link rel="stylesheet" href="http://www.kuqin.com/../docbook.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.65.1"><meta name="description" content="æˆ‘çš„Linuxåº”ç”¨ç¨‹åºå¼€å‘ç¬”è®°ï¼Œä»è¿™é‡Œå¼€å§‹æˆ‘çš„Linuxå¼€å‘ä¹‹æ—…ã€‚"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<a href="index.html"><< è¿”å›åœ¨çº¿æ•™ç¨‹ </a><br><br>
 
 
-<div class="book" lang="en"><div class="titlepage"><div><div><h1 class="title"><a name="id2875166"></a>LinuxÓ¦ÓÃ³ÌĞò¿ª·¢</h1></div><div><div class="author"><h3 class="author"><span class="firstname">ÕûÀí£ºJims of <a href="http://www.ringkee.com" target="_top">·Ê·ÊÊÀ¼Ò</a></span></h3><div class="affiliation"><div class="address"><p><tt class="email">&lt;<a href="mailto:jims.yang@gmail.com">jims.yang@gmail.com</a>&gt;</tt></p></div></div></div></div><div><p class="copyright">Copyright &copy; 2006 ±¾ÎÄ×ñ´ÓGNU µÄ×ÔÓÉÎÄµµĞí¿ÉÖ¤(Free Documentation License)µÄÌõ¿î£¬»¶Ó­×ªÔØ¡¢ĞŞ¸Ä¡¢É¢²¼¡£</p></div><div><p class="pubdate">·¢²¼Ê±¼ä:2006Äê11ÔÂ01ÈÕ</p></div><div><div class="abstract"><p class="title"><b>Abstract</b></p><p>ÎÒµÄLinuxÓ¦ÓÃ³ÌĞò¿ª·¢±Ê¼Ç£¬´ÓÕâÀï¿ªÊ¼ÎÒµÄLinux¿ª·¢Ö®ÂÃ¡£</p></div></div></div><div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="chapter"><a href="linuxdev.html#id2875155">1. CÓïÑÔ»ù´¡</a></span></dt><dd><dl><dt><span class="sect1"><a href="linuxdev.html#id2875107">1.1. Ö¸ÕëÓëÊı×é</a></span></dt></dl></dd><dt><span class="chapter"><a href="linuxdev.html#id2811772">2. Linux³ÌĞò¿ª·¢»ù´¡¸ÅÄî</a></span></dt><dt><span class="chapter"><a href="linuxdev.html#id2810479">3. ÎÄ¼ş´¦Àí</a></span></dt><dt><span class="chapter"><a href="linuxdev.html#id2861408">4. Linux»·¾³</a></span></dt></dl></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2875155"></a>Chapter 1. CÓïÑÔ»ù´¡</h2></div></div><div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="linuxdev.html#id2875107">1.1. Ö¸ÕëÓëÊı×é</a></span></dt></dl></div><p>LinuxÊÇÊ¹ÓÃCÓïÑÔ¿ª·¢µÄ£¬»ùÓÚLinuxÆ½Ì¨µÄÓ¦ÓÃ³ÌĞò¿ª·¢£¬CÓïÑÔÊÇÊ×Ñ¡µÄ¿ª·¢ÓïÑÔ¡£±¾ÕÂ¼ÇÂ¼CÓïÑÔµÄ»ù±¾¸ÅÄî\
-ºÍ»ù´¡ÖªÊ¶¡£</p><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2875107"></a>1.1. Ö¸ÕëÓëÊı×é</h2></div></div><div></div></div><div class="itemizedlist"><ul type="disc"><li><p>CÓïÑÔÖĞ×¨ÃÅÓÃÀ´´æ·ÅÄÚ´æµØÖ·µÄ±äÁ¿½ĞÖ¸Õë£¨pointer£©±äÁ¿£¬¼ò³ÆÖ¸Õë¡£</p></li><li><p>&amp;ÔËËã·ûÓÃÀ´È¡µÃ±äÁ¿µØÖ·£¬</p></li><li><p>&quot;*&quot;ÔËËã·ûÓÃÀ´È¡µÃÖ¸Õë±äÁ¿µÄÖµ¡£</p></li><li><p>Êı×éÃûÊÇµØÖ·</p></li></ul></div></div></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2811772"></a>Chapter 2. Linux³ÌĞò¿ª·¢»ù´¡¸ÅÄî</h2></div></div><div></div></div><p>ÔÚÉèÖÃLinuxµÄÏµÍ³Â·¾¶Ê±£¬Ê¹ÓÃÃ°ºÅ·Ö¸ôÃ¿¸öÂ·¾¶Ãû¡£Èç:</p><pre class="screen">
+<div class="book" lang="en"><div class="titlepage"><div><div><h1 class="title"><a name="id2875166"></a>Linuxåº”ç”¨ç¨‹åºå¼€å‘</h1></div><div><div class="author"><h3 class="author"><span class="firstname">æ•´ç†ï¼šJims of <a href="http://www.ringkee.com" target="_top">è‚¥è‚¥ä¸–å®¶</a></span></h3><div class="affiliation"><div class="address"><p><tt class="email">&lt;<a href="mailto:jims.yang@gmail.com">jims.yang@gmail.com</a>&gt;</tt></p></div></div></div></div><div><p class="copyright">Copyright &copy; 2006 æœ¬æ–‡éµä»GNU çš„è‡ªç”±æ–‡æ¡£è®¸å¯è¯(Free Documentation License)çš„æ¡æ¬¾ï¼Œæ¬¢è¿è½¬è½½ã€ä¿®æ”¹ã€æ•£å¸ƒã€‚</p></div><div><p class="pubdate">å‘å¸ƒæ—¶é—´:2006å¹´11æœˆ01æ—¥</p></div><div><div class="abstract"><p class="title"><b>Abstract</b></p><p>æˆ‘çš„Linuxåº”ç”¨ç¨‹åºå¼€å‘ç¬”è®°ï¼Œä»è¿™é‡Œå¼€å§‹æˆ‘çš„Linuxå¼€å‘ä¹‹æ—…ã€‚</p></div></div></div><div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="chapter"><a href="linuxdev.html#id2875155">1. Cè¯­è¨€åŸºç¡€</a></span></dt><dd><dl><dt><span class="sect1"><a href="linuxdev.html#id2875107">1.1. æŒ‡é’ˆä¸æ•°ç»„</a></span></dt></dl></dd><dt><span class="chapter"><a href="linuxdev.html#id2811772">2. Linuxç¨‹åºå¼€å‘åŸºç¡€æ¦‚å¿µ</a></span></dt><dt><span class="chapter"><a href="linuxdev.html#id2810479">3. æ–‡ä»¶å¤„ç†</a></span></dt><dt><span class="chapter"><a href="linuxdev.html#id2861408">4. Linuxç¯å¢ƒ</a></span></dt></dl></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2875155"></a>Chapter 1. Cè¯­è¨€åŸºç¡€</h2></div></div><div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="linuxdev.html#id2875107">1.1. æŒ‡é’ˆä¸æ•°ç»„</a></span></dt></dl></div><p>Linuxæ˜¯ä½¿ç”¨Cè¯­è¨€å¼€å‘çš„ï¼ŒåŸºäºLinuxå¹³å°çš„åº”ç”¨ç¨‹åºå¼€å‘ï¼ŒCè¯­è¨€æ˜¯é¦–é€‰çš„å¼€å‘è¯­è¨€ã€‚æœ¬ç« è®°å½•Cè¯­è¨€çš„åŸºæœ¬æ¦‚å¿µ\
+å’ŒåŸºç¡€çŸ¥è¯†ã€‚</p><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2875107"></a>1.1. æŒ‡é’ˆä¸æ•°ç»„</h2></div></div><div></div></div><div class="itemizedlist"><ul type="disc"><li><p>Cè¯­è¨€ä¸­ä¸“é—¨ç”¨æ¥å­˜æ”¾å†…å­˜åœ°å€çš„å˜é‡å«æŒ‡é’ˆï¼ˆpointerï¼‰å˜é‡ï¼Œç®€ç§°æŒ‡é’ˆã€‚</p></li><li><p>&amp;è¿ç®—ç¬¦ç”¨æ¥å–å¾—å˜é‡åœ°å€ï¼Œ</p></li><li><p>&quot;*&quot;è¿ç®—ç¬¦ç”¨æ¥å–å¾—æŒ‡é’ˆå˜é‡çš„å€¼ã€‚</p></li><li><p>æ•°ç»„åæ˜¯åœ°å€</p></li></ul></div></div></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2811772"></a>Chapter 2. Linuxç¨‹åºå¼€å‘åŸºç¡€æ¦‚å¿µ</h2></div></div><div></div></div><p>åœ¨è®¾ç½®Linuxçš„ç³»ç»Ÿè·¯å¾„æ—¶ï¼Œä½¿ç”¨å†’å·åˆ†éš”æ¯ä¸ªè·¯å¾„åã€‚å¦‚:</p><pre class="screen">
 PATH=&quot;/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/bin/X11&quot;
-</pre><p>ÔÚLinuxÖĞµÄ³ÌĞòÓĞÁ½ÖÖ£¬Ò»ÖÖÊÇ¿ÉÖ´ĞĞ³ÌĞò£¬ÓëWindowsÏÂµÄ.exeÎÄ¼şÀàËÆ£¬Ò»ÖÖÊÇ½Å±¾£¬ÓëWindowsÏÂµÄ.batÎÄ¼şÀàËÆ¡£</p><p>LinuxÖĞ³£ÓÃµÄ³ÌĞò´æ·ÅÂ·¾¶ÓĞÒÔÏÂ¼¸¸ö£º</p><div class="itemizedlist"><ul type="disc"><li><p>/bin£¬¸ÃÂ·¾¶´æ·ÅÏµÍ³Æô¶¯Ê±ĞèÒªÊ¹ÓÃµÄ³ÌĞò¡£</p></li><li><p>/usr/bin£¬¸ÃÂ·¾¶´æ·ÅÓÃ»§ĞèÊ¹ÓÃµÄ±ê×¼³ÌĞò¡£</p></li><li><p>/usr/local/bin£¬¸ÃÂ·¾¶´æ·Å±¾µØ°²×°µÄ³ÌĞò¡£</p></li><li><p>LinuxÊ¹ÓÃĞ±¸Ü&quot;/&quot;·Ö¸ôÂ·¾¶Ãû£¬¶ø²»ÊÇWindowsµÄ·´Ğ±¸Ü&quot;\&quot;¡£</p></li><li><p>LinuxÏÂµÄC±àÒëÆ÷Ê¹ÓÃGCC£¬ÓÉÓÚÀúÊ·µÄÔ­Òò£¬ÔÚPOSIX¼æÈİµÄ²Ù×÷ÏµÍ³ÖĞ£¬C±àÒëÆ÷¶¼½Ğcc£¬ËùÒÔLinuxÏÂÒ²
-ÓĞÒ»¸öccÃüÁî£¬ËüÊÇÒ»¸öµ½gccµÄÈíÁ´½Ó¡£</p></li></ul></div><p>¿ª·¢¹¤¾ß£¬¶àÊıÎ»ÓÚ/usr/bin»ò/usr/local/binÄ¿Â¼ÏÂ¡£</p><p>Í·ÎÄ¼ş£¬Î»ÓÚ/usr/includeÄ¿Â¼¡£Í·ÎÄ¼ş°üº¬ÓĞ³£Á¿¶¨Òå¡¢ÏµÍ³µ÷ÓÃºÍ¿âº¯Êıµ÷ÓÃµÄÉùÃ÷¡£ÕâÊÇÏµÍ³Ä¬ÈÏµÄÍ·ÎÄ
-¼ş´æ·ÅÂ·¾¶£¬ÔÚ±àÒë³ÌĞòÊ±£¬±àÒëÆ÷»á×Ô¶¯²éÕÒ¸ÃÄ¿Â¼¡£gcc±àÒëÆ÷ÔÚ±àÒë³ÌĞòÊ±Ò²¿ÉÓÃ-I²ÎÊıÖ¸¶¨ÁíÍâµÄÍ·ÎÄ¼şÂ·¾¶¡£Èç£º</p><pre class="screen">
-gcc -I/usr/local/myinclude test.c¡£
-</pre><p>¿âÎÄ¼ş£¬¿âÊÇÒ»×éÒÑ±àÒëµÄº¯Êı¼¯ºÏ£¬¿É·½±ãÎÒÃÇÖØÓÃ´úÂë¡£Ä¬ÈÏ´æ·ÅÔÚ/libºÍ/usr/libÄ¿Â¼¡£¿âÎÄ¼ş¿É·ÖÎª¾²
-Ì¬ºÍ¹²ÏíÁ½Àà¡£</p><div class="itemizedlist"><ul type="disc"><li><p>.a£¬¾²Ì¬¿âÎÄ¼ş¡£Ê¹ÓÃ¾²Ì¬¿â½«»á°ÑËùÓĞµÄ¿â´úÂëÒıÈë³ÌĞò£¬Õ¼ÓÃ¸ü¶àµÄ´ÅÅÌ¿Õ¼äºÍÄÚ´æ¿Õ¼ä£¬ËùÒÔÒ»°ã½¨ÒéÊ¹ÓÃ¹²Ïí¿â¡£</p></li><li><p>.so£¬¹²Ïí¿âÎÄ¼ş¡£Ê¹ÓÃ¹²Ïí¿âµÄ³ÌĞò²»°üº¬¿â´úÂë£¬Ö»ÔÚ³ÌĞòÔËĞĞ²Åµ÷ÓÃ¹²Ïí¿âÖĞµÄ´úÂë¡£</p></li></ul></div><p>ÔÚ±àÒëÊ±¿ÉÓÃ°üº¬Â·¾¶µÄ¿âÎÄ¼şÃû»òÓÃ-l²ÎÊıÖ¸¶¨Ê¹ÓÃµÄ¿âÎÄ¼ş£¬/usr/lib/libm.aµÈ¼ÛÓÚ-lm¡£Èç:</p><pre class="screen">
+</pre><p>åœ¨Linuxä¸­çš„ç¨‹åºæœ‰ä¸¤ç§ï¼Œä¸€ç§æ˜¯å¯æ‰§è¡Œç¨‹åºï¼Œä¸Windowsä¸‹çš„.exeæ–‡ä»¶ç±»ä¼¼ï¼Œä¸€ç§æ˜¯è„šæœ¬ï¼Œä¸Windowsä¸‹çš„.batæ–‡ä»¶ç±»ä¼¼ã€‚</p><p>Linuxä¸­å¸¸ç”¨çš„ç¨‹åºå­˜æ”¾è·¯å¾„æœ‰ä»¥ä¸‹å‡ ä¸ªï¼š</p><div class="itemizedlist"><ul type="disc"><li><p>/binï¼Œè¯¥è·¯å¾„å­˜æ”¾ç³»ç»Ÿå¯åŠ¨æ—¶éœ€è¦ä½¿ç”¨çš„ç¨‹åºã€‚</p></li><li><p>/usr/binï¼Œè¯¥è·¯å¾„å­˜æ”¾ç”¨æˆ·éœ€ä½¿ç”¨çš„æ ‡å‡†ç¨‹åºã€‚</p></li><li><p>/usr/local/binï¼Œè¯¥è·¯å¾„å­˜æ”¾æœ¬åœ°å®‰è£…çš„ç¨‹åºã€‚</p></li><li><p>Linuxä½¿ç”¨æ–œæ &quot;/&quot;åˆ†éš”è·¯å¾„åï¼Œè€Œä¸æ˜¯Windowsçš„åæ–œæ &quot;\&quot;ã€‚</p></li><li><p>Linuxä¸‹çš„Cç¼–è¯‘å™¨ä½¿ç”¨GCCï¼Œç”±äºå†å²çš„åŸå› ï¼Œåœ¨POSIXå…¼å®¹çš„æ“ä½œç³»ç»Ÿä¸­ï¼ŒCç¼–è¯‘å™¨éƒ½å«ccï¼Œæ‰€ä»¥Linuxä¸‹ä¹Ÿ
+æœ‰ä¸€ä¸ªccå‘½ä»¤ï¼Œå®ƒæ˜¯ä¸€ä¸ªåˆ°gccçš„è½¯é“¾æ¥ã€‚</p></li></ul></div><p>å¼€å‘å·¥å…·ï¼Œå¤šæ•°ä½äº/usr/binæˆ–/usr/local/binç›®å½•ä¸‹ã€‚</p><p>å¤´æ–‡ä»¶ï¼Œä½äº/usr/includeç›®å½•ã€‚å¤´æ–‡ä»¶åŒ…å«æœ‰å¸¸é‡å®šä¹‰ã€ç³»ç»Ÿè°ƒç”¨å’Œåº“å‡½æ•°è°ƒç”¨çš„å£°æ˜ã€‚è¿™æ˜¯ç³»ç»Ÿé»˜è®¤çš„å¤´æ–‡
+ä»¶å­˜æ”¾è·¯å¾„ï¼Œåœ¨ç¼–è¯‘ç¨‹åºæ—¶ï¼Œç¼–è¯‘å™¨ä¼šè‡ªåŠ¨æŸ¥æ‰¾è¯¥ç›®å½•ã€‚gccç¼–è¯‘å™¨åœ¨ç¼–è¯‘ç¨‹åºæ—¶ä¹Ÿå¯ç”¨-Iå‚æ•°æŒ‡å®šå¦å¤–çš„å¤´æ–‡ä»¶è·¯å¾„ã€‚å¦‚ï¼š</p><pre class="screen">
+gcc -I/usr/local/myinclude test.cã€‚
+</pre><p>åº“æ–‡ä»¶ï¼Œåº“æ˜¯ä¸€ç»„å·²ç¼–è¯‘çš„å‡½æ•°é›†åˆï¼Œå¯æ–¹ä¾¿æˆ‘ä»¬é‡ç”¨ä»£ç ã€‚é»˜è®¤å­˜æ”¾åœ¨/libå’Œ/usr/libç›®å½•ã€‚åº“æ–‡ä»¶å¯åˆ†ä¸ºé™
+æ€å’Œå…±äº«ä¸¤ç±»ã€‚</p><div class="itemizedlist"><ul type="disc"><li><p>.aï¼Œé™æ€åº“æ–‡ä»¶ã€‚ä½¿ç”¨é™æ€åº“å°†ä¼šæŠŠæ‰€æœ‰çš„åº“ä»£ç å¼•å…¥ç¨‹åºï¼Œå ç”¨æ›´å¤šçš„ç£ç›˜ç©ºé—´å’Œå†…å­˜ç©ºé—´ï¼Œæ‰€ä»¥ä¸€èˆ¬å»ºè®®ä½¿ç”¨å…±äº«åº“ã€‚</p></li><li><p>.soï¼Œå…±äº«åº“æ–‡ä»¶ã€‚ä½¿ç”¨å…±äº«åº“çš„ç¨‹åºä¸åŒ…å«åº“ä»£ç ï¼Œåªåœ¨ç¨‹åºè¿è¡Œæ‰è°ƒç”¨å…±äº«åº“ä¸­çš„ä»£ç ã€‚</p></li></ul></div><p>åœ¨ç¼–è¯‘æ—¶å¯ç”¨åŒ…å«è·¯å¾„çš„åº“æ–‡ä»¶åæˆ–ç”¨-lå‚æ•°æŒ‡å®šä½¿ç”¨çš„åº“æ–‡ä»¶ï¼Œ/usr/lib/libm.aç­‰ä»·äº-lmã€‚å¦‚:</p><pre class="screen">
 gcc -o hello hello.c /usr/lib/libm.a  
-»òÓÃ-l²ÎÊıĞ´³É 
+æˆ–ç”¨-lå‚æ•°å†™æˆ 
 gcc -o hello hello.c -lm
-</pre><p>Èç¹ûÎÒÃÇÒªÊ¹ÓÃµÄ¿âÎÄ¼ş²»ÔÚÄ¬ÈÏÎ»ÖÃ£¬ÔÚ±àÒë³ÌĞòÊ±¿ÉÓÃ-L²ÎÊıÖ¸¶¨¿âÎÄ¼şµÄÂ·¾¶¡£ÏÂÃæÀı×ÓÊ¹ÓÃÁË/usr/hello/libÄ¿Â¼ÏÂµÄlibhello¿âÎÄ¼ş£º</p><pre class="screen">
+</pre><p>å¦‚æœæˆ‘ä»¬è¦ä½¿ç”¨çš„åº“æ–‡ä»¶ä¸åœ¨é»˜è®¤ä½ç½®ï¼Œåœ¨ç¼–è¯‘ç¨‹åºæ—¶å¯ç”¨-Lå‚æ•°æŒ‡å®šåº“æ–‡ä»¶çš„è·¯å¾„ã€‚ä¸‹é¢ä¾‹å­ä½¿ç”¨äº†/usr/hello/libç›®å½•ä¸‹çš„libhelloåº“æ–‡ä»¶ï¼š</p><pre class="screen">
 gcc -o hello -L/usr/hello/lib hello.c -lhello
-</pre><p>´´½¨ºÍÊ¹ÓÃ¾²Ì¬¿â¡£</p><div class="itemizedlist"><ul type="disc"><li><p> ·Ö±ğ´´½¨Á½¸öº¯Êı£¬º¯ÊıaµÄÄÚÈİÈçÏÂ£º</p><pre class="screen">
+</pre><p>åˆ›å»ºå’Œä½¿ç”¨é™æ€åº“ã€‚</p><div class="itemizedlist"><ul type="disc"><li><p> åˆ†åˆ«åˆ›å»ºä¸¤ä¸ªå‡½æ•°ï¼Œå‡½æ•°açš„å†…å®¹å¦‚ä¸‹ï¼š</p><pre class="screen">
 #include &lt;stdio.h&gt;
 
 void a(char *arg)
 {
         printf(&quot;function a,hello world %s\n&quot;,arg);
 }
-</pre><p>º¯ÊıbµÄÄÚÈİÈçÏÂ£º</p><pre class="screen">
+</pre><p>å‡½æ•°bçš„å†…å®¹å¦‚ä¸‹ï¼š</p><pre class="screen">
 #include &lt;stdio.h&gt;
 
 void b(int arg)
 {
         printf(&quot;function b,hello world %d\n&quot;,arg);
 }
-</pre></li><li><p>½Ó×Å£¬Éú³ÉÁ½¸ö¶ÔÏóÎÄ¼ş¡£</p><pre class="screen">
+</pre></li><li><p>æ¥ç€ï¼Œç”Ÿæˆä¸¤ä¸ªå¯¹è±¡æ–‡ä»¶ã€‚</p><pre class="screen">
 debian:~/c# gcc -c a.c b.c
 debian:~/c# ls *.o
 a.o  b.o
-</pre></li><li><p>×îºó£¬ÓÃar¹éµµÃüÁî°ÑÉú³ÉµÄ¶ÔÏóÎÄ¼ş´ò°ü³ÉÒ»¸ö¾²Ì¬¿âlibhello.a¡£</p><pre class="screen">
+</pre></li><li><p>æœ€åï¼Œç”¨arå½’æ¡£å‘½ä»¤æŠŠç”Ÿæˆçš„å¯¹è±¡æ–‡ä»¶æ‰“åŒ…æˆä¸€ä¸ªé™æ€åº“libhello.aã€‚</p><pre class="screen">
 debian:~/c# ar crv libhello.a a.o b.o 
 r - a.o
 r - b.o
-</pre></li><li><p>ÎªÎÒÃÇµÄ¾²Ì¬¿â¶¨ÒåÒ»¸öÍ·ÎÄ¼şlib.h£¬°üº¬ÕâÁ½¸öº¯ÊıµÄ¶¨Òå¡£</p><pre class="screen">
+</pre></li><li><p>ä¸ºæˆ‘ä»¬çš„é™æ€åº“å®šä¹‰ä¸€ä¸ªå¤´æ–‡ä»¶lib.hï¼ŒåŒ…å«è¿™ä¸¤ä¸ªå‡½æ•°çš„å®šä¹‰ã€‚</p><pre class="screen">
 /*
  * this is a header file.
  */
 void a(char *arg);
 void b(int arg);
 }}}
-  * ´´½¨jims.c³ÌĞò£¬ÄÚÈİÈçÏÂ¡£{{{#!cplusplus
+  * åˆ›å»ºjims.cç¨‹åºï¼Œå†…å®¹å¦‚ä¸‹ã€‚{{{#!cplusplus
 #include &quot;lib.h&quot;
 
 int main()
@@ -54,46 +55,46 @@ int main()
         b(3);
         exit(0);
 }
-</pre></li><li><p>ÀûÓÃ¾²Ì¬Á´½Ó¿â±àÒë³ÌĞò¡£</p><pre class="screen">
+</pre></li><li><p>åˆ©ç”¨é™æ€é“¾æ¥åº“ç¼–è¯‘ç¨‹åºã€‚</p><pre class="screen">
 debian:~/c# gcc -c jims.c
 debian:~/c# gcc -o jims jims.o libhello.a
 debian:~/c# ./jims
 function a,hello world jims.yang
 function b,hello world 3
 debian:~/c#                                       
-</pre><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="http://www.kuqin.com/docs/images/note.png"></td><th align="left"></th></tr><tr><td colspan="2" align="left" valign="top">gcc -o jims jims.o libhello.aÒ²¿ÉÒÔĞ´³Égcc -o jims jims.o -L. -lhello¡£</td></tr></table></div></li></ul></div><p>Ô¤´¦Àí£¬ÔÚ³ÌĞò¿ªÍ·ÒÔ¡°#¡±¿ªÍ·µÄÃüÁî¾ÍÊÇÔ¤´¦ÀíÃüÁî£¬ËüÔÚÓï·¨É¨ÃèºÍ·ÖÎö·¨Ê±±»Ô¤´¦Àí³ÌĞò´¦Àí¡£Ô¤´¦ÀíÓĞÒÔÏÂ¼¸Àà£º</p><div class="itemizedlist"><ul type="disc"><li><p>ºê¶¨Òå£¬ÓÃ#defineÖ¸Áî¶¨Òå¡£Èç£º#define BUFFER 1024¡£È¡Ïûºê¶¨ÒåÓÃ#undefÖ¸Áî¡£ºê»¹¿É´ø²ÎÊı£¬Èç£º</p><pre class="screen">
+</pre><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="http://www.kuqin.com/docs/images/note.png"></td><th align="left"></th></tr><tr><td colspan="2" align="left" valign="top">gcc -o jims jims.o libhello.aä¹Ÿå¯ä»¥å†™æˆgcc -o jims jims.o -L. -lhelloã€‚</td></tr></table></div></li></ul></div><p>é¢„å¤„ç†ï¼Œåœ¨ç¨‹åºå¼€å¤´ä»¥â€œ#â€å¼€å¤´çš„å‘½ä»¤å°±æ˜¯é¢„å¤„ç†å‘½ä»¤ï¼Œå®ƒåœ¨è¯­æ³•æ‰«æå’Œåˆ†ææ³•æ—¶è¢«é¢„å¤„ç†ç¨‹åºå¤„ç†ã€‚é¢„å¤„ç†æœ‰ä»¥ä¸‹å‡ ç±»ï¼š</p><div class="itemizedlist"><ul type="disc"><li><p>å®å®šä¹‰ï¼Œç”¨#defineæŒ‡ä»¤å®šä¹‰ã€‚å¦‚ï¼š#define BUFFER 1024ã€‚å–æ¶ˆå®å®šä¹‰ç”¨#undefæŒ‡ä»¤ã€‚å®è¿˜å¯å¸¦å‚æ•°ï¼Œå¦‚ï¼š</p><pre class="screen">
 #define BUF(x) x*3
-</pre></li><li><p>°üº¬Í·ÎÄ¼ş£¬ÓÃ#includeÖ¸Áî£¬¿É°Ñ°üº¬µÄÎÄ¼ş´úÂë²åÈëµ±Ç°Î»ÖÃ¡£Èç£º</p><pre class="screen">
-&lt;#include &lt;stdio.h&gt;¡£
-</pre><p>°üº¬µÄÎÄ¼ş¿ÉÒÔÓÃ¼âÀ¨ºÅ£¬Ò²¿ÉÓÃË«ÒıºÅ£¬Èç£º</p><pre class="screen">
-#include &quot;stdio.h&quot;¡£
-</pre><p>²»Í¬Ö®´¦ÊÇ£¬Ê¹ÓÃ¼âÀ¨ºÅ±íÊ¾ÔÚÏµÍ³µÄ°üº¬Ä¿Â¼£¨/usr/include£©ÏÂ²éÕÒ¸ÃÎÄ¼ş£¬¶øË«ÒıºÅ±íÊ¾ÔÚµ±Ç°Ä¿Â¼ÏÂ²éÕÒ°üº¬ÎÄ¼ş¡£Ã¿ĞĞÖ»ÄÜ°üº¬Ò»¸ö°üº¬ÎÄ¼ş£¬Òª°üº¬¶à¸öÎÄ¼şÒªÓÃ¶à¸ö#includeÖ¸Áî¡£</p></li><li><p>Ìõ¼ş±àÒë£¬¸ñÊ½ÈçÏÂ£º</p><pre class="screen">
-¸ñÊ½Ò»£¬Èç¹û¶¨ÒåÁË±êÊ¶·û£¬Ôò±àÒë³ÌĞò¶Î1£¬·ñÔò±àÒë³ÌĞò¶Î2£º
-#ifdef ±êÊ¶·û
-³ÌĞò¶Î1
+</pre></li><li><p>åŒ…å«å¤´æ–‡ä»¶ï¼Œç”¨#includeæŒ‡ä»¤ï¼Œå¯æŠŠåŒ…å«çš„æ–‡ä»¶ä»£ç æ’å…¥å½“å‰ä½ç½®ã€‚å¦‚ï¼š</p><pre class="screen">
+&lt;#include &lt;stdio.h&gt;ã€‚
+</pre><p>åŒ…å«çš„æ–‡ä»¶å¯ä»¥ç”¨å°–æ‹¬å·ï¼Œä¹Ÿå¯ç”¨åŒå¼•å·ï¼Œå¦‚ï¼š</p><pre class="screen">
+#include &quot;stdio.h&quot;ã€‚
+</pre><p>ä¸åŒä¹‹å¤„æ˜¯ï¼Œä½¿ç”¨å°–æ‹¬å·è¡¨ç¤ºåœ¨ç³»ç»Ÿçš„åŒ…å«ç›®å½•ï¼ˆ/usr/includeï¼‰ä¸‹æŸ¥æ‰¾è¯¥æ–‡ä»¶ï¼Œè€ŒåŒå¼•å·è¡¨ç¤ºåœ¨å½“å‰ç›®å½•ä¸‹æŸ¥æ‰¾åŒ…å«æ–‡ä»¶ã€‚æ¯è¡Œåªèƒ½åŒ…å«ä¸€ä¸ªåŒ…å«æ–‡ä»¶ï¼Œè¦åŒ…å«å¤šä¸ªæ–‡ä»¶è¦ç”¨å¤šä¸ª#includeæŒ‡ä»¤ã€‚</p></li><li><p>æ¡ä»¶ç¼–è¯‘ï¼Œæ ¼å¼å¦‚ä¸‹ï¼š</p><pre class="screen">
+æ ¼å¼ä¸€ï¼Œå¦‚æœå®šä¹‰äº†æ ‡è¯†ç¬¦ï¼Œåˆ™ç¼–è¯‘ç¨‹åºæ®µ1ï¼Œå¦åˆ™ç¼–è¯‘ç¨‹åºæ®µ2ï¼š
+#ifdef æ ‡è¯†ç¬¦
+ç¨‹åºæ®µ1
 #else
-³ÌĞò¶Î2
+ç¨‹åºæ®µ2
 #endif
 
-¸ñÊ½¶ş£¬Èç¹û¶¨ÒåÁË±êÊ¶·û£¬Ôò±àÒë³ÌĞò¶Î2£¬·ñÔò±àÒë³ÌĞò¶Î1£¬Óë¸ñÊ½Ò»Ïà·´£º
-#ifndef ±êÊ¶·û
-³ÌĞò¶Î1
+æ ¼å¼äºŒï¼Œå¦‚æœå®šä¹‰äº†æ ‡è¯†ç¬¦ï¼Œåˆ™ç¼–è¯‘ç¨‹åºæ®µ2ï¼Œå¦åˆ™ç¼–è¯‘ç¨‹åºæ®µ1ï¼Œä¸æ ¼å¼ä¸€ç›¸åï¼š
+#ifndef æ ‡è¯†ç¬¦
+ç¨‹åºæ®µ1
 #else
-³ÌĞò¶Î2
+ç¨‹åºæ®µ2
 #endif 
 
-¸ñÊ½Èı£¬³£Á¿±í´ïÊ½ÎªÕæÔò±àÒë³ÌĞò¶Î1£¬·ñÔò±àÒë³ÌĞò¶Î2£º
-#if ³£Á¿±í´ïÊ½
-³ÌĞò¶Î1
+æ ¼å¼ä¸‰ï¼Œå¸¸é‡è¡¨è¾¾å¼ä¸ºçœŸåˆ™ç¼–è¯‘ç¨‹åºæ®µ1ï¼Œå¦åˆ™ç¼–è¯‘ç¨‹åºæ®µ2ï¼š
+#if å¸¸é‡è¡¨è¾¾å¼
+ç¨‹åºæ®µ1
 #else
-³ÌĞò¶Î2
+ç¨‹åºæ®µ2
 #endif 
-</pre></li></ul></div><p>Ê¹ÓÃgcc±àÒë³ÌĞòÊ±£¬Òª¾­¹ıËÄ¸ö²½Öè¡£</p><div class="itemizedlist"><ul type="disc"><li><p>Ô¤´¦Àí£¨Pre-Processing£©£¬ÓÃ-E²ÎÊı¿ÉÒÔÉú³ÉÔ¤´¦ÀíºóµÄÎÄ¼ş¡£</p><pre class="screen">
+</pre></li></ul></div><p>ä½¿ç”¨gccç¼–è¯‘ç¨‹åºæ—¶ï¼Œè¦ç»è¿‡å››ä¸ªæ­¥éª¤ã€‚</p><div class="itemizedlist"><ul type="disc"><li><p>é¢„å¤„ç†ï¼ˆPre-Processingï¼‰ï¼Œç”¨-Eå‚æ•°å¯ä»¥ç”Ÿæˆé¢„å¤„ç†åçš„æ–‡ä»¶ã€‚</p><pre class="screen">
 debian:~/c# gcc -E hello.c -o hello.i
-</pre></li><li><p>±àÒë£¨Compiling£©</p></li><li><p>»ã±à£¨Assembling£©</p></li><li><p>Á´½Ó£¨Linking£©</p></li></ul></div><p>GCCÄ¬ÈÏ½«.iÎÄ¼ş¿´³ÉÊÇÔ¤´¦ÀíºóµÄCÓïÑÔÔ´´úÂë£¬ËùÒÔÎÒÃÇ¿ÉÒÔÕâÑù°Ñ.iÎÄ¼ş±àÒë³ÉÄ¿±êÎÄ¼ş¡£</p><pre class="screen">
+</pre></li><li><p>ç¼–è¯‘ï¼ˆCompilingï¼‰</p></li><li><p>æ±‡ç¼–ï¼ˆAssemblingï¼‰</p></li><li><p>é“¾æ¥ï¼ˆLinkingï¼‰</p></li></ul></div><p>GCCé»˜è®¤å°†.iæ–‡ä»¶çœ‹æˆæ˜¯é¢„å¤„ç†åçš„Cè¯­è¨€æºä»£ç ï¼Œæ‰€ä»¥æˆ‘ä»¬å¯ä»¥è¿™æ ·æŠŠ.iæ–‡ä»¶ç¼–è¯‘æˆç›®æ ‡æ–‡ä»¶ã€‚</p><pre class="screen">
 debian:~# gcc -c hello.i -o hello.o}}}
-</pre><p>ÔÚGCCÖĞÊ¹ÓÃ-pedanticÑ¡ÏîÄÜ¹»°ïÖú³ÌĞòÔ±·¢ÏÖÒ»Ğ©²»·ûºÏANSI/ISO C±ê×¼µÄ´úÂë£¬µ«²»ÊÇÈ«²¿¡£´Ó³ÌĞòÔ±µÄ½Ç¶È¿´£¬º¯Êı¿âÊµ¼ÊÉÏ¾ÍÊÇÒ»Ğ©Í·ÎÄ¼ş£¨.h£©ºÍ¿âÎÄ¼ş£¨.so»òÕß.a£©µÄ¼¯ºÏ¡£</p></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2810479"></a>Chapter 3. ÎÄ¼ş´¦Àí</h2></div></div><div></div></div><p>ÔÚLinuxÏµÍ³ÄÚËùÓĞ¶«Î÷¶¼ÊÇÒÔÎÄ¼şµÄĞÎÊ½À´±íÊ¾µÄ£¬³ıÒ»°ãµÄ´ÅÅÌÎÄ¼şÍâ£¬»¹ÓĞÉè±¸ÎÄ¼ş£¬ÈçÓ²ÅÌ¡¢Éù¿¨¡¢´®¿Ú¡¢´òÓ¡»úµÈ¡£Éè±¸ÎÄ¼şÓÖ¿É·ÖÎª×Ö·ûÉè±¸ÎÄ¼ş£¨character devices£©ºÍ¿éÉè±¸ÎÄ¼ş£¨block devices£©¡£Ê¹ÓÃman hierÃüÁî
-¿ÉÒÔ²é¿´LinuxÎÄ¼şÏµÍ³µÄ·Ö²ã½á¹¹¡£ÎÄ¼şµÄ´¦Àí·½·¨Ò»°ãÓĞÎåÖÖ£¬·Ö±ğÊÇ£º</p><div class="itemizedlist"><ul type="disc"><li><p>open£¬´ò¿ªÒ»¸öÎÄ¼ş»òÉè±¸¡£</p></li><li><p>close£¬¹Ø±ÕÒ»¸ö´ò¿ªµÄÎÄ¼ş»òÉè±¸¡£</p></li><li><p>read£¬´ÓÒ»¸ö´ò¿ªµÄÎÄ¼ş»òÕßÉè±¸ÖĞ¶ÁÈ¡ĞÅÏ¢¡£</p></li><li><p>write£¬Ğ´ÈëÒ»¸öÎÄ¼ş»òÉè±¸¡£</p></li><li><p>ioctl£¬°Ñ¿ØÖÆĞÅÏ¢´«µİ¸øÉè±¸Çı¶¯³ÌĞò¡£</p></li></ul></div><p>open£¬close£¬read£¬writeºÍioctl¶¼ÊÇµÍ¼¶£¬Ã»ÓĞ»º³åµÄÎÄ¼ş²Ù×÷º¯Êı£¬ÔÚÊµ¼Ê³ÌĞò¿ª·¢ÖĞ½ÏÉÙÊ¹ÓÃ£¬Ò»°ãÎÒÃÇÊ¹ÓÃ±ê×¼I/Oº¯Êı¿âÀ´´¦ÀíÎÄ¼ş²Ù×÷¡£Èç£ºfopen£¬fclose£¬fread£¬fwrite£¬fflushµÈ¡£ÔÚÊ¹ÓÃ±ê×¼I/O¿âÊ±£¬ĞèÓÃµ½stdio.hÍ·ÎÄ¼ş¡£</p><p>Ò»Ğ©³£ÓÃµÄÎÄ¼şºÍÄ¿Â¼Î¬»¤º¯Êı£ºchmod¡¢chown¡¢unlink¡¢link¡¢symlink¡¢mkdir¡¢rmdir¡¢chdir¡¢getcwd¡¢opendir£¬closedir¡¢readdir¡¢telldir¡¢seekdirµÈ¡£</p><p>fcntlÓÃÓÚÎ¬»¤ÎÄ¼şÃèÊö·û£¬mmapÓÃÓÚ·ÖÏíÄÚ´æ¡£</p><p>´´½¨ÎÄµµ²¢ÊäÈëĞÅÏ¢µÄÊ¾Àı´úÂë£º</p><pre class="screen">
+</pre><p>åœ¨GCCä¸­ä½¿ç”¨-pedanticé€‰é¡¹èƒ½å¤Ÿå¸®åŠ©ç¨‹åºå‘˜å‘ç°ä¸€äº›ä¸ç¬¦åˆANSI/ISO Cæ ‡å‡†çš„ä»£ç ï¼Œä½†ä¸æ˜¯å…¨éƒ¨ã€‚ä»ç¨‹åºå‘˜çš„è§’åº¦çœ‹ï¼Œå‡½æ•°åº“å®é™…ä¸Šå°±æ˜¯ä¸€äº›å¤´æ–‡ä»¶ï¼ˆ.hï¼‰å’Œåº“æ–‡ä»¶ï¼ˆ.soæˆ–è€….aï¼‰çš„é›†åˆã€‚</p></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2810479"></a>Chapter 3. æ–‡ä»¶å¤„ç†</h2></div></div><div></div></div><p>åœ¨Linuxç³»ç»Ÿå†…æ‰€æœ‰ä¸œè¥¿éƒ½æ˜¯ä»¥æ–‡ä»¶çš„å½¢å¼æ¥è¡¨ç¤ºçš„ï¼Œé™¤ä¸€èˆ¬çš„ç£ç›˜æ–‡ä»¶å¤–ï¼Œè¿˜æœ‰è®¾å¤‡æ–‡ä»¶ï¼Œå¦‚ç¡¬ç›˜ã€å£°å¡ã€ä¸²å£ã€æ‰“å°æœºç­‰ã€‚è®¾å¤‡æ–‡ä»¶åˆå¯åˆ†ä¸ºå­—ç¬¦è®¾å¤‡æ–‡ä»¶ï¼ˆcharacter devicesï¼‰å’Œå—è®¾å¤‡æ–‡ä»¶ï¼ˆblock devicesï¼‰ã€‚ä½¿ç”¨man hierå‘½ä»¤
+å¯ä»¥æŸ¥çœ‹Linuxæ–‡ä»¶ç³»ç»Ÿçš„åˆ†å±‚ç»“æ„ã€‚æ–‡ä»¶çš„å¤„ç†æ–¹æ³•ä¸€èˆ¬æœ‰äº”ç§ï¼Œåˆ†åˆ«æ˜¯ï¼š</p><div class="itemizedlist"><ul type="disc"><li><p>openï¼Œæ‰“å¼€ä¸€ä¸ªæ–‡ä»¶æˆ–è®¾å¤‡ã€‚</p></li><li><p>closeï¼Œå…³é—­ä¸€ä¸ªæ‰“å¼€çš„æ–‡ä»¶æˆ–è®¾å¤‡ã€‚</p></li><li><p>readï¼Œä»ä¸€ä¸ªæ‰“å¼€çš„æ–‡ä»¶æˆ–è€…è®¾å¤‡ä¸­è¯»å–ä¿¡æ¯ã€‚</p></li><li><p>writeï¼Œå†™å…¥ä¸€ä¸ªæ–‡ä»¶æˆ–è®¾å¤‡ã€‚</p></li><li><p>ioctlï¼ŒæŠŠæ§åˆ¶ä¿¡æ¯ä¼ é€’ç»™è®¾å¤‡é©±åŠ¨ç¨‹åºã€‚</p></li></ul></div><p>openï¼Œcloseï¼Œreadï¼Œwriteå’Œioctléƒ½æ˜¯ä½çº§ï¼Œæ²¡æœ‰ç¼“å†²çš„æ–‡ä»¶æ“ä½œå‡½æ•°ï¼Œåœ¨å®é™…ç¨‹åºå¼€å‘ä¸­è¾ƒå°‘ä½¿ç”¨ï¼Œä¸€èˆ¬æˆ‘ä»¬ä½¿ç”¨æ ‡å‡†I/Oå‡½æ•°åº“æ¥å¤„ç†æ–‡ä»¶æ“ä½œã€‚å¦‚ï¼šfopenï¼Œfcloseï¼Œfreadï¼Œfwriteï¼Œfflushç­‰ã€‚åœ¨ä½¿ç”¨æ ‡å‡†I/Oåº“æ—¶ï¼Œéœ€ç”¨åˆ°stdio.hå¤´æ–‡ä»¶ã€‚</p><p>ä¸€äº›å¸¸ç”¨çš„æ–‡ä»¶å’Œç›®å½•ç»´æŠ¤å‡½æ•°ï¼šchmodã€chownã€unlinkã€linkã€symlinkã€mkdirã€rmdirã€chdirã€getcwdã€opendirï¼Œclosedirã€readdirã€telldirã€seekdirç­‰ã€‚</p><p>fcntlç”¨äºç»´æŠ¤æ–‡ä»¶æè¿°ç¬¦ï¼Œmmapç”¨äºåˆ†äº«å†…å­˜ã€‚</p><p>åˆ›å»ºæ–‡æ¡£å¹¶è¾“å…¥ä¿¡æ¯çš„ç¤ºä¾‹ä»£ç ï¼š</p><pre class="screen">
 #include &lt;stdio.h&gt;
 
 main(void)
@@ -106,7 +107,7 @@ main(void)
                 putc(c,fp1);
         fclose(fp1);
         }
-</pre><p>ÏÔÊ¾Â·¾¶µÄÊ¾Àı´úÂë</p><pre class="screen">
+</pre><p>æ˜¾ç¤ºè·¯å¾„çš„ç¤ºä¾‹ä»£ç </p><pre class="screen">
 #include &lt;unistd.h&gt;
 #include &lt;stdio.h&gt;
 #include &lt;dirent.h&gt;
@@ -154,11 +155,11 @@ printdir(char *dir, int depth)
         chdir(&quot;..&quot;);
         closedir(dp);
 }
-</pre></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2861408"></a>Chapter 4. Linux»·¾³</h2></div></div><div></div></div><p>void main()±íÊ¾³ÌĞòÃ»ÓĞ²ÎÊı£¬int main(int argc, char *argv[])±íÊ¾³ÌĞòÒª´ø²ÎÊı£¬argc±£´æ×Å²ÎÊıµÄ¸öÊı£¬argv[]Êı×é±£´æ×Å²ÎÊıÁĞ±í¡£Èç£º</p><pre class="screen">
+</pre></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2861408"></a>Chapter 4. Linuxç¯å¢ƒ</h2></div></div><div></div></div><p>void main()è¡¨ç¤ºç¨‹åºæ²¡æœ‰å‚æ•°ï¼Œint main(int argc, char *argv[])è¡¨ç¤ºç¨‹åºè¦å¸¦å‚æ•°ï¼Œargcä¿å­˜ç€å‚æ•°çš„ä¸ªæ•°ï¼Œargv[]æ•°ç»„ä¿å­˜ç€å‚æ•°åˆ—è¡¨ã€‚å¦‚ï¼š</p><pre class="screen">
 debian:~# mytest a b c 
 argc: 4
 argv: [&quot;mytest&quot;,&quot;a&quot;,&quot;b&quot;,&quot;c&quot;]
-</pre><p>getopt()º¯ÊıºÍgetopt_long()ÓÃÀ´´¦Àí³ÌĞòÑ¡Ïî¡£getopt_long()º¯Êı¿ÉÒÔ´¦ÀíÒÔ&quot;--&quot;¿ªÍ·µÄÑ¡Ïî¡£Gnu¹Ù·½ÊÖ²áÒ³£º<a href="http://www.gnu.org/software/libc/manual/html_node/Getopt.html" target="_top">http://www.gnu.org/software/libc/manual/html_node/Getopt.html</a></p><p>»ñÈ¡ÃüÁîĞĞ²ÎÊıµÄÊ¾Àı´úÂë£º</p><pre class="screen">
+</pre><p>getopt()å‡½æ•°å’Œgetopt_long()ç”¨æ¥å¤„ç†ç¨‹åºé€‰é¡¹ã€‚getopt_long()å‡½æ•°å¯ä»¥å¤„ç†ä»¥&quot;--&quot;å¼€å¤´çš„é€‰é¡¹ã€‚Gnuå®˜æ–¹æ‰‹å†Œé¡µï¼š<a href="http://www.gnu.org/software/libc/manual/html_node/Getopt.html" target="_top">http://www.gnu.org/software/libc/manual/html_node/Getopt.html</a></p><p>è·å–å‘½ä»¤è¡Œå‚æ•°çš„ç¤ºä¾‹ä»£ç ï¼š</p><pre class="screen">
 #include &lt;stdio.h&gt;
 #include &lt;unistd.h&gt;
 
@@ -166,7 +167,7 @@ int main(int argc, char *argv[])
 {
    int opt;
 
-   while((opt = getopt(argc,argv,&quot;if:lr&quot;)) != -1)       /* ·µ»Ø¡°-1¡±±íÊ¾ÒÑÃ»Ñ¡ÏîĞèÒª´¦Àí¡£*/
+   while((opt = getopt(argc,argv,&quot;if:lr&quot;)) != -1)       /* è¿”å›â€œ-1â€è¡¨ç¤ºå·²æ²¡é€‰é¡¹éœ€è¦å¤„ç†ã€‚*/
    {
            switch(opt){
            case 'i':
@@ -175,23 +176,23 @@ int main(int argc, char *argv[])
                    printf(&quot;option: %c\n&quot;, opt);
                    break;
            case 'f':
-                   printf(&quot;filename: %s\n&quot;, optarg);           /*Èç¹ûÑ¡ÏîĞèÒªÒ»¸ö²ÎÊı£¬Ôò²ÎÊı´æ·ÅÔÚÍâ²¿±äÁ¿optargÖĞ¡£*/
+                   printf(&quot;filename: %s\n&quot;, optarg);           /*å¦‚æœé€‰é¡¹éœ€è¦ä¸€ä¸ªå‚æ•°ï¼Œåˆ™å‚æ•°å­˜æ”¾åœ¨å¤–éƒ¨å˜é‡optargä¸­ã€‚*/
                    break;
            case ':':
-                   printf(&quot;option needs a value \n&quot;);          /*¡°£º¡±±íÊ¾Ñ¡ÏîĞèÒª²ÎÊı*/
+                   printf(&quot;option needs a value \n&quot;);          /*â€œï¼šâ€è¡¨ç¤ºé€‰é¡¹éœ€è¦å‚æ•°*/
                    break;
            case ' ':
-                   printf(&quot;unknown option: %c\n&quot;, optopt);    /*·µ»Ø¡° ¡±±íÊ¾ÎŞĞ§µÄÑ¡Ïî£¬²¢°ÑÎŞĞ§µÄÑ¡Ïî´æ·ÅÔÚÍâ²¿±äÁ¿optoptÖĞ¡£*/
+                   printf(&quot;unknown option: %c\n&quot;, optopt);    /*è¿”å›â€œ â€è¡¨ç¤ºæ— æ•ˆçš„é€‰é¡¹ï¼Œå¹¶æŠŠæ— æ•ˆçš„é€‰é¡¹å­˜æ”¾åœ¨å¤–éƒ¨å˜é‡optoptä¸­ã€‚*/
                    break;
            }
    }
-   for(; optind &lt; argc; optind++)                      /*Íâ²¿±äÁ¿optindÖ¸ÏòÏÂÒ»¸öÒª´¦ÀíµÄÑ¡ÏîË÷ÒıÖµ¡£*/
+   for(; optind &lt; argc; optind++)                      /*å¤–éƒ¨å˜é‡optindæŒ‡å‘ä¸‹ä¸€ä¸ªè¦å¤„ç†çš„é€‰é¡¹ç´¢å¼•å€¼ã€‚*/
            printf(&quot;argument: %s\n&quot;, argv[optind]);
 }
-</pre><p>ÔÚbash shellÖĞÊ¹ÓÃsetÃüÁî¿ÉÒÔÁĞ³öLinuxÏµÍ³µÄ»·¾³±äÁ¿£¬ÔÚC³ÌĞòÖĞÎÒÃÇÒ²¿ÉÒÔÓÃputenv()ºÍgetenv()º¯ÊıÀ´»ñÈ¡LinuxÏµÍ³µÄ»·¾³±äÁ¿¡£ÕâÁ½¸öº¯ÊıµÄÉùÃ÷ÈçÏÂ£º</p><pre class="screen">
+</pre><p>åœ¨bash shellä¸­ä½¿ç”¨setå‘½ä»¤å¯ä»¥åˆ—å‡ºLinuxç³»ç»Ÿçš„ç¯å¢ƒå˜é‡ï¼Œåœ¨Cç¨‹åºä¸­æˆ‘ä»¬ä¹Ÿå¯ä»¥ç”¨putenv()å’Œgetenv()å‡½æ•°æ¥è·å–Linuxç³»ç»Ÿçš„ç¯å¢ƒå˜é‡ã€‚è¿™ä¸¤ä¸ªå‡½æ•°çš„å£°æ˜å¦‚ä¸‹ï¼š</p><pre class="screen">
 char *getenv(const char *name);
 int putenv(const char *string);
-</pre><p>ÏµÍ³ÓĞÒ»¸öenviron±äÁ¿¼ÇÂ¼ÁËËùÓĞµÄÏµÍ³±äÁ¿¡£ÏÂÃæµÄÊ¾Àı´úÂë¿É°ÑenvironµÄÖµÏÔÊ¾Í¬À´¡£</p><pre class="screen">
+</pre><p>ç³»ç»Ÿæœ‰ä¸€ä¸ªenvironå˜é‡è®°å½•äº†æ‰€æœ‰çš„ç³»ç»Ÿå˜é‡ã€‚ä¸‹é¢çš„ç¤ºä¾‹ä»£ç å¯æŠŠenvironçš„å€¼æ˜¾ç¤ºåŒæ¥ã€‚</p><pre class="screen">
 #include &lt;stdlib.h&gt;
 #include &lt;stdio.h&gt;
 
@@ -207,11 +208,11 @@ int main()
                 env++;
         }
 }
-</pre><p>linuxºÍÆäËüunixÒ»Ñù£¬Ê¹ÓÃGMT1970Äê1ÔÂ1ÈÕ×ÓÒ¹×÷ÎªÏµÍ³Ê±¼äµÄ¿ªÊ¼£¬Ò²½ĞUNIX¼ÍÔªµÄ¿ªÊ¼¡£ÏÖÔÚµÄÊ±¼ä±íÊ¾ÎªUNIX¼ÍÔªÖÁ½ñ¾­¹ıµÄÃëÊı¡£</p><pre class="screen">
+</pre><p>linuxå’Œå…¶å®ƒunixä¸€æ ·ï¼Œä½¿ç”¨GMT1970å¹´1æœˆ1æ—¥å­å¤œä½œä¸ºç³»ç»Ÿæ—¶é—´çš„å¼€å§‹ï¼Œä¹Ÿå«UNIXçºªå…ƒçš„å¼€å§‹ã€‚ç°åœ¨çš„æ—¶é—´è¡¨ç¤ºä¸ºUNIXçºªå…ƒè‡³ä»Šç»è¿‡çš„ç§’æ•°ã€‚</p><pre class="screen">
 #include &lt;time.h&gt;
  time_t time(time_t *t);
 
-ÏÔÊ¾ÏµÍ³Ê±¼äµÄÊ¾Àı´úÂë£º
+æ˜¾ç¤ºç³»ç»Ÿæ—¶é—´çš„ç¤ºä¾‹ä»£ç ï¼š
 #include &lt;time.h&gt;
 #include &lt;stdio.h&gt;
 #include &lt;unistd.h&gt;
@@ -227,11 +228,11 @@ int main()
                 sleep(2);
         }
 }
-</pre><p>ÓÃctime()º¯ÊıÒÔÓÑºÃ·½Ê½·µ»Øµ±Ç°Ê±¼ä£¬ËüµÄº¯ÊıÉùÃ÷¸ñÊ½£º</p><pre class="screen">
+</pre><p>ç”¨ctime()å‡½æ•°ä»¥å‹å¥½æ–¹å¼è¿”å›å½“å‰æ—¶é—´ï¼Œå®ƒçš„å‡½æ•°å£°æ˜æ ¼å¼ï¼š</p><pre class="screen">
 #include &lt;time.h&gt;
 char *ctime(const time_t *timeval);
 
-Ê¾Àı£º
+ç¤ºä¾‹ï¼š
 #include &lt;time.h&gt;
 #include &lt;stdio.h&gt;
 
@@ -242,11 +243,11 @@ int main(void)
         (void)time(&amp;time1);
         printf(&quot;The date is: %s\n&quot;,ctime(&amp;time1));
 }
-</pre><p>ÓÃmkstemp()º¯Êı´´½¨ÁÙÊ±ÎÄ¼ş¡£ÉùÃ÷£º</p><pre class="screen">
+</pre><p>ç”¨mkstemp()å‡½æ•°åˆ›å»ºä¸´æ—¶æ–‡ä»¶ã€‚å£°æ˜ï¼š</p><pre class="screen">
 #include&lt;stdlib.h&gt;
 int mkstemp(char * template);
 
-Ê¾Àı£º
+ç¤ºä¾‹ï¼š
 #include &lt;stdio.h&gt;
 
 int main(void)
@@ -257,14 +258,14 @@ int main(void)
         printf(&quot;template = %s\n&quot;, template);
         close(fp);
 }
-</pre><p>»ñÈ¡ÓÃ»§ĞÅÏ¢¡£</p><pre class="screen">
-ÉùÃ÷£º
+</pre><p>è·å–ç”¨æˆ·ä¿¡æ¯ã€‚</p><pre class="screen">
+å£°æ˜ï¼š
 #include &lt;sys/types.h&gt;
 #include &lt;pwd.h&gt;
-struct passwd *getpwuid(uid_t uid);   /* ¸ù¾İuid·µ»ØÓÃ»§ĞÅÏ¢ */
-struct passwd *getpwnam(const char *name);   /* ¸ù¾İÓÃ»§Ãû·µ»ØÓÃ»§ĞÅÏ¢ */
+struct passwd *getpwuid(uid_t uid);   /* æ ¹æ®uidè¿”å›ç”¨æˆ·ä¿¡æ¯ */
+struct passwd *getpwnam(const char *name);   /* æ ¹æ®ç”¨æˆ·åè¿”å›ç”¨æˆ·ä¿¡æ¯ */
 
-passwd½á¹¹ÌåËµÃ÷£º
+passwdç»“æ„ä½“è¯´æ˜ï¼š
 passwd Member Description
 char *pw_name          The user's login name
 uid_t pw_uid             The UID number
@@ -273,7 +274,7 @@ char *pw_dir            The user's home directory
 char *pw_gecos        The user's full name
 char *pw_shell         The user's default shell
 
-Ê¾Àı´úÂë£º
+ç¤ºä¾‹ä»£ç ï¼š
 #include &lt;stdio.h&gt;
 #include &lt;sys/types.h&gt;
 #include &lt;stdio.h&gt;
@@ -294,12 +295,12 @@ int main(void)
         printf(&quot;The gid is:%d\n&quot;,gid);
         printf(&quot;The pw struct:\n name=%s, uid=%d, gid=%d, home=%s,shell=%s\n&quot;, pw-&gt;pw_name, pw-&gt;pw_uid, pw-&gt;pw_gid, pw-&gt;pw_dir, pw-&gt;pw_shell);
 }
-</pre><p>ÓÃgethostname()º¯Êı»ñÈ¡Ö÷»úÃû¡£</p><pre class="screen">
-º¯ÊıÉùÃ÷£º
+</pre><p>ç”¨gethostname()å‡½æ•°è·å–ä¸»æœºåã€‚</p><pre class="screen">
+å‡½æ•°å£°æ˜ï¼š
 #include &lt;unistd.h&gt;
-int gethostname(char *name, size_t namelen);    /* Ö÷»úÃû·µ»Ø¸øname±äÁ¿ */
+int gethostname(char *name, size_t namelen);    /* ä¸»æœºåè¿”å›ç»™nameå˜é‡ */
 
-Ê¾Àı´úÂë£º
+ç¤ºä¾‹ä»£ç ï¼š
 #include &lt;stdio.h&gt;
 #include &lt;unistd.h&gt;
 
@@ -312,12 +313,12 @@ int main(void)
         printf(&quot;The status is %d\n&quot;, status);
         printf(&quot;The hostname is: %s\n&quot;, computer);
 }
-</pre><p>ÓÃuname()º¯Êı»ñÈ¡Ö÷»úÏêÏ¸ĞÅÏ¢£¬¾ÍÏñshellµÄunameÃüÁî·µ»ØµÄĞÅÏ¢Ò»Ñù¡£</p><pre class="screen">
-º¯ÊıÉùÃ÷£º
+</pre><p>ç”¨uname()å‡½æ•°è·å–ä¸»æœºè¯¦ç»†ä¿¡æ¯ï¼Œå°±åƒshellçš„unameå‘½ä»¤è¿”å›çš„ä¿¡æ¯ä¸€æ ·ã€‚</p><pre class="screen">
+å‡½æ•°å£°æ˜ï¼š
 #include &lt;sys/utsname.h&gt;
 int uname(struct utsname *name);
 
-utsname½á¹¹ÌåËµÃ÷£º
+utsnameç»“æ„ä½“è¯´æ˜ï¼š
 utsname Member                  Description
 char sysname[]                  The operating system name
 char nodename[]                 The host name
@@ -325,7 +326,7 @@ char release[]                  The release level of the system
 char version[]                  The version number of the system
 char machine[]                  The hardware type
 
-Ê¾Àı´úÂë£º
+ç¤ºä¾‹ä»£ç ï¼š
 #include &lt;stdio.h&gt;
 #include &lt;unistd.h&gt;
 #include &lt;sys/utsname.h&gt;
@@ -344,16 +345,16 @@ int main(void)
         uname(&amp;uts);
         printf(&quot;The uname's information.\n uts.sysname=%s\n uts.machine=%s\n uts.nodename=%s\n uts.release=%s\n uts.version=%s\n&quot;, uts.sysname,uts.machine,uts.nodename,uts.release,uts.version);
 }
-</pre><p>Ê¹ÓÃsyslog()º¯Êı´¦ÀíÈÕÖ¾ĞÅÏ¢¡£</p><pre class="screen">
-º¯ÊıÉùÃ÷£º
+</pre><p>ä½¿ç”¨syslog()å‡½æ•°å¤„ç†æ—¥å¿—ä¿¡æ¯ã€‚</p><pre class="screen">
+å‡½æ•°å£°æ˜ï¼š
 #include &lt;syslog.h&gt;
 void syslog(int priority, const char *message, arguments...);
 
-priority²ÎÊıµÄ¸ñÊ½£¨severity level|facility code£©
-Ê¾Àı£º 
+priorityå‚æ•°çš„æ ¼å¼ï¼ˆseverity level|facility codeï¼‰
+ç¤ºä¾‹ï¼š 
 LOG_ERR|LOG_USER
 
-severity level£º
+severity levelï¼š
 Priority Level               Description
 LOG_EMERG                    An emergency situation
 LOG_ALERT                    High-priority problem, such as database corruption
@@ -364,7 +365,7 @@ LOG_NOTICE                   Special conditions requiring attention
 LOG_INFO                     Informational messages
 LOG_DEBUG                    Debug messages
 
-facility value£¨×ª×Ôsyslog.hÍ·ÎÄ¼ş£©£º
+facility valueï¼ˆè½¬è‡ªsyslog.hå¤´æ–‡ä»¶ï¼‰ï¼š
 /* facility codes */
 #define LOG_KERN        (0&lt;&lt;3)  /* kernel messages */
 #define LOG_USER        (1&lt;&lt;3)  /* random user-level messages */
@@ -379,7 +380,7 @@ facility value£¨×ª×Ôsyslog.hÍ·ÎÄ¼ş£©£º
 #define LOG_AUTHPRIV    (10&lt;&lt;3) /* security/authorization messages (private) */
 #define LOG_FTP         (11&lt;&lt;3) /* ftp daemon */
 
-Ê¾Àı´úÂë£º
+ç¤ºä¾‹ä»£ç ï¼š
 #include &lt;syslog.h&gt;
 #include &lt;stdio.h&gt;
 
@@ -391,20 +392,20 @@ int main(void)
         if(!f)                                    
                 syslog(LOG_ERR|LOG_USER,&quot;test - %m\n&quot;);       
 }
-</pre><p>ÉÏÃæµÄÈÕÖ¾ĞÅÏ¢ÓÉÏµÍ³×Ô¶¯¸ø³ö£¬ÎÒÃÇÒ²¿É¹ıÂËÈÕÖ¾ĞÅÏ¢¡£ÓÃµ½ÒÔÏÂº¯Êı£º</p><pre class="screen">
+</pre><p>ä¸Šé¢çš„æ—¥å¿—ä¿¡æ¯ç”±ç³»ç»Ÿè‡ªåŠ¨ç»™å‡ºï¼Œæˆ‘ä»¬ä¹Ÿå¯è¿‡æ»¤æ—¥å¿—ä¿¡æ¯ã€‚ç”¨åˆ°ä»¥ä¸‹å‡½æ•°ï¼š</p><pre class="screen">
 #include &lt;syslog.h&gt;
 void closelog(void);
 void openlog(const char *ident, int logopt, int facility);
 int setlogmask(int maskpri);
 
-logopt²ÎÊıµÄÑ¡Ïî£º
+logoptå‚æ•°çš„é€‰é¡¹ï¼š
 logopt Parameter    Description
 LOG_PID             Includes the process identifier, a unique number allocated to each process by the system, in the messages.
-LOG_CONS            Sends messages to the console if they can¡¯t be logged.
+LOG_CONS            Sends messages to the console if they canâ€™t be logged.
 LOG_ODELAY          Opens the log facility at first call to .
 LOG_NDELAY          Opens the log facility immediately, rather than at first log.
 
-Ê¾Àı´úÂë£º
+ç¤ºä¾‹ä»£ç ï¼š
 #include &lt;syslog.h&gt;
 #include &lt;stdio.h&gt;
 #include &lt;unistd.h&gt;
@@ -413,13 +414,13 @@ int main(void)
 {
         int logmask;
 
-        openlog(&quot;logmask&quot;, LOG_PID|LOG_CONS, LOG_USER); /*ÈÕÖ¾ĞÅÏ¢»á°üº¬½ø³Ìid¡£*/
+        openlog(&quot;logmask&quot;, LOG_PID|LOG_CONS, LOG_USER); /*æ—¥å¿—ä¿¡æ¯ä¼šåŒ…å«è¿›ç¨‹idã€‚*/
         syslog(LOG_INFO, &quot;informative message, pid=%d&quot;, getpid()); 
-        syslog(LOG_DEBUG,&quot;debug message, should appear&quot;);   /*¼ÇÂ¼¸ÃÈÕÖ¾ĞÅÏ¢¡£*/
-        logmask = setlogmask(LOG_UPTO(LOG_NOTICE));     /*ÉèÖÃÆÁ±ÎµÍÓÚNOTICE¼¶±ğµÄÈÕÖ¾ĞÅÏ¢¡£*/
-        syslog(LOG_DEBUG, &quot;debug message, should not appear&quot;);  /*¸ÃÈÕÖ¾ĞÅÏ¢±»ÆÁ±Î£¬²»¼ÇÂ¼¡£*/
+        syslog(LOG_DEBUG,&quot;debug message, should appear&quot;);   /*è®°å½•è¯¥æ—¥å¿—ä¿¡æ¯ã€‚*/
+        logmask = setlogmask(LOG_UPTO(LOG_NOTICE));     /*è®¾ç½®å±è”½ä½äºNOTICEçº§åˆ«çš„æ—¥å¿—ä¿¡æ¯ã€‚*/
+        syslog(LOG_DEBUG, &quot;debug message, should not appear&quot;);  /*è¯¥æ—¥å¿—ä¿¡æ¯è¢«å±è”½ï¼Œä¸è®°å½•ã€‚*/
 }
-</pre><p>²»Í¬°²È«¼¶±ğµÄÈÕÖ¾ĞÅÏ¢´æ·ÅÔÚ/var/logÄ¿Â¼ÏÂµÄÄÄ¸öÎÄ¼şÖĞÊÇÓÉ/etc/syslog.confÎÄ¼ş¿ØÖÆµÄ£¬ÏÂÃæÊÇÎÒÏµÍ³ÖĞsyslog.confÎÄ¼şµÄÄÚÈİ£º</p><pre class="screen">
+</pre><p>ä¸åŒå®‰å…¨çº§åˆ«çš„æ—¥å¿—ä¿¡æ¯å­˜æ”¾åœ¨/var/logç›®å½•ä¸‹çš„å“ªä¸ªæ–‡ä»¶ä¸­æ˜¯ç”±/etc/syslog.confæ–‡ä»¶æ§åˆ¶çš„ï¼Œä¸‹é¢æ˜¯æˆ‘ç³»ç»Ÿä¸­syslog.confæ–‡ä»¶çš„å†…å®¹ï¼š</p><pre class="screen">
 #  /etc/syslog.conf     Configuration file for syslogd.
 #
 #                       For more information see syslog.conf(5)

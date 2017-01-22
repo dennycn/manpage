@@ -1,14 +1,15 @@
-<html><head><meta content="text/html; charset=gb2312" http-equiv="Content-Type"><title>ÔÚÏß½Ì³Ì-PyGTKÑ§Ï°±Ê¼Ç</title><link rel="stylesheet" href="http://www.kuqin.com/docs/docbook.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.65.1"><meta name="description" content="±¾±Ê¼Ç»ùÓÚhttp://www.pygtk.orgÉÏµÄPyGTK 2.0 Tutorial¡£"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
-<a href="."><< ·µ»ØÔÚÏß½Ì³Ì </a><br><br>
+<html><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<title>åœ¨çº¿æ•™ç¨‹-PyGTKå­¦ä¹ ç¬”è®°</title><link rel="stylesheet" href="http://www.kuqin.com/docs/docbook.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.65.1"><meta name="description" content="æœ¬ç¬”è®°åŸºäºhttp://www.pygtk.orgä¸Šçš„PyGTK 2.0 Tutorialã€‚"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<a href="."><< è¿”å›åœ¨çº¿æ•™ç¨‹ </a><br><br>
 
-<div class="book" lang="en"><div class="titlepage"><div><div><h1 class="title"><a name="id2875166"></a>PyGTKÑ§Ï°±Ê¼Ç</h1></div><div><div class="author"><h3 class="author"><span class="firstname">ÕûÀí£ºJims of <a href="http://www.ringkee.com" target="_top">·Ê·ÊÊÀ¼Ò</a></span></h3><div class="affiliation"><div class="address"><p><tt class="email">&lt;<a href="mailto:jims.yang@gmail.com">jims.yang@gmail.com</a>&gt;</tt></p></div></div></div></div><div><p class="copyright">Copyright &copy; 2005 ±¾ÎÄ×ñ´ÓGNU µÄ×ÔÓÉÎÄµµĞí¿ÉÖ¤(Free Document License)µÄÌõ¿î£¬»¶Ó­×ªÔØ¡¢ĞŞ¸Ä¡¢É¢²¼¡£</p></div><div><p class="pubdate">·¢²¼Ê±¼ä:2005Äê03ÔÂ27ÈÕ</p></div><div><p class="pubdate">¸üĞÂÊ±¼ä:2005Äê04ÔÂ21ÈÕ</p></div><div><div class="abstract"><p class="title"><b>Abstract</b></p><p>±¾±Ê¼Ç»ùÓÚ<a href="http://www.pygtk.org" target="_top">http://www.pygtk.org</a>ÉÏµÄPyGTK 2.0 Tutorial¡£</p></div></div></div><div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="chapter"><a href="pygtk.html#id2811710">1. ÒıÑÔ</a></span></dt><dt><span class="chapter"><a href="pygtk.html#id2811780">2. ¿ªÊ¼</a></span></dt><dd><dl><dt><span class="sect1"><a href="pygtk.html#id2811787">2.1. Ê¾Àı</a></span></dt><dt><span class="sect1"><a href="pygtk.html#id2809683">2.2. ĞÅºÅºÍ»Øµ÷º¯Êı</a></span></dt></dl></dd><dt><span class="chapter"><a href="pygtk.html#id2810178">3. ÊÂ¼ş£¨events£©</a></span></dt><dt><span class="chapter"><a href="pygtk.html#id2810188">4. °ü×°×é¼ş</a></span></dt></dl></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2811710"></a>Chapter 1. ÒıÑÔ</h2></div></div><div></div></div><p>PyGTK2.0ÊÇPythonµÄÒ»¸ö¿ª·¢GTK+ 2.X³ÌĞòµÄ½Ó¿ÚÄ£¿é¡£Í¨¹ı¸ÃÄ£¿é£¬ÎÒÃÇ¿ÉÊ¹ÓÃPythonÓïÑÔ¿ª·¢GTK+³ÌĞò¡£Ïà±ÈCÓïÑÔ£¬¿ª·¢ËÙ¶È´ó´óÌá¸ß¡£PyGTKµÄÖ÷Òª×÷ÕßÊÇJames Henstridge¡£¿ÉÍ¨¹ıÕâ¸öµç×ÓÓÊ¼şÓëËû¹µÍ¨£ºjames@daa.com.au¡£</p><p>ÎªÁË·½±ãÑ§Ï°PyGTK£¬Johan DahlinĞ´ÁËÒ»¸öPythonĞ¡³ÌĞò£¨<a href="http://www.ringkee.com/jims/technic_folder/python/scripts/pygtkconsole.py" target="_top">pygtkconsole.py</a>£©£¬Ëü¿ÉÊ¹ÎÒÃÇÒÔpython½»»¥»·¾³µÄĞÎÊ½Ê¹ÓÃPyGTK¡£Ê¹ÓÃ¸Ã¹¤¾ß£¬ÎÒÃÇ¿É·½±ãµØ²âÊÔPyGTKµÄ¹¦ÄÜ£¬¶ø²»ÓÃ±àĞ´Ò»¸öÍêÕûµÄPython³ÌĞò¡£ÏÂÃæÊÇÒ»¸ö¼òµ¥µÄÀı×Ó£º</p><pre class="screen">
+<div class="book" lang="en"><div class="titlepage"><div><div><h1 class="title"><a name="id2875166"></a>PyGTKå­¦ä¹ ç¬”è®°</h1></div><div><div class="author"><h3 class="author"><span class="firstname">æ•´ç†ï¼šJims of <a href="http://www.ringkee.com" target="_top">è‚¥è‚¥ä¸–å®¶</a></span></h3><div class="affiliation"><div class="address"><p><tt class="email">&lt;<a href="mailto:jims.yang@gmail.com">jims.yang@gmail.com</a>&gt;</tt></p></div></div></div></div><div><p class="copyright">Copyright &copy; 2005 æœ¬æ–‡éµä»GNU çš„è‡ªç”±æ–‡æ¡£è®¸å¯è¯(Free Document License)çš„æ¡æ¬¾ï¼Œæ¬¢è¿è½¬è½½ã€ä¿®æ”¹ã€æ•£å¸ƒã€‚</p></div><div><p class="pubdate">å‘å¸ƒæ—¶é—´:2005å¹´03æœˆ27æ—¥</p></div><div><p class="pubdate">æ›´æ–°æ—¶é—´:2005å¹´04æœˆ21æ—¥</p></div><div><div class="abstract"><p class="title"><b>Abstract</b></p><p>æœ¬ç¬”è®°åŸºäº<a href="http://www.pygtk.org" target="_top">http://www.pygtk.org</a>ä¸Šçš„PyGTK 2.0 Tutorialã€‚</p></div></div></div><div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="chapter"><a href="pygtk.html#id2811710">1. å¼•è¨€</a></span></dt><dt><span class="chapter"><a href="pygtk.html#id2811780">2. å¼€å§‹</a></span></dt><dd><dl><dt><span class="sect1"><a href="pygtk.html#id2811787">2.1. ç¤ºä¾‹</a></span></dt><dt><span class="sect1"><a href="pygtk.html#id2809683">2.2. ä¿¡å·å’Œå›è°ƒå‡½æ•°</a></span></dt></dl></dd><dt><span class="chapter"><a href="pygtk.html#id2810178">3. äº‹ä»¶ï¼ˆeventsï¼‰</a></span></dt><dt><span class="chapter"><a href="pygtk.html#id2810188">4. åŒ…è£…ç»„ä»¶</a></span></dt></dl></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2811710"></a>Chapter 1. å¼•è¨€</h2></div></div><div></div></div><p>PyGTK2.0æ˜¯Pythonçš„ä¸€ä¸ªå¼€å‘GTK+ 2.Xç¨‹åºçš„æ¥å£æ¨¡å—ã€‚é€šè¿‡è¯¥æ¨¡å—ï¼Œæˆ‘ä»¬å¯ä½¿ç”¨Pythonè¯­è¨€å¼€å‘GTK+ç¨‹åºã€‚ç›¸æ¯”Cè¯­è¨€ï¼Œå¼€å‘é€Ÿåº¦å¤§å¤§æé«˜ã€‚PyGTKçš„ä¸»è¦ä½œè€…æ˜¯James Henstridgeã€‚å¯é€šè¿‡è¿™ä¸ªç”µå­é‚®ä»¶ä¸ä»–æ²Ÿé€šï¼šjames@daa.com.auã€‚</p><p>ä¸ºäº†æ–¹ä¾¿å­¦ä¹ PyGTKï¼ŒJohan Dahlinå†™äº†ä¸€ä¸ªPythonå°ç¨‹åºï¼ˆ<a href="http://www.ringkee.com/jims/technic_folder/python/scripts/pygtkconsole.py" target="_top">pygtkconsole.py</a>ï¼‰ï¼Œå®ƒå¯ä½¿æˆ‘ä»¬ä»¥pythonäº¤äº’ç¯å¢ƒçš„å½¢å¼ä½¿ç”¨PyGTKã€‚ä½¿ç”¨è¯¥å·¥å…·ï¼Œæˆ‘ä»¬å¯æ–¹ä¾¿åœ°æµ‹è¯•PyGTKçš„åŠŸèƒ½ï¼Œè€Œä¸ç”¨ç¼–å†™ä¸€ä¸ªå®Œæ•´çš„Pythonç¨‹åºã€‚ä¸‹é¢æ˜¯ä¸€ä¸ªç®€å•çš„ä¾‹å­ï¼š</p><pre class="screen">
 debian:~/pygtk# ./pygtkconsole.py
 Python 2.3.5, PyGTK 2.4.1 (Gtk+ 2.6.2)
 Interactive console to manipulate GTK+ widgets.
 &gt;&gt;&gt; w=Window()
 &gt;&gt;&gt; w.set_title('window test')
 &gt;&gt;&gt; w.show()
-</pre><p>ÕâÑùÆÁÄ»ÉÏ»áÏÔÊ¾Ò»¸ö±êÌâÎª¡°window test¡±µÄĞ¡´°¿Ú¡£</p></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2811780"></a>Chapter 2. ¿ªÊ¼</h2></div></div><div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="pygtk.html#id2811787">2.1. Ê¾Àı</a></span></dt><dt><span class="sect1"><a href="pygtk.html#id2809683">2.2. ĞÅºÅºÍ»Øµ÷º¯Êı</a></span></dt></dl></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2811787"></a>2.1. Ê¾Àı</h2></div></div><div></div></div><p>ÎÒÃÇÒÔÒ»¸ö¼òµ¥µÄÀı×Ó¿ªÊ¼±¾ÕÂµÄÄÚÈİ£¬Õâ¸ö³ÌĞò½Ğbase.py£¬Ëü»á´´½¨Ò»¸ö200X200µÄ´°¿Ú£¬µ«Ã»ÓĞÉè¼ÆÍË³ö³ÌĞò£¬ËùÒÔÖ»ÄÜÓÃshellµÄÖĞ¶Ï¹¦ÄÜÇ¿ĞĞ½áÊø³ÌĞò¡£</p><pre class="screen">
+</pre><p>è¿™æ ·å±å¹•ä¸Šä¼šæ˜¾ç¤ºä¸€ä¸ªæ ‡é¢˜ä¸ºâ€œwindow testâ€çš„å°çª—å£ã€‚</p></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2811780"></a>Chapter 2. å¼€å§‹</h2></div></div><div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="pygtk.html#id2811787">2.1. ç¤ºä¾‹</a></span></dt><dt><span class="sect1"><a href="pygtk.html#id2809683">2.2. ä¿¡å·å’Œå›è°ƒå‡½æ•°</a></span></dt></dl></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2811787"></a>2.1. ç¤ºä¾‹</h2></div></div><div></div></div><p>æˆ‘ä»¬ä»¥ä¸€ä¸ªç®€å•çš„ä¾‹å­å¼€å§‹æœ¬ç« çš„å†…å®¹ï¼Œè¿™ä¸ªç¨‹åºå«base.pyï¼Œå®ƒä¼šåˆ›å»ºä¸€ä¸ª200X200çš„çª—å£ï¼Œä½†æ²¡æœ‰è®¾è®¡é€€å‡ºç¨‹åºï¼Œæ‰€ä»¥åªèƒ½ç”¨shellçš„ä¸­æ–­åŠŸèƒ½å¼ºè¡Œç»“æŸç¨‹åºã€‚</p><pre class="screen">
     1   #!/usr/bin/env python
     2
     3   # example base.py
@@ -29,12 +30,12 @@ Interactive console to manipulate GTK+ widgets.
    18   if __name__ == &quot;__main__&quot;:
    19       base = Base()
    20       base.main()
-</pre><p>´æÅÌºó£¬¿ÉÓÃÁ½ÖÖ·½Ê½ÔËĞĞ¸Ã³ÌĞò£¬Ò»ÖÖÊÇÓÃ£º</p><pre class="screen">
+</pre><p>å­˜ç›˜åï¼Œå¯ç”¨ä¸¤ç§æ–¹å¼è¿è¡Œè¯¥ç¨‹åºï¼Œä¸€ç§æ˜¯ç”¨ï¼š</p><pre class="screen">
 debian:~# python base.py
-</pre><p>ÁíÒ»ÖÖÊÇÓÃchmodÃüÁîÉèÖÃbase.pyÎÄ¼şÎª¿ÉÖ´ĞĞ£¬ÔÙÓÃshellµÄµãºÅÖ´ĞĞ£º</p><pre class="screen">
+</pre><p>å¦ä¸€ç§æ˜¯ç”¨chmodå‘½ä»¤è®¾ç½®base.pyæ–‡ä»¶ä¸ºå¯æ‰§è¡Œï¼Œå†ç”¨shellçš„ç‚¹å·æ‰§è¡Œï¼š</p><pre class="screen">
 debian:~# chmod +x base.py
 debian:~# ./base.py
-</pre><p>ÏÂÃæ¼òµ¥½âÎöÒ»ÏÂbase.py³ÌĞò£º</p><div class="itemizedlist"><ul type="disc"><li><p>³ÌĞòµÚ1ĞĞµ÷ÓÃpythonÀ´Ö´ĞĞbase.py½Å±¾£¬Ã¿¸öpython½Å±¾µÄµÚÒ»¾ä¶¼ÊÇÕâÑùµÄ¡£</p></li><li><p>µÚ5-6ĞĞµ¼ÈëPyGTKÄ£¿é£¬²¢ÏŞÖÆPyGTKÄ£¿éµÄ°æ±¾Îª2.0¡£ÒòÎªÔÚÒ»¸öÏµÍ³ÖĞ¿ÉÍ¬Ê±´æÔÚ¶à¸öPyGTK°æ±¾£¬Èç¹ûÃ»ÓĞ°æ±¾ÏŞÖÆ£¬³ÌĞò¿ÉÄÜ»á³öÏÖ»ìÂÒ¡£</p></li><li><p>9-15ĞĞ¶¨ÒåÒ»¸öBaseÀà£¬ÓÃÒÔ´´½¨Ò»¸ö´°¿Ú¡£</p></li><li><p>µÚ18-20ĞĞ¼ì²é__name__±äÁ¿ÊÇ·ñÊÇ&quot;__main__&quot;£¬Èç¹ûÊÇ£¬Ôò´ú±í¸Ã½Å±¾ÊÇµ±×÷½Å±¾Ö´ĞĞµÄ£¬ÔòÖ´ĞĞÏÂÃæµÄ´úÂë£¬·ñÔò£¬´ú±í×÷ÎªÄ£¿éµ¼Èë£¬²»Ö´ĞĞÏÂÃæµÄ´úÂë¡£</p></li><li><p>19ĞĞÉú³ÉÒ»¸öBaseÀàµÄÊµÀıbase£¬Í¨¹ı¸ÃÊµÀıµ÷ÓÃBaseÀàµÄmain()·½·¨Æô¶¯GTK+µÄÊÂ¼ş´¦ÀíÑ­»·£¬µÈ´ıXÊÂ¼ş£¨»÷¼ü¡¢Êó±êµã»÷µÈ£©µÄ·¢Éú¡£</p></li></ul></div><p>ÏÂÃæÊÇÒ»¸öHello WorldµÄÀı×Ó£º</p><pre class="screen">
+</pre><p>ä¸‹é¢ç®€å•è§£æä¸€ä¸‹base.pyç¨‹åºï¼š</p><div class="itemizedlist"><ul type="disc"><li><p>ç¨‹åºç¬¬1è¡Œè°ƒç”¨pythonæ¥æ‰§è¡Œbase.pyè„šæœ¬ï¼Œæ¯ä¸ªpythonè„šæœ¬çš„ç¬¬ä¸€å¥éƒ½æ˜¯è¿™æ ·çš„ã€‚</p></li><li><p>ç¬¬5-6è¡Œå¯¼å…¥PyGTKæ¨¡å—ï¼Œå¹¶é™åˆ¶PyGTKæ¨¡å—çš„ç‰ˆæœ¬ä¸º2.0ã€‚å› ä¸ºåœ¨ä¸€ä¸ªç³»ç»Ÿä¸­å¯åŒæ—¶å­˜åœ¨å¤šä¸ªPyGTKç‰ˆæœ¬ï¼Œå¦‚æœæ²¡æœ‰ç‰ˆæœ¬é™åˆ¶ï¼Œç¨‹åºå¯èƒ½ä¼šå‡ºç°æ··ä¹±ã€‚</p></li><li><p>9-15è¡Œå®šä¹‰ä¸€ä¸ªBaseç±»ï¼Œç”¨ä»¥åˆ›å»ºä¸€ä¸ªçª—å£ã€‚</p></li><li><p>ç¬¬18-20è¡Œæ£€æŸ¥__name__å˜é‡æ˜¯å¦æ˜¯&quot;__main__&quot;ï¼Œå¦‚æœæ˜¯ï¼Œåˆ™ä»£è¡¨è¯¥è„šæœ¬æ˜¯å½“ä½œè„šæœ¬æ‰§è¡Œçš„ï¼Œåˆ™æ‰§è¡Œä¸‹é¢çš„ä»£ç ï¼Œå¦åˆ™ï¼Œä»£è¡¨ä½œä¸ºæ¨¡å—å¯¼å…¥ï¼Œä¸æ‰§è¡Œä¸‹é¢çš„ä»£ç ã€‚</p></li><li><p>19è¡Œç”Ÿæˆä¸€ä¸ªBaseç±»çš„å®ä¾‹baseï¼Œé€šè¿‡è¯¥å®ä¾‹è°ƒç”¨Baseç±»çš„main()æ–¹æ³•å¯åŠ¨GTK+çš„äº‹ä»¶å¤„ç†å¾ªç¯ï¼Œç­‰å¾…Xäº‹ä»¶ï¼ˆå‡»é”®ã€é¼ æ ‡ç‚¹å‡»ç­‰ï¼‰çš„å‘ç”Ÿã€‚</p></li></ul></div><p>ä¸‹é¢æ˜¯ä¸€ä¸ªHello Worldçš„ä¾‹å­ï¼š</p><pre class="screen">
 #!/usr/bin/env python
 #-*- encoding:utf-8 -*-
 
@@ -43,53 +44,53 @@ pygtk.require('2.0')
 import gtk
 
 class base:
-#destroyĞÅºÅµÄ»Øµ÷º¯Êı
+#destroyä¿¡å·çš„å›è°ƒå‡½æ•°
         def destroy(self,widget,data=None):
                 gtk.main_quit()
 
-#clickedĞÅºÅµÄ»Øµ÷º¯Êı
+#clickedä¿¡å·çš„å›è°ƒå‡½æ•°
         def hello(self,widget,data):
                 print 'hello ' + data + ' this is a button clicked() test'
 
-#delete_eventÊÂ¼şµÄ»Øµ÷º¯Êı
+#delete_eventäº‹ä»¶çš„å›è°ƒå‡½æ•°
         def delete_event(self, widget, event, data=None):
                 print &quot;delete event occurred&quot;
-#Èç¹ûdelete_eventÊÂ¼ş·µ»Ø¼Ù£¬Ôò»á´¥·¢destroyĞÅºÅ£¬´Ó¶ø¹Ø±Õ´°¿Ú¡£
-#Èç¹û·µ»ØÕæ£¬Ôò²»»á¹Ø±Õ´°¿Ú¡£Õâ¸öÌØĞÔÔÚµ±ÎÒÃÇĞèÒªÒ»¸öÈ·ÈÏÊÇ·ñÍË³öµÄÑ¡Ôñ¶Ô»°¿òÊ±ÊÇºÜÓĞÓÃ¡£
+#å¦‚æœdelete_eventäº‹ä»¶è¿”å›å‡ï¼Œåˆ™ä¼šè§¦å‘destroyä¿¡å·ï¼Œä»è€Œå…³é—­çª—å£ã€‚
+#å¦‚æœè¿”å›çœŸï¼Œåˆ™ä¸ä¼šå…³é—­çª—å£ã€‚è¿™ä¸ªç‰¹æ€§åœ¨å½“æˆ‘ä»¬éœ€è¦ä¸€ä¸ªç¡®è®¤æ˜¯å¦é€€å‡ºçš„é€‰æ‹©å¯¹è¯æ¡†æ—¶æ˜¯å¾ˆæœ‰ç”¨ã€‚
                 return False
 
         def __init__(self):
                 self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
-#ÉèÖÃ´°¿ÚµÄdelete_eventĞÅºÅ´¥·¢delete_eventº¯Êı
+#è®¾ç½®çª—å£çš„delete_eventä¿¡å·è§¦å‘delete_eventå‡½æ•°
                 self.window.connect(&quot;delete_event&quot;, self.delete_event)
-#ÉèÖÃ´°¿ÚµÄdestroyĞÅºÅ´¥·¢destroyº¯Êı
+#è®¾ç½®çª—å£çš„destroyä¿¡å·è§¦å‘destroyå‡½æ•°
                 handler1 = self.window.connect(&quot;destroy&quot;,self.destroy)
                 print &quot;handler1 is:%d&quot; % handler1
-                self.window.set_title('PyGTK ²âÊÔ window')
+                self.window.set_title('PyGTK æµ‹è¯• window')
                 self.window.set_default_size(200,200)
                 self.window.set_border_width(100)
-#¿ØÖÆ´°¿Ú³öÏÖµÄÎ»ÖÃ
+#æ§åˆ¶çª—å£å‡ºç°çš„ä½ç½®
                 self.window.set_position(gtk.WIN_POS_CENTER)
-#Éú³É°´Å¥ÊµÀı
+#ç”ŸæˆæŒ‰é’®å®ä¾‹
                 self.button1 = gtk.Button()
                 self.button2 = gtk.Button()
                 self.button1.set_label('label1')
                 self.button2.set_label('label2')
-#ÉèÖÃ°´Å¥µÄclickedĞÅºÅ´¥·¢helloº¯Êı£¬²¢´«µİ¡®pyGTK¡¯×Ö·û´®²ÎÊı¸øhelloº¯Êı
+#è®¾ç½®æŒ‰é’®çš„clickedä¿¡å·è§¦å‘helloå‡½æ•°ï¼Œå¹¶ä¼ é€’â€˜pyGTKâ€™å­—ç¬¦ä¸²å‚æ•°ç»™helloå‡½æ•°
                 handler2 = self.button1.connect(&quot;clicked&quot;,self.hello,&quot;pyGTK&quot;)
                 print &quot;handler2 is:%d&quot; % handler2
-#ÉèÖÃ°´Å¥µÄclickedĞÅºÅ´¥·¢self.window¶ÔÏóµÄgtk.Widget.destroy·½·¨
+#è®¾ç½®æŒ‰é’®çš„clickedä¿¡å·è§¦å‘self.windowå¯¹è±¡çš„gtk.Widget.destroyæ–¹æ³•
                 self.button1.connect_object(&quot;clicked&quot;, gtk.Widget.destroy, self.window)
-#Ê¹ÓÃobject.disconnect(id)·½·¨È¡Ïûhandler2µÄ¹¦ÄÜ
+#ä½¿ç”¨object.disconnect(id)æ–¹æ³•å–æ¶ˆhandler2çš„åŠŸèƒ½
 #               self.button.disconnect(handler2)
-#ÉèÖÃÒ»¸ö²»¿É¼ûµÄºáÏòµÄÀ¸Î»self.box1
+#è®¾ç½®ä¸€ä¸ªä¸å¯è§çš„æ¨ªå‘çš„æ ä½self.box1
                 self.box1 = gtk.HBox(gtk.False, 0)
-#°Ñbox1·Åµ½´°¿ÚÖĞ
+#æŠŠbox1æ”¾åˆ°çª—å£ä¸­
                 self.window.add(self.box1)
-#°Ñbutton1²¿¼ş·Åµ½box1ÖĞ
+#æŠŠbutton1éƒ¨ä»¶æ”¾åˆ°box1ä¸­
                 self.box1.pack_start(self.button1,True,True,0)
                 self.button1.show()
-#°Ñbutton2²¿¼ş·Åµ½button1²¿¼şÖ®ºó
+#æŠŠbutton2éƒ¨ä»¶æ”¾åˆ°button1éƒ¨ä»¶ä¹‹å
                 self.box1.pack_start(self.button2,True,True,0)
                 self.button2.show()
                 self.box1.show()
@@ -102,17 +103,17 @@ print __name__
 if __name__ == &quot;__main__&quot;:
         base = base()
         base.main()
-</pre></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2809683"></a>2.2. ĞÅºÅºÍ»Øµ÷º¯Êı</h2></div></div><div></div></div><p>GTK+ÊÇÒ»Ì×ÊÂ¼şÇı¶¯µÄ¹¤¾ß°ü£¬Ò²¾ÍÊÇËµ£¬µ±Ö´ĞĞgtk.main()ºó£¬½ø³Ì»á½øÈëµÈ´ı×´Ì¬£¬µÈ´ıÊÂ¼şµÄ·¢Éú£¬´Ó¶ø´¥·¢ÏàÓ¦µÄ¶¯×÷¡£</p><p>µ±ÊÂ¼ş·¢ÉúÊ±£¬ÏàÓ¦µÄGTK+²¿¼ş»á·¢³öĞÅºÅ£¨Signals£©£¬²»Í¬µÄSignals´ú±í²»Í¬µÄÊÂ¼ş£¬´Ó¶øµ÷ÓÃÏàÓ¦µÄº¯Êı¡£ÒªÊ¹Ò»¸ö°´Å¥Íê³ÉÒ»¸ö¶¯×÷¡£ÎÒÃÇ¿ÉÒÔÉèÖÃÒ»¸öĞÅºÅ´¦ÀíÆ÷À´²¶»ñÕâ¸ö°´Å¥°´ÏÂµÄĞÅºÅ£¬ÔÙµ÷ÓÃÏàÓ¦µÄº¯ÊıÍê³ÉÖ¸¶¨¶¯×÷¡£Õâ¿ÉÍ¨¹ıGtkWidget·½·¨À´×ö£¬Èç£º</p><pre class="screen">
+</pre></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id2809683"></a>2.2. ä¿¡å·å’Œå›è°ƒå‡½æ•°</h2></div></div><div></div></div><p>GTK+æ˜¯ä¸€å¥—äº‹ä»¶é©±åŠ¨çš„å·¥å…·åŒ…ï¼Œä¹Ÿå°±æ˜¯è¯´ï¼Œå½“æ‰§è¡Œgtk.main()åï¼Œè¿›ç¨‹ä¼šè¿›å…¥ç­‰å¾…çŠ¶æ€ï¼Œç­‰å¾…äº‹ä»¶çš„å‘ç”Ÿï¼Œä»è€Œè§¦å‘ç›¸åº”çš„åŠ¨ä½œã€‚</p><p>å½“äº‹ä»¶å‘ç”Ÿæ—¶ï¼Œç›¸åº”çš„GTK+éƒ¨ä»¶ä¼šå‘å‡ºä¿¡å·ï¼ˆSignalsï¼‰ï¼Œä¸åŒçš„Signalsä»£è¡¨ä¸åŒçš„äº‹ä»¶ï¼Œä»è€Œè°ƒç”¨ç›¸åº”çš„å‡½æ•°ã€‚è¦ä½¿ä¸€ä¸ªæŒ‰é’®å®Œæˆä¸€ä¸ªåŠ¨ä½œã€‚æˆ‘ä»¬å¯ä»¥è®¾ç½®ä¸€ä¸ªä¿¡å·å¤„ç†å™¨æ¥æ•è·è¿™ä¸ªæŒ‰é’®æŒ‰ä¸‹çš„ä¿¡å·ï¼Œå†è°ƒç”¨ç›¸åº”çš„å‡½æ•°å®ŒæˆæŒ‡å®šåŠ¨ä½œã€‚è¿™å¯é€šè¿‡GtkWidgetæ–¹æ³•æ¥åšï¼Œå¦‚ï¼š</p><pre class="screen">
 handler_id = object.connect(name, func, func_data)
-</pre><p>objectÊÇGtkWidgetµÄÒ»¸öÊµÀı£¬Ëü½«»á·¢ËÍÒ»¸öĞÅºÅ¡£connect·½·¨°ÑÊµÀıÓëĞÅºÅ¹ØÁªÆğÀ´£¬²¢·µ»ØÒ»¸ö´¦Àí¾ä±ú£¬Í¨¹ıËüÎÒÃÇ¿É¶Ï¿ª»ò×èÈûÕâ¸ö¾ä±ú£¬Ò²¾ÍÊÇËµÊ¹¸Ã²Ù×÷Ê§Ğ§¡£connectµÄµÚÒ»¸ö²ÎÊıname´ú±íÄãÏë²¶»ñµÄĞÅºÅ£¬µÚ¶ş¸ö²ÎÊı´ú±íÄãÏëµ÷ÓÃµÄº¯Êı£¬µÚÈı¸ö²ÎÊı´ú±íÒª´«µİ¸øº¯ÊıµÄ²ÎÊı¡£</p><p>µÚ¶ş¸ö²ÎÊıµ÷ÓÃµÄº¯ÊıÎÒÃÇ½ĞËü¡°»Øµ÷º¯Êı¡±¡£¶¨Òå·½·¨ÈçÏÂ£º</p><pre class="screen">
+</pre><p>objectæ˜¯GtkWidgetçš„ä¸€ä¸ªå®ä¾‹ï¼Œå®ƒå°†ä¼šå‘é€ä¸€ä¸ªä¿¡å·ã€‚connectæ–¹æ³•æŠŠå®ä¾‹ä¸ä¿¡å·å…³è”èµ·æ¥ï¼Œå¹¶è¿”å›ä¸€ä¸ªå¤„ç†å¥æŸ„ï¼Œé€šè¿‡å®ƒæˆ‘ä»¬å¯æ–­å¼€æˆ–é˜»å¡è¿™ä¸ªå¥æŸ„ï¼Œä¹Ÿå°±æ˜¯è¯´ä½¿è¯¥æ“ä½œå¤±æ•ˆã€‚connectçš„ç¬¬ä¸€ä¸ªå‚æ•°nameä»£è¡¨ä½ æƒ³æ•è·çš„ä¿¡å·ï¼Œç¬¬äºŒä¸ªå‚æ•°ä»£è¡¨ä½ æƒ³è°ƒç”¨çš„å‡½æ•°ï¼Œç¬¬ä¸‰ä¸ªå‚æ•°ä»£è¡¨è¦ä¼ é€’ç»™å‡½æ•°çš„å‚æ•°ã€‚</p><p>ç¬¬äºŒä¸ªå‚æ•°è°ƒç”¨çš„å‡½æ•°æˆ‘ä»¬å«å®ƒâ€œå›è°ƒå‡½æ•°â€ã€‚å®šä¹‰æ–¹æ³•å¦‚ä¸‹ï¼š</p><pre class="screen">
 def callback_func(widget, callback_data):
-</pre><p>µÚÒ»¸ö²ÎÊıÊÇÖ¸Ïò·¢³öĞÅºÅµÄwidgetµÄÖ¸Õë£¬µÚ¶ş¸ö²ÎÊıÊÇÒ»¸öÖ¸Ïòfunc_dataµÄÖ¸Õë£¬ÓÃÒÔ½ÓÊÕ´«µİ¹ıÀ´µÄÊı¾İ¡£</p><p>Èç¹û»Øµ÷º¯ÊıÊÇ¶ÔÏó·½·¨£¬Ôò¿ÉĞ´³É£º</p><pre class="screen">
+</pre><p>ç¬¬ä¸€ä¸ªå‚æ•°æ˜¯æŒ‡å‘å‘å‡ºä¿¡å·çš„widgetçš„æŒ‡é’ˆï¼Œç¬¬äºŒä¸ªå‚æ•°æ˜¯ä¸€ä¸ªæŒ‡å‘func_dataçš„æŒ‡é’ˆï¼Œç”¨ä»¥æ¥æ”¶ä¼ é€’è¿‡æ¥çš„æ•°æ®ã€‚</p><p>å¦‚æœå›è°ƒå‡½æ•°æ˜¯å¯¹è±¡æ–¹æ³•ï¼Œåˆ™å¯å†™æˆï¼š</p><pre class="screen">
 def callback_method(self, widget, callback_data):
-</pre><p>»¹ÓĞÒ»ÖÖµ÷ÓÃ·½·¨ÊÇconnect_object()£¬ËüºÍconnect()ÀàËÆ£º</p><pre class="screen">
+</pre><p>è¿˜æœ‰ä¸€ç§è°ƒç”¨æ–¹æ³•æ˜¯connect_object()ï¼Œå®ƒå’Œconnect()ç±»ä¼¼ï¼š</p><pre class="screen">
 handler_id = object.connect_object(name, func, slot_object)
 def callback_func(object)
 def callback_method(self,object)
-</pre></div></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2810178"></a>Chapter 3. ÊÂ¼ş£¨events£©</h2></div></div><div></div></div><p></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2810188"></a>Chapter 4. °ü×°×é¼ş</h2></div></div><div></div></div><p>Ê¹ÓÃgtk.container add()·½·¨¿É°ÑÒ»¸ö×é¼ş·Åµ½´°¿ÚÀï¡£µ±ÓĞ¶à¸ö×é¼şĞè·Åµ½´°¿ÚÊ±£¬¾ÍĞèÓÃµ½Ë®Æ½·½¿òºÍ´¹Ö±·½¿òÕâÁ½¸ö°ü×°×é¼ş£¬Ò»°ãÀ´Ëµ£¬ËüÃÇÊÇ²»¿É¼û£¬Ö»ÊÇÓÃÀ´¹æ·¶²¼¾Ö¡£ÎÒÃÇ¿É°Ñ¶à¸ö×é¼ş·Åµ½ÕâÁ½ÖÖ·½¿òÖĞ£¬°Ú·ÅµÄÎ»ÖÃ¿ÉÒÔÊÇ´Ó×óµ½ÓÒºÍ´ÓÉÏµ½ÏÂ¡£</p><p>Òª´´½¨Ò»¸öË®Æ½·½¿ò£¬ÓÃgtk.HBox()·½·¨£¬Òª´´½¨Ò»¸ö´¹Ö±·½¿òµ÷ÓÃgtk.VBox()·½·¨¡£ÓĞÁË°Ú·Å×é¼şµÄ·½¿òºó£¬¾Í¿ÉÓÃpack_start()ºÍpack_end()·½·¨°Ñ×é¼ş·Åµ½ÕâĞ©·½¿òÖĞ¡£pack_start()·½·¨°´´ÓÉÏµ½ÏÂ£¬´Ó×óµ½ÓÒÕâÖÖÕı³£µÄË³Ğò°Ú·Å×é¼ş£¬¶øpack_end()µÄ°Ú·ÅË³ĞòºÍpack_start()¸Õ¸ÕÏà¹Ø£¬ÊÇ°´´ÓÏÂµ½ÉÏ£¬´ÓÓÒµ½×ó°Ú·ÅµÄ¡£ÏÂÃæÊÇÒ»¸öÊ¾Àı£º</p></div></div>
+</pre></div></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2810178"></a>Chapter 3. äº‹ä»¶ï¼ˆeventsï¼‰</h2></div></div><div></div></div><p></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2810188"></a>Chapter 4. åŒ…è£…ç»„ä»¶</h2></div></div><div></div></div><p>ä½¿ç”¨gtk.container add()æ–¹æ³•å¯æŠŠä¸€ä¸ªç»„ä»¶æ”¾åˆ°çª—å£é‡Œã€‚å½“æœ‰å¤šä¸ªç»„ä»¶éœ€æ”¾åˆ°çª—å£æ—¶ï¼Œå°±éœ€ç”¨åˆ°æ°´å¹³æ–¹æ¡†å’Œå‚ç›´æ–¹æ¡†è¿™ä¸¤ä¸ªåŒ…è£…ç»„ä»¶ï¼Œä¸€èˆ¬æ¥è¯´ï¼Œå®ƒä»¬æ˜¯ä¸å¯è§ï¼Œåªæ˜¯ç”¨æ¥è§„èŒƒå¸ƒå±€ã€‚æˆ‘ä»¬å¯æŠŠå¤šä¸ªç»„ä»¶æ”¾åˆ°è¿™ä¸¤ç§æ–¹æ¡†ä¸­ï¼Œæ‘†æ”¾çš„ä½ç½®å¯ä»¥æ˜¯ä»å·¦åˆ°å³å’Œä»ä¸Šåˆ°ä¸‹ã€‚</p><p>è¦åˆ›å»ºä¸€ä¸ªæ°´å¹³æ–¹æ¡†ï¼Œç”¨gtk.HBox()æ–¹æ³•ï¼Œè¦åˆ›å»ºä¸€ä¸ªå‚ç›´æ–¹æ¡†è°ƒç”¨gtk.VBox()æ–¹æ³•ã€‚æœ‰äº†æ‘†æ”¾ç»„ä»¶çš„æ–¹æ¡†åï¼Œå°±å¯ç”¨pack_start()å’Œpack_end()æ–¹æ³•æŠŠç»„ä»¶æ”¾åˆ°è¿™äº›æ–¹æ¡†ä¸­ã€‚pack_start()æ–¹æ³•æŒ‰ä»ä¸Šåˆ°ä¸‹ï¼Œä»å·¦åˆ°å³è¿™ç§æ­£å¸¸çš„é¡ºåºæ‘†æ”¾ç»„ä»¶ï¼Œè€Œpack_end()çš„æ‘†æ”¾é¡ºåºå’Œpack_start()åˆšåˆšç›¸å…³ï¼Œæ˜¯æŒ‰ä»ä¸‹åˆ°ä¸Šï¼Œä»å³åˆ°å·¦æ‘†æ”¾çš„ã€‚ä¸‹é¢æ˜¯ä¸€ä¸ªç¤ºä¾‹ï¼š</p></div></div>
 
 
 <DIV style="DISPLAY: none">

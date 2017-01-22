@@ -1,43 +1,44 @@
-<html><head><meta content="text/html; charset=gb2312" http-equiv="Content-Type"><title>ÔÚÏß½Ì³Ì-SendmailÑ§Ï°±Ê¼Ç</title><link rel="stylesheet" href="http://www.kuqin.com/docs/docbook.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.65.1"><meta name="description" content=""></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
-<a href="index.html"><< ·µ»ØÔÚÏß½Ì³Ì </a><br><br>
+<html><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<title>åœ¨çº¿æ•™ç¨‹-Sendmailå­¦ä¹ ç¬”è®°</title><link rel="stylesheet" href="http://www.kuqin.com/docs/docbook.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.65.1"><meta name="description" content=""></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<a href="index.html"><< è¿”å›åœ¨çº¿æ•™ç¨‹ </a><br><br>
 
-<div class="book" lang="en"><div class="titlepage"><div><div><h1 class="title"><a name="id2875167"></a>SendmailÑ§Ï°±Ê¼Ç</h1></div><div><div class="author"><h3 class="author"><span class="firstname">ÕûÀí£ºJims of <a href="http://www.ringkee.com" target="_top">·Ê·ÊÊÀ¼Ò</a></span></h3><div class="affiliation"><div class="address"><p><tt class="email">&lt;<a href="mailto:jims.yang@gmail.com">jims.yang@gmail.com</a>&gt;</tt></p></div></div></div></div><div><p class="copyright">Copyright &copy; 2005 ±¾ÎÄ×ñ´ÓGNU µÄ×ÔÓÉÎÄµµĞí¿ÉÖ¤(Free Document License)µÄÌõ¿î£¬»¶Ó­×ªÔØ¡¢ĞŞ¸Ä¡¢É¢²¼¡£</p></div><div><p class="pubdate">·¢²¼Ê±¼ä:2004Äê3ÔÂ30ÈÕ</p></div><div><div class="abstract"><p class="title"><b>Abstract</b></p><p></div></div></div><div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="chapter"><a href="sendmail.html#id2809638">1. °²×°</a></span></dt><dt><span class="chapter"><a href="sendmail.html#id2811764">2. ÅäÖÃ</a></span></dt><dt><span class="chapter"><a href="sendmail.html#id2807991">3. sendmail¹¦ÄÜ½éÉÜ</a></span></dt></dl></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2809638"></a>Chapter 1. °²×°</h2></div></div><div></div></div><p>°²×°ËùĞèÈí¼ş</p><div class="itemizedlist"><ul type="disc"><li><p>sendmail.8.12.10.tar.gz£º<a href="http://www.sendmail.org/" target="_top">http://www.sendmail.org/</a></p></li><li><p>cyrus-sasl-2.1.18.tar.gz£º<a href="http://asg.web.cmu.edu/cyrus/" target="_top">http://asg.web.cmu.edu/cyrus/</a></p></li></ul></div><p>°²×°²½Öè</p><div class="orderedlist"><ol type="1"><li><p>ÏÈ°²×°cyrus-sasl-2.1.18.tar.gz£¬sendmail°²×°Ê±ÒªÓÃµ½sasl£¨¼òµ¥ÈÏÖ¤ºÍ°²È«²ãĞ­Òé£©µÄ¿âÎÄ¼şµÄÍ·ÎÄ¼ş¡£½âÑ¹Ëõ£º</p><pre class="screen">
+<div class="book" lang="en"><div class="titlepage"><div><div><h1 class="title"><a name="id2875167"></a>Sendmailå­¦ä¹ ç¬”è®°</h1></div><div><div class="author"><h3 class="author"><span class="firstname">æ•´ç†ï¼šJims of <a href="http://www.ringkee.com" target="_top">è‚¥è‚¥ä¸–å®¶</a></span></h3><div class="affiliation"><div class="address"><p><tt class="email">&lt;<a href="mailto:jims.yang@gmail.com">jims.yang@gmail.com</a>&gt;</tt></p></div></div></div></div><div><p class="copyright">Copyright &copy; 2005 æœ¬æ–‡éµä»GNU çš„è‡ªç”±æ–‡æ¡£è®¸å¯è¯(Free Document License)çš„æ¡æ¬¾ï¼Œæ¬¢è¿è½¬è½½ã€ä¿®æ”¹ã€æ•£å¸ƒã€‚</p></div><div><p class="pubdate">å‘å¸ƒæ—¶é—´:2004å¹´3æœˆ30æ—¥</p></div><div><div class="abstract"><p class="title"><b>Abstract</b></p><p></div></div></div><div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="chapter"><a href="sendmail.html#id2809638">1. å®‰è£…</a></span></dt><dt><span class="chapter"><a href="sendmail.html#id2811764">2. é…ç½®</a></span></dt><dt><span class="chapter"><a href="sendmail.html#id2807991">3. sendmailåŠŸèƒ½ä»‹ç»</a></span></dt></dl></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2809638"></a>Chapter 1. å®‰è£…</h2></div></div><div></div></div><p>å®‰è£…æ‰€éœ€è½¯ä»¶</p><div class="itemizedlist"><ul type="disc"><li><p>sendmail.8.12.10.tar.gzï¼š<a href="http://www.sendmail.org/" target="_top">http://www.sendmail.org/</a></p></li><li><p>cyrus-sasl-2.1.18.tar.gzï¼š<a href="http://asg.web.cmu.edu/cyrus/" target="_top">http://asg.web.cmu.edu/cyrus/</a></p></li></ul></div><p>å®‰è£…æ­¥éª¤</p><div class="orderedlist"><ol type="1"><li><p>å…ˆå®‰è£…cyrus-sasl-2.1.18.tar.gzï¼Œsendmailå®‰è£…æ—¶è¦ç”¨åˆ°saslï¼ˆç®€å•è®¤è¯å’Œå®‰å…¨å±‚åè®®ï¼‰çš„åº“æ–‡ä»¶çš„å¤´æ–‡ä»¶ã€‚è§£å‹ç¼©ï¼š</p><pre class="screen">
 debian:~/inst# tar -zxvf cyrus-sasl-2.1.18.tar.gz
-</pre><p>±àÒë£¬½øÈë¸Õ½âÑ¹µÄÔ´ÂëÄ¿Â¼£¬ÔËĞĞÒÔÏÂÃüÁîÍê³É°²×°¡£</p><pre class="screen">
+</pre><p>ç¼–è¯‘ï¼Œè¿›å…¥åˆšè§£å‹çš„æºç ç›®å½•ï¼Œè¿è¡Œä»¥ä¸‹å‘½ä»¤å®Œæˆå®‰è£…ã€‚</p><pre class="screen">
 debian:~/inst/sasl2# ./configure --prefix=/usr/local/sasl2 --enable-login
-Ò»¶¨Òª¼Ó--enable-login£¬ÒòÎªSASL2Ä¬ÈÏ²»Ö§³ÖloginÕâÖÖÑéÖ¤·½Ê½£¬¶øOUTLOOKÊÇÍ¨¹ıloginÀ´½øĞĞSMTPÑéÖ¤µÄ¡£
+ä¸€å®šè¦åŠ --enable-loginï¼Œå› ä¸ºSASL2é»˜è®¤ä¸æ”¯æŒloginè¿™ç§éªŒè¯æ–¹å¼ï¼Œè€ŒOUTLOOKæ˜¯é€šè¿‡loginæ¥è¿›è¡ŒSMTPéªŒè¯çš„ã€‚
 debian:~/inst/sasl2# make           
 debian:~/inst/sasl2# make install
-</pre><p>Íê³ÉÒÔÉÏlinux³ÌĞò°²×°Èı²½ÇúÖ®ºó£¬¾Í¿ÉÒÔ¿ªÊ¼ÅäÖÃºÍ²âÊÔÁË¡£</p></li><li><p>ÅäÖÃSASL£¬ÎªÁË°ÑSASLÓ¦ÓÃÓÚsendmailÈÏÖ¤£¬»¹Ğè½øĞĞÒ»Ğ©ÅäÖÃ¹¤×÷¡£sendmail»áµ½/usr/libÄ¿Â¼ÏÂÈ¥ÕÒSASL2¿â£¬¶øÎÒÃÇÊÇ°Ñ³ÌĞò°²×°ÔÚ/usr/local/sasl2ÖĞ£¬ÎªÊ²Ã´²»°ÑÈí¼ş°²×°ÔÚ/usr/libÄ¿Â¼ÄØ£¿ÕâÖ÷ÒªÊÇÎªÁËºÃ¹ÜÀí×ÔÒÑ°²×°µÄÈí¼şÀ²¡£ËùÒÔÎÒÃÇÒªÔÚ/usr/libÄ¿Â¼ÏÂ×öÒ»¸öÁ´½Ó:</p><pre class="screen">
+</pre><p>å®Œæˆä»¥ä¸Šlinuxç¨‹åºå®‰è£…ä¸‰æ­¥æ›²ä¹‹åï¼Œå°±å¯ä»¥å¼€å§‹é…ç½®å’Œæµ‹è¯•äº†ã€‚</p></li><li><p>é…ç½®SASLï¼Œä¸ºäº†æŠŠSASLåº”ç”¨äºsendmailè®¤è¯ï¼Œè¿˜éœ€è¿›è¡Œä¸€äº›é…ç½®å·¥ä½œã€‚sendmailä¼šåˆ°/usr/libç›®å½•ä¸‹å»æ‰¾SASL2åº“ï¼Œè€Œæˆ‘ä»¬æ˜¯æŠŠç¨‹åºå®‰è£…åœ¨/usr/local/sasl2ä¸­ï¼Œä¸ºä»€ä¹ˆä¸æŠŠè½¯ä»¶å®‰è£…åœ¨/usr/libç›®å½•å‘¢ï¼Ÿè¿™ä¸»è¦æ˜¯ä¸ºäº†å¥½ç®¡ç†è‡ªå·²å®‰è£…çš„è½¯ä»¶å•¦ã€‚æ‰€ä»¥æˆ‘ä»¬è¦åœ¨/usr/libç›®å½•ä¸‹åšä¸€ä¸ªé“¾æ¥:</p><pre class="screen">
 debian:~# cd /usr/lib
 debian:/usr/lib# ln -s /usr/local/sasl2/lib/* .
-</pre><p>½Ó×ÅÒªÔÚ/var/Ä¿Â¼ÏÂ½¨Ò»¸öÄ¿Â¼¸øsaslauthd½ø³Ì´æÔÚÁÙÊ±Êı¾İ¡£</p><pre class="screen">
+</pre><p>æ¥ç€è¦åœ¨/var/ç›®å½•ä¸‹å»ºä¸€ä¸ªç›®å½•ç»™saslauthdè¿›ç¨‹å­˜åœ¨ä¸´æ—¶æ•°æ®ã€‚</p><pre class="screen">
 debian:~# cd /var
 debian:var# mkdir state
 debian:var/state# cd state
 debian:var/state# mkdir saslauthd
-</pre><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="http://www.kuqin.com/docs/images/note.png"></td><th align="left"></th></tr><tr><td colspan="2" align="left" valign="top">×¢£ºÈç¹ûÃ»ÓĞÕâĞ©Ä¿Â¼£¬ÔËĞĞsaslauthdÊ±£¬»áÌáÊ¾³ö´í¡£</td></tr></table></div><p>½Ó×ÅÎªÈ·±£CYRUS-SASL2º¯Êı¿âÖªµÀÔõÑùÑéÖ¤ËùÊÕÀ´µÄSASLÈÏÖ¤ÇëÇó£¬±ØĞë´´½¨Ò»¸öSASLµÄÅäÖÃÎÄ¼şÀ´°ÑMTA³ÌĞò¶¨Òå³ÉÒ»¸öSASLÓ¦ÓÃ¡£ÅäÖÃÎÄ¼şÃûÎªSendmail.conf£¨×¢ÒâÊÇ´óĞ´µÄS£©,Î»ÓÚ/usr/lib/sasl2Ä¿Â¼ÖĞ£¬Ò²¾ÍÊÇ/usr/local/sasl2/lib/sasl2Õâ¸öÄ¿Â¼£¬¼ÇµÃÉÏÃæĞÂ½¨µÄÁ´½ÓÁËÂğ£¿ÔÚ¸ÃÎÄ¼şÖĞÄã¶¨ÒåÄãÏ£ÍûÊ¹ÓÃµÄÈÏÖ¤Êı¾İ¿â·½·¨£¬ÒÔÏÂÕâ¸öÀı×ÓÊ¹ÓÃsaslauthdÀ´ÑéÖ¤ÈÏÖ¤ÇëÇó¡£</p><pre class="screen">
+</pre><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="http://www.kuqin.com/docs/images/note.png"></td><th align="left"></th></tr><tr><td colspan="2" align="left" valign="top">æ³¨ï¼šå¦‚æœæ²¡æœ‰è¿™äº›ç›®å½•ï¼Œè¿è¡Œsaslauthdæ—¶ï¼Œä¼šæç¤ºå‡ºé”™ã€‚</td></tr></table></div><p>æ¥ç€ä¸ºç¡®ä¿CYRUS-SASL2å‡½æ•°åº“çŸ¥é“æ€æ ·éªŒè¯æ‰€æ”¶æ¥çš„SASLè®¤è¯è¯·æ±‚ï¼Œå¿…é¡»åˆ›å»ºä¸€ä¸ªSASLçš„é…ç½®æ–‡ä»¶æ¥æŠŠMTAç¨‹åºå®šä¹‰æˆä¸€ä¸ªSASLåº”ç”¨ã€‚é…ç½®æ–‡ä»¶åä¸ºSendmail.confï¼ˆæ³¨æ„æ˜¯å¤§å†™çš„Sï¼‰,ä½äº/usr/lib/sasl2ç›®å½•ä¸­ï¼Œä¹Ÿå°±æ˜¯/usr/local/sasl2/lib/sasl2è¿™ä¸ªç›®å½•ï¼Œè®°å¾—ä¸Šé¢æ–°å»ºçš„é“¾æ¥äº†å—ï¼Ÿåœ¨è¯¥æ–‡ä»¶ä¸­ä½ å®šä¹‰ä½ å¸Œæœ›ä½¿ç”¨çš„è®¤è¯æ•°æ®åº“æ–¹æ³•ï¼Œä»¥ä¸‹è¿™ä¸ªä¾‹å­ä½¿ç”¨saslauthdæ¥éªŒè¯è®¤è¯è¯·æ±‚ã€‚</p><pre class="screen">
 debian:~# cd /usr/lib/sasl2
 debian:/usr/lib/sasl2# echo 'pwcheck_method: saslauthd' &gt; Sendmail.conf
-</pre></li><li><p>ÏÖÔÚ¿ÉÒÔÔËĞĞsaslauthdÁË£¬²¢½øĞĞ²âÊÔ¡£</p><pre class="screen">
+</pre></li><li><p>ç°åœ¨å¯ä»¥è¿è¡Œsaslauthdäº†ï¼Œå¹¶è¿›è¡Œæµ‹è¯•ã€‚</p><pre class="screen">
 debian:~# cd /usr/local/sasl2/sbin
 debian:/usr/local/sasl2/sbin# ./saslauthd -a shadow
-</pre><p>ÓÃshadowµÄÓÃ»§ºÍÃÜÂë½øĞĞÑéÖ¤</p><pre class="screen">
+</pre><p>ç”¨shadowçš„ç”¨æˆ·å’Œå¯†ç è¿›è¡ŒéªŒè¯</p><pre class="screen">
 debian:/usr/local/sasl2/sbin# ./testsaslauthd -u userid -p password
 0: OK &quot;Success.&quot;
-</pre><p>Èç¹û³öÏÖÒÔÉÏĞÅÏ¢£¬¾ÍËµÃ÷saslauthdÕı³£ÔËĞĞÁË¡£testsaslauthd³ÌĞòÄ¬ÈÏÊÇÃ»ÓĞ±àÒëµÄ£¬ÄãĞèÒªÔÚÔ´ÂëÄ¿Â¼Ê÷µÄsaslauthd×ÓÄ¿Â¼ÖĞÔËĞĞ     # make testsaslauthdÃüÁîÉú³É¡£</p></li><li><p>sasl2°²×°Íê³Éºó£¬¾ÍÒª¿ªÊ¼°²×°sendmailÁË¡£ÏÈ½âÑ¹sendmailÔ´Âë:</p><pre class="screen">
+</pre><p>å¦‚æœå‡ºç°ä»¥ä¸Šä¿¡æ¯ï¼Œå°±è¯´æ˜saslauthdæ­£å¸¸è¿è¡Œäº†ã€‚testsaslauthdç¨‹åºé»˜è®¤æ˜¯æ²¡æœ‰ç¼–è¯‘çš„ï¼Œä½ éœ€è¦åœ¨æºç ç›®å½•æ ‘çš„saslauthdå­ç›®å½•ä¸­è¿è¡Œ     # make testsaslauthdå‘½ä»¤ç”Ÿæˆã€‚</p></li><li><p>sasl2å®‰è£…å®Œæˆåï¼Œå°±è¦å¼€å§‹å®‰è£…sendmailäº†ã€‚å…ˆè§£å‹sendmailæºç :</p><pre class="screen">
 debian:~/inst# tar -zxvf sendmail.8.12.10.tar.gz
-</pre><p>Èç¹ûÒªsendmailÖ§³ÖSASL£¬ĞèÒªĞŞ¸ÄÔ´ÂëµÄÎ»ÖÃÅäÖÃÎÄ¼şsite.config.m4¡£site.config.m4Î»ÓÚÔ´ÂëÄ¿Â¼Ê÷µÄdevtools/Site¡£ÎÄ¼şÖĞÓ¦°üº¬ÒÔÏÂĞĞ£º</p><pre class="screen">
+</pre><p>å¦‚æœè¦sendmailæ”¯æŒSASLï¼Œéœ€è¦ä¿®æ”¹æºç çš„ä½ç½®é…ç½®æ–‡ä»¶site.config.m4ã€‚site.config.m4ä½äºæºç ç›®å½•æ ‘çš„devtools/Siteã€‚æ–‡ä»¶ä¸­åº”åŒ…å«ä»¥ä¸‹è¡Œï¼š</p><pre class="screen">
 PREPENDDEF(`confMAPDEF', `-DMAP_REGEX')
 APPENDDEF(`confENVDEF', `-DTCPWRAPPERS -DSASL=2')
 APPENDDEF(`conf_sendmail_LIBS', `-lwrap -lsasl2')
 APPENDDEF(`confLIBDIRS', `-L/usr/local/sasl2/lib')
 APPENDDEF(`confINCDIRS', `-I/usr/local/sasl2/include')
-µÚÒ»ĞĞÅäÖÃÕıÔò±í´ïÊ½Ïà¹ØÄÚÈİ
-µÚ¶ş¡¢ÈıĞĞÅäÖÃ±íÊ¾ÔÚsendmail³ÌĞòÖĞÖ§³Ösasl2ºÍtcp_wrapper£¨¿ÉÍ¨¹ıhosts.allowºÍ
-hosts.deny¿ØÖÆ·ÃÎÊ£©
-µÚËÄ¡¢ÎåĞĞÅäÖÃÖ¸³ösasl2µÄ¿âÎÄ¼şºÍÍ·ÎÄ¼şµÄÎ»ÖÃ¡£
-</pre><p>½Ó×ÅÔÚ±àÒëÇ°Òª½¨Á¢Ò»Ğ©ÓÃ»§ºÍÄ¿Â¼£¬²¢È·±£ÓĞÕıÈ·µÄÈ¨ÏŞ¡£sendmail±ØĞëÓĞÒ»¸öset-group-id£¨Ä¬ÈÏÊÇsmmsp×é£©µÄ³ÌĞòÀ´ÔÚÒ»¸ö×é¿ÉĞ´µÄÄ¿Â¼ÖĞ²éÑ¯ÅÅ¶ÓÓÊ¼ş¡£ËùÒÔÎÒÃÇÒª½¨Á¢Ò»¸ösmmspÓÃ»§ºÍ×é¡£²¢½¨Á¢ÈçÏÂÄ¿Â¼²¢ÉèÖÃÏàÓ¦µÄÈ¨ÏŞ£¬¾ßÌåÉèÖÃÒªÇó¿É²éÑ¯Ô´ÂëÄ¿Â¼Ê÷ÏÂsendmail/SECURITYÎÄµµ¡£</p><pre class="screen">
+ç¬¬ä¸€è¡Œé…ç½®æ­£åˆ™è¡¨è¾¾å¼ç›¸å…³å†…å®¹
+ç¬¬äºŒã€ä¸‰è¡Œé…ç½®è¡¨ç¤ºåœ¨sendmailç¨‹åºä¸­æ”¯æŒsasl2å’Œtcp_wrapperï¼ˆå¯é€šè¿‡hosts.allowå’Œ
+hosts.denyæ§åˆ¶è®¿é—®ï¼‰
+ç¬¬å››ã€äº”è¡Œé…ç½®æŒ‡å‡ºsasl2çš„åº“æ–‡ä»¶å’Œå¤´æ–‡ä»¶çš„ä½ç½®ã€‚
+</pre><p>æ¥ç€åœ¨ç¼–è¯‘å‰è¦å»ºç«‹ä¸€äº›ç”¨æˆ·å’Œç›®å½•ï¼Œå¹¶ç¡®ä¿æœ‰æ­£ç¡®çš„æƒé™ã€‚sendmailå¿…é¡»æœ‰ä¸€ä¸ªset-group-idï¼ˆé»˜è®¤æ˜¯smmspç»„ï¼‰çš„ç¨‹åºæ¥åœ¨ä¸€ä¸ªç»„å¯å†™çš„ç›®å½•ä¸­æŸ¥è¯¢æ’é˜Ÿé‚®ä»¶ã€‚æ‰€ä»¥æˆ‘ä»¬è¦å»ºç«‹ä¸€ä¸ªsmmspç”¨æˆ·å’Œç»„ã€‚å¹¶å»ºç«‹å¦‚ä¸‹ç›®å½•å¹¶è®¾ç½®ç›¸åº”çš„æƒé™ï¼Œå…·ä½“è®¾ç½®è¦æ±‚å¯æŸ¥è¯¢æºç ç›®å½•æ ‘ä¸‹sendmail/SECURITYæ–‡æ¡£ã€‚</p><pre class="screen">
 debian:~# groupadd smmsp 
 debian:~# useradd smmsp -d /var/spool/clientmqueue -s /dev/null
 debian:~# mkdir /var/spool/clientmqueue
@@ -47,10 +48,10 @@ debian:~# mkdir /etc/mail
 debian:~# mkdir /var/spool/mqueue
 debian:~# chmod go-w / /etc /etc/mail /usr /var /var/spool /var/spool/mqueue
 debian:~# chown root / /etc /etc/mail /usr /var /var/spool /var/spool/mqueue
-</pre><p>½ÓÏÂÀ´¾Í¿ÉÒÔ½øÈëÔ´ÂëÄ¿Â¼Ê÷¿ªÊ¼±àÒëÁË¡£</p><pre class="screen">
-debian:~/inst/sendmail-8.12.11# ./Build -c              #-cÑ¡ÏîÄÜÉ¾³ıÉÏ´Î±àÒë²úÉúµÄÎÄ¼ş¡£
-debian:~/inst/sendmail-8.12.11# ./Build install         #°²×°
-</pre></li></ol></div></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2811764"></a>Chapter 2. ÅäÖÃ</h2></div></div><div></div></div><p>ÒªsendmailÕı³£ÔËĞĞ£¬»¹ĞèÅäÖÃ¼¸¸öÎÄ¼ş£¬ÆäÖĞ×îÖØÒªµÄ¾ÍÊÇsendmail.cf ÎÄ¼şÁË¡£ËüÔÚÔ´ÂëÄ¿Â¼Ê÷ÏÂµÄcf/cfÄ¿Â¼ÏÂÓĞºÜ¶àÀı×Ó¿É²Î¿¼¡£Äã¿ÉÒÔ¿½±´Ê¹ÓÃ¡£ÓÉÓÚsendmail.cfÖĞµÄÓï·¨ºÜ¸´ÔÓ£¬ËùÒÔ²»½¨ÒéÊÖ¹¤ĞŞ¸Ä¡£ÎÒÃÇ¿ÉÒÔÒÔsendmail.mcÎÄµµÅäºÏsendmail-cfÄ¿Â¼ÏÂµÄºêÍ¨¹ım4Ô¤´¦ÀíÆ÷×Ô¶¯Éú³É¡£m4Ô¤´¦ÀíÆ÷ÓÃÀ´´ÓÒ»×éºêÎÄ¼şÖĞ´´½¨sendmailÅäÖÃÎÄ¼ş¡£ºêÎÄ¼ş×÷ÎªÊäÈë±»¶Á½øÀ´¡£ºê±»Õ¹¿ª£¬È»ºóĞ´µ½Ò»¸öÊä³öÎÄ¼ş¡£sendmail-cfÄ¿Â¼Ò»°ã·ÅÔÚ/usr/shareÄ¿Â¼ÏÂ¡£ÆäÊµsendmail-cfÄ¿Â¼µÄÄÚÈİºÍÔ´ÂëÄ¿Â¼Ê÷ÏÂµÄcfÄ¿Â¼µÄÄÚÈİÊÇÒ»ÑùµÄ£¬ËùÒÔ£¬ÎªÁË±£Ö¤sendmail-cfÄ¿Â¼µÄÄÚÈİÓë°²×°°æ±¾Í¬²½£¬Òª°ÑÔ´ÂëÄ¿Â¼Ê÷ÏÂµÄcfÄ¿Â¼µÄÄÚÈİ¿½±´µ½/usr/share/sendmail-cfÄ¿Â¼¡£</p><p>sendmail.mcÅäÖÃÎÄµµÄÚÈİÈçÏÂ£º</p><pre class="screen">
+</pre><p>æ¥ä¸‹æ¥å°±å¯ä»¥è¿›å…¥æºç ç›®å½•æ ‘å¼€å§‹ç¼–è¯‘äº†ã€‚</p><pre class="screen">
+debian:~/inst/sendmail-8.12.11# ./Build -c              #-cé€‰é¡¹èƒ½åˆ é™¤ä¸Šæ¬¡ç¼–è¯‘äº§ç”Ÿçš„æ–‡ä»¶ã€‚
+debian:~/inst/sendmail-8.12.11# ./Build install         #å®‰è£…
+</pre></li></ol></div></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2811764"></a>Chapter 2. é…ç½®</h2></div></div><div></div></div><p>è¦sendmailæ­£å¸¸è¿è¡Œï¼Œè¿˜éœ€é…ç½®å‡ ä¸ªæ–‡ä»¶ï¼Œå…¶ä¸­æœ€é‡è¦çš„å°±æ˜¯sendmail.cf æ–‡ä»¶äº†ã€‚å®ƒåœ¨æºç ç›®å½•æ ‘ä¸‹çš„cf/cfç›®å½•ä¸‹æœ‰å¾ˆå¤šä¾‹å­å¯å‚è€ƒã€‚ä½ å¯ä»¥æ‹·è´ä½¿ç”¨ã€‚ç”±äºsendmail.cfä¸­çš„è¯­æ³•å¾ˆå¤æ‚ï¼Œæ‰€ä»¥ä¸å»ºè®®æ‰‹å·¥ä¿®æ”¹ã€‚æˆ‘ä»¬å¯ä»¥ä»¥sendmail.mcæ–‡æ¡£é…åˆsendmail-cfç›®å½•ä¸‹çš„å®é€šè¿‡m4é¢„å¤„ç†å™¨è‡ªåŠ¨ç”Ÿæˆã€‚m4é¢„å¤„ç†å™¨ç”¨æ¥ä»ä¸€ç»„å®æ–‡ä»¶ä¸­åˆ›å»ºsendmailé…ç½®æ–‡ä»¶ã€‚å®æ–‡ä»¶ä½œä¸ºè¾“å…¥è¢«è¯»è¿›æ¥ã€‚å®è¢«å±•å¼€ï¼Œç„¶åå†™åˆ°ä¸€ä¸ªè¾“å‡ºæ–‡ä»¶ã€‚sendmail-cfç›®å½•ä¸€èˆ¬æ”¾åœ¨/usr/shareç›®å½•ä¸‹ã€‚å…¶å®sendmail-cfç›®å½•çš„å†…å®¹å’Œæºç ç›®å½•æ ‘ä¸‹çš„cfç›®å½•çš„å†…å®¹æ˜¯ä¸€æ ·çš„ï¼Œæ‰€ä»¥ï¼Œä¸ºäº†ä¿è¯sendmail-cfç›®å½•çš„å†…å®¹ä¸å®‰è£…ç‰ˆæœ¬åŒæ­¥ï¼Œè¦æŠŠæºç ç›®å½•æ ‘ä¸‹çš„cfç›®å½•çš„å†…å®¹æ‹·è´åˆ°/usr/share/sendmail-cfç›®å½•ã€‚</p><p>sendmail.mcé…ç½®æ–‡æ¡£å†…å®¹å¦‚ä¸‹ï¼š</p><pre class="screen">
 divert(-1)
 include(`/usr/share/sendmail-cf/m4/cf.m4')
 VERSIONID(`linux setup for Red Hat Linux')dnl
@@ -112,44 +113,44 @@ FEATURE(`accept_unresolvable_domains')dnl
 dnl FEATURE(`relay_based_on_MX')dnl
 MAILER(smtp)dnl
 MAILER(procmail)dnl
-</pre><p>¼ÇµÃÒªÊ¹ÒÔÏÂÁ½¸öÌõÓï¾äÓĞĞ§£¬ËüµÄÒâË¼ÊÇÈç¹ûaccess.db·ÃÎÊ¿ØÖÆÃ»ÓĞÉèÖÃ£¬ÔòÆôÓÃÒÔÏÂÑéÖ¤·½Ê½½øĞĞsmtpÑéÖ¤¡£</p><pre class="screen">
+</pre><p>è®°å¾—è¦ä½¿ä»¥ä¸‹ä¸¤ä¸ªæ¡è¯­å¥æœ‰æ•ˆï¼Œå®ƒçš„æ„æ€æ˜¯å¦‚æœaccess.dbè®¿é—®æ§åˆ¶æ²¡æœ‰è®¾ç½®ï¼Œåˆ™å¯ç”¨ä»¥ä¸‹éªŒè¯æ–¹å¼è¿›è¡ŒsmtpéªŒè¯ã€‚</p><pre class="screen">
 TRUST_AUTH_MECH(`EXTERNAL DIGEST-MD5 CRAM-MD5 LOGIN PLAIN')dnl               
 define(`confAUTH_MECHANISMS', `EXTERNAL GSSAPI DIGEST-MD5 CRAM-MD5 
 LOGIN PLAIN')dnl
-</pre><p>sendmailºê¶¨ÒåËµÃ÷</p><div class="itemizedlist"><ul type="disc"><li><p>divert(n)Îªm4¶¨ÒåÒ»¸ö»º³å¶¯×÷£¬µ±n=-1Ê±»º³å±»É¾³ı£¬n=0Ê±¿ªÊ¼Ò»¸öĞÂ»º³å</p></li><li><p>OSTYPE¶¨ÒåºêËùÊ¹ÓÃµÄ²Ù×÷ÏµÍ³£¬¸ÃºêÔÊĞím4³ÌĞòÔö¼ÓÍ¬Ïà¹Ø²Ù×÷ÏµÍ³Ïà¹ØµÄÎÄ¼ş</p></li><li><p>Domain¶¨ÒåMTA½«Ê¹ÓÃÄÄĞ©ÓòÀ´´«ÊäÓÊ¼ş</p></li><li><p>Feature¶¨ÒåÅäÖÃÎÄ¼şÖĞÊ¹ÓÃµÄÒ»¸öÌØ¶¨µÄ¹¦ÄÜ¼¯</p></li><li><p>Define¶¨ÒåÅäÖÃÎÄ¼şÖĞµÄÒ»¸öÌØ¶¨µÄÑ¡ÏîÖµ</p></li><li><p>MASQUERADE_AS¶¨ÒåsendmailÀ´Ó¦´ğÓÊ¼şµÄÆäËüÖ÷»úÃû</p></li><li><p>MAILER¶¨ÒåsendmailÊ¹ÓÃµÄÓÊ¼ş´«Êä·½·¨</p></li><li><p>dnl×¢ÊÍ</p></li></ul></div><p>Íê³Ésendmail.mcÎÄµµµÄ±àĞ´ºó¾Í¿ÉÒÔÓÃm4³ÌĞòÉú³ÉÕıÊ½µÄsendmail.cfÅäÖÃÎÄµµ¡£Óï·¨ÈçÏÂ£º</p><pre class="screen">
+</pre><p>sendmailå®å®šä¹‰è¯´æ˜</p><div class="itemizedlist"><ul type="disc"><li><p>divert(n)ä¸ºm4å®šä¹‰ä¸€ä¸ªç¼“å†²åŠ¨ä½œï¼Œå½“n=-1æ—¶ç¼“å†²è¢«åˆ é™¤ï¼Œn=0æ—¶å¼€å§‹ä¸€ä¸ªæ–°ç¼“å†²</p></li><li><p>OSTYPEå®šä¹‰å®æ‰€ä½¿ç”¨çš„æ“ä½œç³»ç»Ÿï¼Œè¯¥å®å…è®¸m4ç¨‹åºå¢åŠ åŒç›¸å…³æ“ä½œç³»ç»Ÿç›¸å…³çš„æ–‡ä»¶</p></li><li><p>Domainå®šä¹‰MTAå°†ä½¿ç”¨å“ªäº›åŸŸæ¥ä¼ è¾“é‚®ä»¶</p></li><li><p>Featureå®šä¹‰é…ç½®æ–‡ä»¶ä¸­ä½¿ç”¨çš„ä¸€ä¸ªç‰¹å®šçš„åŠŸèƒ½é›†</p></li><li><p>Defineå®šä¹‰é…ç½®æ–‡ä»¶ä¸­çš„ä¸€ä¸ªç‰¹å®šçš„é€‰é¡¹å€¼</p></li><li><p>MASQUERADE_ASå®šä¹‰sendmailæ¥åº”ç­”é‚®ä»¶çš„å…¶å®ƒä¸»æœºå</p></li><li><p>MAILERå®šä¹‰sendmailä½¿ç”¨çš„é‚®ä»¶ä¼ è¾“æ–¹æ³•</p></li><li><p>dnlæ³¨é‡Š</p></li></ul></div><p>å®Œæˆsendmail.mcæ–‡æ¡£çš„ç¼–å†™åå°±å¯ä»¥ç”¨m4ç¨‹åºç”Ÿæˆæ­£å¼çš„sendmail.cfé…ç½®æ–‡æ¡£ã€‚è¯­æ³•å¦‚ä¸‹ï¼š</p><pre class="screen">
 # m4 sendmail.mc &gt; sendmail.cf
-</pre><p>Ò²¿ÉÒÔÓÃÔ´ÂëÄ¿Â¼Ê÷ÏÂµÄcf/cf/BuildÃüÁîÉú³É¡£Ç°ÌáÊÇÄãÒªÔÚ¸ÃÄ¿Â¼ÏÂÓĞÒ»¸ösendmail.mcÎÄµµ¡£Óï·¨ÈçÏÂ£º</p><pre class="screen">
+</pre><p>ä¹Ÿå¯ä»¥ç”¨æºç ç›®å½•æ ‘ä¸‹çš„cf/cf/Buildå‘½ä»¤ç”Ÿæˆã€‚å‰ææ˜¯ä½ è¦åœ¨è¯¥ç›®å½•ä¸‹æœ‰ä¸€ä¸ªsendmail.mcæ–‡æ¡£ã€‚è¯­æ³•å¦‚ä¸‹ï¼š</p><pre class="screen">
 # ./Build sendmail.cf 
-</pre><p>½Ó×Å¾Í¿ÉÒÔ°Ñsendmail.cf and submit.cfÎÄµµ°²×°µ½/etc/mailÄ¿Â¼ÖĞµÄ£¬Óï·¨ÈçÏÂ£º</p><pre class="screen">
+</pre><p>æ¥ç€å°±å¯ä»¥æŠŠsendmail.cf and submit.cfæ–‡æ¡£å®‰è£…åˆ°/etc/mailç›®å½•ä¸­çš„ï¼Œè¯­æ³•å¦‚ä¸‹ï¼š</p><pre class="screen">
 # ./Build install-cf
-</pre><p>ÆäÊµÒ²¿ÉÒÔ×ÔÒÑÓÃcpÃüÁî¿½±´µÄÀ²¡£¼ÇµÃ°Ñsendmail.mcÎÄµµÒ²¿½±´Ò»·İµ½/etc/mailÄ¿Â¼£¬ÒÔ±ãÒÔºóĞŞ¸ÄÅäÖÃÊ±¿ÉÖØĞÂÉú³Ésendmail.cfÎÄµµ¡£ok,½Ó×Åµ½/etc/mailÄ¿Â¼ÏÂÅäÖÃÒ»Ğ©ÎÄµµ¡£</p><pre class="screen">
+</pre><p>å…¶å®ä¹Ÿå¯ä»¥è‡ªå·²ç”¨cpå‘½ä»¤æ‹·è´çš„å•¦ã€‚è®°å¾—æŠŠsendmail.mcæ–‡æ¡£ä¹Ÿæ‹·è´ä¸€ä»½åˆ°/etc/mailç›®å½•ï¼Œä»¥ä¾¿ä»¥åä¿®æ”¹é…ç½®æ—¶å¯é‡æ–°ç”Ÿæˆsendmail.cfæ–‡æ¡£ã€‚ok,æ¥ç€åˆ°/etc/mailç›®å½•ä¸‹é…ç½®ä¸€äº›æ–‡æ¡£ã€‚</p><pre class="screen">
 debian:~# cd /etc/mail 
-debian:/etc/mail# echo 'examply.com' &gt;&gt; local-host-names ½ÓÊÕÓÊ¼şµÄÖ÷»úÃû
-debian:/etc/mail# echo 'localhost    RELAY'  &gt;&gt; access ÓÃÀ´¾Ü¾ø»òÔÊĞíÀ´×ÔÄ³¸öÓòµÄÓÊ¼ş£¬±¾ÀıÔÊĞí±¾µØ×ª·¢¡£
-debian:/etc/mail# makemap hash access &lt; access Éú³Éaccess.dbÊı¾İ¿â
-debian:/etc/mail# touch domaintable ÓÃÀ´°Ñ¾ÉÓòÃûÓ³Éä»¥ĞÂÓòÃû
+debian:/etc/mail# echo 'examply.com' &gt;&gt; local-host-names æ¥æ”¶é‚®ä»¶çš„ä¸»æœºå
+debian:/etc/mail# echo 'localhost    RELAY'  &gt;&gt; access ç”¨æ¥æ‹’ç»æˆ–å…è®¸æ¥è‡ªæŸä¸ªåŸŸçš„é‚®ä»¶ï¼Œæœ¬ä¾‹å…è®¸æœ¬åœ°è½¬å‘ã€‚
+debian:/etc/mail# makemap hash access &lt; access ç”Ÿæˆaccess.dbæ•°æ®åº“
+debian:/etc/mail# touch domaintable ç”¨æ¥æŠŠæ—§åŸŸåæ˜ å°„äº’æ–°åŸŸå
 debian:/etc/mail# makemap hash domaintable &lt; domaintable 
-debian:/etc/mail# touch mailertable À´¸²¸ÇÏòÖ¸¶¨ÓòµÄÂ·ÓÉ
+debian:/etc/mail# touch mailertable æ¥è¦†ç›–å‘æŒ‡å®šåŸŸçš„è·¯ç”±
 debian:/etc/mail# makemap hash mailertable &lt; mailertable 
 debian:/etc/mail# touch trusted-users 
-debian:/etc/mail# touch virtusertable ÓÃÀ´°ÑÓÃ»§ºÍÓòÃûÓ³Éäµ½ÆäËüµØÖ·
+debian:/etc/mail# touch virtusertable ç”¨æ¥æŠŠç”¨æˆ·å’ŒåŸŸåæ˜ å°„åˆ°å…¶å®ƒåœ°å€
 debian:/etc/mail# makemap hash virtusertable &lt; virtusertable 
 debian:/etc/mail# chown root:wheel /var/spool/mqueue/ 
 debian:/etc/mail# chmod 700 /var/spool/mqueue 
-debian:/etc/mail# touch aliases ±ğÃûÊı¾İ¿â£¬ÎÄ±¾ĞÎÊ½¡£¿É²ÎÕÕÔ´ÂëÄ¿Â¼Ê÷ÏÂsendmail/aliasesÎÄ¼ş¡£
-debian:/etc/mail# newaliases                  ´ÓÎÄ±¾ÎÄ¼şÖĞ´´½¨Ò»¸öĞÂµÄ±ğÃûÊı¾İ¿âÎÄ¼ş¡£
-debian:/etc/mail# sendmail -v -biµ÷ÊÔÆô¶¯¡£
+debian:/etc/mail# touch aliases åˆ«åæ•°æ®åº“ï¼Œæ–‡æœ¬å½¢å¼ã€‚å¯å‚ç…§æºç ç›®å½•æ ‘ä¸‹sendmail/aliasesæ–‡ä»¶ã€‚
+debian:/etc/mail# newaliases                  ä»æ–‡æœ¬æ–‡ä»¶ä¸­åˆ›å»ºä¸€ä¸ªæ–°çš„åˆ«åæ•°æ®åº“æ–‡ä»¶ã€‚
+debian:/etc/mail# sendmail -v -biè°ƒè¯•å¯åŠ¨ã€‚
 /etc/mail/aliases: 42 aliases, longest 10 bytes, 432 bytes total
-Èç¹û³öÏÖÒÔÉÏÌáÊ¾ĞÅÏ¢£¬ÔòÆô¶¯³É¹¦¡£¿ÉÓÃÒÔÏÂÃüÁîÕıÊ½Æô¶¯:
+å¦‚æœå‡ºç°ä»¥ä¸Šæç¤ºä¿¡æ¯ï¼Œåˆ™å¯åŠ¨æˆåŠŸã€‚å¯ç”¨ä»¥ä¸‹å‘½ä»¤æ­£å¼å¯åŠ¨:
 debian:/etc/mail# sendmail -bd -q30m
-¸ÃÃüÁîÒÔºóÌ¨½ø³Ì·½Ê½£¨-bd£©ÔËĞĞ£¬²¢Ê¹ÆäÃ¿¸ô30·ÖÖÓ£¨-q30m£©ÂÖÑ¯Ò»´ÎÎ´·¢ËÍÓÊ¼ş¶ÓÁĞ£¬¼ì²éÊÇ·ñÓĞĞÂÓÊ¼ş¡£
-</pre><p>·şÎñÆ÷Æô¶¯ºó£¬¿ÉÒÔÓÃtelnetÁ¬½Ó·şÎñÆ÷¡£</p><pre class="screen">
+è¯¥å‘½ä»¤ä»¥åå°è¿›ç¨‹æ–¹å¼ï¼ˆ-bdï¼‰è¿è¡Œï¼Œå¹¶ä½¿å…¶æ¯éš”30åˆ†é’Ÿï¼ˆ-q30mï¼‰è½®è¯¢ä¸€æ¬¡æœªå‘é€é‚®ä»¶é˜Ÿåˆ—ï¼Œæ£€æŸ¥æ˜¯å¦æœ‰æ–°é‚®ä»¶ã€‚
+</pre><p>æœåŠ¡å™¨å¯åŠ¨åï¼Œå¯ä»¥ç”¨telnetè¿æ¥æœåŠ¡å™¨ã€‚</p><pre class="screen">
 debian:~# telnet localhost 25
 Trying 127.0.0.1...
 Connected to localhost.
 Escape character is '^]'.
 220 test.tigerhead ESMTP Sendmail 8.12.10/8.12.10; Tue, 30 Mar 2004 14:50:14 +0800
-ehlo testÄãÊäÈëµÄÃüÁî£¬°´»Ø³µ½áÊø¡£
+ehlo testä½ è¾“å…¥çš„å‘½ä»¤ï¼ŒæŒ‰å›è½¦ç»“æŸã€‚
 250-test.tigerhead Hello LOCALHOST.localdomain [127.0.0.1], pleased to meet you
 250-ENHANCEDSTATUSCODES
 250-PIPELINING
@@ -160,9 +161,9 @@ ehlo testÄãÊäÈëµÄÃüÁî£¬°´»Ø³µ½áÊø¡£
 250-AUTH DIGEST-MD5 CRAM-MD5 LOGIN PLAIN
 250-DELIVERBY
 250 HELP
-ÒÔ250-¿ªÍ·µÄÎª·şÎñÆ÷µÄÏìÓ¦ĞÅÏ¢¡£×¢Òâµ¹ÊıµÚÈıĞĞ£¬Õâ¾ÍÊÇ³É¹¦ÅäÖÃsmtpÑéÖ¤µÄÏÔÊ¾¡£
-ÊäÈëquitÀë¿ª¡£
-</pre><p>°²×°Íê³ÉºóÎªÈ·±£ÏµÍ³°²È«,»¹Ğèµ÷ÕûÒ»Ğ©Ä¿Â¼µÄÈ¨ÏŞ¡£¿É²Î¿¼sendmailÔ´ÂëÄ¿Â¼ÏÂsendmail/SECURITYÎÄµµ¡£</p><pre class="screen">
+ä»¥250-å¼€å¤´çš„ä¸ºæœåŠ¡å™¨çš„å“åº”ä¿¡æ¯ã€‚æ³¨æ„å€’æ•°ç¬¬ä¸‰è¡Œï¼Œè¿™å°±æ˜¯æˆåŠŸé…ç½®smtpéªŒè¯çš„æ˜¾ç¤ºã€‚
+è¾“å…¥quitç¦»å¼€ã€‚
+</pre><p>å®‰è£…å®Œæˆåä¸ºç¡®ä¿ç³»ç»Ÿå®‰å…¨,è¿˜éœ€è°ƒæ•´ä¸€äº›ç›®å½•çš„æƒé™ã€‚å¯å‚è€ƒsendmailæºç ç›®å½•ä¸‹sendmail/SECURITYæ–‡æ¡£ã€‚</p><pre class="screen">
 # chmod 0640 /etc/mail/aliases /etc/mail/aliases.{db,pag,dir}
 # chmod 0640 /etc/mail/*.{db,pag,dir}
 # chmod 0640 /etc/mail/statistics /var/log/sendmail.st
@@ -172,60 +173,60 @@ drwxrwx---smmsp  smmsp... /var/spool/clientmqueue
 drwx------root   wheel... /var/spool/mqueue
 -r--r--r--root   wheel... /etc/mail/sendmail.cf
 -r--r--r--root   wheel... /etc/mail/submit.cf
-</pre></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2807991"></a>Chapter 3. sendmail¹¦ÄÜ½éÉÜ</h2></div></div><div></div></div><div class="itemizedlist"><ul type="disc"><li><p>aliases ±ğÃûÊı¾İ¿âÉèÖÃ</p><pre class="screen">
-test:test1,test2,test3ÉèÖÃtestÈº×é±ğÃû£¬test²»ÊÇÒ»¸öÊµ¼ÊµÄÓÃ»§£¬Ö»ÊÇÒ»¸ö±ğÃû¡£·¢¸ø
-testµÄĞÅ£¬test1,2,3¶¼¿ÉÊÕµ½¡£
-test:test,testbakÔÚtestbakÓÊÏäÖĞ±¸·İtestµÄÓÊ¼ş¡£
-test:test,test@163.comÔ¶³ÌÓÊ¼ş±¸·İ£¬Ô­ÀíÍ¬ÉÏ¡£
-test:   :include: /etc/mail/userlistÊ¹ÓÃÓÃ»§ÁĞ±íÉèÖÃÈº×é¡£
-userlist¸ñÊ½ÈçÏÂ£º
+</pre></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="id2807991"></a>Chapter 3. sendmailåŠŸèƒ½ä»‹ç»</h2></div></div><div></div></div><div class="itemizedlist"><ul type="disc"><li><p>aliases åˆ«åæ•°æ®åº“è®¾ç½®</p><pre class="screen">
+test:test1,test2,test3è®¾ç½®testç¾¤ç»„åˆ«åï¼Œtestä¸æ˜¯ä¸€ä¸ªå®é™…çš„ç”¨æˆ·ï¼Œåªæ˜¯ä¸€ä¸ªåˆ«åã€‚å‘ç»™
+testçš„ä¿¡ï¼Œtest1,2,3éƒ½å¯æ”¶åˆ°ã€‚
+test:test,testbakåœ¨testbaké‚®ç®±ä¸­å¤‡ä»½testçš„é‚®ä»¶ã€‚
+test:test,test@163.comè¿œç¨‹é‚®ä»¶å¤‡ä»½ï¼ŒåŸç†åŒä¸Šã€‚
+test:   :include: /etc/mail/userlistä½¿ç”¨ç”¨æˆ·åˆ—è¡¨è®¾ç½®ç¾¤ç»„ã€‚
+userlistæ ¼å¼å¦‚ä¸‹ï¼š
 test1, \
 test2, \
 test3, \
 test4
-¹ØÓÚÏµÍ³Ô¤Éèaliases,ÓÉÓÚsendmailÔ¤ÉèÓÃmailer-daemon and postmaster×÷Îª×ÊÁÏ´«ËÍÕß£¬
-»òÓÊ¼şÍË»ØµÄÕÊºÅ£¬µ«ÏµÍ³Êµ¼ÊÃ»ÓĞÕâÁ½¸öÕÊºÅ£¬ËùÒÔÒªÈçÏÂÉèÖÃ±ğÃû¡£
+å…³äºç³»ç»Ÿé¢„è®¾aliases,ç”±äºsendmailé¢„è®¾ç”¨mailer-daemon and postmasterä½œä¸ºèµ„æ–™ä¼ é€è€…ï¼Œ
+æˆ–é‚®ä»¶é€€å›çš„å¸å·ï¼Œä½†ç³»ç»Ÿå®é™…æ²¡æœ‰è¿™ä¸¤ä¸ªå¸å·ï¼Œæ‰€ä»¥è¦å¦‚ä¸‹è®¾ç½®åˆ«åã€‚
 mailer-daemon:  postmaster 
 postmaster:     root 
-ÉèÖÃÍê³Éºó²»ÒªÍüÁËÓÃnewaliasesÃüÁîÉú³ÉÊı¾İ¿â¡£
-</pre></li><li><p>~/.forwardÎÄ¼şÅäÖÃ£¬ÆäÊµ¸ÃÎÄµµµÄ×÷ÓÃºÍaliasesÊı¾İ¿âµÄ×÷²î²»¶àÀ²£¬¶¼ÊÇÅäÖÃ±ğÃû£¬×öÓÊ¼ş×ª·¢µÄ¡£ÒòÎªalisesÖ»ÄÜÓÉ¹ÜÀíÔ±¿ØÖÆ£¬¸öÈËÓÃ»§²»ÄÜĞŞ¸Ä£¬ËùÒÔ¾Í¿ÉÒÔÔÚ¸öÈËµÄÄ¿Â¼ÏÂ½¨Á¢Ò»¸ö×ª¼ÄÎÄµµ¡£ÒÔÉèÖÃ¸öÈËµÄÓÊ¼ş×ª¼ÄÁĞ±í¡£ÎÄµµ¸ñÊ½ÈçÏÂ£º</p><pre class="screen">
+è®¾ç½®å®Œæˆåä¸è¦å¿˜äº†ç”¨newaliaseså‘½ä»¤ç”Ÿæˆæ•°æ®åº“ã€‚
+</pre></li><li><p>~/.forwardæ–‡ä»¶é…ç½®ï¼Œå…¶å®è¯¥æ–‡æ¡£çš„ä½œç”¨å’Œaliasesæ•°æ®åº“çš„ä½œå·®ä¸å¤šå•¦ï¼Œéƒ½æ˜¯é…ç½®åˆ«åï¼Œåšé‚®ä»¶è½¬å‘çš„ã€‚å› ä¸ºalisesåªèƒ½ç”±ç®¡ç†å‘˜æ§åˆ¶ï¼Œä¸ªäººç”¨æˆ·ä¸èƒ½ä¿®æ”¹ï¼Œæ‰€ä»¥å°±å¯ä»¥åœ¨ä¸ªäººçš„ç›®å½•ä¸‹å»ºç«‹ä¸€ä¸ªè½¬å¯„æ–‡æ¡£ã€‚ä»¥è®¾ç½®ä¸ªäººçš„é‚®ä»¶è½¬å¯„åˆ—è¡¨ã€‚æ–‡æ¡£æ ¼å¼å¦‚ä¸‹ï¼š</p><pre class="screen">
 test
 test1
 test2
 test3
 and os on
-</pre><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="http://www.kuqin.com/docs/images/note.png"></td><th align="left"></th></tr><tr><td colspan="2" align="left" valign="top">µ«ÓÉÓÚ¸öÈËÓÃ»§°²È«ÒâÊ¶²î£¬Èç¹ûÉèÖÃ²»µ±»áÓĞ°²È«Â©¶´£¬²»½¨ÒéÊ¹ÓÃ¡£</td></tr></table></div></li><li><p>access·ÃÎÊ¿ØÖÆÁĞ±íÉèÖÃ</p><pre class="screen">
+</pre><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="http://www.kuqin.com/docs/images/note.png"></td><th align="left"></th></tr><tr><td colspan="2" align="left" valign="top">ä½†ç”±äºä¸ªäººç”¨æˆ·å®‰å…¨æ„è¯†å·®ï¼Œå¦‚æœè®¾ç½®ä¸å½“ä¼šæœ‰å®‰å…¨æ¼æ´ï¼Œä¸å»ºè®®ä½¿ç”¨ã€‚</td></tr></table></div></li><li><p>accessè®¿é—®æ§åˆ¶åˆ—è¡¨è®¾ç½®</p><pre class="screen">
 92.168 RELAY
 test.NETOK
 test.COM REJECT
 test.COM550 SORRY,WE DON'T ALLOW SPAMMERS HERE
 test.ORGDISCARD
-Ok--Ô¶³ÌÖ÷»ú¿ÉÒÔÏòÄãµÄÓÊ¼ş·şÎñÆ÷·¢ËÍÓÊ¼ş£»
-RELAY--ÔÊĞíÖĞ×ª£»
-REJECT--²»ÄÜÏòÄãµÄÓÊ¼ş·şÎñÆ÷·¢ÓÊ¼şºÍ²»ÄÜÖĞ×ª£»
-DISCARD--·¢À´µÄÓÊ¼ş½«±»¶ªÆú£¬Í¬Ê±²¢²»Ïò·¢ËÍÕß·µ»Ø´íÎóĞÅÏ¢¡£
-nnn text-- ·¢À´µÄÓÊ¼ş½«±»¶ªÆú£¬µ«sendmail½«»áÏò·¢ËÍÕß·µ»ØnnnÈ·¶¨µÄsmtp´úÂëºÍtext±äÁ¿È·¶¨µÄÎÄ±¾ÃèÊö¡£</pre><p>ÉèÖÃÍê³ÉºóÒªÓÃmakemap hash access.db &lt; accessÃüÁîÉú³ÉÊı¾İ¿â¡£</p></li><li><p>mailqÓÊ¼ş¶ÓÁĞ²éÑ¯ÃüÁî¡£Êä³ö¸÷ÁĞµÄÒâÒåÈçÏÂ£º</p><pre class="screen">
-Q-ID               ÓÊ¼şidºÅ¡£
-Size               ÓÊ¼şÈİÁ¿¡£
-Q-Time             ÓÊ¼ş½øÈë¶ÓÁĞ£¨Ò²¾ÍÊÇ/var/spool/mqueueÄ¿Â¼£©µÄÊ±¼äºÍ²»ÄÜÓÊ¼ÄµÄÔ­Òò¡£
-Sender/Recipient   ·¢ĞÅºÍÊÕĞÅÈËµÄÓÊÏäµØÖ·¡£
-</pre></li><li><p>mailstatsÓÊ¼Ä×´Ì¬²éÑ¯ÃüÁî£¬¿É²éÑ¯sendmailÔËĞĞ×÷ÖÁ½ñÓÊ¼şÊÕ·¢×Ü¼Æ×ÊÁÏ¡£Êä³ö¸÷ÁĞµÄÒâÒåÈçÏÂ£º</p><pre class="screen">
-M     £º
-msgsfr£º·¢ËÍµÄÓÊ¼şÊıÁ¿¡£
-bytes_from£ºÓÊ¼şÈİÁ¿ 
-megsto£ºÊÕµ½ÓÊ¼şµÄÊıÁ¿¡£ 
-bytes_to£ºÍ¬ÉÏ
-msgsrej£ºÓÊ¼şdenyµÄ´ÎÊı¡£ 
-msgsdis£ºÓÊ¼şdiscardµÄ´ÎÊı¡£ 
-Mailer £ºesmtp¶ÔÍâÓÊ¼ş £¬local±¾µØÓÊ¼ş ¡£
-</pre></li><li><p>mailÓÊ¼şÃüÁî¡£</p><pre class="screen">
-debian:~# mail                   ²é¿´/var/spool/mail/Ä¿Â¼ÏÂ×ÔÒÑÓÊÏäÄÚÈİ¡£ÒÔqÍË³ö°Ñ¿´¹ıµÄÓÊ¼ş±£´æÔÚ~/mboxÖĞ¡£
-debian:~# mail test@example.com  Ö±½Ó·¢ÓÊ¼ş¸øÈË¡£
-debian:~# mail -s 'title text' test@example.com &lt; mail.txt      °ÑÎÄµµÖĞÄÚÈİÓÊ¼Ä³öÈ¥¡£
-debian:~# mail -f ~/mbox         ²é¿´homeÄ¿Â¼ÏÂÓÊÏäÄÚÈİ¡£
-</pre><p>ÓÃmail·¢¸½¼şÒ²ÊÇ¿ÉĞĞ£¬ÒªÓÃµ½uuencode and uudecodeÃüÁî½øĞĞ±àÂë¡£</p><pre class="screen">
-±àÂë£ºuuencode [file] name          example:uuencode hello hello&gt;hello.uue   default input is stdin;default output is stdout.
-½âÂë£ºuudecode [-o outfile] name    example:uudecode hello.uue ¿ÉÒÔÓÃ-oÑ¡ÏîÊä³öÁíÍâÒ»¸öÎÄ¼şÃû¡£
+Ok--è¿œç¨‹ä¸»æœºå¯ä»¥å‘ä½ çš„é‚®ä»¶æœåŠ¡å™¨å‘é€é‚®ä»¶ï¼›
+RELAY--å…è®¸ä¸­è½¬ï¼›
+REJECT--ä¸èƒ½å‘ä½ çš„é‚®ä»¶æœåŠ¡å™¨å‘é‚®ä»¶å’Œä¸èƒ½ä¸­è½¬ï¼›
+DISCARD--å‘æ¥çš„é‚®ä»¶å°†è¢«ä¸¢å¼ƒï¼ŒåŒæ—¶å¹¶ä¸å‘å‘é€è€…è¿”å›é”™è¯¯ä¿¡æ¯ã€‚
+nnn text-- å‘æ¥çš„é‚®ä»¶å°†è¢«ä¸¢å¼ƒï¼Œä½†sendmailå°†ä¼šå‘å‘é€è€…è¿”å›nnnç¡®å®šçš„smtpä»£ç å’Œtextå˜é‡ç¡®å®šçš„æ–‡æœ¬æè¿°ã€‚</pre><p>è®¾ç½®å®Œæˆåè¦ç”¨makemap hash access.db &lt; accesså‘½ä»¤ç”Ÿæˆæ•°æ®åº“ã€‚</p></li><li><p>mailqé‚®ä»¶é˜Ÿåˆ—æŸ¥è¯¢å‘½ä»¤ã€‚è¾“å‡ºå„åˆ—çš„æ„ä¹‰å¦‚ä¸‹ï¼š</p><pre class="screen">
+Q-ID               é‚®ä»¶idå·ã€‚
+Size               é‚®ä»¶å®¹é‡ã€‚
+Q-Time             é‚®ä»¶è¿›å…¥é˜Ÿåˆ—ï¼ˆä¹Ÿå°±æ˜¯/var/spool/mqueueç›®å½•ï¼‰çš„æ—¶é—´å’Œä¸èƒ½é‚®å¯„çš„åŸå› ã€‚
+Sender/Recipient   å‘ä¿¡å’Œæ”¶ä¿¡äººçš„é‚®ç®±åœ°å€ã€‚
+</pre></li><li><p>mailstatsé‚®å¯„çŠ¶æ€æŸ¥è¯¢å‘½ä»¤ï¼Œå¯æŸ¥è¯¢sendmailè¿è¡Œä½œè‡³ä»Šé‚®ä»¶æ”¶å‘æ€»è®¡èµ„æ–™ã€‚è¾“å‡ºå„åˆ—çš„æ„ä¹‰å¦‚ä¸‹ï¼š</p><pre class="screen">
+M     ï¼š
+msgsfrï¼šå‘é€çš„é‚®ä»¶æ•°é‡ã€‚
+bytes_fromï¼šé‚®ä»¶å®¹é‡ 
+megstoï¼šæ”¶åˆ°é‚®ä»¶çš„æ•°é‡ã€‚ 
+bytes_toï¼šåŒä¸Š
+msgsrejï¼šé‚®ä»¶denyçš„æ¬¡æ•°ã€‚ 
+msgsdisï¼šé‚®ä»¶discardçš„æ¬¡æ•°ã€‚ 
+Mailer ï¼šesmtpå¯¹å¤–é‚®ä»¶ ï¼Œlocalæœ¬åœ°é‚®ä»¶ ã€‚
+</pre></li><li><p>mailé‚®ä»¶å‘½ä»¤ã€‚</p><pre class="screen">
+debian:~# mail                   æŸ¥çœ‹/var/spool/mail/ç›®å½•ä¸‹è‡ªå·²é‚®ç®±å†…å®¹ã€‚ä»¥qé€€å‡ºæŠŠçœ‹è¿‡çš„é‚®ä»¶ä¿å­˜åœ¨~/mboxä¸­ã€‚
+debian:~# mail test@example.com  ç›´æ¥å‘é‚®ä»¶ç»™äººã€‚
+debian:~# mail -s 'title text' test@example.com &lt; mail.txt      æŠŠæ–‡æ¡£ä¸­å†…å®¹é‚®å¯„å‡ºå»ã€‚
+debian:~# mail -f ~/mbox         æŸ¥çœ‹homeç›®å½•ä¸‹é‚®ç®±å†…å®¹ã€‚
+</pre><p>ç”¨mailå‘é™„ä»¶ä¹Ÿæ˜¯å¯è¡Œï¼Œè¦ç”¨åˆ°uuencode and uudecodeå‘½ä»¤è¿›è¡Œç¼–ç ã€‚</p><pre class="screen">
+ç¼–ç ï¼šuuencode [file] name          example:uuencode hello hello&gt;hello.uue   default input is stdin;default output is stdout.
+è§£ç ï¼šuudecode [-o outfile] name    example:uudecode hello.uue å¯ä»¥ç”¨-oé€‰é¡¹è¾“å‡ºå¦å¤–ä¸€ä¸ªæ–‡ä»¶åã€‚
 debian:~# uuencode ~/.bashrc bashrc | mail -s 'test uuencode' test@example.com  
 </pre></li></ul></div></div></div>
 
